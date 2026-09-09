@@ -5,7 +5,7 @@ import {
 } from 'unocss';
 
 export default defineConfig({
-    presets: [presetWind4({ preflights: { reset: false } })],
+    presets: [presetWind4({ preflights: { reset: true } })],
     rules: [
         [
             /^fs-(\d+(\.\d+)?(px|rem))$/,
