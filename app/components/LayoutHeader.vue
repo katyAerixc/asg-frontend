@@ -10,11 +10,11 @@
                 <picture>
                     <source
                         media="(min-width: 768px)"
-                        srcset="~/assets/images/header/logo_pc.png"
+                        srcset="~/assets/images/logo/pc-dark.png"
                     >
                     <img
                         alt="ASG"
-                        src="~/assets/images/header/logo_h5.png"
+                        src="~/assets/images/logo/h5-dark.png"
                     >
                 </picture>
             </NuxtLink>
@@ -25,7 +25,7 @@
                     <img
                         alt=""
                         class="layout-header__coin-icon"
-                        src="~/assets/images/header/money.png"
+                        src="~/assets/images/ui/money.png"
                     >
                     <span class="layout-header__coin-value">{{ formattedCoins }}</span>
                     <button
@@ -46,7 +46,7 @@
                     <img
                         alt=""
                         class="layout-header__avatar-img"
-                        src="~/assets/images/header/avatar.png"
+                        src="~/assets/images/ui/avatar.png"
                     >
                     <span class="layout-header__avatar-arrow i-sp-arrow-down" />
                 </button>

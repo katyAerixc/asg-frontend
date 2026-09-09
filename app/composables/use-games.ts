@@ -1,3 +1,4 @@
+import IMG from '@/assets/images/game/products.png';
 import type { Game } from '@/types/game';
 
 /**
@@ -11,7 +12,6 @@ import type { Game } from '@/types/game';
  * 然後把下面的假資料換掉，pending / error 直接往外拋。
  */
 
-const IMG = '/_nuxt/assets/images/home/products.png'; // ⚠️ assets 路徑待驗證
 const DESC = 'game info game info game info game info';
 
 const MOCK_GAMES: Game[] = [
