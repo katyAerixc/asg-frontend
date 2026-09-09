@@ -173,3 +173,8 @@ node-compile-cache/
 v8-compile-cache*/
 
 ### Custom ###
+
+# 設計稿與文檔（本機用，不進 git）
+katy-designs/
+CLAUDE.local.md
+.claude/
