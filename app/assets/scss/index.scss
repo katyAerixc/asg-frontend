@@ -1,1 +1,97 @@
-// Empty file
+// 設計變數（design tokens）— 值全部來自 Figma 屬性面板，見 katy-designs/CONTEXT.md
+:root {
+    // 主色 Primary
+    --color-primary-10: #fff;
+    --color-primary-20: #c4dbff;
+    --color-primary-30: #8f9bad;
+    --color-primary-40: #697b96;
+    --color-primary-60: #68a4ff;
+    --color-primary-90: #0f1723;
+
+    // 中性色 Neutral
+    --color-neutral-30: #d9d9d9; // ⚠️ 來自設計規格 md「文字色(輔助)」，Figma 未確認
+    --color-neutral-80: #404040;
+
+    // 強調色 Accent — ⚠️ 來自設計規格 md，Figma 未確認
+    --color-accent-orange: #ff9d2e;
+    --color-accent-blue: #4f74f0;
+
+    // 邊框 / 面板 — ⚠️ 暫定，等 Header / 篩選列的 Figma 規格
+    --color-border-soft: rgb(255 255 255 / 12%);
+    --color-border-mid: rgb(255 255 255 / 25%);
+    --bg-panel: #1a1a2e;
+
+    // 線 Line
+    --color-line-2: rgb(255 255 255 / 50%);
+    --line-divider: linear-gradient(
+        90deg,
+        var(--color-line-2) 0%,
+        rgb(255 255 255 / 90%) 50%,
+        var(--color-line-2) 100%
+    );
+    --color-primary-opacity-6010: rgb(104 164 255 / 10%);
+    --color-primary-opacity-6030: rgb(104 164 255 / 30%);
+
+    // 語意色 Semantic（紅＝漲、綠＝跌）
+    --color-red-20: #ff4141;
+    --color-red-30: #8f2424;
+    --color-green-20: #21b83f;
+    --color-green-30: #1b7e2f;
+    --color-yellow-20: #ff9d2e;
+    --color-yellow-30: #8c510f;
+    --color-red-opacity-2060: rgb(255 65 65 / 60%);
+    --color-red-opacity-2020: rgb(255 65 65 / 20%);
+    --color-green-opacity-2060: rgb(33 184 63 / 60%);
+    --color-green-opacity-2020: rgb(33 184 63 / 20%);
+
+    // 白 / 陰影
+    --color-white-70: rgb(255 255 255 / 70%);
+    --color-white-50: rgb(255 255 255 / 50%);
+    --shadow-light-80: rgb(255 255 255 / 80%);
+    --shadow-light-50: rgb(255 255 255 / 50%);
+    --shadow-dark-20: rgb(0 0 0 / 20%);
+
+    // 圓角 Corner（以 Figma 面板為準）
+    --corner-1: 4px;
+    --corner-2: 10px;
+    --corner-3: 15px;
+    --corner-input: 10px;
+    --corner-full: 100px;
+
+    // 輸入框 / 切換膠囊（Figma 名稱 input）
+    --bg-input: var(--color-primary-90);
+    --shadow-input:
+        -1px -1px 1px 0 rgb(255 255 255 / 20%) inset, 1px 1px 1px 0 rgb(255 255 255 / 50%) inset,
+        -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+
+    // 按鈕（Figma 名稱 btn/default）
+    --bg-normal: linear-gradient(180deg, rgb(104 164 255 / 30%) 0%, rgb(15 23 35 / 50%) 100%);
+    --bg-button-01: linear-gradient(180deg, rgb(104 164 255 / 10%) 0%, rgb(104 164 255 / 50%) 100%);
+    --shadow-btn:
+        0 0 10px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 50%) inset,
+        1px 1px 1px 0 rgb(255 255 255 / 80%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+
+    // 背景
+    --bg-page: #0f1723;
+    --bg-page-glow: #0e3378;
+    --bg-game: linear-gradient(
+        180deg,
+        var(--color-white-70) 0%,
+        var(--color-white-50) 50%,
+        var(--color-primary-opacity-6030) 100%
+    );
+    --shadow-game:
+        -1px -1px 2px 0 var(--shadow-light-80) inset, 1px 1px 2px 0 var(--shadow-light-50) inset,
+        -1px -2px 2px 0 var(--shadow-dark-20) inset;
+}
+
+// 全站字體：Inter（由 nuxt.config unfonts 從 Google 載入），載不到時退回系統字
+body {
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        sans-serif;
+    background: var(--bg-page);
+}

@@ -41,11 +41,12 @@ export default defineNuxtConfig({
     ssr: true,
     unfonts: {
         google: {
+            // 設計稿全用 Inter；只載 300 / 500 / 700 三種粗細（設計稿用到的）
             families: [
-                // {
-                //     name: 'Noto+Sans+TC',
-                //     styles: 'wght@100..900',
-                // },
+                {
+                    name: 'Inter',
+                    styles: 'wght@300;500;700',
+                },
             ],
         },
         inlineFontFace: false,
