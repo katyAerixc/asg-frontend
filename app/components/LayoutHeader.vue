@@ -1,7 +1,7 @@
 <template>
     <header class="layout-header">
         <div class="layout-header__inner">
-            <!-- Logo：手機用 h5 版、電腦（≥768px）用 pc 版；<picture> 只會載入其中一張 -->
+            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版；<picture> 只會載入其中一張 -->
             <NuxtLink
                 aria-label="回首頁"
                 class="layout-header__logo"
@@ -9,7 +9,7 @@
             >
                 <picture>
                     <source
-                        media="(min-width: 768px)"
+                        media="(min-width: 960px)"
                         srcset="~/assets/images/logo/pc-dark.png"
                     >
                     <img
@@ -65,10 +65,8 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 </script>
 
 <style scoped lang="scss">
+// 不黏住：往下捲時 Header 會跟著捲走，把畫面讓給篩選列（她 2026-09-09 定）
 .layout-header {
-    position: sticky;
-    z-index: 50;
-    top: 0;
     background: var(--bg-page);
 
     &__inner {
@@ -99,15 +97,15 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         }
     }
 
-    // Figma：logo 元件自帶 padding 9px 12px，電腦版圖 224 × 44
+    // 圖檔本身已含留白（手機 5px、電腦上下 8 左右 10），這裡不再加 padding
     &__logo {
         display: flex;
         align-items: center;
-        padding: 9px 12px;
     }
 
+    // 圖是 2 倍匯出，顯示成一半才是 1:1，最銳利（手機 80×76、電腦 452×124）
     &__logo img {
-        height: 32px;
+        height: 38px;
     }
 
     &__user {
@@ -249,13 +247,13 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         background-size: 12px 6.67px;
     }
 
-    @media (width >= 768px) {
+    @media (width >= 960px) {
         &__inner {
             padding: var(--corner-4) 16px;
         }
 
         &__logo img {
-            height: 44px;
+            height: 62px;
         }
     }
 }

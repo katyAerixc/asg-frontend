@@ -97,6 +97,37 @@ const rtpClass = computed(() => ({
 $img-ratio: calc(360 / 390 * 100%);
 $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以能等比縮放
 
+// 滑入時圖片放大：一路放到 1.14 就停，不回彈也不縮回（她 2026-09-09 看影片後指定）
+// 搭一層淺淺的模糊：移動途中最糊，到位就完全清晰
+@keyframes img-pop {
+    0% {
+        transform: scale(1);
+        filter: blur(0);
+    }
+
+    45% {
+        transform: scale(1.08);
+        filter: blur(1.5px); // 移動途中，淺淺一層
+    }
+
+    100% {
+        transform: scale(1.14);
+        filter: blur(0); // 到位就完全清晰
+    }
+}
+
+// RTP 那格的呼吸感：2 秒一次來回，最大放到 1.06 倍（她 2026-09-09 說 1.03 太小）
+@keyframes rtp-breathe {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
 .game-card {
     position: relative;
     container-type: inline-size; // 讓內部能用 cqw（卡片寬度的百分比）當單位
@@ -104,10 +135,15 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     // 高度不鎖死，由內容撐開（玻璃塊文字變多時往下長，不會蓋住圖片）
 
     // 大圖區：置中、比玻璃塊窄
+    // overflow: hidden 讓圖片放大時被裁在外框內，外框尺寸不變
     &__media {
         position: relative;
+
+        overflow: hidden;
+
         width: $img-ratio;
         margin: 0 auto;
+        border-radius: var(--corner-3);
     }
 
     &__img {
@@ -118,6 +154,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         border-radius: var(--corner-3);
 
         object-fit: cover;
+
+        // 滑鼠離開時：平順收回，跟放大同樣的 0.3 秒
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     // 標籤：距大圖左上角留一點白；左上/右下圓角 15px、白邊、漸層、陰影（照 Figma）
@@ -143,11 +182,11 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         font-size: 14px; // 手機 14、電腦 16（見下方 media query）
         font-weight: 700;
         color: var(--color-primary-10);
-        text-shadow: 0 1px 0 rgb(0 0 0 / 50%);
+        text-shadow: 0 1px 0 var(--color-black-50);
 
         box-shadow:
-            0 0 10px 0 rgb(0 0 0 / 80%),
-            0 -2px 0 0 rgb(0 0 0 / 25%) inset;
+            0 0 10px 0 var(--color-black-80),
+            0 -2px 0 0 var(--color-black-25) inset;
 
         &--new {
             background: linear-gradient(90deg, var(--color-green-20) 0%, var(--color-green-30) 100%);
@@ -174,12 +213,31 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: clamp(4px, 2cqw, 10px);
 
         margin-top: -26.9%; // 往上蓋圖片固定量（% 的 margin 以容器寬度換算，會等比縮放）
-        padding: clamp(8px, 4cqw, 15px);
+        padding: clamp(12px, 4cqw, 15px);
         border-radius: var(--corner-3);
 
-        background: var(--bg-game);
-        backdrop-filter: blur(25px);
-        box-shadow: var(--shadow-game);
+        // 第一段是「還沒 hover 的白框」：0 寬、全透明，這樣 hover 時才能平滑長出來
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-game);
+
+        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+        // 底色與霧化獨立成一層,不跟文字擠在同一層
+        // 2026-09-09 她回報:偶爾整塊只剩模糊、文字沒出現。原因是霧化與文字同層時
+        // 瀏覽器可能只畫完霧化就沒接著畫文字。分層之後兩邊各自繪製,不會互相影響
+        &::before {
+            content: '';
+
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+
+            border-radius: inherit;
+
+            background: var(--bg-game);
+            backdrop-filter: blur(25px);
+        }
     }
 
     &__head {
@@ -213,9 +271,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         justify-content: space-between;
     }
 
-    // 字級跟著卡片寬度縮（4.6cqw = 390px 卡片時剛好 18px）
+    // 名稱與描述：手機電腦都固定同一個字級（她 2026-09-09 定，原本是跟著卡片寬度縮）
     &__name {
-        font-size: clamp(13px, 4.6cqw, 18px);
+        font-size: 18px;
         font-weight: 700;
         color: var(--color-neutral-80);
     }
@@ -223,7 +281,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     &__desc {
         overflow: hidden;
 
-        font-size: clamp(10px, 3.6cqw, 14px);
+        font-size: 14px;
         font-weight: 300;
         color: var(--color-neutral-80);
         text-overflow: ellipsis;
@@ -237,9 +295,10 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         color: var(--color-neutral-80);
     }
 
+    // 上下多留一點白（外層 gap 之外再加），卡片變小時跟著縮
     &__divider {
-        display: none; // 手機版沒有分隔線
         height: 1px;
+        margin: clamp(4px, 1.5cqw, 6px) 0;
         border: 0;
         background: var(--line-divider);
     }
@@ -247,7 +306,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     // 統計格
     &__stats {
         display: flex;
-        gap: 4px;
+        gap: 10px;
     }
 
     &__stat {
@@ -257,19 +316,43 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: 4px;
         align-items: center;
 
+        min-width: 0; // 允許被壓縮，裡面的文字才切得掉（不加的話會把卡片撐開）
         padding: 4px 0;
         border-radius: var(--corner-2);
 
         background: var(--color-primary-opacity-6010);
 
+        // 中間 RTP 那格：背景搬到 ::before 這層，只讓背景呼吸，文字與箭頭不動
         &--rtp {
+            position: relative;
+            z-index: 0;
+
             display: flex;
             flex-direction: row;
             justify-content: center;
+
             padding: 4px 15px;
+
+            background: none;
+
+            // 這層就是「會呼吸的背景」，躲在文字後面（z-index: -1）
+            &::before {
+                content: '';
+
+                position: absolute;
+                z-index: -1;
+                inset: 0;
+
+                border-radius: inherit;
+
+                background: var(--color-primary-opacity-6010);
+
+                animation: rtp-breathe 2s ease-in-out infinite;
+            }
         }
 
-        &--up {
+        // 漲跌的顏色也要畫在 ::before 那層，才會跟著呼吸
+        &--up::before {
             background: linear-gradient(
                 293deg,
                 var(--color-red-opacity-2060) 35.34%,
@@ -278,7 +361,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
             box-shadow: 0 0 10px 0 var(--shadow-dark-20);
         }
 
-        &--down {
+        &--down::before {
             background: linear-gradient(
                 293deg,
                 var(--color-green-opacity-2060) 35.34%,
@@ -289,22 +372,32 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     }
 
     // 手機：小字 12/300、數值 16/700
+    // 多語系：字太長時切掉加「…」，不換行也不把卡片撐高（做法同上方的 __desc）
     &__stat-label {
-        font-size: clamp(9px, 3.1cqw, 12px);
+        overflow: hidden;
+
+        max-width: 100%;
+
+        font-size: clamp(9px, 3.6cqw, 14px); // 手機 9 → 電腦 14，中間跟著卡片寬度平滑過渡
         font-weight: 300;
         color: var(--color-primary-20);
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &__stat-value {
+        overflow: hidden;
         display: inline-flex;
         gap: 4px;
         align-items: center;
 
         min-width: 0;
+        max-width: 100%;
 
-        font-size: clamp(12px, 4.1cqw, 16px);
+        font-size: clamp(14px, 4.6cqw, 18px); // 手機 14 → 電腦 18，中間跟著卡片寬度平滑過渡
         font-weight: 700;
         color: var(--color-primary-10);
+        white-space: nowrap;
     }
 
     &__arrow {
@@ -312,14 +405,41 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         height: clamp(14px, 5vw, 22px);
     }
 
+    // 滑入整張卡：圖片放大（被 __media 的 overflow 裁住，外框尺寸不變）
+    // 停在 1.14；進場那 0.3 秒由 img-pop 接手（快速放大 + 途中淺淺的模糊）
+    &:hover &__img {
+        transform: scale(1.14);
+        animation: img-pop 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+
+    // 滑入整張卡：玻璃塊往「外」長出一圈白框（沒有 inset 就是畫在外面）
+    // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
+    &:hover &__info {
+        box-shadow:
+            0 0 0 2px var(--color-primary-10),
+            var(--shadow-game);
+    }
+
+    // 使用者若在系統開了「減少動態效果」，一律不動（W3C 無障礙要求）
+    @media (prefers-reduced-motion: reduce) {
+        &__img,
+        &__info {
+            transition: none;
+        }
+
+        &__img,
+        &__stat--rtp::before {
+            animation: none;
+        }
+    }
+
     // 電腦版
-    @media (width >= 768px) {
+    @media (width >= 960px) {
         &__tag {
             font-size: 16px;
         }
 
-        &__thumb,
-        &__divider {
+        &__thumb {
             display: block;
         }
 
@@ -332,13 +452,8 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
             }
         }
 
-        // 電腦：小字 14/300、數值 18/500
-        &__stat-label {
-            font-size: 14px;
-        }
-
+        // 電腦：字級已由上方的 clamp 接手（14 / 18），這裡只剩字重不同
         &__stat-value {
-            font-size: 18px;
             font-weight: 500;
         }
     }

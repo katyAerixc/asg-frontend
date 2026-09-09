@@ -1,37 +1,48 @@
 <template>
     <div class="lobby">
-        <!-- 工具列：電腦版分類（左）與篩選（右）同一行；手機版上下兩行 -->
-        <div class="lobby__toolbar">
-            <CategoryFilter
-                :active-category="activeCategory"
-                @update:active-category="activeCategory = $event"
-            />
+        <!-- 哨兵：只有 1px 高。它捲出畫面 = 工具列黏住了，用來切換底色 -->
+        <div
+            ref="sentinelRef"
+            class="lobby__sentinel"
+        />
 
-            <div class="lobby__filters">
-                <!-- NEW / HOT 一顆膠囊、左右切換 -->
-                <div class="lobby__toggle">
-                    <button
-                        v-for="option in sortOptions"
-                        :key="option"
-                        class="lobby__toggle-btn"
-                        :class="{ 'lobby__toggle-btn--active': activeSort === option }"
-                        :data-text="option"
-                        type="button"
-                        @click="activeSort = option"
-                    >
-                        {{ option }}
-                    </button>
+        <!-- 工具列：外層負責滿版底色與黏頂，內層才限制最大寬度（同 Header 的做法） -->
+        <div
+            class="lobby__toolbar"
+            :class="{ 'lobby__toolbar--stuck': isStuck }"
+        >
+            <div class="lobby__toolbar-inner">
+                <CategoryFilter
+                    :active-category="activeCategory"
+                    @update:active-category="activeCategory = $event"
+                />
+
+                <div class="lobby__filters">
+                    <!-- NEW / HOT 一顆膠囊、左右切換 -->
+                    <div class="lobby__toggle">
+                        <button
+                            v-for="option in sortOptions"
+                            :key="option"
+                            class="lobby__toggle-btn"
+                            :class="{ 'lobby__toggle-btn--active': activeSort === option }"
+                            :data-text="option"
+                            type="button"
+                            @click="activeSort = option"
+                        >
+                            {{ option }}
+                        </button>
+                    </div>
+
+                    <label class="lobby__search">
+                        <input
+                            v-model="keyword"
+                            class="lobby__search-input"
+                            placeholder="Search"
+                            type="search"
+                        >
+                        <span class="lobby__search-icon i-sp-search" />
+                    </label>
                 </div>
-
-                <label class="lobby__search">
-                    <input
-                        v-model="keyword"
-                        class="lobby__search-input"
-                        placeholder="Search"
-                        type="search"
-                    >
-                    <span class="lobby__search-icon i-sp-search" />
-                </label>
             </div>
         </div>
 
@@ -78,8 +89,31 @@ const activeCategory = ref('全部');
 const activeSort = ref('NEW');
 const keyword = ref('');
 
+// 工具列黏在頂部時才加底色：靠哨兵元素判斷（CSS 沒有「我黏住了」這種選擇器）
+const sentinelRef = ref<HTMLElement | null>(null);
+const isStuck = ref(false);
+let stickyObserver: IntersectionObserver | null = null;
+
 // 遊戲清單：資料來源在 composables/use-games.ts，之後接 API 只要改那一支
 const { games } = useGames();
+
+// Hooks
+onMounted(() => {
+    if (!sentinelRef.value) return;
+
+    // 哨兵還看得見 = 在頁面頂端；看不見 = 已經捲上去，工具列黏住了
+    stickyObserver = new IntersectionObserver(
+        ([entry]) => {
+            isStuck.value = !entry?.isIntersecting;
+        },
+    );
+    stickyObserver.observe(sentinelRef.value);
+});
+
+onUnmounted(() => {
+    stickyObserver?.disconnect();
+    stickyObserver = null;
+});
 
 // SEO 設定
 useHead({
@@ -106,11 +140,36 @@ useHead({
         padding: 24px 16px;
     }
 
-    // 工具列：手機上下兩行，電腦左右一行
+    // 哨兵：1px 高的透明元素，只負責讓 JS 知道工具列黏住了沒
+    &__sentinel {
+        height: 1px;
+    }
+
+    // 工具列外層：滿版（左右不留缺口）+ 黏在畫面最上面
+    // 沒黏住時完全透明；黏住才長出半透明底色與模糊
     &__toolbar {
+        position: sticky;
+        z-index: 40;
+        top: 0;
+
+        background-color: transparent;
+
+        transition:
+            background-color 0.25s ease,
+            backdrop-filter 0.25s ease;
+
+        &--stuck {
+            background-color: var(--bg-page-sticky);
+            backdrop-filter: blur(12px);
+        }
+    }
+
+    // 工具列內層：限制最大寬度、手機上下兩行、電腦左右一行
+    // 手機版兩行之間留 24px（她 2026-09-09 說 16px 太擠）
+    &__toolbar-inner {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 24px;
 
         max-width: 80rem;
         margin: 0 auto;
@@ -179,7 +238,15 @@ useHead({
         color: var(--color-primary-40);
         white-space: nowrap;
 
-        background: transparent;
+        background-color: transparent;
+
+        // 起點放一條「透明的內嵌線」，切換時才能平滑長出來（不然是硬切換，會閃）
+        box-shadow: -1px 0 1px 0 var(--color-white-0) inset;
+
+        transition:
+            color 0.2s ease,
+            background-color 0.2s ease,
+            box-shadow 0.2s ease;
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
         &::before {
@@ -202,8 +269,8 @@ useHead({
         &--active {
             font-weight: 700;
             color: var(--color-primary-10);
-            background: var(--color-primary-opacity-6030);
-            box-shadow: -1px 0 1px 0 rgb(255 255 255 / 70%) inset;
+            background-color: var(--color-primary-opacity-6030);
+            box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
         }
     }
 
@@ -279,28 +346,34 @@ useHead({
 
         height: 46px;
         padding: 0 28px;
-        border: 1px solid rgb(0 0 0 / 50%); // Figma Color/Black/50
+        border: 1px solid var(--color-black-50); // Figma Color/Black/50
         border-radius: var(--corner-full);
 
         font-size: 18px;
         font-weight: 500;
         line-height: 100%;
-        color: var(--color-primary-10);
+        color: var(--color-neutral-10); // Figma Color/Neutral/10
         white-space: nowrap;
+
+        // Figma：文字自己有 1px Black/50 描邊（Outer）；疊在藍色漸層上看起來是深藍
+        // paint-order 讓描邊畫在字體後面，等同 Figma 的 Outer，筆畫不會被吃掉
+        paint-order: stroke fill;
 
         background: var(--bg-button-primary);
         box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
+        -webkit-text-stroke: 3px var(--color-navy-50);
+
         &:hover {
             box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
         }
     }
 
-    @media (width >= 768px) {
+    @media (width >= 960px) {
         // 電腦版：分類（左）與篩選（右）同一行
-        &__toolbar {
+        &__toolbar-inner {
             flex-direction: row;
             gap: 24px;
             align-items: center;

@@ -9,8 +9,17 @@
     --color-primary-90: #0f1723;
 
     // 中性色 Neutral
+    --color-neutral-10: #fff; // Figma Color/Neutral/10（值同 primary-10，但 Figma 分成兩個代號）
     --color-neutral-30: #d9d9d9; // ⚠️ 來自設計規格 md「文字色(輔助)」，Figma 未確認
     --color-neutral-80: #404040;
+
+    // 黑 Black — Figma Color/Black/xx，數字是不透明度
+    --color-black-25: rgb(0 0 0 / 25%);
+    --color-black-50: rgb(0 0 0 / 50%);
+    --color-black-80: rgb(0 0 0 / 80%);
+
+    // 深藍 — 加載更多按鈕的文字描邊（她 2026-09-09 指定）
+    --color-navy-50: rgb(0 12 59 / 50%);
 
     // 強調色 Accent — ⚠️ 來自設計規格 md，Figma 未確認
     --color-accent-orange: #ff9d2e;
@@ -45,6 +54,7 @@
     --color-green-opacity-2020: rgb(33 184 63 / 20%);
 
     // 白 / 陰影
+    --color-white-0: rgb(255 255 255 / 0%); // 全透明白：hover 光暈/白框的起點
     --color-white-70: rgb(255 255 255 / 70%);
     --color-white-50: rgb(255 255 255 / 50%);
     --shadow-light-80: rgb(255 255 255 / 80%);
@@ -90,6 +100,7 @@
     // 背景
     --bg-page: #0f1723;
     --bg-page-glow: #0e3378;
+    --bg-page-sticky: rgb(15 23 35 / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
     --bg-game: linear-gradient(
         180deg,
         var(--color-white-70) 0%,
