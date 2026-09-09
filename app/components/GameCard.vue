@@ -79,8 +79,10 @@
 <script setup lang="ts">
 import type { Game } from '@/types/game';
 
+// Define props, models and emits
 const props = defineProps<{ game: Game }>();
 
+// Computed properties
 // 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣）；箭頭用 i-sp-trend-up / i-sp-trend-down
 const rtpClass = computed(() => ({
     'game-card__stat--down': props.game.rtpTrend === 'down',

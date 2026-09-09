@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+// Variables
 // ⚠️ 之後接 API 時改從 composable 拿
 const userCoins = ref(100000000);
 </script>

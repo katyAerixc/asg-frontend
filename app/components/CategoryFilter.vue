@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+// Define props, models and emits
 defineProps<{
     activeCategory: string;
 }>();
@@ -24,6 +25,7 @@ const emit = defineEmits<{
     'update:activeCategory': [category: string];
 }>();
 
+// Variables
 // ⚠️ 之後接 i18n 改成翻譯 key
 const categories = [
     '全部',

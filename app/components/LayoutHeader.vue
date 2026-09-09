@@ -56,8 +56,10 @@
 </template>
 
 <script setup lang="ts">
+// Define props, models and emits
 const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000 });
 
+// Computed properties
 // 千位逗號：100000000 → 100,000,000
 const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 </script>

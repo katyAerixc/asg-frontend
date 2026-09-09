@@ -68,7 +68,18 @@
 </template>
 
 <script setup lang="ts">
-import { useHead } from '#app';
+// Variables
+const sortOptions = [
+    'NEW',
+    'HOT',
+];
+
+const activeCategory = ref('全部');
+const activeSort = ref('NEW');
+const keyword = ref('');
+
+// 遊戲清單：資料來源在 composables/use-games.ts，之後接 API 只要改那一支
+const { games } = useGames();
 
 // SEO 設定
 useHead({
@@ -84,18 +95,6 @@ useHead({
     ],
     title: 'ASG 遊戲大廳 - 精選遊戲',
 });
-
-const sortOptions = [
-    'NEW',
-    'HOT',
-];
-
-const activeCategory = ref('全部');
-const activeSort = ref('NEW');
-const keyword = ref('');
-
-// 遊戲清單：資料來源在 composables/useGames.ts，之後接 API 只要改那一支
-const { games } = useGames();
 </script>
 
 <style scoped lang="scss">
