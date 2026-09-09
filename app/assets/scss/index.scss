@@ -55,6 +55,7 @@
     --corner-1: 4px;
     --corner-2: 10px;
     --corner-3: 15px;
+    --corner-4: 20px;
     --corner-input: 10px;
     --corner-full: 100px;
 
@@ -70,6 +71,21 @@
     --shadow-btn:
         0 0 10px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 50%) inset,
         1px 1px 1px 0 rgb(255 255 255 / 80%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+
+    // 平常：光暈存在但大小為 0、透明（這樣才能做出「由小長大」的動畫）
+    --shadow-btn-glow-off: 0 0 0 0 rgb(255 240 220 / 0%);
+
+    // hover：光暈長出來（暖白、淡、貼著邊緣）
+    --shadow-btn-glow-on: 0 0 8px 1px rgb(255 240 220 / 45%);
+    --bg-button-primary: linear-gradient(180deg, rgb(104 164 255 / 50%) 0%, var(--color-primary-60) 100%);
+
+    // Header 下框線：兩端透明、中間半透明藍
+    --line-header: linear-gradient(
+        90deg,
+        rgb(104 164 255 / 0%) 0%,
+        rgb(104 164 255 / 50%) 50%,
+        rgb(104 164 255 / 0%) 100%
+    );
 
     // 背景
     --bg-page: #0f1723;
@@ -87,6 +103,10 @@
 
 // 全站字體：Inter（由 nuxt.config unfonts 從 Google 載入），載不到時退回系統字
 body {
+    position: relative;
+
+    // 支援範圍的地板：低於 320 不保證（見 katy-designs/SUPPORT.md）
+    min-width: 320px;
     font-family:
         Inter,
         system-ui,
@@ -94,4 +114,26 @@ body {
         'Segoe UI',
         sans-serif;
     background: var(--bg-page);
+}
+
+// 頁面左上角的藍色光暈
+// Figma 原本是一張 SVG（橢圓 + 高斯模糊），這裡用偽元素畫，不必載圖
+// 橢圓 rx 69.5 / ry 127.5、#0E3378、透明度 30%、旋轉 45 度、模糊 75px
+body::before {
+    pointer-events: none; // 不擋滑鼠點擊
+    content: '';
+
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+
+    width: 139px;
+    height: 255px;
+    border-radius: 50%;
+
+    opacity: 0.3;
+    background: var(--bg-page-glow);
+    filter: blur(75px);
 }

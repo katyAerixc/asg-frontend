@@ -1,50 +1,54 @@
 <template>
-    <header class="site-header">
-        <div class="site-header__inner">
+    <header class="layout-header">
+        <div class="layout-header__inner">
             <!-- Logo：手機用 h5 版、電腦（≥768px）用 pc 版；<picture> 只會載入其中一張 -->
-            <picture class="site-header__logo">
-                <source
-                    media="(min-width: 768px)"
-                    srcset="/images/logo_pc.png"
-                >
-                <img
-                    alt="ASG"
-                    src="/images/logo_h5.png"
-                >
-            </picture>
+            <NuxtLink
+                aria-label="回首頁"
+                class="layout-header__logo"
+                to="/"
+            >
+                <picture>
+                    <source
+                        media="(min-width: 768px)"
+                        srcset="~/assets/images/header/logo_pc.png"
+                    >
+                    <img
+                        alt="ASG"
+                        src="~/assets/images/header/logo_h5.png"
+                    >
+                </picture>
+            </NuxtLink>
 
-            <div class="site-header__user">
+            <div class="layout-header__user">
                 <!-- 金幣膠囊：圖示 + 數字 + 重新整理 -->
-                <div class="site-header__coins">
+                <div class="layout-header__coins">
                     <img
                         alt=""
-                        class="site-header__coin-icon"
-                        src="/images/money.png"
+                        class="layout-header__coin-icon"
+                        src="~/assets/images/header/money.png"
                     >
-                    <span class="site-header__coin-value">{{ formattedCoins }}</span>
+                    <span class="layout-header__coin-value">{{ formattedCoins }}</span>
                     <button
                         aria-label="重新整理餘額"
-                        class="site-header__refresh"
+                        class="layout-header__refresh"
                         type="button"
                     >
-                        <IconRefresh class="site-header__refresh-icon" />
+                        <span class="layout-header__refresh-icon i-sp-refresh" />
                     </button>
                 </div>
 
                 <!-- 頭像 + 下拉箭頭 -->
                 <button
                     aria-label="會員選單"
-                    class="site-header__avatar"
+                    class="layout-header__avatar"
                     type="button"
                 >
                     <img
                         alt=""
-                        class="site-header__avatar-img"
-                        src="/images/avatar.png"
+                        class="layout-header__avatar-img"
+                        src="~/assets/images/header/avatar.png"
                     >
-                    <span class="site-header__avatar-arrow">
-                        <IconChevronDown />
-                    </span>
+                    <span class="layout-header__avatar-arrow i-sp-arrow-down" />
                 </button>
             </div>
         </div>
@@ -59,16 +63,15 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 </script>
 
 <style scoped lang="scss">
-.site-header {
+.layout-header {
     position: sticky;
     z-index: 50;
     top: 0;
-
-    border-bottom: 1px solid var(--color-border-soft);
-
     background: var(--bg-page);
 
     &__inner {
+        position: relative;
+
         display: flex;
         gap: 16px;
         align-items: center;
@@ -77,9 +80,30 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         max-width: 80rem;
         margin: 0 auto;
         padding: 12px 16px;
+
+        // 下框線：橫向漸層（兩端透明、中間藍）。畫在這裡而不是 .layout-header，
+        // 寬度才會跟內容一樣，不會拉到整個螢幕寬
+        &::after {
+            content: '';
+
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            height: 1px;
+
+            background: var(--line-header);
+        }
     }
 
-    // Figma：電腦版 logo 224 × 44
+    // Figma：logo 元件自帶 padding 9px 12px，電腦版圖 224 × 44
+    &__logo {
+        display: flex;
+        align-items: center;
+        padding: 9px 12px;
+    }
+
     &__logo img {
         height: 32px;
     }
@@ -90,21 +114,29 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         align-items: center;
     }
 
-    // 金幣膠囊：Figma 215 × 40（多語系用 min-width，不寫死 width）
+    // 金幣膠囊：Figma 215 × 40；最小寬 130（她 2026-09-09 指定），內容長就撐大
     &__coins {
+        overflow: hidden;
         display: flex;
-        gap: 8px;
+        flex: 0 1 auto;
+        gap: 10px;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
 
-        min-width: 215px;
+        min-width: 130px;
         min-height: 40px;
-        padding: var(--corner-1) var(--corner-1) var(--corner-1) var(--corner-2);
+        padding: var(--corner-1);
         border-radius: var(--corner-full);
 
         background: var(--bg-normal);
         backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-btn);
+        box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
+
+        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        }
     }
 
     &__coin-icon {
@@ -115,9 +147,16 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 
     // 金幣數字：Inter 18px / 500（Figma）
     &__coin-value {
+        overflow: hidden;
+        flex: 1;
+
+        min-width: 0;
+
         font-size: 18px;
         font-weight: 500;
         color: var(--color-primary-10);
+        text-align: center;
+        text-overflow: ellipsis;
         white-space: nowrap;
     }
 
@@ -141,11 +180,24 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         background: var(--bg-button-01);
         backdrop-filter: blur(50px);
         box-shadow: var(--shadow-btn);
+
+        // hover：icon 放大 + 變白（她 2026-09-09 指定，這顆不要光暈、按鈕本身不變大）
+        transition: color 0.35s;
+
+        &:hover {
+            color: var(--color-primary-10);
+        }
     }
 
     &__refresh-icon {
         width: 18px;
         height: 18px;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // 滑到按鈕上時只有 icon 放大（圖示是 CSS 背景圖，不能選 svg/path）
+    &__refresh:hover &__refresh-icon {
+        transform: scale(1.1);
     }
 
     // 頭像：Figma padding 4px、gap 4px、圓角 100px
@@ -163,7 +215,13 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 
         background: var(--bg-normal);
         backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-btn);
+        box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
+
+        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        }
     }
 
     &__avatar-img {
@@ -183,11 +241,15 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         height: 20px;
 
         color: var(--color-primary-20);
+
+        // presetIcons 預設會把圖示拉滿容器且貼左上，要指定原比例並置中（Figma 12 × 6.67）
+        background-position: center;
+        background-size: 12px 6.67px;
     }
 
     @media (width >= 768px) {
         &__inner {
-            padding: 29px 16px;
+            padding: var(--corner-4) 16px;
         }
 
         &__logo img {

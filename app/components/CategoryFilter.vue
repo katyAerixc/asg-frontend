@@ -54,7 +54,7 @@ const categories = [
         border-bottom: 2px solid transparent;
 
         font-size: 20px;
-        font-weight: 300;
+        font-weight: 500;
         color: var(--color-primary-40);
         white-space: nowrap; // 多語系：分類名不換行，整列可橫向捲動
 
@@ -62,9 +62,13 @@ const categories = [
 
         transition: color 0.2s;
 
+        &:hover {
+            color: var(--color-primary-10);
+        }
+
         &--active {
             border-bottom-color: var(--color-primary-10);
-            font-weight: 500;
+            font-weight: 700;
             color: var(--color-primary-10);
         }
     }

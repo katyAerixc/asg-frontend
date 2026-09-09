@@ -38,7 +38,7 @@
                         <h3 class="game-card__name">
                             {{ game.name }}
                         </h3>
-                        <IconInfo class="game-card__i" />
+                        <span class="game-card__i i-sp-info" />
                     </div>
                     <p class="game-card__desc">
                         {{ game.description }}
@@ -60,10 +60,10 @@
                     <span class="game-card__stat-label">RTP</span>
                     <span class="game-card__stat-value">
                         {{ game.rtp }}
-                        <IconTrend
+                        <span
                             v-if="game.rtpTrend"
                             class="game-card__arrow"
-                            :direction="game.rtpTrend"
+                            :class="`i-sp-trend-${game.rtpTrend}`"
                         />
                     </span>
                 </div>
@@ -81,7 +81,7 @@ import type { Game } from '@/types/game';
 
 const props = defineProps<{ game: Game }>();
 
-// 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣）；箭頭圖示交給 IconTrend
+// 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣）；箭頭用 i-sp-trend-up / i-sp-trend-down
 const rtpClass = computed(() => ({
     'game-card__stat--down': props.game.rtpTrend === 'down',
     'game-card__stat--up': props.game.rtpTrend === 'up',
@@ -97,7 +97,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
 .game-card {
     position: relative;
-    padding-bottom: $below-img;
+    container-type: inline-size; // 讓內部能用 cqw（卡片寬度的百分比）當單位
+
+    // 高度不鎖死，由內容撐開（玻璃塊文字變多時往下長，不會蓋住圖片）
 
     // 大圖區：置中、比玻璃塊窄
     &__media {
@@ -109,7 +111,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     &__img {
         display: block;
 
-        aspect-ratio: 1 / 1; // 大圖是正方形
+        aspect-ratio: 1 / 1.12; // 她 2026-09-09 修正（原本以為是 1:1）
         width: 100%;
         border-radius: var(--corner-3);
 
@@ -158,18 +160,19 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         }
     }
 
-    // 玻璃塊：滿版寬（比圖寬），疊在大圖下緣，往下多露 20px
+    // 玻璃塊：貼齊卡片底部，高度佔卡片固定比例（Figma 154/451 ≈ 34%）
+    // 玻璃塊：正常排版 + 負的上邊距往上蓋。蓋住的量固定，所以圖片永遠露出 74%；
+    // 高度不設限，文字變多時往「下」長，不會多吃圖片
     &__info {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        position: relative;
+        z-index: 1;
 
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: clamp(4px, 2cqw, 10px);
 
-        padding: var(--corner-3);
+        margin-top: -26.9%; // 往上蓋圖片固定量（% 的 margin 以容器寬度換算，會等比縮放）
+        padding: clamp(8px, 4cqw, 15px);
         border-radius: var(--corner-3);
 
         background: var(--bg-game);
@@ -208,8 +211,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         justify-content: space-between;
     }
 
+    // 字級跟著卡片寬度縮（4.6cqw = 390px 卡片時剛好 18px）
     &__name {
-        font-size: 18px;
+        font-size: clamp(13px, 4.6cqw, 18px);
         font-weight: 700;
         color: var(--color-neutral-80);
     }
@@ -217,7 +221,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     &__desc {
         overflow: hidden;
 
-        font-size: 14px;
+        font-size: clamp(10px, 3.6cqw, 14px);
         font-weight: 300;
         color: var(--color-neutral-80);
         text-overflow: ellipsis;
@@ -226,6 +230,8 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     &__i {
         flex-shrink: 0;
+        width: 16px;
+        height: 16px;
         color: var(--color-neutral-80);
     }
 
@@ -282,7 +288,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 手機：小字 12/300、數值 16/700
     &__stat-label {
-        font-size: 12px;
+        font-size: clamp(9px, 3.1cqw, 12px);
         font-weight: 300;
         color: var(--color-primary-20);
     }
@@ -292,14 +298,16 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: 4px;
         align-items: center;
 
-        font-size: 16px;
+        min-width: 0;
+
+        font-size: clamp(12px, 4.1cqw, 16px);
         font-weight: 700;
         color: var(--color-primary-10);
     }
 
     &__arrow {
-        width: 22px;
-        height: 22px;
+        width: clamp(14px, 5vw, 22px);
+        height: clamp(14px, 5vw, 22px);
     }
 
     // 電腦版
