@@ -30,7 +30,6 @@ export default defineNuxtConfig({
         asyncContext: true,
         extractAsyncDataHandlers: true,
         typescriptPlugin: true,
-        watcher: 'builder',
     },
     hooks: {
         'prepare:types': function ({ tsConfig }) {
@@ -72,6 +71,9 @@ export default defineNuxtConfig({
         inlineFontFace: false,
     },
     vite: {
+        // @kikiutils/nuxt 11.0.0 用 node:path 的 join 組這個 pattern，Windows 會變成反斜線讓 build 失敗
+        // 它用 ??= 只在沒設定時才套用，這裡先給正確值它就不會插手（2026-09-10 實測）
+        build: { rollupOptions: { output: { assetFileNames: '_nuxt/[hash].[ext]' } } },
         optimizeDeps: { include: [] },
         server: { allowedHosts: (process.env.DEV_VITE_SERVER_ALLOWED_HOSTS || '').split(',') },
     },
