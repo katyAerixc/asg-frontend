@@ -1,42 +1,46 @@
 <template>
-    <div
-        class="base-modal"
-        @click.self="$emit('close')"
-    >
+    <!-- 送到 Nuxt 內建的 #teleports 容器：彈窗才不會被祖先的 transform / backdrop-filter 影響，
+         那些屬性會讓 position: fixed 改成貼著祖先而不是螢幕 -->
+    <Teleport to="#teleports">
         <div
-            :aria-labelledby="titleId"
-            aria-modal="true"
-            class="base-modal__panel"
-            role="dialog"
+            class="base-modal"
+            @click.self="$emit('close')"
         >
-            <header class="base-modal__head">
-                <h2
-                    :id="titleId"
-                    class="base-modal__title"
-                >
-                    {{ title }}
-                </h2>
-
-                <button
-                    aria-label="關閉"
-                    class="base-modal__close i-sp-close"
-                    type="button"
-                    @click="$emit('close')"
-                />
-            </header>
-
-            <!-- 中間內容由使用它的人填 -->
-            <slot />
-
-            <!-- 底部按鈕區；沒放東西時整個不佔位 -->
-            <footer
-                v-if="$slots.footer"
-                class="base-modal__foot"
+            <div
+                :aria-labelledby="titleId"
+                aria-modal="true"
+                class="base-modal__panel"
+                role="dialog"
             >
-                <slot name="footer" />
-            </footer>
+                <header class="base-modal__head">
+                    <h2
+                        :id="titleId"
+                        class="base-modal__title"
+                    >
+                        {{ title }}
+                    </h2>
+
+                    <button
+                        aria-label="關閉"
+                        class="base-modal__close i-sp-close"
+                        type="button"
+                        @click="$emit('close')"
+                    />
+                </header>
+
+                <!-- 中間內容由使用它的人填 -->
+                <slot />
+
+                <!-- 底部按鈕區；沒放東西時整個不佔位 -->
+                <footer
+                    v-if="$slots.footer"
+                    class="base-modal__foot"
+                >
+                    <slot name="footer" />
+                </footer>
+            </div>
         </div>
-    </div>
+    </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -98,7 +102,12 @@ onUnmounted(() => {
 
         width: 360px;
         max-width: 100%;
-        height: 400px;
+
+        // 高度是「內容的事」，不是「殼的事」：用的人在自己的 scoped CSS 設
+        // --modal-h（手機）/ --modal-h-pc（電腦）就好，這支不用為了新尺寸改動。
+        // 沒設就吃預設：手機 400、電腦內容撐開
+        height: var(--modal-h, 400px);
+        max-height: 100%;
         padding: var(--corner-3);
         border: 1px solid var(--color-neutral-10);
         border-radius: var(--corner-5);
@@ -181,7 +190,7 @@ onUnmounted(() => {
     @media (width >= 600px) {
         &__panel {
             width: 600px;
-            height: auto;
+            height: var(--modal-h-pc, auto);
         }
     }
 }

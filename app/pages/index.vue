@@ -75,7 +75,7 @@
 
             <!-- 遊戲卡片網格：手機 2 欄、電腦 3 欄（照設計規格） -->
             <section class="lobby__grid">
-                <GameCard
+                <LayoutGameCard
                     v-for="game in visibleGames"
                     :key="game.id"
                     :game="game"
