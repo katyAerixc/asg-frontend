@@ -1,7 +1,7 @@
 <template>
     <header class="layout-header">
         <div class="layout-header__inner">
-            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版；<picture> 只會載入其中一張 -->
+            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版；深淺主題各一張，<picture> 只載入一張 -->
             <NuxtLink
                 aria-label="回首頁"
                 class="layout-header__logo"
@@ -10,11 +10,11 @@
                 <picture>
                     <source
                         media="(min-width: 960px)"
-                        srcset="~/assets/images/logo/pc-dark.png"
+                        :srcset="logoPc"
                     >
                     <img
                         alt="ASG"
-                        src="~/assets/images/logo/h5-dark.png"
+                        :src="logoH5"
                     >
                 </picture>
             </NuxtLink>
@@ -37,31 +37,107 @@
                     </button>
                 </div>
 
-                <!-- 頭像 + 下拉箭頭 -->
-                <button
-                    aria-label="會員選單"
-                    class="layout-header__avatar"
-                    type="button"
+                <!-- 頭像 + 下拉箭頭；點了展開會員選單 -->
+                <div
+                    ref="menuRef"
+                    class="layout-header__menu-wrap"
                 >
-                    <img
-                        alt=""
-                        class="layout-header__avatar-img"
-                        src="~/assets/images/ui/avatar.png"
+                    <button
+                        :aria-expanded="isMenuOpen"
+                        aria-label="會員選單"
+                        class="layout-header__avatar"
+                        type="button"
+                        @click="isMenuOpen = !isMenuOpen"
                     >
-                    <span class="layout-header__avatar-arrow i-sp-arrow-down" />
-                </button>
+                        <img
+                            alt=""
+                            class="layout-header__avatar-img"
+                            :src="currentAvatar.image"
+                        >
+                        <span
+                            class="layout-header__avatar-arrow i-sp-arrow-down"
+                            :class="{ 'layout-header__avatar-arrow--open': isMenuOpen }"
+                        />
+                    </button>
+
+                    <LayoutHeaderMenu
+                        v-if="isMenuOpen"
+                        class="layout-header__menu"
+                    />
+                </div>
             </div>
         </div>
     </header>
+
+    <!-- 變更頭像彈窗：掛在 Header 上而不是選單裡，選單收起來時彈窗才不會一起不見 -->
+    <AvatarPicker
+        v-if="isPickerOpen"
+        @close="closePicker"
+    />
+
+    <!-- 變更暱稱彈窗：同樣掛在 Header 上，選單收起來也不會跟著不見 -->
+    <NicknameEditor
+        v-if="isNicknameEditorOpen"
+        @close="closeNicknameEditor"
+    />
 </template>
 
 <script setup lang="ts">
+import logoH5Dark from '@/assets/images/logo/h5-dark.png';
+import logoH5Light from '@/assets/images/logo/h5-light.png';
+import logoPcDark from '@/assets/images/logo/pc-dark.png';
+import logoPcLight from '@/assets/images/logo/pc-light.png';
+
 // Define props, models and emits
 const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000 });
+
+// Variables
+const menuRef = ref<HTMLElement | null>(null);
+const isMenuOpen = ref(false);
+
+const { theme } = useTheme();
+const {
+    closePicker,
+    currentAvatar,
+    isPickerOpen,
+} = useAvatar();
+const {
+    closeNicknameEditor,
+    isNicknameEditorOpen,
+} = useProfile();
 
 // Computed properties
 // 千位逗號：100000000 → 100,000,000
 const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
+
+// logo 依主題換：深色主題用白字版、淺色主題用藍字版
+const logoPc = computed(() => theme.value === 'light' ? logoPcLight : logoPcDark);
+const logoH5 = computed(() => theme.value === 'light' ? logoH5Light : logoH5Dark);
+
+// 按 Esc 也關掉，鍵盤使用者才有出口
+function closeOnEscape(event: KeyboardEvent) {
+    if (event.key === 'Escape') isMenuOpen.value = false;
+}
+
+// Functions
+// 點到選單以外的地方就收起來（點頭像本身由按鈕自己切換，不會被這裡誤關）
+function closeOnOutsideClick(event: MouseEvent) {
+    if (!isMenuOpen.value) return;
+    if (menuRef.value?.contains(event.target as Node)) return;
+
+    isMenuOpen.value = false;
+}
+
+// Hooks
+onMounted(() => {
+    document.addEventListener('click', closeOnOutsideClick);
+    document.addEventListener('keydown', closeOnEscape);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', closeOnOutsideClick);
+    document.removeEventListener('keydown', closeOnEscape);
+});
 </script>
 
 <style scoped lang="scss">
@@ -134,8 +210,11 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        &:hover {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
+        @media (hover: hover) {
+            &:hover {
+                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+            }
         }
     }
 
@@ -184,8 +263,10 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         // hover：icon 放大 + 變白（她 2026-09-09 指定，這顆不要光暈、按鈕本身不變大）
         transition: color 0.35s;
 
-        &:hover {
-            color: var(--color-primary-10);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--color-primary-10);
+            }
         }
     }
 
@@ -193,11 +274,6 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         width: 18px;
         height: 18px;
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    // 滑到按鈕上時只有 icon 放大（圖示是 CSS 背景圖，不能選 svg/path）
-    &__refresh:hover &__refresh-icon {
-        transform: scale(1.1);
     }
 
     // 頭像：Figma padding 4px、gap 4px、圓角 100px
@@ -219,8 +295,10 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        &:hover {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        @media (hover: hover) {
+            &:hover {
+                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+            }
         }
     }
 
@@ -228,6 +306,18 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         width: 40px;
         height: 40px;
         border-radius: 50%;
+    }
+
+    // 會員選單：掛在頭像下方，靠右對齊（設計稿 top 63、往左展開）
+    &__menu-wrap {
+        position: relative;
+    }
+
+    &__menu {
+        position: absolute;
+        z-index: 60; // 要蓋過 Header 本身
+        top: calc(100% + 11px); // 設計稿：頭像下方 63px 起算
+        right: 0;
     }
 
     // 箭頭放在 20 × 20 的框裡置中（Figma 尺寸）
@@ -245,6 +335,20 @@ const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
         // presetIcons 預設會把圖示拉滿容器且貼左上，要指定原比例並置中（Figma 12 × 6.67）
         background-position: center;
         background-size: 12px 6.67px;
+
+        transition: transform 0.25s;
+
+        // 選單展開時箭頭轉向上（設計稿指定）
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    // 滑到按鈕上時只有 icon 放大（圖示是 CSS 背景圖，不能選 svg/path）
+    @media (hover: hover) {
+        &__refresh:hover &__refresh-icon {
+            transform: scale(1.1);
+        }
     }
 
     @media (width >= 960px) {

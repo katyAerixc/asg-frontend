@@ -5,7 +5,9 @@
     --color-primary-20: #c4dbff;
     --color-primary-30: #8f9bad;
     --color-primary-40: #697b96;
+    --color-primary-50: #6086c1; // 打勾底色漸層的起點（Figma Color/Primary/50）
     --color-primary-60: #68a4ff;
+    --color-primary-80: #2752ff; // 打勾底色漸層的終點（Figma Color/Primary/80）
     --color-primary-90: #0f1723;
 
     // 中性色 Neutral
@@ -38,6 +40,10 @@
         rgb(255 255 255 / 90%) 50%,
         var(--color-line-2) 100%
     );
+
+    // 變更頭像彈窗的標題分隔線（Figma line/line）：兩端透明、中間白 50%
+    // 跟 --line-divider 不同——那條是 50→90→50，這條是 0→50→0
+    --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
     --color-primary-opacity-6010: rgb(104 164 255 / 10%);
     --color-primary-opacity-6030: rgb(104 164 255 / 30%);
 
@@ -57,6 +63,7 @@
     --color-white-0: rgb(255 255 255 / 0%); // 全透明白：hover 光暈/白框的起點
     --color-white-70: rgb(255 255 255 / 70%);
     --color-white-50: rgb(255 255 255 / 50%);
+    --color-white-30: rgb(255 255 255 / 30%); // 選單列的下框線（Figma Color/White/30）
     --shadow-light-80: rgb(255 255 255 / 80%);
     --shadow-light-50: rgb(255 255 255 / 50%);
     --shadow-dark-20: rgb(0 0 0 / 20%);
@@ -66,6 +73,7 @@
     --corner-2: 10px;
     --corner-3: 15px;
     --corner-4: 20px;
+    --corner-5: 25px; // ⚠️ 暫定：Corner 序列 10/15/20 每階 +5 推得，等她給 Figma 值
     --corner-input: 10px;
     --corner-full: 100px;
 
@@ -74,6 +82,11 @@
     --shadow-input:
         -1px -1px 1px 0 rgb(255 255 255 / 20%) inset, 1px 1px 1px 0 rgb(255 255 255 / 50%) inset,
         -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+
+    // 語系下拉展開時（Figma input_act）：比 input 多一圈 20% 白的內光暈
+    --shadow-input-active:
+        0 0 10px 0 rgb(255 255 255 / 20%) inset, -1px -1px 1px 0 rgb(255 255 255 / 20%) inset,
+        1px 1px 1px 0 rgb(255 255 255 / 50%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
 
     // 按鈕（Figma 名稱 btn/default）
     --bg-normal: linear-gradient(180deg, rgb(104 164 255 / 30%) 0%, rgb(15 23 35 / 50%) 100%);
@@ -97,10 +110,31 @@
         rgb(104 164 255 / 0%) 100%
     );
 
+    // 變更頭像彈窗（Figma backgound/popup）
+    // ⚠️ 角度與停駐點暫定 180deg 0/50/100%：Figma 只給了三個顏色，沒給方向與位置
+    --bg-popup: linear-gradient(180deg, rgb(15 23 35 / 30%) 0%, rgb(15 23 35 / 50%) 50%, rgb(15 23 35 / 20%) 100%);
+    --shadow-popup:
+        0 0 5px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 20%) inset,
+        1px 1px 1px 0 rgb(255 255 255 / 50%) inset, -0.5px -1px 2px 0 rgb(0 0 0 / 40%) inset;
+
+    // 「這是你正在用的頭像」那顆藍色打勾
+    --bg-check: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-primary-80) 100%);
+    --shadow-check: 0 0 4px 0 rgb(0 0 0 / 80%);
+
+    // 選中的頭像：橘框外的白光暈
+    --shadow-avatar-active: 0 0 20px 0 rgb(255 255 255 / 50%);
+
+    // 確認按鈕・還不能按的時候（Figma button/Default/Disabled）
+    --bg-button-disabled: linear-gradient(180deg, rgb(15 23 35 / 5%) 0%, rgb(15 23 35 / 20%) 100%);
+    --shadow-btn-disabled:
+        -1px -1px 1px 0 rgb(255 255 255 / 50%) inset, 1px 1px 1px 0 rgb(255 255 255 / 80%) inset,
+        -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+
     // 背景
     --bg-page: #0f1723;
     --bg-page-glow: #0e3378;
     --bg-page-sticky: rgb(15 23 35 / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
+    --bg-list-hover: #223450; // 語系下拉滑過的底色（她 2026-09-10 指定）
     --bg-game: linear-gradient(
         180deg,
         var(--color-white-70) 0%,
