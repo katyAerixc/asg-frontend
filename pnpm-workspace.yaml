@@ -3,6 +3,7 @@ minimumReleaseAgeExcludePrune: true
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - semver@6.3.1
+  - chokidar@4.0.3
 
 shamefullyHoist: true
 shellEmulator: true
