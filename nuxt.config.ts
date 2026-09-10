@@ -54,6 +54,12 @@ export default defineNuxtConfig({
                     `'unsafe-hashes'`,
                     `'sha256-F1noxsLOnJhyRSgc0zu5JgzoLjG2BBMaXaSG24k2mRM='`,
                 ],
+
+                // 🚨 開發時一定要關。這條會把所有 http 資源請求強制升級成 https，
+                // 但 dev server 只有 http → CSS 與 JS 全部 SSL 錯誤、畫面變成純文字。
+                // 用 localhost 開看不出來（瀏覽器對 localhost 豁免），
+                // 用區網 IP（例如手機連 192.168.x.x 測試）才會炸。正式站有 https，照常開。
+                'upgrade-insecure-requests': process.env.NODE_ENV === 'production',
             },
         },
     },
