@@ -106,12 +106,12 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     }
 
     45% {
-        transform: scale(1.08);
+        transform: scale(1.11);
         filter: blur(1.5px); // 移動途中，淺淺一層
     }
 
     100% {
-        transform: scale(1.14);
+        transform: scale(1.2);
         filter: blur(0); // 到位就完全清晰
     }
 }
@@ -331,7 +331,8 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
             flex-direction: row;
             justify-content: center;
 
-            padding: 4px 15px;
+            // 左右只留 4px：手機上這格要塞「RTP + 數值 + 箭頭」，內距太寬會把文字擠掉
+            padding: 4px;
 
             background: none;
 
@@ -378,7 +379,8 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         max-width: 100%;
 
-        font-size: clamp(9px, 3.6cqw, 14px); // 手機 9 → 電腦 14，中間跟著卡片寬度平滑過渡
+        // 14px 是上限（375 以上就是 14）；比 375 窄才等比例縮，320 時約 11.6px
+        font-size: clamp(10px, 8.4cqw, 14px);
         font-weight: 300;
         color: var(--color-primary-20);
         text-overflow: ellipsis;
@@ -394,30 +396,42 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         min-width: 0;
         max-width: 100%;
 
-        font-size: clamp(14px, 4.6cqw, 18px); // 手機 14 → 電腦 18，中間跟著卡片寬度平滑過渡
+        // 18px 是上限（375 以上就是 18）；比 375 窄才等比例縮，320 時約 14.9px
+        font-size: clamp(13px, 10.8cqw, 18px);
         font-weight: 700;
         color: var(--color-primary-10);
         white-space: nowrap;
+
+        // 320 這種極窄畫面：數值與箭頭之間不留間距，把那 4px 讓給文字（她 2026-09-10 定）
+        @media (width < 375px) {
+            gap: 0;
+        }
     }
 
+    // 25px 是上限（375 以上就是 25）；比 375 窄才等比例縮，320 時約 20.8px
+    // flex-shrink: 0 讓它照 clamp 算出的尺寸走，不會被旁邊的文字擠扁
     &__arrow {
-        width: clamp(14px, 5vw, 22px);
-        height: clamp(14px, 5vw, 22px);
+        flex-shrink: 0;
+        width: clamp(16px, 15.1cqw, 25px);
+        height: clamp(16px, 15.1cqw, 25px);
     }
 
-    // 滑入整張卡：圖片放大（被 __media 的 overflow 裁住，外框尺寸不變）
-    // 停在 1.14；進場那 0.3 秒由 img-pop 接手（快速放大 + 途中淺淺的模糊）
-    &:hover &__img {
-        transform: scale(1.14);
-        animation: img-pop 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
-    }
+    // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
+    @media (hover: hover) {
+        // 滑入整張卡：圖片放大（被 __media 的 overflow 裁住，外框尺寸不變）
+        // 停在 1.2；進場那 0.3 秒由 img-pop 接手（快速放大 + 途中淺淺的模糊）
+        &:hover &__img {
+            transform: scale(1.2);
+            animation: img-pop 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
 
-    // 滑入整張卡：玻璃塊往「外」長出一圈白框（沒有 inset 就是畫在外面）
-    // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
-    &:hover &__info {
-        box-shadow:
-            0 0 0 2px var(--color-primary-10),
-            var(--shadow-game);
+        // 滑入整張卡：玻璃塊往「外」長出一圈白框（沒有 inset 就是畫在外面）
+        // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
+        &:hover &__info {
+            box-shadow:
+                0 0 0 2px var(--color-primary-10),
+                var(--shadow-game);
+        }
     }
 
     // 使用者若在系統開了「減少動態效果」，一律不動（W3C 無障礙要求）

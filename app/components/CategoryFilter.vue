@@ -73,14 +73,17 @@ const categories = [
 
         transition: color 0.2s;
 
-        &:hover {
-            color: var(--color-primary-10);
-        }
-
         &--active {
             border-bottom-color: var(--color-primary-10);
             font-weight: 700;
             color: var(--color-primary-10);
+        }
+
+        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
+        @media (hover: hover) {
+            &:hover {
+                color: var(--color-primary-10);
+            }
         }
     }
 }

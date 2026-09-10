@@ -1,5 +1,9 @@
+// 遊戲類型：對應分類列的按鈕（「全部」不是類型，是「不篩選」）
+export type GameCategory = '小遊戲' | '棋牌' | '老虎機' | '魚機';
+
 // 遊戲卡片的資料格式（欄位定義見 katy-designs/CONTEXT.md「遊戲卡片」）
 export interface Game {
+    category: GameCategory; // 分類列用這個篩選
     description: string;
     id: number;
     image: string;

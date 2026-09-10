@@ -17,24 +17,41 @@
                     @update:active-category="activeCategory = $event"
                 />
 
-                <div class="lobby__filters">
-                    <!-- NEW / HOT 一顆膠囊、左右切換 -->
+                <div
+                    class="lobby__filters"
+                    :class="{ 'lobby__filters--searching': isSearchOpen }"
+                >
+                    <!-- 手機版展開搜尋時，四顆標籤鈕收成這一顆；再點一下收回去 -->
+                    <button
+                        class="lobby__summary"
+                        type="button"
+                        @click="isSearchOpen = false"
+                    >
+                        {{ tagSummary }}
+                    </button>
+
+                    <!-- ALL / NEW / HOT / HIGH：ALL 是清除鍵，其餘可單選也可複選 -->
                     <div class="lobby__toggle">
                         <button
-                            v-for="option in sortOptions"
+                            v-for="option in filterOptions"
                             :key="option"
+                            :aria-pressed="isTagActive(option)"
                             class="lobby__toggle-btn"
-                            :class="{ 'lobby__toggle-btn--active': activeSort === option }"
+                            :class="{ 'lobby__toggle-btn--active': isTagActive(option) }"
                             :data-text="option"
                             type="button"
-                            @click="activeSort = option"
+                            @click="toggleTag(option)"
                         >
                             {{ option }}
                         </button>
                     </div>
 
-                    <label class="lobby__search">
+                    <label
+                        class="lobby__search"
+                        @click="openSearch"
+                    >
                         <input
+                            ref="searchInputRef"
                             v-model="keyword"
                             class="lobby__search-input"
                             placeholder="Search"
@@ -53,23 +70,27 @@
                 <h1 class="lobby__title">
                     精選遊戲
                 </h1>
-                <span class="lobby__count">共 {{ games.length }} 款遊戲</span>
+                <span class="lobby__count">共 {{ filteredGames.length }} 款遊戲</span>
             </div>
 
             <!-- 遊戲卡片網格：手機 2 欄、電腦 3 欄（照設計規格） -->
             <section class="lobby__grid">
                 <GameCard
-                    v-for="game in games"
+                    v-for="game in visibleGames"
                     :key="game.id"
                     :game="game"
                 />
             </section>
 
-            <!-- 加載更多（她要求新增；樣式暫定） -->
-            <div class="lobby__more">
+            <!-- 加載更多：全部載完就自己消失 -->
+            <div
+                v-if="hasMore"
+                class="lobby__more"
+            >
                 <button
                     class="lobby__more-btn"
                     type="button"
+                    @click="loadMore"
                 >
                     加載更多
                 </button>
@@ -80,14 +101,28 @@
 
 <script setup lang="ts">
 // Variables
-const sortOptions = [
+// 第一顆 ALL 是「不篩選」，等於清除鍵；後面三顆是遊戲卡片上的標籤
+const filterOptions = [
+    'ALL',
     'NEW',
     'HOT',
+    'HIGH',
 ];
 
+// 一次顯示幾張；點「加載更多」就把剩下的全放出來（之後接 API 改成每次要一頁）
+const PAGE_SIZE = 6;
+const visibleCount = ref(PAGE_SIZE);
+
 const activeCategory = ref('全部');
-const activeSort = ref('NEW');
 const keyword = ref('');
+
+// 手機版寬度不夠塞四顆標籤 + 搜尋框（320 時四顆就要 299px，只剩 -11px）
+// 所以搜尋框平常收成一顆放大鏡，點了才展開；標籤列同時收成一顆摘要鈕
+const isSearchOpen = ref(false);
+const searchInputRef = ref<HTMLInputElement | null>(null);
+
+// 標籤篩選：空陣列 = ALL（不篩選）。可單選、複選；全部取消會自動回到 ALL
+const activeTags = ref<string[]>([]);
 
 // 工具列黏在頂部時才加底色：靠哨兵元素判斷（CSS 沒有「我黏住了」這種選擇器）
 const sentinelRef = ref<HTMLElement | null>(null);
@@ -96,6 +131,81 @@ let stickyObserver: IntersectionObserver | null = null;
 
 // 遊戲清單：資料來源在 composables/use-games.ts，之後接 API 只要改那一支
 const { games } = useGames();
+
+// Computed properties
+// 三個條件是「且」的關係：分類、標籤、關鍵字，全部符合才顯示
+// 分類選「全部」= 不篩分類；標籤一個都沒選（ALL）= 不篩標籤；沒打字 = 不篩關鍵字
+const filteredGames = computed(() => {
+    // 前後空白去掉、轉小寫，避免「打了空格就搜不到」與大小寫不符
+    const search = keyword.value.trim().toLowerCase();
+
+    const noCategory = activeCategory.value === '全部';
+    const noTags = !activeTags.value.length;
+
+    return games.value.filter((game) => {
+        const matchCategory = noCategory || game.category === activeCategory.value;
+        const matchTags = noTags || game.tags.some((tag) => activeTags.value.includes(tag));
+        // 只搜遊戲名稱，不搜描述（她 2026-09-10 定）
+        const matchKeyword = !search || game.name.toLowerCase().includes(search);
+
+        return matchCategory && matchTags && matchKeyword;
+    });
+});
+
+// 只渲染看得到的那幾張，卡片變多時不會全部一次掛上去
+const visibleGames = computed(() => filteredGames.value.slice(0, visibleCount.value));
+
+// 還有沒載完的才顯示「加載更多」
+const hasMore = computed(() => visibleCount.value < filteredGames.value.length);
+
+// 搜尋展開時，四顆標籤鈕收成這一顆：沒選 = ALL、選一個 = HOT、選多個 = HOT +1
+const tagSummary = computed(() => {
+    const tags = activeTags.value;
+
+    if (!tags.length) return 'ALL';
+    if (tags.length === 1) return tags[0];
+
+    return `${tags[0]} +${tags.length - 1}`;
+});
+
+// Functions
+// ALL 只有在「什麼標籤都沒選」時才亮
+function isTagActive(option: string) {
+    if (option === 'ALL') return !activeTags.value.length;
+
+    return activeTags.value.includes(option);
+}
+
+// 目前是假資料，一次把剩下的全放出來；接 API 後改成每次多要一頁
+function loadMore() {
+    visibleCount.value = filteredGames.value.length;
+}
+
+// 點放大鏡：先展開，等畫面畫好再把游標送進輸入框（不等的話 input 還不存在）
+async function openSearch() {
+    if (isSearchOpen.value) return;
+
+    isSearchOpen.value = true;
+    await nextTick();
+    searchInputRef.value?.focus();
+}
+
+// ALL 就是清除鍵；其他標籤點一下開關切換
+function toggleTag(option: string) {
+    if (option === 'ALL') {
+        activeTags.value = [];
+
+        return;
+    }
+
+    const index = activeTags.value.indexOf(option);
+
+    if (index === -1) {
+        activeTags.value.push(option);
+    } else {
+        activeTags.value.splice(index, 1);
+    }
+}
 
 // Hooks
 onMounted(() => {
@@ -114,6 +224,15 @@ onUnmounted(() => {
     stickyObserver?.disconnect();
     stickyObserver = null;
 });
+
+// Watchers
+// 換篩選條件就回到第一頁，不然切回來會一次看到全部，「加載更多」形同虛設
+watch([
+    activeCategory,
+    activeTags,
+], () => {
+    visibleCount.value = PAGE_SIZE;
+}, { deep: true });
 
 // SEO 設定
 useHead({
@@ -262,15 +381,18 @@ useHead({
             visibility: hidden;
         }
 
-        &:hover {
-            color: var(--color-primary-10);
-        }
-
         &--active {
             font-weight: 700;
             color: var(--color-primary-10);
             background-color: var(--color-primary-opacity-6030);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
+        }
+
+        // 只有真的有滑鼠的裝置才做 hover；手機點完 :hover 會黏著不放
+        @media (hover: hover) {
+            &:hover {
+                color: var(--color-primary-10);
+            }
         }
     }
 
@@ -291,9 +413,15 @@ useHead({
         // hover：跟頭像同一組光暈
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        &:hover,
+        // focus-within 留著：那是真的「游標在裡面」，手機也該亮
         &:focus-within {
             box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+            }
         }
     }
 
@@ -320,6 +448,28 @@ useHead({
         width: 19px;
         height: 19px;
         color: var(--color-primary-30);
+    }
+
+    // 手機版展開搜尋時，四顆標籤鈕收成的這一顆（電腦版空間夠，永遠不出現）
+    // 長相跟選中的 toggle-btn 一致，讓人一眼認出「這是篩選狀態」
+    &__summary {
+        cursor: pointer;
+
+        display: none;
+        flex-shrink: 0;
+        align-items: center;
+
+        padding: var(--corner-1) var(--corner-3);
+        border: 0;
+        border-radius: var(--corner-full);
+
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--color-primary-10);
+        white-space: nowrap;
+
+        background-color: var(--color-primary-opacity-6030);
+        box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
     }
 
     &__grid {
@@ -366,8 +516,67 @@ useHead({
 
         -webkit-text-stroke: 3px var(--color-navy-50);
 
-        &:hover {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        @media (hover: hover) {
+            &:hover {
+                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+            }
+        }
+    }
+
+    // 手機版寬度不夠並排：搜尋框平常收成正方形，點了才展開
+    @media (width < 960px) {
+        // 320 只有 288px 可用，內距與間距全部縮一階才擠得下四顆 + 放大鏡
+        &__filters {
+            gap: 6px;
+        }
+
+        // 保險：文字變長（多語系）或字體沒載到時可橫向滑，不會把搜尋框推出畫面
+        // 捲軸藏起來，因為正常情況根本不會捲到
+        &__toggle {
+            scrollbar-width: none;
+            overflow-x: auto;
+            gap: 4px;
+            min-width: 0;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        &__toggle-btn {
+            flex-shrink: 0;
+            padding: var(--corner-1) var(--corner-2);
+        }
+
+        &__search {
+            flex: 0 0 44px;
+            justify-content: center;
+
+            // 把左邊剩下的空間全吃掉，放大鏡就會貼齊右邊
+            margin-left: auto;
+            padding: var(--corner-2);
+        }
+
+        &__search-input {
+            display: none;
+        }
+
+        // 展開後：四顆標籤讓位給摘要鈕，寬度全給搜尋框
+        &__filters--searching &__toggle {
+            display: none;
+        }
+
+        &__filters--searching &__summary {
+            display: flex;
+        }
+
+        &__filters--searching &__search {
+            flex: 1 0 0;
+            padding: var(--corner-2) var(--corner-3);
+        }
+
+        &__filters--searching &__search-input {
+            display: block;
         }
     }
 
