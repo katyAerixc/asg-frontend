@@ -1,23 +1,13 @@
 <template>
     <header class="layout-header">
         <div class="layout-header__inner">
-            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版；深淺主題各一張，<picture> 只載入一張 -->
+            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版，深淺主題各一張。
+                 四張圖都掛在 CSS 變數上（見 index.scss），靠 media query 與 data-theme 決定載哪張 -->
             <NuxtLink
                 aria-label="回首頁"
                 class="layout-header__logo"
                 to="/"
-            >
-                <picture>
-                    <source
-                        media="(min-width: 960px)"
-                        :srcset="logoPc"
-                    >
-                    <img
-                        alt="ASG"
-                        :src="logoH5"
-                    >
-                </picture>
-            </NuxtLink>
+            />
 
             <div class="layout-header__user">
                 <!-- 金幣膠囊：圖示 + 數字 + 重新整理 -->
@@ -83,11 +73,6 @@
 </template>
 
 <script setup lang="ts">
-import logoH5Dark from '@/assets/images/logo/h5-dark.png';
-import logoH5Light from '@/assets/images/logo/h5-light.png';
-import logoPcDark from '@/assets/images/logo/pc-dark.png';
-import logoPcLight from '@/assets/images/logo/pc-light.png';
-
 // Define props, models and emits
 const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000 });
 
@@ -95,7 +80,6 @@ const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000
 const menuRef = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
 
-const { theme } = useTheme();
 const {
     closePicker,
     currentAvatar,
@@ -109,10 +93,6 @@ const {
 // Computed properties
 // 千位逗號：100000000 → 100,000,000
 const formattedCoins = computed(() => props.coins.toLocaleString('en-US'));
-
-// logo 依主題換：深色主題用白字版、淺色主題用藍字版
-const logoPc = computed(() => theme.value === 'light' ? logoPcLight : logoPcDark);
-const logoH5 = computed(() => theme.value === 'light' ? logoH5Light : logoH5Dark);
 
 // 按 Esc 也關掉，鍵盤使用者才有出口
 function closeOnEscape(event: KeyboardEvent) {
@@ -174,14 +154,17 @@ onUnmounted(() => {
     }
 
     // 圖檔本身已含留白（手機 5px、電腦上下 8 左右 10），這裡不再加 padding
-    &__logo {
-        display: flex;
-        align-items: center;
-    }
-
     // 圖是 2 倍匯出，顯示成一半才是 1:1，最銳利（手機 80×76、電腦 452×124）
-    &__logo img {
+    &__logo {
+        display: block;
+
+        width: 40px;
         height: 38px;
+
+        background-image: var(--logo-h5);
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: contain;
     }
 
     &__user {
@@ -356,8 +339,10 @@ onUnmounted(() => {
             padding: var(--corner-4) 16px;
         }
 
-        &__logo img {
+        &__logo {
+            width: 226px;
             height: 62px;
+            background-image: var(--logo-pc);
         }
     }
 }

@@ -20,6 +20,13 @@ export default defineNuxtConfig({
         },
         keepalive: true,
     },
+    colorMode: {
+        classSuffix: '',
+        dataValue: 'theme',
+        fallback: 'dark',
+        preference: 'system',
+        storage: 'cookie',
+    },
     compatibilityDate: 'latest',
     css: ['@/assets/scss/index.scss'],
     devServer: {
@@ -37,8 +44,35 @@ export default defineNuxtConfig({
             delete tsConfig.compilerOptions?.paths?.['~/*'];
         },
     },
+    i18n: {
+        defaultLocale: 'zh-TW',
+        detectBrowserLanguage: {
+            cookieKey: 'asg-locale',
+            redirectOn: 'root',
+            useCookie: true,
+        },
+        locales: [
+            {
+                code: 'zh-TW',
+                file: 'zh-TW.json',
+                language: 'zh-TW',
+                name: '繁體中文',
+            },
+            {
+                code: 'en',
+                file: 'en.json',
+                language: 'en',
+                name: 'English',
+            },
+        ],
+        strategy: 'prefix_except_default',
+    },
     kikiutilsNuxt: { enabledModules: { security: true } },
-    modules: ['@kikiutils/nuxt'],
+    modules: [
+        '@kikiutils/nuxt',
+        '@nuxtjs/color-mode',
+        '@nuxtjs/i18n',
+    ],
     nitro: {
         preset: process.env.NITRO_PRESET || 'node-cluster',
 

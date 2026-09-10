@@ -447,7 +447,7 @@ useHead({
         flex-shrink: 0;
         width: 19px;
         height: 19px;
-        color: var(--color-primary-30);
+        color: var(--color-search-icon);
     }
 
     // 手機版展開搜尋時，四顆標籤鈕收成的這一顆（電腦版空間夠，永遠不出現）

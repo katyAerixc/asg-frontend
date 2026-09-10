@@ -6,9 +6,14 @@
     --color-primary-30: #8f9bad;
     --color-primary-40: #697b96;
     --color-primary-50: #6086c1; // 打勾底色漸層的起點（Figma Color/Primary/50）
-    --color-primary-60: #68a4ff;
+    // 這兩階要拿來疊透明度（漸層、半透明底），所以多存一份「只有數字」的版本。
+    // CSS 沒辦法把 #68a4ff 直接加透明度，但 rgb(R G B / 30%) 可以。
+    // 換主題時只要改這兩行，所有用到的漸層自動跟著變。
+    --color-primary-60-rgb: 104 164 255; // #68a4ff
+    --color-primary-90-rgb: 15 23 35; // #0f1723
+    --color-primary-60: rgb(var(--color-primary-60-rgb));
     --color-primary-80: #2752ff; // 打勾底色漸層的終點（Figma Color/Primary/80）
-    --color-primary-90: #0f1723;
+    --color-primary-90: rgb(var(--color-primary-90-rgb));
 
     // 中性色 Neutral
     --color-neutral-10: #fff; // Figma Color/Neutral/10（值同 primary-10，但 Figma 分成兩個代號）
@@ -44,8 +49,8 @@
     // 變更頭像彈窗的標題分隔線（Figma line/line）：兩端透明、中間白 50%
     // 跟 --line-divider 不同——那條是 50→90→50，這條是 0→50→0
     --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
-    --color-primary-opacity-6010: rgb(104 164 255 / 10%);
-    --color-primary-opacity-6030: rgb(104 164 255 / 30%);
+    --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
+    --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
 
     // 語意色 Semantic（紅＝漲、綠＝跌）
     --color-red-20: #ff4141;
@@ -89,8 +94,16 @@
         1px 1px 1px 0 rgb(255 255 255 / 50%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
 
     // 按鈕（Figma 名稱 btn/default）
-    --bg-normal: linear-gradient(180deg, rgb(104 164 255 / 30%) 0%, rgb(15 23 35 / 50%) 100%);
-    --bg-button-01: linear-gradient(180deg, rgb(104 164 255 / 10%) 0%, rgb(104 164 255 / 50%) 100%);
+    --bg-normal: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-60-rgb) / 30%) 0%,
+        rgb(var(--color-primary-90-rgb) / 50%) 100%
+    );
+    --bg-button-01: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-60-rgb) / 10%) 0%,
+        rgb(var(--color-primary-60-rgb) / 50%) 100%
+    );
     --shadow-btn:
         0 0 10px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 50%) inset,
         1px 1px 1px 0 rgb(255 255 255 / 80%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
@@ -100,19 +113,28 @@
 
     // hover：光暈長出來（暖白、淡、貼著邊緣）
     --shadow-btn-glow-on: 0 0 8px 1px rgb(255 240 220 / 45%);
-    --bg-button-primary: linear-gradient(180deg, rgb(104 164 255 / 50%) 0%, var(--color-primary-60) 100%);
+    --bg-button-primary: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-60-rgb) / 50%) 0%,
+        var(--color-primary-60) 100%
+    );
 
     // Header 下框線：兩端透明、中間半透明藍
     --line-header: linear-gradient(
         90deg,
-        rgb(104 164 255 / 0%) 0%,
-        rgb(104 164 255 / 50%) 50%,
-        rgb(104 164 255 / 0%) 100%
+        rgb(var(--color-primary-60-rgb) / 0%) 0%,
+        rgb(var(--color-primary-60-rgb) / 50%) 50%,
+        rgb(var(--color-primary-60-rgb) / 0%) 100%
     );
 
     // 變更頭像彈窗（Figma backgound/popup）
     // ⚠️ 角度與停駐點暫定 180deg 0/50/100%：Figma 只給了三個顏色，沒給方向與位置
-    --bg-popup: linear-gradient(180deg, rgb(15 23 35 / 30%) 0%, rgb(15 23 35 / 50%) 50%, rgb(15 23 35 / 20%) 100%);
+    --bg-popup: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-90-rgb) / 30%) 0%,
+        rgb(var(--color-primary-90-rgb) / 50%) 50%,
+        rgb(var(--color-primary-90-rgb) / 20%) 100%
+    );
     --shadow-popup:
         0 0 5px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 20%) inset,
         1px 1px 1px 0 rgb(255 255 255 / 50%) inset, -0.5px -1px 2px 0 rgb(0 0 0 / 40%) inset;
@@ -125,16 +147,27 @@
     --shadow-avatar-active: 0 0 20px 0 rgb(255 255 255 / 50%);
 
     // 確認按鈕・還不能按的時候（Figma button/Default/Disabled）
-    --bg-button-disabled: linear-gradient(180deg, rgb(15 23 35 / 5%) 0%, rgb(15 23 35 / 20%) 100%);
+    --bg-button-disabled: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-90-rgb) / 5%) 0%,
+        rgb(var(--color-primary-90-rgb) / 20%) 100%
+    );
     --shadow-btn-disabled:
         -1px -1px 1px 0 rgb(255 255 255 / 50%) inset, 1px 1px 1px 0 rgb(255 255 255 / 80%) inset,
         -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
 
+    // Logo：用 CSS 換圖而不是 JS。server 不知道使用者選哪個主題，
+    // 用 JS 判斷會讓 server 與瀏覽器渲染出不同的圖（hydration mismatch）。
+    // 交給 CSS 就沒這問題，而且只會下載真正用到的那一張。
+    --logo-h5: url('@/assets/images/logo/h5-dark.png');
+    --logo-pc: url('@/assets/images/logo/pc-dark.png');
+
     // 背景
     --bg-page: #0f1723;
     --bg-page-glow: #0e3378;
-    --bg-page-sticky: rgb(15 23 35 / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
+    --bg-page-sticky: rgb(var(--color-primary-90-rgb) / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
     --bg-list-hover: #223450; // 語系下拉滑過的底色（她 2026-09-10 指定）
+    --color-search-icon: var(--color-primary-30); // 放大鏡（深色用 30、淺色用 40，Figma 如此）
     --bg-game: linear-gradient(
         180deg,
         var(--color-white-70) 0%,
@@ -144,6 +177,27 @@
     --shadow-game:
         -1px -1px 2px 0 var(--shadow-light-80) inset, 1px 1px 2px 0 var(--shadow-light-50) inset,
         -1px -2px 2px 0 var(--shadow-dark-20) inset;
+}
+
+// 淺色主題（Figma Modes → Light，她 2026-09-10 提供 18 張 Inspect）
+// 只覆寫「真的不一樣」的；其餘（白、黑、陰影、圓角、語意色）兩個主題共用。
+// ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/30・80、分隔線、彈窗、確認按鈕、
+//    標籤色（NEW/HOT/HIGH）、RTP 漲跌紅綠、--bg-list-hover、--bg-page-glow。
+//    這些先沿用深色的值，畫到那裡再跟她要。
+[data-theme='light'] {
+    // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
+    --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
+    --color-primary-20: #4e5f98; // 重整 icon、箭頭、分類選中的底線
+    --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
+    --color-primary-60-rgb: 53 111 220; // #356fdc
+    --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
+
+    // 遊戲卡 RTP 膠囊的外陰影：深色是純黑 20%，淺色改成帶藍的灰
+    --shadow-dark-20: rgb(138 149 167 / 20%); // #8a95a7 20%
+    --bg-page: #e9f2ff; // Figma Color/Surface
+    --color-search-icon: var(--color-primary-40);
+    --logo-h5: url('@/assets/images/logo/h5-light.png');
+    --logo-pc: url('@/assets/images/logo/pc-light.png');
 }
 
 // 全站字體：Inter（由 nuxt.config unfonts 從 Google 載入），載不到時退回系統字

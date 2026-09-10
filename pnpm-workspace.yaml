@@ -10,6 +10,8 @@ shellEmulator: true
 
 overrides:
   typescript: ^6.0.3
+  # 探路暫時：i18n/color-mode 安裝時把 vue 升到 3.5.42，但 @vue/compiler-sfc 還停在 3.5.33，型別會打架
+  vue: 3.5.33
 
 allowBuilds:
   '@parcel/watcher': true
