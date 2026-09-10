@@ -1,7 +1,20 @@
+import { fileURLToPath } from 'node:url';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     app: {
         head: {
+            // favicon：.ico 給瀏覽器分頁，.png 給手機加到主畫面
+            link: [
+                {
+                    href: '/favicon.ico',
+                    rel: 'icon',
+                },
+                {
+                    href: '/favicon.png',
+                    rel: 'apple-touch-icon',
+                },
+            ],
             title: 'Nuxt Template',
             titleTemplate: '%s｜Nuxt Template',
         },
@@ -27,7 +40,14 @@ export default defineNuxtConfig({
     },
     kikiutilsNuxt: { enabledModules: { security: true } },
     modules: ['@kikiutils/nuxt'],
-    nitro: { preset: process.env.NITRO_PRESET || 'node-cluster' },
+    nitro: {
+        preset: process.env.NITRO_PRESET || 'node-cluster',
+
+        // favicon 放在 app/assets/images/favicon，但要能用 /favicon.ico 這種固定網址抓到
+        // （瀏覽器、Google、LINE 都是直接猜根路徑，不會讀 HTML）
+        // ⚠️ dir 必須是絕對路徑，寫相對路徑不會生效
+        publicAssets: [{ dir: fileURLToPath(new URL('app/assets/images/favicon', import.meta.url)) }],
+    },
     security: {
         headers: {
             contentSecurityPolicy: {
