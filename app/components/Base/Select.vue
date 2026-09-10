@@ -1,0 +1,240 @@
+<template>
+    <div
+        ref="rootRef"
+        class="base-select"
+        @keydown.escape="closeOnEscape"
+    >
+        <button
+            :id="id"
+            :aria-expanded="isOpen"
+            aria-haspopup="listbox"
+            class="base-select__trigger"
+            type="button"
+            @click="isOpen = !isOpen"
+        >
+            <span
+                class="base-select__value"
+                :class="{ 'base-select__value--placeholder': !selected }"
+            >
+                {{ selected?.label ?? placeholder }}
+            </span>
+            <span
+                class="base-select__caret i-sp-arrow-down"
+                :class="{ 'base-select__caret--open': isOpen }"
+            />
+        </button>
+
+        <ul
+            v-if="isOpen"
+            class="base-select__list"
+            role="listbox"
+        >
+            <li
+                v-for="option in options"
+                :key="option.value"
+                :aria-selected="option.value === modelValue"
+                role="option"
+            >
+                <button
+                    class="base-select__option"
+                    :class="{ 'base-select__option--active': option.value === modelValue }"
+                    type="button"
+                    @click="choose(option.value)"
+                >
+                    {{ option.label }}
+                </button>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script setup lang="ts">
+export interface SelectOption {
+    label: string;
+    value: string;
+}
+
+// Define props, models and emits
+const props = withDefaults(
+    defineProps<{
+        id?: string;
+        options: SelectOption[];
+        placeholder?: string;
+    }>(),
+    {
+        id: undefined,
+        placeholder: '請選擇',
+    },
+);
+
+// 沒選時是 null，外面用 v-model 接
+const modelValue = defineModel<null | string>({ default: null });
+
+// State
+const rootRef = ref<HTMLElement | null>(null);
+const isOpen = ref(false);
+
+// Computed properties
+const selected = computed(() => props.options.find((option) => option.value === modelValue.value) ?? null);
+
+// Functions
+function choose(value: string) {
+    modelValue.value = value;
+    isOpen.value = false;
+}
+
+// 展開時按 Esc 只收下拉，不要連外面的彈窗一起關；收起時放行給彈窗
+function closeOnEscape(event: KeyboardEvent) {
+    if (!isOpen.value) return;
+
+    event.stopPropagation();
+    isOpen.value = false;
+}
+
+// 點到選單以外的地方就收起來
+function closeOnOutsideClick(event: MouseEvent) {
+    if (!isOpen.value) return;
+    if (rootRef.value?.contains(event.target as Node)) return;
+
+    isOpen.value = false;
+}
+
+// Hooks
+onMounted(() => {
+    document.addEventListener('click', closeOnOutsideClick);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', closeOnOutsideClick);
+});
+</script>
+
+<style scoped lang="scss">
+// 外觀跟輸入框同一套（Figma input / input_act），展開的清單跟語系下拉同一套
+.base-select {
+    position: relative;
+    z-index: 2; // 展開的清單要蓋過下面的描述框
+
+    // Figma：高 44、內距上下 Corner-2 左右 Corner-3、圓角 Corner-input、底色 Primary/90
+    &__trigger {
+        cursor: pointer;
+
+        display: flex;
+        gap: var(--corner-2);
+        align-items: center;
+
+        width: 100%;
+        height: 44px;
+        padding: var(--corner-2) var(--corner-3);
+        border: 0;
+        border-radius: var(--corner-input);
+
+        color: var(--color-primary-10);
+        text-align: left;
+
+        background: var(--bg-input);
+        box-shadow: var(--shadow-input);
+
+        transition: box-shadow 0.25s ease;
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--shadow-input-active);
+        }
+    }
+
+    // ⚠️ 字級暫定 H5 16 / PC 20（Figma 只給了 PC 清單文字 20 / 300）
+    &__value {
+        overflow: hidden;
+        flex: 1;
+
+        font-size: 16px;
+        font-weight: 300;
+        line-height: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        // 還沒選：灰字提示（同輸入框 placeholder）
+        &--placeholder {
+            color: var(--color-primary-40);
+        }
+    }
+
+    // 箭頭：跟 Header 頭像旁那顆同一個圖（12 × 6.67），展開時轉朝上
+    &__caret {
+        flex-shrink: 0;
+
+        width: 12px;
+        height: 7px;
+
+        color: var(--color-primary-20);
+
+        background-color: currentcolor;
+
+        transition: transform 0.25s;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    // 展開的清單：貼在框下方、同寬、底色與框同一套
+    &__list {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        left: 0;
+
+        margin: 0;
+        padding: 0 var(--corner-2);
+        border-radius: var(--corner-input);
+
+        list-style: none;
+
+        background: var(--bg-input);
+        box-shadow: var(--shadow-input-active);
+    }
+
+    // 每一列之間 1px 分隔線（最後一列不畫）
+    li:not(:last-child) &__option {
+        border-bottom: 1px solid;
+        border-image: var(--line-popup) 1;
+    }
+
+    // Figma：清單文字 20 / 300 / Primary/20（H5 縮成 16）
+    &__option {
+        cursor: pointer;
+
+        width: 100%;
+        padding: var(--corner-2) var(--corner-1);
+        border: 0;
+
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 140%;
+        color: var(--color-primary-20);
+        text-align: left;
+
+        background: transparent;
+
+        transition: background-color 0.2s;
+
+        &--active {
+            color: var(--color-primary-10);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: var(--bg-list-hover);
+            }
+        }
+    }
+
+    @media (width >= 600px) {
+        &__value,
+        &__option {
+            font-size: 20px;
+        }
+    }
+}
+</style>
