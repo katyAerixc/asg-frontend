@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "回首頁",
+    "memberMenu": "會員選單",
+    "menu": {
+      "account": "帳號",
+      "change": "更換",
+      "changeAvatar": "更換頭像",
+      "contact": "聯絡我們",
+      "editNickname": "變更暱稱",
+      "language": "語系",
+      "nickname": "暱稱",
+      "support": "客服中心",
+      "theme": "主題切換",
+      "themeDark": "深",
+      "themeLight": "淺"
+    },
+    "refreshBalance": "重新整理餘額"
+  }
+}

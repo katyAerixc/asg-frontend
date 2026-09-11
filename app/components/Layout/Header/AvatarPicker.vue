@@ -1,6 +1,6 @@
 <template>
     <BaseModal
-        title="變更頭像"
+        :title="$t('profile.avatarTitle')"
         @close="$emit('close')"
     >
         <ul class="avatar-picker__list">
@@ -9,7 +9,7 @@
                 :key="item.id"
             >
                 <button
-                    :aria-label="`頭像 ${item.id}`"
+                    :aria-label="$t('profile.avatarAlt', { n: item.id })"
                     :aria-pressed="item.id === pickedId"
                     class="avatar-picker__item"
                     :class="{ 'avatar-picker__item--picked': item.id === pickedId }"
@@ -38,7 +38,7 @@
                 :disabled="!hasChanged"
                 @click="confirm"
             >
-                確認
+                {{ $t('common.confirm') }}
             </BaseButton>
         </template>
     </BaseModal>

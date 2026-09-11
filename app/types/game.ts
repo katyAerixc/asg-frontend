@@ -1,5 +1,12 @@
-// 遊戲類型：對應分類列的按鈕（「全部」不是類型，是「不篩選」）
-export type GameCategory = '小遊戲' | '棋牌' | '老虎機' | '魚機';
+// 遊戲類型：id 一律用英文，顯示名走 i18n（lobby.category.*）
+// 中文當 id 的話，換語言就對不上了
+export type GameCategory = 'card' | 'fish' | 'mini' | 'slot';
+
+// 分類列比類型多一個「全部」——那是「不篩選」，不是一種類型
+export type GameCategoryFilter = 'all' | GameCategory;
+
+// 波動度：同樣用英文 id，顯示走 i18n（lobby.volatility.*）
+export type GameVolatility = 'high' | 'low' | 'mid' | 'midHigh' | 'midLow';
 
 // 遊戲卡片的資料格式（欄位定義見 katy-designs/CONTEXT.md「遊戲卡片」）
 export interface Game {
@@ -12,5 +19,5 @@ export interface Game {
     rtp: string; // e.g. '96.05%'
     rtpTrend: 'down' | 'up' | null; // 紅＝漲 up、綠＝跌 down
     tags: string[]; // NEW / HOT / HIGH，可多個
-    volatility: string; // 波動度：高 / 中 / 低
+    volatility: GameVolatility; // 波動度，顯示走 i18n
 }

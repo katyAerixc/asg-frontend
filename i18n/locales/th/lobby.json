@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "ตัวคูณสูงสุด",
+      "thumb": "ภาพย่อ {name}",
+      "volatilityLabel": "ความผันผวน"
+    },
+    "category": {
+      "all": "ทั้งหมด",
+      "card": "ไพ่และกระดาน",
+      "fish": "ยิงปลา",
+      "mini": "มินิเกม",
+      "slot": "สล็อต"
+    },
+    "count": "เกมทั้งหมด {n} เกม",
+    "loadMore": "โหลดเพิ่มเติม",
+    "searchPlaceholder": "Search",
+    "title": "เกมแนะนำ",
+    "volatility": {
+      "high": "สูง",
+      "low": "ต่ำ",
+      "mid": "กลาง",
+      "midHigh": "กลาง-สูง",
+      "midLow": "กลาง-ต่ำ"
+    }
+  }
+}

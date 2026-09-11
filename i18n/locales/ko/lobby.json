@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "최대 배당률",
+      "thumb": "{name} 썸네일",
+      "volatilityLabel": "변동성"
+    },
+    "category": {
+      "all": "전체",
+      "card": "카드/보드",
+      "fish": "피싱",
+      "mini": "미니게임",
+      "slot": "슬롯"
+    },
+    "count": "총 {n}개 게임",
+    "loadMore": "더보기",
+    "searchPlaceholder": "Search",
+    "title": "추천 게임",
+    "volatility": {
+      "high": "높음",
+      "low": "낮음",
+      "mid": "중간",
+      "midHigh": "중상",
+      "midLow": "중하"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "profile": {
+    "avatarAlt": "头像 {n}",
+    "avatarTitle": "变更头像",
+    "nicknameLabel": "昵称",
+    "nicknamePlaceholder": "请输入昵称",
+    "nicknameTitle": "变更昵称"
+  }
+}

@@ -206,8 +206,17 @@ body {
 
     // 支援範圍的地板：低於 320 不保證（見 katy-designs/SUPPORT.md）
     min-width: 320px;
+
+    // Inter 打頭陣（拉丁字母、數字）；中日韓泰各接一款 Noto Sans。
+    // 同一時間只會有一款 Noto 被載入（app.vue 依語言插 link），
+    // 沒載到的那幾款瀏覽器直接跳過，所以不會有「日文被中文字型搶走」的問題。
     font-family:
         Inter,
+        'Noto Sans TC',
+        'Noto Sans SC',
+        'Noto Sans JP',
+        'Noto Sans KR',
+        'Noto Sans Thai',
         system-ui,
         -apple-system,
         'Segoe UI',

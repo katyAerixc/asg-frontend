@@ -1,0 +1,9 @@
+{
+  "profile": {
+    "avatarAlt": "Avatar {n}",
+    "avatarTitle": "Change Avatar",
+    "nicknameLabel": "Nickname",
+    "nicknamePlaceholder": "Enter nickname",
+    "nicknameTitle": "Change Nickname"
+  }
+}

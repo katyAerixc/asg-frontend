@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "หน้าแรก",
+    "memberMenu": "เมนูสมาชิก",
+    "menu": {
+      "account": "บัญชี",
+      "change": "เปลี่ยน",
+      "changeAvatar": "เปลี่ยนรูปโปรไฟล์",
+      "contact": "ติดต่อเรา",
+      "editNickname": "เปลี่ยนชื่อเล่น",
+      "language": "ภาษา",
+      "nickname": "ชื่อเล่น",
+      "support": "ศูนย์ช่วยเหลือ",
+      "theme": "เปลี่ยนธีม",
+      "themeDark": "มืด",
+      "themeLight": "สว่าง"
+    },
+    "refreshBalance": "รีเฟรชยอดเงิน"
+  }
+}

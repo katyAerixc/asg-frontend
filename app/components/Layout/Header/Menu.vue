@@ -3,7 +3,7 @@
         <!-- 帳號區：頭像（可更換）+ 帳號/暱稱 + 編輯鉛筆 -->
         <div class="header-menu__account">
             <button
-                aria-label="更換頭像"
+                :aria-label="$t('header.menu.changeAvatar')"
                 class="header-menu__avatar"
                 type="button"
                 @click="openPicker"
@@ -13,13 +13,13 @@
                     class="header-menu__avatar-img"
                     :src="currentAvatar.image"
                 >
-                <span class="header-menu__avatar-label">更換</span>
+                <span class="header-menu__avatar-label">{{ $t('header.menu.change') }}</span>
             </button>
 
             <dl class="header-menu__profile">
                 <div class="header-menu__profile-row">
                     <dt class="header-menu__profile-label">
-                        帳號
+                        {{ $t('header.menu.account') }}
                     </dt>
                     <dd class="header-menu__profile-value">
                         {{ account }}
@@ -27,7 +27,7 @@
                 </div>
                 <div class="header-menu__profile-row">
                     <dt class="header-menu__profile-label">
-                        暱稱
+                        {{ $t('header.menu.nickname') }}
                     </dt>
                     <dd class="header-menu__profile-value">
                         {{ nickname }}
@@ -36,7 +36,7 @@
             </dl>
 
             <button
-                aria-label="變更暱稱"
+                :aria-label="$t('header.menu.editNickname')"
                 class="header-menu__edit i-sp-edit"
                 type="button"
                 @click="openNicknameEditor"
@@ -50,13 +50,13 @@
             class="header-menu__row"
             type="button"
         >
-            <span class="header-menu__row-label">{{ link }}</span>
+            <span class="header-menu__row-label">{{ $t(`header.menu.${link}`) }}</span>
             <span class="header-menu__row-arrow i-sp-arrow-right" />
         </button>
 
         <!-- 主題切換：深 / 淺 -->
         <div class="header-menu__row">
-            <span class="header-menu__row-label">主題切換</span>
+            <span class="header-menu__row-label">{{ $t('header.menu.theme') }}</span>
             <div class="header-menu__theme">
                 <button
                     v-for="item in THEMES"
@@ -67,14 +67,14 @@
                     type="button"
                     @click="applyTheme(item.value)"
                 >
-                    {{ item.label }}
+                    {{ $t(`header.menu.${item.labelKey}`) }}
                 </button>
             </div>
         </div>
 
         <!-- 語系：點了往下展開 7 種語言 -->
         <div class="header-menu__row header-menu__row--lang">
-            <span class="header-menu__row-label">語系</span>
+            <span class="header-menu__row-label">{{ $t('header.menu.language') }}</span>
 
             <div class="header-menu__lang">
                 <button
@@ -133,61 +133,34 @@ import flagTw from '@/assets/images/flag/tw.png';
 import flagVn from '@/assets/images/flag/vn.png';
 
 // Variables
-// 帳號資料先寫死，之後接 API 改成從使用者資料拿
+// 連結列：值是翻譯 key（header.menu.*），不是要顯示的字
 const LINKS = [
-    '客服中心',
-    '聯絡我們',
+    'support',
+    'contact',
 ];
 
-const THEMES: { label: string; value: Theme }[] = [
+const THEMES: { labelKey: string; value: Theme }[] = [
     {
-        label: '深',
+        labelKey: 'themeDark',
         value: 'dark',
     },
     {
-        label: '淺',
+        labelKey: 'themeLight',
         value: 'light',
     },
 ];
 
-// 語言順序照設計稿；flag 是 22 x 22 的國旗小圖
-const LANGUAGES: { code: LocaleCode; flag: string; label: string }[] = [
-    {
-        code: 'zh-TW',
-        flag: flagTw,
-        label: '繁體中文',
-    },
-    {
-        code: 'zh-CN',
-        flag: flagCn,
-        label: '简体中文',
-    },
-    {
-        code: 'ja',
-        flag: flagJp,
-        label: '日本語',
-    },
-    {
-        code: 'ko',
-        flag: flagKr,
-        label: '한국어',
-    },
-    {
-        code: 'en',
-        flag: flagEn,
-        label: 'English',
-    },
-    {
-        code: 'th',
-        flag: flagTh,
-        label: 'ไทย',
-    },
-    {
-        code: 'vi',
-        flag: flagVn,
-        label: 'Tiếng Việt',
-    },
-];
+// 國旗小圖 22 x 22。語言的代碼與名稱來自 nuxt.config 的 LOCALES（單一真相），
+// 這裡只補「哪個代碼配哪面旗」，加語言時不用兩邊都改
+const FLAGS: Record<string, string> = {
+    'en': flagEn,
+    'ja': flagJp,
+    'ko': flagKr,
+    'th': flagTh,
+    'vi': flagVn,
+    'zh-CN': flagCn,
+    'zh-TW': flagTw,
+};
 
 const isLangOpen = ref(false);
 
@@ -200,14 +173,23 @@ const {
     openNicknameEditor,
 } = useProfile();
 const { applyLocale, locale } = useLocale();
+const { locales } = useI18n();
+
+// Computed properties
+// 語言清單直接用 i18n 註冊的那份，順序照 nuxt.config 的 LOCALES
+const LANGUAGES = computed(() => locales.value.map((item) => ({
+    code: item.code as LocaleCode,
+    flag: FLAGS[item.code],
+    label: item.name ?? item.code,
+})));
 
 // Functions
 function flagOf(code: LocaleCode) {
-    return LANGUAGES.find((lang) => lang.code === code)?.flag;
+    return FLAGS[code];
 }
 
 function labelOf(code: LocaleCode) {
-    return LANGUAGES.find((lang) => lang.code === code)?.label;
+    return LANGUAGES.value.find((lang) => lang.code === code)?.label;
 }
 
 function selectLang(code: LocaleCode) {

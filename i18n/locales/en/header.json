@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "Home",
+    "memberMenu": "Menu",
+    "menu": {
+      "account": "Account",
+      "change": "Change",
+      "changeAvatar": "Change Avatar",
+      "contact": "Contact Us",
+      "editNickname": "Edit Nickname",
+      "language": "Language",
+      "nickname": "Nickname",
+      "support": "Support",
+      "theme": "Theme",
+      "themeDark": "Dark",
+      "themeLight": "Light"
+    },
+    "refreshBalance": "Refresh Balance"
+  }
+}

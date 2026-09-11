@@ -54,7 +54,7 @@
                             ref="searchInputRef"
                             v-model="keyword"
                             class="lobby__search-input"
-                            placeholder="Search"
+                            :placeholder="$t('lobby.searchPlaceholder')"
                             type="search"
                         >
                         <span class="lobby__search-icon i-sp-search" />
@@ -68,9 +68,9 @@
             <!-- 標題列：設計稿只有電腦版有 -->
             <div class="lobby__title-row">
                 <h1 class="lobby__title">
-                    精選遊戲
+                    {{ $t('lobby.title') }}
                 </h1>
-                <span class="lobby__count">共 {{ filteredGames.length }} 款遊戲</span>
+                <span class="lobby__count">{{ $t('lobby.count', { n: filteredGames.length }) }}</span>
             </div>
 
             <!-- 遊戲卡片網格：手機 2 欄、電腦 3 欄（照設計規格） -->
@@ -92,7 +92,7 @@
                     type="button"
                     @click="loadMore"
                 >
-                    加載更多
+                    {{ $t('lobby.loadMore') }}
                 </button>
             </div>
         </main>
@@ -100,6 +100,11 @@
 </template>
 
 <script setup lang="ts">
+import type { GameCategoryFilter } from '@/types/game';
+
+// Composables
+// 這裡要在 script 裡拿翻譯（模板用 $t 就好，不必宣告）
+const { t } = useI18n();
 // Variables
 // 第一顆 ALL 是「不篩選」，等於清除鍵；後面三顆是遊戲卡片上的標籤
 const filterOptions = [
@@ -113,7 +118,7 @@ const filterOptions = [
 const PAGE_SIZE = 6;
 const visibleCount = ref(PAGE_SIZE);
 
-const activeCategory = ref('全部');
+const activeCategory = ref<GameCategoryFilter>('all');
 const keyword = ref('');
 
 // 手機版寬度不夠塞四顆標籤 + 搜尋框（320 時四顆就要 299px，只剩 -11px）
@@ -139,7 +144,7 @@ const filteredGames = computed(() => {
     // 前後空白去掉、轉小寫，避免「打了空格就搜不到」與大小寫不符
     const search = keyword.value.trim().toLowerCase();
 
-    const noCategory = activeCategory.value === '全部';
+    const noCategory = activeCategory.value === 'all';
     const noTags = !activeTags.value.length;
 
     return games.value.filter((game) => {
@@ -235,18 +240,19 @@ watch([
 }, { deep: true });
 
 // SEO 設定
+// 值寫成函式（不是字串）：切語言時 <head> 才會跟著更新
 useHead({
     meta: [
         {
-            content: 'ASG 遊戲大廳提供多款精選遊戲，包括老虎機、魚機、棋牌和小遊戲。高 RTP、大獎金等你來挑戰。',
+            content: () => t('seo.description'),
             name: 'description',
         },
         {
-            content: '遊戲大廳,老虎機,魚機,棋牌,小遊戲,ASG',
+            content: () => t('seo.keywords'),
             name: 'keywords',
         },
     ],
-    title: 'ASG 遊戲大廳 - 精選遊戲',
+    title: () => t('seo.title'),
 });
 </script>
 

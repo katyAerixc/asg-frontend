@@ -1,0 +1,9 @@
+{
+  "profile": {
+    "avatarAlt": "프로필 {n}",
+    "avatarTitle": "프로필 변경",
+    "nicknameLabel": "닉네임",
+    "nicknamePlaceholder": "닉네임을 입력하세요",
+    "nicknameTitle": "닉네임 변경"
+  }
+}

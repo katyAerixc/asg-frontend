@@ -1,0 +1,12 @@
+{
+  "support": {
+    "issueType": {
+      "account": "Account & Security - Forgot password, login error, etc.",
+      "billing": "Billing - Balance error, payment failure, etc.",
+      "feedback": "Feedback & Report - Game suggestions, BUG report, cheating, etc.",
+      "gameError": "Game Error - Payout error, disconnect, history, etc.",
+      "gameInfo": "Game Info - How to play, rules, rebate, etc.",
+      "other": "Other"
+    }
+  }
+}

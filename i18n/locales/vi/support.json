@@ -1,0 +1,12 @@
+{
+  "support": {
+    "issueType": {
+      "account": "Tài khoản & Bảo mật - Quên mật khẩu, lỗi đăng nhập, v.v.",
+      "billing": "Tài chính - Lỗi hiển thị số dư, không thể sử dụng, v.v.",
+      "feedback": "Phản hồi & Tố cáo - Góp ý game, báo cáo BUG, gian lận, v.v.",
+      "gameError": "Lỗi game - Lỗi kết toán, mất kết nối, lịch sử cược, v.v.",
+      "gameInfo": "Thông tin game - Cách chơi, quyền lợi, hoàn trả, v.v.",
+      "other": "Khác"
+    }
+  }
+}

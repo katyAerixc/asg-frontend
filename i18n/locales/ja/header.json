@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "ホーム",
+    "memberMenu": "会員メニュー",
+    "menu": {
+      "account": "アカウント",
+      "change": "変更",
+      "changeAvatar": "アイコン変更",
+      "contact": "お問い合わせ",
+      "editNickname": "ニックネーム変更",
+      "language": "言語",
+      "nickname": "ニックネーム",
+      "support": "サポート",
+      "theme": "テーマ",
+      "themeDark": "ダーク",
+      "themeLight": "ライト"
+    },
+    "refreshBalance": "残高を更新"
+  }
+}

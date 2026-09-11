@@ -2,34 +2,35 @@
 // 之後接 API 只要改這一支
 
 export interface IssueType {
-    label: string;
+    labelKey: string; // 翻譯 key，顯示時用 t(labelKey)
     value: string;
 }
 
 // 問題類型（Figma 下拉選單的六個選項，順序照設計稿）
+// 這裡存翻譯 key 不存文字：資料層不該綁死語言
 export const ISSUE_TYPES: IssueType[] = [
     {
-        label: '帳務問題｜餘額顯示異常、無法使用等',
+        labelKey: 'support.issueType.billing',
         value: 'billing',
     },
     {
-        label: '遊戲異常｜結算異常、斷線、派獎紀錄查詢等',
+        labelKey: 'support.issueType.gameError',
         value: 'game-error',
     },
     {
-        label: '帳號與安全｜忘記帳號密碼、登入發生異常等',
+        labelKey: 'support.issueType.account',
         value: 'account',
     },
     {
-        label: '遊戲相關｜玩法諮詢、權益、反水機制等',
+        labelKey: 'support.issueType.gameInfo',
         value: 'game-info',
     },
     {
-        label: '反饋與檢舉｜遊戲建議、BUG回報、發現不正當行為等',
+        labelKey: 'support.issueType.feedback',
         value: 'feedback',
     },
     {
-        label: '其他',
+        labelKey: 'support.issueType.other',
         value: 'other',
     },
 ];

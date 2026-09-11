@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "最高赔率",
+      "thumb": "{name} 缩略图",
+      "volatilityLabel": "波动度"
+    },
+    "category": {
+      "all": "全部",
+      "card": "棋牌",
+      "fish": "捕鱼",
+      "mini": "小游戏",
+      "slot": "老虎机"
+    },
+    "count": "共 {n} 款游戏",
+    "loadMore": "加载更多",
+    "searchPlaceholder": "Search",
+    "title": "精选游戏",
+    "volatility": {
+      "high": "高",
+      "low": "低",
+      "mid": "中",
+      "midHigh": "中高",
+      "midLow": "中低"
+    }
+  }
+}

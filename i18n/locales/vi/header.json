@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "Trang chủ",
+    "memberMenu": "Menu thành viên",
+    "menu": {
+      "account": "Tài khoản",
+      "change": "Thay đổi",
+      "changeAvatar": "Đổi ảnh đại diện",
+      "contact": "Liên hệ",
+      "editNickname": "Đổi biệt danh",
+      "language": "Ngôn ngữ",
+      "nickname": "Biệt danh",
+      "support": "CSKH",
+      "theme": "Giao diện",
+      "themeDark": "Tối",
+      "themeLight": "Sáng"
+    },
+    "refreshBalance": "Làm mới số dư"
+  }
+}

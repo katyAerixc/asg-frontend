@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "Tỷ lệ cược tối đa",
+      "thumb": "Hình thu nhỏ {name}",
+      "volatilityLabel": "Độ biến động"
+    },
+    "category": {
+      "all": "Tất cả",
+      "card": "Game bài",
+      "fish": "Bắn cá",
+      "mini": "Mini game",
+      "slot": "Slot"
+    },
+    "count": "Tổng cộng {n} game",
+    "loadMore": "Tải thêm",
+    "searchPlaceholder": "Search",
+    "title": "Game hot",
+    "volatility": {
+      "high": "Cao",
+      "low": "Thấp",
+      "mid": "Trung bình",
+      "midHigh": "Trung-Cao",
+      "midLow": "Trung-Thấp"
+    }
+  }
+}

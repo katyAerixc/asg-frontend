@@ -1,0 +1,20 @@
+{
+  "header": {
+    "home": "回首页",
+    "memberMenu": "会员菜单",
+    "menu": {
+      "account": "账号",
+      "change": "更换",
+      "changeAvatar": "更换头像",
+      "contact": "联系我们",
+      "editNickname": "变更昵称",
+      "language": "语言",
+      "nickname": "昵称",
+      "support": "客服中心",
+      "theme": "主题切换",
+      "themeDark": "深",
+      "themeLight": "浅"
+    },
+    "refreshBalance": "刷新余额"
+  }
+}

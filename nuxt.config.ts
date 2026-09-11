@@ -1,5 +1,51 @@
 import { fileURLToPath } from 'node:url';
 
+// i18n：語言檔按功能拆成 6 個，7 種語言各一份（i18n/locales/<語言>/<功能>.json）
+// 加字串 → 改對應的功能檔；加語言 → 在 LOCALES 加一行、複製 zh-TW 資料夾。詳見 i18n/README.md
+const I18N_NAMESPACES = [
+    'common',
+    'header',
+    'lobby',
+    'profile',
+    'seo',
+    'support',
+];
+
+const LOCALES = [
+    {
+        code: 'zh-TW',
+        name: '繁體中文',
+    },
+    {
+        code: 'zh-CN',
+        name: '简体中文',
+    },
+    {
+        code: 'ja',
+        name: '日本語',
+    },
+    {
+        code: 'ko',
+        name: '한국어',
+    },
+    {
+        code: 'en',
+        name: 'English',
+    },
+    {
+        code: 'th',
+        name: 'ไทย',
+    },
+    {
+        code: 'vi',
+        name: 'Tiếng Việt',
+    },
+].map((locale) => ({
+    ...locale,
+    files: I18N_NAMESPACES.map((namespace) => `${locale.code}/${namespace}.json`),
+    language: locale.code,
+}));
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     app: {
@@ -51,20 +97,8 @@ export default defineNuxtConfig({
             redirectOn: 'root',
             useCookie: true,
         },
-        locales: [
-            {
-                code: 'zh-TW',
-                file: 'zh-TW.json',
-                language: 'zh-TW',
-                name: '繁體中文',
-            },
-            {
-                code: 'en',
-                file: 'en.json',
-                language: 'en',
-                name: 'English',
-            },
-        ],
+        langDir: 'locales',
+        locales: LOCALES,
         strategy: 'prefix_except_default',
     },
     kikiutilsNuxt: { enabledModules: { security: true } },

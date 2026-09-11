@@ -2,37 +2,39 @@
     <nav class="category-filter">
         <div class="category-filter__list">
             <button
-                v-for="category in categories"
+                v-for="category in CATEGORIES"
                 :key="category"
                 class="category-filter__tab"
                 :class="{ 'category-filter__tab--active': activeCategory === category }"
                 type="button"
                 @click="emit('update:activeCategory', category)"
             >
-                {{ category }}
+                {{ $t(`lobby.category.${category}`) }}
             </button>
         </div>
     </nav>
 </template>
 
 <script setup lang="ts">
+import type { GameCategoryFilter } from '@/types/game';
+
 // Define props, models and emits
 defineProps<{
-    activeCategory: string;
+    activeCategory: GameCategoryFilter;
 }>();
 
 const emit = defineEmits<{
-    'update:activeCategory': [category: string];
+    'update:activeCategory': [category: GameCategoryFilter];
 }>();
 
 // Variables
-// ⚠️ 之後接 i18n 改成翻譯 key
-const categories = [
-    '全部',
-    '老虎機',
-    '魚機',
-    '棋牌',
-    '小遊戲',
+// id 用英文，顯示名走 i18n（lobby.category.*）。順序照設計稿
+const CATEGORIES: GameCategoryFilter[] = [
+    'all',
+    'slot',
+    'fish',
+    'card',
+    'mini',
 ];
 </script>
 

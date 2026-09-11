@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "Max Multiplier",
+      "thumb": "{name} Thumbnail",
+      "volatilityLabel": "Volatility"
+    },
+    "category": {
+      "all": "All",
+      "card": "Card",
+      "fish": "Fishing",
+      "mini": "Mini Game",
+      "slot": "Slot"
+    },
+    "count": "{n} Games",
+    "loadMore": "Load More",
+    "searchPlaceholder": "Search",
+    "title": "Top Games",
+    "volatility": {
+      "high": "High",
+      "low": "Low",
+      "mid": "Mid",
+      "midHigh": "Mid-High",
+      "midLow": "Mid-Low"
+    }
+  }
+}

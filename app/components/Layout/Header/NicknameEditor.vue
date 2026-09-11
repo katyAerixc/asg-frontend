@@ -1,6 +1,6 @@
 <template>
     <BaseModal
-        title="變更暱稱"
+        :title="$t('profile.nicknameTitle')"
         @close="$emit('close')"
     >
         <div class="nickname-editor">
@@ -8,7 +8,7 @@
                 class="nickname-editor__label"
                 :for="inputId"
             >
-                暱稱
+                {{ $t('profile.nicknameLabel') }}
             </label>
 
             <div class="nickname-editor__field">
@@ -18,7 +18,7 @@
                     v-model="draft"
                     class="nickname-editor__input"
                     maxlength="20"
-                    placeholder="請輸入暱稱"
+                    :placeholder="$t('profile.nicknamePlaceholder')"
                     type="text"
                     @keyup.enter="confirm"
                 >
@@ -26,7 +26,7 @@
                 <!-- 有字才出現清除鈕（設計稿：空的時候整顆不在） -->
                 <button
                     v-if="draft"
-                    aria-label="清除"
+                    :aria-label="$t('common.clear')"
                     class="nickname-editor__clear i-sp-close"
                     type="button"
                     @click="clear"
@@ -39,7 +39,7 @@
                 :disabled="!canSubmit"
                 @click="confirm"
             >
-                確認
+                {{ $t('common.confirm') }}
             </BaseButton>
         </template>
     </BaseModal>

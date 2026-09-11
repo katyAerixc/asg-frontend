@@ -4,7 +4,7 @@
             <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版，深淺主題各一張。
                  四張圖都掛在 CSS 變數上（見 index.scss），靠 media query 與 data-theme 決定載哪張 -->
             <NuxtLink
-                aria-label="回首頁"
+                :aria-label="$t('header.home')"
                 class="layout-header__logo"
                 to="/"
             />
@@ -19,7 +19,7 @@
                     >
                     <span class="layout-header__coin-value">{{ formattedCoins }}</span>
                     <button
-                        aria-label="重新整理餘額"
+                        :aria-label="$t('header.refreshBalance')"
                         class="layout-header__refresh"
                         type="button"
                     >
@@ -34,7 +34,7 @@
                 >
                     <button
                         :aria-expanded="isMenuOpen"
-                        aria-label="會員選單"
+                        :aria-label="$t('header.memberMenu')"
                         class="layout-header__avatar"
                         type="button"
                         @click="isMenuOpen = !isMenuOpen"

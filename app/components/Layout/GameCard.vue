@@ -28,7 +28,7 @@
         <div class="game-card__info">
             <div class="game-card__head">
                 <img
-                    :alt="`${game.name} 縮圖`"
+                    :alt="$t('lobby.card.thumb', { name: game.name })"
                     class="game-card__thumb"
                     :src="game.image"
                 >
@@ -50,8 +50,8 @@
 
             <div class="game-card__stats">
                 <div class="game-card__stat">
-                    <span class="game-card__stat-label">波動度</span>
-                    <span class="game-card__stat-value">{{ game.volatility }}</span>
+                    <span class="game-card__stat-label">{{ $t('lobby.card.volatilityLabel') }}</span>
+                    <span class="game-card__stat-value">{{ $t(`lobby.volatility.${game.volatility}`) }}</span>
                 </div>
                 <div
                     class="game-card__stat game-card__stat--rtp"
@@ -68,7 +68,7 @@
                     </span>
                 </div>
                 <div class="game-card__stat">
-                    <span class="game-card__stat-label">最高賠率</span>
+                    <span class="game-card__stat-label">{{ $t('lobby.card.maxMultiplier') }}</span>
                     <span class="game-card__stat-value">{{ game.maxMultiplier }}</span>
                 </div>
             </div>

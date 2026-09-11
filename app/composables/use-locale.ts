@@ -1,61 +1,30 @@
 /**
  * 語系
  *
- * 做什麼：記住使用者選的語言，並寫進 <html lang="...">（給搜尋引擎與讀螢幕軟體看）。
+ * 做什麼：記住使用者選的語言，換網址（/en、/ja…）並換掉整站文字。
  *
- * ⚠️ 這支只管「選了哪個語言」，還不會真的翻譯文字。
- *    真正的翻譯要另外裝 i18n 套件並準備 7 份文案，之後接上時只要在這裡多呼叫一行切換即可。
+ * 實際幹活的是 @nuxtjs/i18n（設定在 nuxt.config.ts 的 i18n）：
+ *   - 存在 cookie asg-locale → server 渲染時就知道要哪個語言
+ *   - 第一次進站沒有 cookie 時才看瀏覽器語言，之後永遠尊重使用者手動選的
+ *   - strategy 是 prefix_except_default：繁中是 /、其他語言是 /en、/ja…
+ *
+ * 這一支只是薄薄一層包裝，讓選單那邊不用直接碰套件的 API。
+ * 語言清單的單一真相在 nuxt.config.ts 的 LOCALES，不要在這裡再列一份。
  */
 
-const STORAGE_KEY = 'asg-locale';
-
-// 對應設計稿的七種語言；code 用標準寫法，之後接 i18n 直接可用
-export const LOCALE_CODES = [
-    'zh-TW',
-    'zh-CN',
-    'ja',
-    'ko',
-    'en',
-    'th',
-    'vi',
-] as const;
-
-export type LocaleCode = typeof LOCALE_CODES[number];
-
-// 放在函式外面：全站共用同一份狀態
-const locale = ref<LocaleCode>('zh-TW');
+export type LocaleCode = 'en' | 'ja' | 'ko' | 'th' | 'vi' | 'zh-CN' | 'zh-TW';
 
 export function useLocale() {
+    const { locale, setLocale } = useI18n();
+
+    // Functions
+    // setLocale 會順便把網址換成該語言的版本，所以不用自己 navigateTo
     function applyLocale(next: LocaleCode) {
-        locale.value = next;
-
-        if (import.meta.client) {
-            document.documentElement.lang = next;
-
-            try {
-                localStorage.setItem(STORAGE_KEY, next);
-            } catch {
-                // 記不住不影響當下切換
-            }
-        }
-    }
-
-    function restoreLocale() {
-        if (!import.meta.client) return;
-
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY) as LocaleCode | null;
-
-            if (saved && LOCALE_CODES.includes(saved)) applyLocale(saved);
-            else applyLocale(locale.value);
-        } catch {
-            applyLocale(locale.value);
-        }
+        setLocale(next);
     }
 
     return {
         applyLocale,
-        locale,
-        restoreLocale,
+        locale: locale as Ref<LocaleCode>,
     };
 }

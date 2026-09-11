@@ -21,7 +21,7 @@
                     </h2>
 
                     <button
-                        aria-label="關閉"
+                        :aria-label="$t('common.close')"
                         class="base-modal__close i-sp-close"
                         type="button"
                         @click="$emit('close')"

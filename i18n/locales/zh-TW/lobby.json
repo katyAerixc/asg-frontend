@@ -1,0 +1,27 @@
+{
+  "lobby": {
+    "card": {
+      "maxMultiplier": "最高賠率",
+      "thumb": "{name} 縮圖",
+      "volatilityLabel": "波動度"
+    },
+    "category": {
+      "all": "全部",
+      "card": "棋牌",
+      "fish": "魚機",
+      "mini": "小遊戲",
+      "slot": "老虎機"
+    },
+    "count": "共 {n} 款遊戲",
+    "loadMore": "加載更多",
+    "searchPlaceholder": "Search",
+    "title": "精選遊戲",
+    "volatility": {
+      "high": "高",
+      "low": "低",
+      "mid": "中",
+      "midHigh": "中高",
+      "midLow": "中低"
+    }
+  }
+}

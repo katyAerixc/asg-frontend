@@ -59,11 +59,11 @@ const props = withDefaults(
     defineProps<{
         id?: string;
         options: SelectOption[];
-        placeholder?: string;
+        placeholder?: string; // 不給就沒有提示字，要顯示什麼由用的人決定（走 i18n）
     }>(),
     {
         id: undefined,
-        placeholder: '請選擇',
+        placeholder: '',
     },
 );
 

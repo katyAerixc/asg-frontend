@@ -14,9 +14,10 @@ import type { Game } from '@/types/game';
 
 // 12 筆真實文案（她 2026-09-10 從設計稿提供）；圖片仍共用同一張，等正式素材
 // RTP 依漲跌分配：紅↗ 96.45%、綠↘ 97.10%（截圖上老虎機／棋牌是紅、魚機／小遊戲是綠）
+// category 與 volatility 是英文 id，顯示名在 i18n/locales/*/lobby.json
 const MOCK_GAMES: Game[] = [
     {
-        category: '老虎機',
+        category: 'slot',
         description: '踏入雲上神殿，蒐集翡翠符印，啟動天后祝福與連線獎勵。',
         id: 1,
         image: IMG,
@@ -25,10 +26,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: 'up',
         tags: ['NEW'],
-        volatility: '高',
+        volatility: 'high',
     },
     {
-        category: '老虎機',
+        category: 'slot',
         description: '集滿三枚天印進入寶藏回合，獲得自由旋轉與賠機倍數。',
         id: 2,
         image: IMG,
@@ -37,10 +38,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: null,
         tags: ['HOT'],
-        volatility: '中高',
+        volatility: 'midHigh',
     },
     {
-        category: '老虎機',
+        category: 'slot',
         description: '隨著金元寶連續累積財神加成，解鎖高倍率獎勵回合。',
         id: 3,
         image: IMG,
@@ -49,10 +50,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: 'up',
         tags: ['HIGH'],
-        volatility: '高',
+        volatility: 'high',
     },
     {
-        category: '魚機',
+        category: 'fish',
         description: '以深海寶藏為目標，鎖定巨龍後可開啟限時加成與團隊獎池。',
         id: 4,
         image: IMG,
@@ -64,10 +65,10 @@ const MOCK_GAMES: Game[] = [
             'NEW',
             'HOT',
         ],
-        volatility: '中高',
+        volatility: 'midHigh',
     },
     {
-        category: '魚機',
+        category: 'fish',
         description: '在移動砲台間切換火力，捕捉高價值魚群與海底首領。',
         id: 5,
         image: IMG,
@@ -76,10 +77,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '97.10%',
         rtpTrend: null,
         tags: [],
-        volatility: '中',
+        volatility: 'mid',
     },
     {
-        category: '魚機',
+        category: 'fish',
         description: '在限時深海關卡鎖定獵物，協作擊破首領並爭取額外分紅。',
         id: 6,
         image: IMG,
@@ -88,10 +89,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '97.10%',
         rtpTrend: 'down',
         tags: ['HIGH'],
-        volatility: '中高',
+        volatility: 'midHigh',
     },
     {
-        category: '棋牌',
+        category: 'card',
         description: '經典麻將節奏結合連莊機制，兼具策略與快速對局的爽感。',
         id: 7,
         image: IMG,
@@ -100,10 +101,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: 'up',
         tags: ['NEW'],
-        volatility: '中',
+        volatility: 'mid',
     },
     {
-        category: '棋牌',
+        category: 'card',
         description: '以手牌布局創造最佳組合，支援快速配桌與好友牌局。',
         id: 8,
         image: IMG,
@@ -112,10 +113,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: null,
         tags: [],
-        volatility: '中低',
+        volatility: 'midLow',
     },
     {
-        category: '棋牌',
+        category: 'card',
         description: '多種牌型快速配對，支援快速配桌與好友牌局。',
         id: 9,
         image: IMG,
@@ -124,10 +125,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '96.45%',
         rtpTrend: 'up',
         tags: ['HOT'],
-        volatility: '中',
+        volatility: 'mid',
     },
     {
-        category: '小遊戲',
+        category: 'mini',
         description: '在倒數結束前選擇撤離時機，穿越星門取得即時倍率。',
         id: 10,
         image: IMG,
@@ -139,10 +140,10 @@ const MOCK_GAMES: Game[] = [
             'NEW',
             'HIGH',
         ],
-        volatility: '高',
+        volatility: 'high',
     },
     {
-        category: '小遊戲',
+        category: 'mini',
         description: '簡潔的翻牌玩法，每一步都可能打開倍數與當賣獎勵。',
         id: 11,
         image: IMG,
@@ -151,10 +152,10 @@ const MOCK_GAMES: Game[] = [
         rtp: '97.10%',
         rtpTrend: null,
         tags: [],
-        volatility: '中',
+        volatility: 'mid',
     },
     {
-        category: '小遊戲',
+        category: 'mini',
         description: '收集糖果能量躲避障礙，將連擊推進到更高的獎勵區間。',
         id: 12,
         image: IMG,
@@ -163,7 +164,7 @@ const MOCK_GAMES: Game[] = [
         rtp: '97.10%',
         rtpTrend: 'down',
         tags: ['HOT'],
-        volatility: '中低',
+        volatility: 'midLow',
     },
 ];
 
