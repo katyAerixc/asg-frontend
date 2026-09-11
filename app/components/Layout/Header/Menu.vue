@@ -49,6 +49,7 @@
             :key="link"
             class="header-menu__row"
             type="button"
+            @click="openLink(link)"
         >
             <span class="header-menu__row-label">{{ $t(`header.menu.${link}`) }}</span>
             <span class="header-menu__row-arrow i-sp-arrow-right" />
@@ -80,6 +81,7 @@
                 <button
                     :aria-expanded="isLangOpen"
                     class="header-menu__lang-current"
+                    :class="{ 'header-menu__lang-current--open': isLangOpen }"
                     type="button"
                     @click="isLangOpen = !isLangOpen"
                 >
@@ -173,6 +175,7 @@ const {
     openNicknameEditor,
 } = useProfile();
 const { applyLocale, locale } = useLocale();
+const { openSupport } = useSupport();
 const { locales } = useI18n();
 
 // Computed properties
@@ -190,6 +193,11 @@ function flagOf(code: LocaleCode) {
 
 function labelOf(code: LocaleCode) {
     return LANGUAGES.value.find((lang) => lang.code === code)?.label;
+}
+
+// 連結列現在只有客服中心有彈窗；聯絡我們還沒有去處，先不做事
+function openLink(link: string) {
+    if (link === 'support') openSupport();
 }
 
 function selectLang(code: LocaleCode) {
@@ -471,10 +479,18 @@ function selectLang(code: LocaleCode) {
         width: 180px;
         height: 44px;
         padding: var(--corner-2) var(--corner-3);
-        border: 1px solid var(--color-primary-60);
+
+        // 平常框線透明、展開才轉成 Primary/60（她 2026-09-11 指定）。
+        // 一開始就佔著 1px，展開時盒子才不會突然變大
+        border: 1px solid transparent;
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
+        box-shadow: var(--shadow-input-active);
+
+        &--open {
+            border-color: var(--color-primary-60);
+        }
     }
 
     &__lang-flag {

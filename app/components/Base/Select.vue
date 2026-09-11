@@ -9,6 +9,7 @@
             :aria-expanded="isOpen"
             aria-haspopup="listbox"
             class="base-select__trigger"
+            :class="{ 'base-select__trigger--open': isOpen }"
             type="button"
             @click="isOpen = !isOpen"
         >
@@ -19,7 +20,7 @@
                 {{ selected?.label ?? placeholder }}
             </span>
             <span
-                class="base-select__caret i-sp-arrow-down"
+                class="base-select__caret i-sp-arrow-right"
                 :class="{ 'base-select__caret--open': isOpen }"
             />
         </button>
@@ -126,7 +127,10 @@ onUnmounted(() => {
         width: 100%;
         height: 44px;
         padding: var(--corner-2) var(--corner-3);
-        border: 0;
+
+        // 平常框線透明、展開時轉成 Primary/60（Figma MB/inpt Active 的 1px 內框）。
+        // 一開始就佔著 1px，展開時盒子才不會突然變大
+        border: 1px solid transparent;
         border-radius: var(--corner-input);
 
         color: var(--color-primary-10);
@@ -137,7 +141,10 @@ onUnmounted(() => {
 
         transition: box-shadow 0.25s ease;
 
-        &:focus-visible {
+        // 展開時整個框亮起來（Figma input_act + 1px Primary/60 框線）
+        &:focus-visible,
+        &--open {
+            border-color: var(--color-primary-60);
             outline: none;
             box-shadow: var(--shadow-input-active);
         }
@@ -160,12 +167,14 @@ onUnmounted(() => {
         }
     }
 
-    // 箭頭：跟 Header 頭像旁那顆同一個圖（12 × 6.67），展開時轉朝上
+    // 用跟選單列同一支箭頭（arrow-right），靠旋轉決定方向：收起朝下、展開朝上
     &__caret {
+        transform: rotate(90deg);
+
         flex-shrink: 0;
 
-        width: 12px;
-        height: 7px;
+        width: 18px;
+        height: 18px;
 
         color: var(--color-primary-20);
 
@@ -174,7 +183,7 @@ onUnmounted(() => {
         transition: transform 0.25s;
 
         &--open {
-            transform: rotate(180deg);
+            transform: rotate(-90deg);
         }
     }
 
@@ -186,7 +195,9 @@ onUnmounted(() => {
         left: 0;
 
         margin: 0;
-        padding: 0 var(--corner-2);
+
+        // 上下留一點內距：不然第一列 hover 的底色會蓋掉清單最上面那道內光
+        padding: var(--corner-1) var(--corner-2);
         border-radius: var(--corner-input);
 
         list-style: none;
@@ -206,7 +217,9 @@ onUnmounted(() => {
         cursor: pointer;
 
         width: 100%;
-        padding: var(--corner-2) var(--corner-1);
+
+        // 手機上下留 8（她 2026-09-11 指定），電腦回到 Corner-2
+        padding: 8px var(--corner-1);
         border: 0;
 
         font-size: 16px;
@@ -231,6 +244,10 @@ onUnmounted(() => {
     }
 
     @media (width >= 600px) {
+        &__option {
+            padding: var(--corner-2) var(--corner-1);
+        }
+
         &__value,
         &__option {
             font-size: 20px;

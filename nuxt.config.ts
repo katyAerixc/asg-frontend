@@ -92,8 +92,10 @@ export default defineNuxtConfig({
     },
     i18n: {
         defaultLocale: 'zh-TW',
+        // 依瀏覽器的語系自動選；認不出來（不是我們支援的 7 種）就退回英文（她 2026-09-11 定）
         detectBrowserLanguage: {
             cookieKey: 'asg-locale',
+            fallbackLocale: 'en',
             redirectOn: 'root',
             useCookie: true,
         },
@@ -118,6 +120,13 @@ export default defineNuxtConfig({
     security: {
         headers: {
             contentSecurityPolicy: {
+                // 上傳附件的縮圖用 URL.createObjectURL 產生 blob: 網址，
+                // 預設的 img-src 只有 'self' data:，會把縮圖擋成破圖。blob: 只能是同源的，加了安全
+                'img-src': [
+                    `'self'`,
+                    'data:',
+                    'blob:',
+                ],
                 'script-src-attr': [
                     `'unsafe-hashes'`,
                     `'sha256-F1noxsLOnJhyRSgc0zu5JgzoLjG2BBMaXaSG24k2mRM='`,

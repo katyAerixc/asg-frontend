@@ -3,6 +3,9 @@
     "clear": "清除",
     "close": "關閉",
     "confirm": "確認",
+    "nextPage": "下一頁",
+    "pagination": "分頁",
+    "prevPage": "上一頁",
     "select": "請選擇"
   }
 }

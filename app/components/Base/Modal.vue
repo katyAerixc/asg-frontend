@@ -11,6 +11,13 @@
                 aria-modal="true"
                 class="base-modal__panel"
                 role="dialog"
+                :style="{
+                    '--modal-gap': gap,
+                    '--modal-gap-pc': gapPc,
+                    '--modal-h': height,
+                    '--modal-h-pc': heightPc,
+                    '--modal-w-pc': widthPc,
+                }"
             >
                 <header class="base-modal__head">
                     <h2
@@ -45,7 +52,28 @@
 
 <script setup lang="ts">
 // Define props, models and emits
-defineProps<{ title: string }>();
+// 每個 prop 都收字串（例如 '650px'），不給就吃 CSS 的預設值：
+//   height / heightPc = 高度、widthPc = 電腦版寬度、gap / gapPc = 內部區塊間距。
+// 不做 size="large" 這種開關：來第三種尺寸時這支不用改。
+// ⚠️ 必須由 prop 傳進來、不能讓用的人在自己的 scoped CSS 設——
+//    這支的根節點是 <Teleport>，父層的 class 與 scope id 都傳不進來。
+withDefaults(
+    defineProps<{
+        gap?: string;
+        gapPc?: string;
+        height?: string;
+        heightPc?: string;
+        title: string;
+        widthPc?: string;
+    }>(),
+    {
+        gap: undefined,
+        gapPc: undefined,
+        height: undefined,
+        heightPc: undefined,
+        widthPc: undefined,
+    },
+);
 
 const emit = defineEmits<{ close: [] }>();
 
@@ -98,14 +126,13 @@ onUnmounted(() => {
     &__panel {
         display: flex;
         flex-direction: column;
-        gap: 40px;
+        gap: var(--modal-gap, 40px);
 
         width: 360px;
         max-width: 100%;
 
-        // 高度是「內容的事」，不是「殼的事」：用的人在自己的 scoped CSS 設
-        // --modal-h（手機）/ --modal-h-pc（電腦）就好，這支不用為了新尺寸改動。
-        // 沒設就吃預設：手機 400、電腦內容撐開
+        // 高度是「內容的事」，不是「殼的事」：用的人傳 height / height-pc 進來，
+        // 這支不用為了新尺寸改動。沒傳就吃預設：手機 400、電腦內容撐開
         height: var(--modal-h, 400px);
         max-height: 100%;
         padding: var(--corner-3);
@@ -186,11 +213,13 @@ onUnmounted(() => {
         animation: none;
     }
 
-    // 電腦版：放大到 600、高度改回內容撐開
+    // 電腦版：放大到 600、內距加大、高度改回內容撐開
     @media (width >= 600px) {
         &__panel {
-            width: 600px;
+            gap: var(--modal-gap-pc, var(--modal-gap, 40px));
+            width: var(--modal-w-pc, 600px);
             height: var(--modal-h-pc, auto);
+            padding: 25px;
         }
     }
 }

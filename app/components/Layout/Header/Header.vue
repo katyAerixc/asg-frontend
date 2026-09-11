@@ -70,6 +70,9 @@
         v-if="isNicknameEditorOpen"
         @close="closeNicknameEditor"
     />
+
+    <!-- 客服彈窗：從選單的「客服中心」打開，同樣掛在 Header 上 -->
+    <LayoutSupport v-if="isSupportOpen" />
 </template>
 
 <script setup lang="ts">
@@ -89,6 +92,7 @@ const {
     closeNicknameEditor,
     isNicknameEditorOpen,
 } = useProfile();
+const { isSupportOpen } = useSupport();
 
 // Computed properties
 // 千位逗號：100000000 → 100,000,000
@@ -108,15 +112,27 @@ function closeOnOutsideClick(event: MouseEvent) {
     isMenuOpen.value = false;
 }
 
+// 捲動就收起來：Header 不是黏住的，往下捲時選單會跟著跑掉，
+// 留著它會浮在半空中變成鬼影（她 2026-09-11 定，以後任何下拉都比照）
+function closeOnScroll() {
+    if (!isMenuOpen.value) return;
+
+    isMenuOpen.value = false;
+}
+
 // Hooks
 onMounted(() => {
     document.addEventListener('click', closeOnOutsideClick);
     document.addEventListener('keydown', closeOnEscape);
+
+    // passive：只是讀捲動事件、不會擋它，捲起來才不會卡
+    window.addEventListener('scroll', closeOnScroll, { passive: true });
 });
 
 onUnmounted(() => {
     document.removeEventListener('click', closeOnOutsideClick);
     document.removeEventListener('keydown', closeOnEscape);
+    window.removeEventListener('scroll', closeOnScroll);
 });
 </script>
 
@@ -315,9 +331,13 @@ onUnmounted(() => {
 
         color: var(--color-primary-20);
 
-        // presetIcons 預設會把圖示拉滿容器且貼左上，要指定原比例並置中（Figma 12 × 6.67）
-        background-position: center;
-        background-size: 12px 6.67px;
+        // UnoCSS 的圖示是「遮罩」，尺寸要用 mask-size 控制——background-size 對遮罩沒有作用。
+        // ⚠️ 2026-09-11 踩過：svg 的 fill 從寫死色改成 currentColor 後，
+        //    UnoCSS 會從 background-image 模式切成 mask 模式，原本的 background-size 就失效，
+        //    圖示被 mask-size: 100% 100% 拉滿整個框 → 又大又變形。
+        // 框維持 Figma 的 20 × 20（點擊區），圖維持 12 × 6.67 並置中。
+        mask-position: center;
+        mask-size: 12px 6.67px;
 
         transition: transform 0.25s;
 
