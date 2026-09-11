@@ -1,6 +1,7 @@
 <template>
     <button
         class="base-button"
+        :class="[`base-button--${size}`, `base-button--${variant}`]"
         :disabled="disabled"
         :type="type"
     >
@@ -10,32 +11,37 @@
 
 <script setup lang="ts">
 // Define props, models and emits
+// size 對應 Figma 的兩種尺寸（btn/default 與 btn/Large），
+// variant 對應 Figma 的顏色選項（btn 屬性：預設藍／次要白／強調橘）。
+// 這裡用開關（而不是傳值）是因為設計系統就只有這幾種，不會冒出第四種；
+// 彈窗高度那種「值有無限多可能」的才用 prop 傳數字（見 Base/Modal.vue）
 withDefaults(
     defineProps<{
         disabled?: boolean;
+        size?: 'default' | 'large';
         type?: 'button' | 'submit';
+        variant?: 'highlight' | 'primary' | 'secondary';
     }>(),
     {
         disabled: false,
+        size: 'default',
         type: 'button',
+        variant: 'primary',
     },
 );
 </script>
 
 <style scoped lang="scss">
-// Figma btn/default：200 x 46、圓角 full、左右內距 28
-// 文字 18 / 500 / 白 + 3px 深藍描邊（跟「加載更多」同一組）
+// Figma btn/default：H5 150 x 40 / 16、PC 200 x 46 / 18
+// Figma btn/Large  ：H5 150 x 46 / 20、PC 200 x 59 / 22
+// 尺寸寫在這裡，用的人不用一顆一顆覆寫（她 2026-09-11 問到才發現原本漏了 H5）
 .base-button {
     cursor: pointer;
 
-    width: 200px;
     max-width: 100%;
-    height: 46px;
-    padding: 0 28px;
     border: 0;
     border-radius: var(--corner-full);
 
-    font-size: 18px;
     font-weight: 500;
     line-height: 100%;
     color: var(--color-neutral-10);
@@ -43,12 +49,45 @@ withDefaults(
     // 等同 Figma 的 Outer 描邊：先描邊再填字，筆畫才不會被吃掉
     paint-order: stroke fill;
 
-    background: var(--bg-button-primary);
     box-shadow: var(--shadow-btn);
 
     transition: box-shadow 0.25s ease;
 
-    -webkit-text-stroke: 3px var(--color-navy-50);
+    // Figma btn 屬性：預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
+    // 文字描邊每種不一樣：藍的粗描邊（跟首頁「加載更多」同一組），白與橘是細的黑框
+    &--primary {
+        background: var(--bg-button-primary);
+
+        -webkit-text-stroke: 3px var(--color-navy-50);
+    }
+
+    // 白底但文字仍是白的，靠黑色描邊撐出可讀性（她 2026-09-11 指定 2px 黑 70%）
+    &--secondary {
+        color: var(--color-neutral-10);
+        background: var(--bg-button-secondary);
+
+        -webkit-text-stroke: 2px var(--color-black-70);
+    }
+
+    &--highlight {
+        background: var(--bg-button-highlight);
+
+        -webkit-text-stroke: 1px var(--color-black-50);
+    }
+
+    &--default {
+        width: 150px;
+        height: 40px;
+        padding: 0 28px;
+        font-size: 16px;
+    }
+
+    &--large {
+        width: 150px;
+        height: 46px;
+        padding: 0 28px;
+        font-size: 20px;
+    }
 
     // Figma button/Default/Disabled：還不能按的時候
     &:disabled {
@@ -61,6 +100,21 @@ withDefaults(
     @media (hover: hover) {
         &:hover:not(:disabled) {
             box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        }
+    }
+
+    @media (width >= 600px) {
+        &--default {
+            width: 200px;
+            height: 46px;
+            font-size: 18px;
+        }
+
+        &--large {
+            width: 200px;
+            height: 59px;
+            padding: 0 32px;
+            font-size: 22px;
         }
     }
 }

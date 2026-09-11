@@ -97,6 +97,12 @@
             </div>
         </main>
     </div>
+
+    <!-- 遊戲介紹彈窗：從遊戲卡上的 ⓘ 打開，掛在頁面上而不是卡片裡 -->
+    <LayoutGameDetail
+        v-if="openedGame"
+        :game="openedGame"
+    />
 </template>
 
 <script setup lang="ts">
@@ -105,6 +111,7 @@ import type { GameCategoryFilter } from '@/types/game';
 // Composables
 // 這裡要在 script 裡拿翻譯（模板用 $t 就好，不必宣告）
 const { t } = useI18n();
+const { openedGame } = useGameDetail();
 // Variables
 // 第一顆 ALL 是「不篩選」，等於清除鍵；後面三顆是遊戲卡片上的標籤
 const filterOptions = [

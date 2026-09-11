@@ -1,5 +1,13 @@
 <template>
-    <article class="game-card">
+    <article
+        :aria-label="$t('lobby.detail.open', { name: game.name })"
+        class="game-card"
+        role="button"
+        tabindex="0"
+        @click="openGameDetail(game)"
+        @keydown.enter="openGameDetail(game)"
+        @keydown.space.prevent="openGameDetail(game)"
+    >
         <!-- 大圖區：正方形，比下方玻璃塊窄一點（Figma 360 : 390） -->
         <div class="game-card__media">
             <img
@@ -13,14 +21,11 @@
                 v-if="game.tags.length"
                 class="game-card__tags"
             >
-                <span
+                <BaseTag
                     v-for="tag in game.tags"
                     :key="tag"
-                    class="game-card__tag"
-                    :class="`game-card__tag--${tag.toLowerCase()}`"
-                >
-                    {{ tag }}
-                </span>
+                    :type="tag"
+                />
             </div>
         </div>
 
@@ -82,6 +87,9 @@ import type { Game } from '@/types/game';
 // Define props, models and emits
 const props = defineProps<{ game: Game }>();
 
+// Variables
+const { openGameDetail } = useGameDetail();
+
 // Computed properties
 // 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣）；箭頭用 i-sp-trend-up / i-sp-trend-down
 const rtpClass = computed(() => ({
@@ -129,8 +137,15 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 }
 
 .game-card {
+    cursor: pointer;
     position: relative;
     container-type: inline-size; // 讓內部能用 cqw（卡片寬度的百分比）當單位
+
+    // 整張卡片可點（開遊戲介紹）。鍵盤操作時的焦點框換成設計裡的藍
+    &:focus-visible {
+        outline: 2px solid var(--color-primary-60);
+        outline-offset: 4px;
+    }
 
     // 高度不鎖死，由內容撐開（玻璃塊文字變多時往下長，不會蓋住圖片）
 
@@ -167,38 +182,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         display: flex;
         gap: 4px;
-    }
-
-    &__tag {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-
-        padding: var(--corner-1) var(--corner-2);
-        border: 1px solid var(--color-primary-10);
-        border-radius: var(--corner-3) 0;
-
-        font-size: 14px; // 手機 14、電腦 16（見下方 media query）
-        font-weight: 700;
-        color: var(--color-primary-10);
-        text-shadow: 0 1px 0 var(--color-black-50);
-
-        box-shadow:
-            0 0 10px 0 var(--color-black-80),
-            0 -2px 0 0 var(--color-black-25) inset;
-
-        &--new {
-            background: linear-gradient(90deg, var(--color-green-20) 0%, var(--color-green-30) 100%);
-        }
-
-        &--hot {
-            background: linear-gradient(90deg, var(--color-red-20) 0%, var(--color-red-30) 100%);
-        }
-
-        &--high {
-            background: linear-gradient(90deg, var(--color-yellow-20) 0%, var(--color-yellow-30) 100%);
-        }
     }
 
     // 玻璃塊：貼齊卡片底部，高度佔卡片固定比例（Figma 154/451 ≈ 34%）
@@ -288,6 +271,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         white-space: nowrap;
     }
 
+    // 只是提示圖示，不是按鈕——整張卡片都能點（她 2026-09-11 指定）
     &__i {
         flex-shrink: 0;
         width: 16px;
@@ -449,10 +433,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 電腦版
     @media (width >= 960px) {
-        &__tag {
-            font-size: 16px;
-        }
-
         &__thumb {
             display: block;
         }
