@@ -2,27 +2,35 @@
 :root {
     // 主色 Primary
     --color-primary-10: #fff;
-    --color-primary-20: #c4dbff;
     --color-primary-30: #8f9bad;
     --color-primary-40: #697b96;
     --color-primary-50: #6086c1; // 打勾底色漸層的起點（Figma Color/Primary/50）
-    // 這兩階要拿來疊透明度（漸層、半透明底），所以多存一份「只有數字」的版本。
+    // 這幾階要拿來疊透明度（漸層、半透明底），所以多存一份「只有數字」的版本。
     // CSS 沒辦法把 #68a4ff 直接加透明度，但 rgb(R G B / 30%) 可以。
-    // 換主題時只要改這兩行，所有用到的漸層自動跟著變。
+    // 換主題時只要改這幾行，所有用到的漸層自動跟著變。
+    --color-primary-20-rgb: 196 219 255; // #c4dbff
     --color-primary-60-rgb: 104 164 255; // #68a4ff
+    --color-primary-70-rgb: 79 116 240; // #4f74f0
     --color-primary-90-rgb: 15 23 35; // #0f1723
+    --color-primary-20: rgb(var(--color-primary-20-rgb));
     --color-primary-60: rgb(var(--color-primary-60-rgb));
+    --color-primary-70: rgb(var(--color-primary-70-rgb)); // 客服紀錄卡片（Figma Color/Primary/70）
     --color-primary-80: #2752ff; // 打勾底色漸層的終點（Figma Color/Primary/80）
     --color-primary-90: rgb(var(--color-primary-90-rgb));
 
     // 中性色 Neutral
     --color-neutral-10: #fff; // Figma Color/Neutral/10（值同 primary-10，但 Figma 分成兩個代號）
-    --color-neutral-30: #d9d9d9; // ⚠️ 來自設計規格 md「文字色(輔助)」，Figma 未確認
+    --color-neutral-20: #d9d9d9; // 紀錄卡片的描述文字（Figma Color/Neutral/20）
+    --color-neutral-30: #bfbfbf; // 分頁 tab 的文字（Figma Color/Neutral/30）
+    --color-neutral-40: #a6a6a6; // 分頁未選中的數字、分頁外框（Figma Color/Neutral/40）
+    --color-neutral-50: #8c8c8c; // 按鈕不能按時的文字（Figma Color/Neutral/50）
+    --color-neutral-60: #737373; // 分頁走到頭、箭頭轉灰（Figma Color/Neutral/60）
     --color-neutral-80: #404040;
 
     // 黑 Black — Figma Color/Black/xx，數字是不透明度
     --color-black-25: rgb(0 0 0 / 25%);
     --color-black-50: rgb(0 0 0 / 50%);
+    --color-black-70: rgb(0 0 0 / 70%);
     --color-black-80: rgb(0 0 0 / 80%);
 
     // 深藍 — 加載更多按鈕的文字描邊（她 2026-09-09 指定）
@@ -30,7 +38,6 @@
 
     // 強調色 Accent — ⚠️ 來自設計規格 md，Figma 未確認
     --color-accent-orange: #ff9d2e;
-    --color-accent-blue: #4f74f0;
 
     // 邊框 / 面板 — ⚠️ 暫定，等 Header / 篩選列的 Figma 規格
     --color-border-soft: rgb(255 255 255 / 12%);
@@ -51,13 +58,18 @@
     --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
     --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
     --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
+    --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、分頁箭頭鈕的底
+    --color-primary-opacity-7020: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
+    --color-primary-opacity-7050: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
 
     // 語意色 Semantic（紅＝漲、綠＝跌）
+    --color-red-10: #ffb0b0; // 遊戲類型標籤的字與框（Figma Color/Semantic/red-10）
     --color-red-20: #ff4141;
     --color-red-30: #8f2424;
     --color-green-20: #21b83f;
     --color-green-30: #1b7e2f;
-    --color-yellow-20: #ff9d2e;
+    --color-yellow-20-rgb: 255 157 46; // #ff9d2e，「立即遊玩」漸層要疊透明度
+    --color-yellow-20: rgb(var(--color-yellow-20-rgb));
     --color-yellow-30: #8c510f;
     --color-red-opacity-2060: rgb(255 65 65 / 60%);
     --color-red-opacity-2020: rgb(255 65 65 / 20%);
@@ -156,11 +168,31 @@
         -1px -1px 1px 0 rgb(255 255 255 / 50%) inset, 1px 1px 1px 0 rgb(255 255 255 / 80%) inset,
         -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
 
+    // 次要按鈕「上一頁」（Figma button/Default/Secondary）：白 50% → 白 100%
+    // 陰影跟主要按鈕同一組（--shadow-btn），Figma 兩者的四層完全一樣
+    --bg-button-secondary: linear-gradient(180deg, var(--color-white-50) 0%, var(--color-primary-10) 100%);
+
+    // 主要動作按鈕「立即遊玩」（Figma button/Default/Highlight）：橘 50% → 橘 100%
+    --bg-button-highlight: linear-gradient(
+        180deg,
+        rgb(var(--color-yellow-20-rgb) / 50%) 0%,
+        var(--color-yellow-20) 100%
+    );
+
+    // 客服紀錄卡片（Figma PC/form）：Primary/70 半透明底 + 一道往下 4px 的同色淡影
+    --bg-support-card: var(--color-primary-opacity-7050);
+    --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-7020);
+
     // Logo：用 CSS 換圖而不是 JS。server 不知道使用者選哪個主題，
     // 用 JS 判斷會讓 server 與瀏覽器渲染出不同的圖（hydration mismatch）。
     // 交給 CSS 就沒這問題，而且只會下載真正用到的那一張。
     --logo-h5: url('@/assets/images/logo/h5-dark.png');
     --logo-pc: url('@/assets/images/logo/pc-dark.png');
+
+    // 捲軸（她 2026-09-11 要求換掉瀏覽器預設的灰色）
+    --color-scrollbar-track: rgb(var(--color-primary-90-rgb) / 60%);
+    --color-scrollbar-thumb: rgb(var(--color-primary-60-rgb) / 40%);
+    --color-scrollbar-thumb-hover: rgb(var(--color-primary-60-rgb) / 80%);
 
     // 背景
     --bg-page: #0f1723;
@@ -181,13 +213,14 @@
 
 // 淺色主題（Figma Modes → Light，她 2026-09-10 提供 18 張 Inspect）
 // 只覆寫「真的不一樣」的；其餘（白、黑、陰影、圓角、語意色）兩個主題共用。
-// ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/30・80、分隔線、彈窗、確認按鈕、
-//    標籤色（NEW/HOT/HIGH）、RTP 漲跌紅綠、--bg-list-hover、--bg-page-glow。
-//    這些先沿用深色的值，畫到那裡再跟她要。
+// ✅ 標籤色（NEW/HOT/HIGH）與 RTP 漲跌紅綠：她 2026-09-11 定案「兩個主題一樣」，
+//    所以刻意不覆寫。標籤的字與框用 --color-neutral-10（淺色不覆寫），不要用 primary-10。
+// ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/20・30・40・50・60・80、分隔線、
+//    彈窗、確認按鈕、--bg-list-hover、--bg-page-glow。先沿用深色的值，畫到那裡再跟她要。
 [data-theme='light'] {
     // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
     --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
-    --color-primary-20: #4e5f98; // 重整 icon、箭頭、分類選中的底線
+    --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
     --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
     --color-primary-60-rgb: 53 111 220; // #356fdc
     --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
@@ -244,4 +277,55 @@ body::before {
     opacity: 0.3;
     background: var(--bg-page-glow);
     filter: blur(75px);
+}
+
+// 捲軸：預設的灰色滾輪跟這個站格格不入，換成細長的藍色藥丸
+// 顏色走 primary-60，換淺色主題時會自動跟著變（那階有覆寫）
+// ⚠️ 兩套寫法不能同時下（2026-09-11 實測）：
+//    Chrome 只要看到標準的 scrollbar-width / scrollbar-color，
+//    就會整組忽略 ::-webkit-scrollbar，圓角與寬度全都調不動（量到 10px 而不是 6px）。
+//    所以用 @supports 把兩套分開：認得 ::-webkit-scrollbar 的（Chrome / Safari / Edge）
+//    走下面那組細節版；不認得的（Firefox）才吃標準版。
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+        scrollbar-width: thin;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+// 軌道：很淡的一條凹槽，讓人知道「這裡可以捲」，但不搶戲
+::-webkit-scrollbar-track {
+    border-radius: var(--corner-full);
+    background: var(--color-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: var(--corner-full);
+    background: var(--color-scrollbar-thumb);
+    transition: background-color 0.2s;
+}
+
+// 只有真的有滑鼠的裝置才做 hover
+@media (hover: hover) {
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-scrollbar-thumb-hover);
+    }
+}
+
+// 兩條軌道交會的那個小方塊，不畫東西才不會出現一塊灰色
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// 電腦：滑鼠比手指精準，可以做粗一點好抓
+@media (width >= 960px) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 }
