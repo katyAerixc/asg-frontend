@@ -56,6 +56,9 @@
     // 變更頭像彈窗的標題分隔線（Figma line/line）：兩端透明、中間白 50%
     // 跟 --line-divider 不同——那條是 50→90→50，這條是 0→50→0
     --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
+
+    // 多行輸入框右上角的 ✕（清除鈕）：深色白，淺色另外覆寫
+    --color-input-clear: var(--color-primary-10);
     --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
     --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
     --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、分頁箭頭鈕的底
@@ -250,6 +253,7 @@
     --color-button-primary-rgb: 104 164 255; // #68a4ff
     --border-button-primary: none;
     --text-stroke-button-primary: 1px var(--color-black-50);
+    --color-input-clear: var(--color-primary-40); // 問題描述的 ✕，她 2026-09-14 提供
 
     // 遊戲卡滑入：淺色不長框（Primary/10 在淺色是深藍，會變成一圈深框像陰影），
     // 改成柔光暈（她 2026-09-14 從三個候選裡選的 B，再調成右下小範圍）。
