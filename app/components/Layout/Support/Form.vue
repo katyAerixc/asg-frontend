@@ -68,8 +68,11 @@ import {
     ISSUE_TYPES,
 } from '@/libs/support';
 
+const supportStore = useSupportStore();
+
 // State
-const issueType = ref<null | string>(null);
+// 從「再次提問」過來會先選好類型；一般打開是 null
+const issueType = ref<null | string>(supportStore.takePresetIssueType());
 const description = ref('');
 const attachment = ref<File | null>(null);
 

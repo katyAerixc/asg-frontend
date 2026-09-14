@@ -32,6 +32,12 @@ export const ISSUE_TYPES: IssueType[] = [
     },
 ];
 
+// 紀錄存的是翻譯 key（support.issueType.billing），下拉選單要的是 value（billing），這裡換算
+// 「再次提問」回到提交問題時用來先選好類型
+export function toIssueTypeValue(labelKey: string) {
+    return ISSUE_TYPES.find((item) => item.labelKey === labelKey)?.value ?? null;
+}
+
 // 卡片與單筆內容只顯示短標籤（「帳務問題」），下拉選單才顯示完整說明。
 // 🚨 不要拿翻譯後的文字去切分隔符號——中日韓用全形「｜」，英泰越用半形「-」，
 //    切不到就會把整句說明塞進卡片（2026-09-14 修）。key 是我們自己的，換算才穩。

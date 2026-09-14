@@ -39,7 +39,7 @@
                     {{ $t('support.back') }}
                 </BaseButton>
 
-                <BaseButton>
+                <BaseButton @click="askAgain(toIssueTypeValue(record.issueTypeKey))">
                     {{ $t('support.askAgain') }}
                 </BaseButton>
             </div>
@@ -52,13 +52,19 @@
 </template>
 
 <script setup lang="ts">
-import { toShortIssueKey } from '@/libs/support';
+import {
+    toIssueTypeValue,
+    toShortIssueKey,
+} from '@/libs/support';
 import type { SupportRecord } from '@/types/support';
 
 // Define props, models and emits
 defineProps<{ record: SupportRecord }>();
 
-const { closeRecord } = useSupportStore();
+const {
+    askAgain,
+    closeRecord,
+} = useSupportStore();
 </script>
 
 <style scoped lang="scss">
