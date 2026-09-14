@@ -52,10 +52,13 @@
 </template>
 
 <script setup lang="ts">
+import { toShortIssueKey } from '@/libs/support';
+import type { SupportRecord } from '@/types/support';
+
 // Define props, models and emits
 defineProps<{ record: SupportRecord }>();
 
-const { closeRecord } = useSupport();
+const { closeRecord } = useSupportStore();
 </script>
 
 <style scoped lang="scss">

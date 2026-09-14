@@ -88,7 +88,7 @@ import type { Game } from '@/types/game';
 defineProps<{ game: Game }>();
 
 // Variables
-const { openGameDetail } = useGameDetail();
+const { open: openGameDetail } = useGameDetailStore();
 </script>
 
 <style scoped lang="scss">

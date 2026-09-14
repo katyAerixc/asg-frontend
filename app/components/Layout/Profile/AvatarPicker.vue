@@ -46,14 +46,15 @@
 
 <script setup lang="ts">
 // Emits
+import { AVATARS } from '@/stores/user';
+
 const emit = defineEmits<{ close: [] }>();
 
-// Composables
-const {
-    avatars,
-    currentId,
-    selectAvatar,
-} = useAvatar();
+// Store
+const userStore = useUserStore();
+const { currentAvatarId: currentId } = storeToRefs(userStore);
+const { selectAvatar } = userStore;
+const avatars = AVATARS;
 
 // State
 // 點選只先記在這裡，按了「確認」才真的換掉——中途關掉彈窗等於放棄

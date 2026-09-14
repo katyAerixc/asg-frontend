@@ -60,6 +60,13 @@
 </template>
 
 <script setup lang="ts">
+import {
+    ATTACHMENT_ACCEPT,
+    ATTACHMENT_MAX_BYTES,
+    DESCRIPTION_MAX_LENGTH,
+    ISSUE_TYPES,
+} from '@/libs/support';
+
 // State
 const issueType = ref<null | string>(null);
 const description = ref('');

@@ -48,19 +48,21 @@
 </template>
 
 <script setup lang="ts">
+import type { SupportTab } from '@/types/support';
+
 // Variables
 const TABS: SupportTab[] = [
     'form',
     'history',
 ];
 
+const supportStore = useSupportStore();
 const {
     activeTab,
-    closeSupport,
     hasUnreadReply,
     openedRecord,
-    switchTab,
-} = useSupport();
+} = storeToRefs(supportStore);
+const { close: closeSupport, switchTab } = supportStore;
 </script>
 
 <style scoped lang="scss">

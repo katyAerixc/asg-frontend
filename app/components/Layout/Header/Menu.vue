@@ -6,7 +6,7 @@
                 :aria-label="$t('header.menu.changeAvatar')"
                 class="header-menu__avatar"
                 type="button"
-                @click="openPicker"
+                @click="openAvatarPicker"
             >
                 <img
                     alt=""
@@ -166,16 +166,17 @@ const FLAGS: Record<string, string> = {
 
 const isLangOpen = ref(false);
 
-// 主題與語系的狀態放在 composable，全站共用同一份
+// 主題與語系只是包套件，留在 composable；使用者與客服的狀態在 store，全站同一份
 const { applyTheme, theme } = useTheme();
-const { currentAvatar, openPicker } = useAvatar();
+const { applyLocale, locale } = useLocale();
+const userStore = useUserStore();
 const {
     account,
+    currentAvatar,
     nickname,
-    openNicknameEditor,
-} = useProfile();
-const { applyLocale, locale } = useLocale();
-const { openSupport } = useSupport();
+} = storeToRefs(userStore);
+const { openAvatarPicker, openNicknameEditor } = userStore;
+const { open: openSupport } = useSupportStore();
 const { locales } = useI18n();
 
 // Computed properties

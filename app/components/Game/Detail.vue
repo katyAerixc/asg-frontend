@@ -83,7 +83,7 @@ import type { Game } from '@/types/game';
 defineProps<{ game: Game }>();
 
 // Variables
-const { closeGameDetail } = useGameDetail();
+const { close: closeGameDetail } = useGameDetailStore();
 
 // Functions
 // ⚠️ 遊戲畫面那一頁還沒做，先只把彈窗關掉（她 2026-09-11：點了要跳到遊戲畫面）

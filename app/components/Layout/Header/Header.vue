@@ -61,8 +61,8 @@
 
     <!-- 變更頭像彈窗：掛在 Header 上而不是選單裡，選單收起來時彈窗才不會一起不見 -->
     <LayoutProfileAvatarPicker
-        v-if="isPickerOpen"
-        @close="closePicker"
+        v-if="isAvatarPickerOpen"
+        @close="closeAvatarPicker"
     />
 
     <!-- 變更暱稱彈窗：同樣掛在 Header 上，選單收起來也不會跟著不見 -->
@@ -83,16 +83,15 @@ const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000
 const menuRef = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
 
+// 狀態在 store（全站同一份）；解構要經過 storeToRefs 才保得住反應性，函式直接拿
+const userStore = useUserStore();
 const {
-    closePicker,
     currentAvatar,
-    isPickerOpen,
-} = useAvatar();
-const {
-    closeNicknameEditor,
+    isAvatarPickerOpen,
     isNicknameEditorOpen,
-} = useProfile();
-const { isSupportOpen } = useSupport();
+} = storeToRefs(userStore);
+const { closeAvatarPicker, closeNicknameEditor } = userStore;
+const { isOpen: isSupportOpen } = storeToRefs(useSupportStore());
 
 // Computed properties
 // 千位逗號：100000000 → 100,000,000

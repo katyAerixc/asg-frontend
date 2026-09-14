@@ -47,12 +47,15 @@
 </template>
 
 <script setup lang="ts">
+import { toShortIssueKey } from '@/libs/support';
+
+const supportStore = useSupportStore();
 const {
     currentPage,
-    openRecord,
     pagedRecords,
     totalPages,
-} = useSupport();
+} = storeToRefs(supportStore);
+const { openRecord } = supportStore;
 </script>
 
 <style scoped lang="scss">

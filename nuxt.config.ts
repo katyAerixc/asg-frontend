@@ -108,6 +108,7 @@ export default defineNuxtConfig({
         '@kikiutils/nuxt',
         '@nuxtjs/color-mode',
         '@nuxtjs/i18n',
+        '@pinia/nuxt',
     ],
     nitro: {
         preset: process.env.NITRO_PRESET || 'node-cluster',

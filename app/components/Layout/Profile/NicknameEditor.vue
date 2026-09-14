@@ -52,8 +52,10 @@
 // Emits
 const emit = defineEmits<{ close: [] }>();
 
-// Composables
-const { nickname, updateNickname } = useProfile();
+// Store
+const userStore = useUserStore();
+const { nickname } = storeToRefs(userStore);
+const { updateNickname } = userStore;
 
 // State
 // 先改在草稿上，按了「確認」才真的存——中途關掉等於放棄
