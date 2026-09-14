@@ -6,7 +6,7 @@
                 {{ record.createdAt }}
             </p>
             <h3 class="support-detail__type">
-                {{ $t(record.issueTypeKey).split('｜')[0] }}
+                {{ $t(toShortIssueKey(record.issueTypeKey)) }}
             </h3>
             <p class="support-detail__text">
                 {{ record.description }}

@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "Issue Type",
     "issueTypePlaceholder": "Select issue type",
+    "issueTypeShort": {
+      "account": "Account & Security",
+      "billing": "Billing",
+      "feedback": "Feedback & Report",
+      "gameError": "Game Error",
+      "gameInfo": "Game Info",
+      "other": "Other"
+    },
     "remove": "Delete",
     "reply": "Support Reply",
     "status": {

@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "问题类型",
     "issueTypePlaceholder": "请选择问题类型",
+    "issueTypeShort": {
+      "account": "账号与安全",
+      "billing": "账务问题",
+      "feedback": "反馈与举报",
+      "gameError": "游戏异常",
+      "gameInfo": "游戏相关",
+      "other": "其他"
+    },
     "remove": "删除",
     "reply": "客服回复",
     "status": {

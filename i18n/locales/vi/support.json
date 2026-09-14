@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "Loại vấn đề",
     "issueTypePlaceholder": "Vui lòng chọn loại vấn đề",
+    "issueTypeShort": {
+      "account": "Tài khoản & Bảo mật",
+      "billing": "Tài chính",
+      "feedback": "Phản hồi & Tố cáo",
+      "gameError": "Lỗi game",
+      "gameInfo": "Thông tin game",
+      "other": "Khác"
+    },
     "remove": "Xóa",
     "reply": "Phản hồi CSKH",
     "status": {

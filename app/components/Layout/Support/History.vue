@@ -30,7 +30,7 @@
                     </span>
 
                     <span class="support-history__summary">
-                        <span class="support-history__type">{{ $t(record.issueTypeKey).split('｜')[0] }}</span>
+                        <span class="support-history__type">{{ $t(toShortIssueKey(record.issueTypeKey)) }}</span>
                         <span class="support-history__text">{{ record.description }}</span>
                     </span>
                 </button>

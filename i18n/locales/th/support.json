@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "ประเภทปัญหา",
     "issueTypePlaceholder": "เลือกประเภทปัญหา",
+    "issueTypeShort": {
+      "account": "บัญชีและความปลอดภัย",
+      "billing": "ปัญหาการเงิน",
+      "feedback": "ข้อเสนอแนะและรายงาน",
+      "gameError": "เกมผิดปกติ",
+      "gameInfo": "ข้อมูลเกม",
+      "other": "อื่นๆ"
+    },
     "remove": "ลบ",
     "reply": "คำตอบจากทีมงาน",
     "status": {

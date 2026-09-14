@@ -55,6 +55,13 @@ export const ISSUE_TYPES: IssueType[] = [
     },
 ];
 
+// 卡片與單筆內容只顯示短標籤（「帳務問題」），下拉選單才顯示完整說明。
+// 🚨 不要拿翻譯後的文字去切分隔符號——中日韓用全形「｜」，英泰越用半形「-」，
+//    切不到就會把整句說明塞進卡片（2026-09-14 修）。key 是我們自己的，換算才穩。
+export function toShortIssueKey(labelKey: string) {
+    return labelKey.replace('.issueType.', '.issueTypeShort.');
+}
+
 // 描述字數上限、附件限制（她 2026-09-10 指定：JPG / JPEG / PNG，15MB 以內）
 export const DESCRIPTION_MAX_LENGTH = 500;
 export const ATTACHMENT_ACCEPT = 'image/jpeg,image/png';
@@ -128,9 +135,11 @@ export function useSupport() {
         openedRecordId.value = id;
     }
 
-    // 每次重新打開都回到「提交問題」，跟關掉前停在哪無關
+    // 每次重新打開都回到「提交問題」第一頁，跟關掉前停在哪無關。
+    // 分頁一定要歸位：接 API 後筆數變少時，停在舊頁碼會看到空白列表而且退不回去
     function openSupport() {
         activeTab.value = 'form';
+        currentPage.value = 1;
         openedRecordId.value = null;
         isSupportOpen.value = true;
     }

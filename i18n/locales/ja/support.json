@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "お問い合わせ種別",
     "issueTypePlaceholder": "種別を選択してください",
+    "issueTypeShort": {
+      "account": "アカウントとセキュリティ",
+      "billing": "財務",
+      "feedback": "フィードバックと通報",
+      "gameError": "ゲームエラー",
+      "gameInfo": "ゲーム関連",
+      "other": "その他"
+    },
     "remove": "削除",
     "reply": "サポートからの回答",
     "status": {

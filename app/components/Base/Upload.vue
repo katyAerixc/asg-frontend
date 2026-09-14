@@ -78,9 +78,17 @@ function clear() {
     revokePreview();
     errorKey.value = null;
     modelValue.value = null;
+    resetInput();
+}
 
-    // 同一個檔案再選一次也要能觸發 change，所以把輸入框的值清掉
-    if (inputRef.value) inputRef.value.value = '';
+// accept 寫法不只一種：可能有逗號後空格，也可能寫 image/* 這種萬用字元，
+// 所以不能直接用 includes 比字面（比不到就把合法圖全擋掉）
+function isAccepted(type: string) {
+    return props.accept
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .some((item) => item.endsWith('/*') ? type.startsWith(item.slice(0, -1)) : item === type);
 }
 
 function onChange(event: Event) {
@@ -90,15 +98,16 @@ function onChange(event: Event) {
 
     // 兩道關卡：格式與大小。任一不過就不收，說明那行變紅字告訴她原因。
     // accept 只是讓檔案總管預設篩選，使用者切成「所有檔案」還是選得到，所以這裡要自己再擋一次
-    if (!props.accept.split(',').includes(file.type)) {
-        clear();
+    // ⚠️ 擋下來時只還原輸入框，不要呼叫 clear()——那會把先前選好的合法檔案一起丟掉
+    if (!isAccepted(file.type)) {
+        resetInput();
         errorKey.value = 'support.attachmentWrongType';
 
         return;
     }
 
     if (file.size > props.maxBytes) {
-        clear();
+        resetInput();
         errorKey.value = 'support.attachmentTooLarge';
 
         return;
@@ -114,6 +123,11 @@ function openPicker() {
     inputRef.value?.click();
 }
 
+// 同一個檔案再選一次也要能觸發 change，所以把輸入框的值清掉
+function resetInput() {
+    if (inputRef.value) inputRef.value.value = '';
+}
+
 // 縮圖網址是瀏覽器臨時發的，換檔或離開時要自己收回來，不然記憶體會一直長
 function revokePreview() {
     if (!previewUrl.value) return;
@@ -123,6 +137,15 @@ function revokePreview() {
 }
 
 // Hooks
+// 父層送出表單後會把 v-model 設回 null。這支自己留著 previewUrl，
+// 不看著它就會「描述清空了、縮圖還在」，而且那個 blob 網址也沒被收回（2026-09-14 修）
+watch(modelValue, (value) => {
+    if (!value) {
+        revokePreview();
+        resetInput();
+    }
+});
+
 onUnmounted(revokePreview);
 </script>
 

@@ -19,6 +19,14 @@
     },
     "issueTypeLabel": "問題類型",
     "issueTypePlaceholder": "請選擇問題類型",
+    "issueTypeShort": {
+      "account": "帳號與安全",
+      "billing": "帳務問題",
+      "feedback": "反饋與檢舉",
+      "gameError": "遊戲異常",
+      "gameInfo": "遊戲相關",
+      "other": "其他"
+    },
     "remove": "刪除",
     "reply": "客服回覆",
     "status": {
