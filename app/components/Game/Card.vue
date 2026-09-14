@@ -18,7 +18,7 @@
                 v-if="game.tags.length"
                 class="game-card__tags"
             >
-                <BaseTag
+                <GameTag
                     v-for="tag in game.tags"
                     :key="tag"
                     :type="tag"

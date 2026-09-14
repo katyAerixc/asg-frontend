@@ -1,7 +1,7 @@
 <template>
     <span
-        class="base-tag"
-        :class="`base-tag--${type.toLowerCase()}`"
+        class="game-tag"
+        :class="`game-tag--${type.toLowerCase()}`"
     >
         {{ type }}
     </span>
@@ -16,7 +16,7 @@ defineProps<{ type: string }>();
 <style scoped lang="scss">
 // Figma：內距 Corner-1／Corner-2、1px 白框、左上與右下 Corner-3（另外兩角是直角）
 // 遊戲卡與遊戲介紹彈窗共用同一顆（2026-09-11 確認兩邊規格完全一樣）
-.base-tag {
+.game-tag {
     display: flex;
     gap: 10px;
     align-items: center;

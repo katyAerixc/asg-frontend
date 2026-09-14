@@ -12,7 +12,7 @@
             :class="{ 'lobby__toolbar--stuck': isStuck }"
         >
             <div class="lobby__toolbar-inner">
-                <CategoryFilter
+                <GameCategoryFilter
                     :active-category="activeCategory"
                     @update:active-category="activeCategory = $event"
                 />
@@ -80,7 +80,7 @@
 
             <!-- 遊戲卡片網格：手機 2 欄、電腦 3 欄（照設計規格） -->
             <section class="lobby__grid">
-                <LayoutGameCard
+                <GameCard
                     v-for="game in visibleGames"
                     :key="game.id"
                     :game="game"
@@ -104,7 +104,7 @@
     </div>
 
     <!-- 遊戲介紹彈窗：從遊戲卡上的 ⓘ 打開，掛在頁面上而不是卡片裡 -->
-    <LayoutGameDetail
+    <GameDetail
         v-if="openedGame"
         :game="openedGame"
     />
