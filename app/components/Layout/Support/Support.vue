@@ -57,12 +57,11 @@ const TABS: SupportTab[] = [
 ];
 
 const supportStore = useSupportStore();
-const {
-    activeTab,
-    hasUnreadReply,
-    openedRecord,
-} = storeToRefs(supportStore);
+const { activeTab } = storeToRefs(supportStore);
 const { close: closeSupport, switchTab } = supportStore;
+
+// 紀錄是後端資料，從 useAsyncData 來；紅點與開著的那筆都由它算
+const { hasUnreadReply, openedRecord } = useSupportRecords();
 </script>
 
 <style scoped lang="scss">

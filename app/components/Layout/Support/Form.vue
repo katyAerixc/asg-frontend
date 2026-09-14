@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { submitSupportTicket } from '@/libs/api/support';
 import {
     ATTACHMENT_ACCEPT,
     ATTACHMENT_MAX_BYTES,
@@ -71,6 +72,9 @@ import {
 const issueType = ref<null | string>(null);
 const description = ref('');
 const attachment = ref<File | null>(null);
+
+// 送出中：擋連點，按鈕也跟著變灰
+const isSubmitting = ref(false);
 
 // 同頁可能開兩個彈窗，label 要指到自己的欄位
 const issueTypeId = `support-issue-type-${useId()}`;
@@ -85,16 +89,36 @@ const issueTypeOptions = computed(() => ISSUE_TYPES.map((item) => ({
     value: item.value,
 })));
 
-const canSubmit = computed(() => Boolean(issueType.value) && description.value.trim().length > 0);
+const canSubmit = computed(() => {
+    if (isSubmitting.value) return false;
+
+    return Boolean(issueType.value) && description.value.trim().length > 0;
+});
+
+// 送出後重抓紀錄，新提問才會出現在「提問紀錄」
+const { refresh: refreshRecords } = useSupportRecords();
 
 // Functions
-// ⚠️ 還沒有後端，先只清空表單。接 API 時改這裡
-function submit() {
-    if (!canSubmit.value) return;
+// 成功才清表單；失敗保留內容讓使用者重送（錯誤提示等後端規格確定再做）
+async function submit() {
+    if (!canSubmit.value || !issueType.value) return;
 
-    issueType.value = null;
-    description.value = '';
-    attachment.value = null;
+    isSubmitting.value = true;
+
+    try {
+        await submitSupportTicket({
+            attachment: attachment.value,
+            description: description.value.trim(),
+            issueType: issueType.value,
+        });
+
+        issueType.value = null;
+        description.value = '';
+        attachment.value = null;
+        await refreshRecords();
+    } finally {
+        isSubmitting.value = false;
+    }
 }
 </script>
 

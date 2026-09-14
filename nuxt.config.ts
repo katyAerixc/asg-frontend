@@ -118,6 +118,15 @@ export default defineNuxtConfig({
         // ⚠️ dir 必須是絕對路徑，寫相對路徑不會生效
         publicAssets: [{ dir: fileURLToPath(new URL('app/assets/images/favicon', import.meta.url)) }],
     },
+    // 值由 .env 的 NUXT_PUBLIC_* 覆蓋（NUXT_PUBLIC_API_BASE、NUXT_PUBLIC_USE_MOCK）
+    runtimeConfig: {
+        public: {
+            apiBase: '',
+            // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
+            //（.env 檔被 git 守門員擋著，AI 不能 commit，要她自己加）
+            useMock: true,
+        },
+    },
     security: {
         headers: {
             contentSecurityPolicy: {

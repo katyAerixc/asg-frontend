@@ -50,12 +50,19 @@
 import { toShortIssueKey } from '@/libs/support';
 
 const supportStore = useSupportStore();
+const { currentPage } = storeToRefs(supportStore);
+
 const {
-    currentPage,
+    markRead,
     pagedRecords,
     totalPages,
-} = storeToRefs(supportStore);
-const { openRecord } = supportStore;
+} = useSupportRecords();
+
+// 點開一筆：標已讀（紅點滅）＋ 切到單筆畫面
+function openRecord(id: number) {
+    markRead(id);
+    supportStore.openRecord(id);
+}
 </script>
 
 <style scoped lang="scss">

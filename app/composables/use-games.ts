@@ -1,179 +1,21 @@
-import IMG from '@/assets/images/game/products.png';
-import type { Game } from '@/types/game';
-
 /**
  * 遊戲清單資料層
  *
- * 目前回傳假資料；之後接後端時只要改這一支檔案，
- * 頁面與組件都不用動（它們只認 Game 這個格式）。
- *
- * 接 API 時的改法大致是：
- *   const { data, pending, error } = await useFetch<Game[]>('/api/games');
- * 然後把下面的假資料換掉，pending / error 直接往外拋。
+ * 資料從 libs/api/game.ts 來（假的或真的由 .env 的 NUXT_PUBLIC_USE_MOCK 決定，這裡不用知道）。
+ * 頁面與組件只認 Game 這個格式，接後端時它們都不用動。
  */
 
-// 12 筆真實文案（她 2026-09-10 從設計稿提供）；圖片仍共用同一張，等正式素材
-// RTP 依漲跌分配：紅↗ 96.45%、綠↘ 97.10%（截圖上老虎機／棋牌是紅、魚機／小遊戲是綠）
-// category 與 volatility 是英文 id，顯示名在 i18n/locales/*/lobby.json
-const MOCK_GAMES: Game[] = [
-    {
-        category: 'slot',
-        description: '踏入雲上神殿，蒐集翡翠符印，啟動天后祝福與連線獎勵。',
-        id: 1,
-        image: IMG,
-        maxMultiplier: 'x2000',
-        name: '翡翠天后',
-        rtp: '96.45%',
-        rtpTrend: 'up',
-        tags: ['NEW'],
-        volatility: 'high',
-    },
-    {
-        category: 'slot',
-        description: '集滿三枚天印進入寶藏回合，獲得自由旋轉與賠機倍數。',
-        id: 2,
-        image: IMG,
-        maxMultiplier: 'x1200',
-        name: '天宮寶藏',
-        rtp: '96.45%',
-        rtpTrend: null,
-        tags: ['HOT'],
-        volatility: 'midHigh',
-    },
-    {
-        category: 'slot',
-        description: '隨著金元寶連續累積財神加成，解鎖高倍率獎勵回合。',
-        id: 3,
-        image: IMG,
-        maxMultiplier: 'x3000',
-        name: '金曜財神',
-        rtp: '96.45%',
-        rtpTrend: 'up',
-        tags: ['HIGH'],
-        volatility: 'high',
-    },
-    {
-        category: 'fish',
-        description: '以深海寶藏為目標，鎖定巨龍後可開啟限時加成與團隊獎池。',
-        id: 4,
-        image: IMG,
-        maxMultiplier: 'x1500',
-        name: '深海龍王',
-        rtp: '97.10%',
-        rtpTrend: 'down',
-        tags: [
-            'NEW',
-            'HOT',
-        ],
-        volatility: 'midHigh',
-    },
-    {
-        category: 'fish',
-        description: '在移動砲台間切換火力，捕捉高價值魚群與海底首領。',
-        id: 5,
-        image: IMG,
-        maxMultiplier: 'x900',
-        name: '珊瑚戰線',
-        rtp: '97.10%',
-        rtpTrend: null,
-        tags: [],
-        volatility: 'mid',
-    },
-    {
-        category: 'fish',
-        description: '在限時深海關卡鎖定獵物，協作擊破首領並爭取額外分紅。',
-        id: 6,
-        image: IMG,
-        maxMultiplier: 'x1000',
-        name: '深藍獵手',
-        rtp: '97.10%',
-        rtpTrend: 'down',
-        tags: ['HIGH'],
-        volatility: 'midHigh',
-    },
-    {
-        category: 'card',
-        description: '經典麻將節奏結合連莊機制，兼具策略與快速對局的爽感。',
-        id: 7,
-        image: IMG,
-        maxMultiplier: 'x800',
-        name: '赤焰麻將',
-        rtp: '96.45%',
-        rtpTrend: 'up',
-        tags: ['NEW'],
-        volatility: 'mid',
-    },
-    {
-        category: 'card',
-        description: '以手牌布局創造最佳組合，支援快速配桌與好友牌局。',
-        id: 8,
-        image: IMG,
-        maxMultiplier: 'x300',
-        name: '金牌十三張',
-        rtp: '96.45%',
-        rtpTrend: null,
-        tags: [],
-        volatility: 'midLow',
-    },
-    {
-        category: 'card',
-        description: '多種牌型快速配對，支援快速配桌與好友牌局。',
-        id: 9,
-        image: IMG,
-        maxMultiplier: 'x600',
-        name: '百搭撲克',
-        rtp: '96.45%',
-        rtpTrend: 'up',
-        tags: ['HOT'],
-        volatility: 'mid',
-    },
-    {
-        category: 'mini',
-        description: '在倒數結束前選擇撤離時機，穿越星門取得即時倍率。',
-        id: 10,
-        image: IMG,
-        maxMultiplier: 'x10000',
-        name: '星際躍升',
-        rtp: '97.10%',
-        rtpTrend: 'down',
-        tags: [
-            'NEW',
-            'HIGH',
-        ],
-        volatility: 'high',
-    },
-    {
-        category: 'mini',
-        description: '簡潔的翻牌玩法，每一步都可能打開倍數與當賣獎勵。',
-        id: 11,
-        image: IMG,
-        maxMultiplier: 'x500',
-        name: '量子翻翻樂',
-        rtp: '97.10%',
-        rtpTrend: null,
-        tags: [],
-        volatility: 'mid',
-    },
-    {
-        category: 'mini',
-        description: '收集糖果能量躲避障礙，將連擊推進到更高的獎勵區間。',
-        id: 12,
-        image: IMG,
-        maxMultiplier: 'x450',
-        name: '糖果衝刺',
-        rtp: '97.10%',
-        rtpTrend: 'down',
-        tags: ['HOT'],
-        volatility: 'midLow',
-    },
-];
+import { fetchGames } from '@/libs/api/game';
 
 export function useGames() {
-    const games = ref<Game[]>(MOCK_GAMES);
+    const {
+        data: games,
+        error,
+        status,
+    } = useAsyncData('games', () => fetchGames(), { default: () => [] });
 
-    // 接 API 後這兩個會由 useFetch 提供，畫面就能顯示載入中／錯誤狀態
-    const pending = ref(false);
-    const error = ref<Error | null>(null);
+    // 畫面用它顯示載入中
+    const pending = computed(() => status.value === 'pending');
 
     return {
         error,
