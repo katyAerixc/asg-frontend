@@ -123,7 +123,7 @@ export default defineNuxtConfig({
         public: {
             apiBase: '',
             // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
-            //（.env 檔被 git 守門員擋著，AI 不能 commit，要她自己加）
+            // （.env 檔被 git 守門員擋著，AI 不能 commit，要她自己加）
             useMock: true,
         },
     },
