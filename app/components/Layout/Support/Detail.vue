@@ -89,7 +89,7 @@ const { closeRecord } = useSupport();
 
         font-size: 14px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-40);
     }
 
@@ -98,7 +98,7 @@ const { closeRecord } = useSupport();
 
         font-size: 18px;
         font-weight: 500;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
@@ -108,7 +108,7 @@ const { closeRecord } = useSupport();
 
         font-size: 16px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-20);
     }
 
@@ -137,14 +137,14 @@ const { closeRecord } = useSupport();
 
         font-size: 18px;
         font-weight: 500;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
     &__reply-time {
         font-size: 14px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-20);
     }
 
@@ -154,7 +154,7 @@ const { closeRecord } = useSupport();
 
         font-size: 16px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-10);
         white-space: pre-line;
     }
@@ -183,7 +183,7 @@ const { closeRecord } = useSupport();
 
         font-size: 12px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-40);
         text-align: center;
     }

@@ -22,7 +22,10 @@ defineProps<{ type: string }>();
     align-items: center;
     justify-content: center;
 
-    padding: var(--corner-1) var(--corner-2);
+    // 高度用 min-height 對齊 Figma（27），上下不要 padding：
+    // 行高放寬後文字盒本來就夠高，再加內距就會超過設計稿（她 2026-09-14）
+    min-height: 27px;
+    padding: 0 var(--corner-2);
 
     // 用 neutral-10 不是 primary-10：淺色主題不覆寫 neutral，標籤兩個主題長得一樣（她 2026-09-11 指定）
     border: 1px solid var(--color-neutral-10);
@@ -30,7 +33,6 @@ defineProps<{ type: string }>();
 
     font-size: 14px; // 手機 14、電腦 16（見下方 media query）
     font-weight: 700;
-    line-height: 100%;
     color: var(--color-neutral-10);
     text-shadow: 0 1px 0 var(--color-black-50);
 

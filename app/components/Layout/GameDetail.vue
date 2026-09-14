@@ -168,21 +168,23 @@ function play() {
 
         font-size: 24px;
         font-weight: 700;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
     // Figma Frame 10856：圓角 full、1px Semantic/red-10、內距 Corner-1／Corner-2
     &__category {
+        display: flex;
         flex-shrink: 0;
+        align-items: center;
 
-        padding: var(--corner-1) var(--corner-2);
+        min-height: 25px;
+        padding: 0 var(--corner-2);
         border: 1px solid var(--color-red-10);
         border-radius: var(--corner-full);
 
         font-size: 12px;
         font-weight: 500;
-        line-height: 100%;
         color: var(--color-red-10);
     }
 
@@ -192,7 +194,7 @@ function play() {
 
         font-size: 14px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-20);
     }
 
@@ -227,7 +229,9 @@ function play() {
         // Figma：H5 高 46、PC 高 51。用 min-height 而不是寫死高度——
         // 其他語言的「最高賠率」比中文長，需要時讓它自己長高，不要把字裁掉
         min-height: 46px;
-        padding: var(--corner-1) var(--corner-3);
+
+        // 上下不要 padding：行高放寬後光是兩行文字就有 46，再加內距會超過設計稿
+        padding: 0 var(--corner-3);
         border-radius: var(--corner-2);
 
         background: var(--color-primary-opacity-6010);
@@ -258,7 +262,6 @@ function play() {
 
         font-size: 12px;
         font-weight: 300;
-        line-height: 100%;
         color: var(--color-neutral-10);
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -274,7 +277,6 @@ function play() {
 
         font-size: 16px;
         font-weight: 700;
-        line-height: 100%;
         color: var(--color-neutral-10);
         white-space: nowrap;
     }
@@ -298,6 +300,7 @@ function play() {
         }
 
         &__category {
+            min-height: 27px;
             font-size: 14px;
         }
 

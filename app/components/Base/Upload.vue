@@ -225,7 +225,6 @@ onUnmounted(revokePreview);
 
         font-size: 12px;
         font-weight: 500;
-        line-height: 100%;
         color: var(--color-neutral-10);
 
         background: var(--color-black-80);
@@ -237,7 +236,7 @@ onUnmounted(revokePreview);
 
         font-size: 14px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-40);
 
         &--error {

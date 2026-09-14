@@ -98,7 +98,7 @@ const {
 
         font-size: 20px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-30);
 
         background: transparent;

@@ -43,7 +43,6 @@ withDefaults(
     border-radius: var(--corner-full);
 
     font-weight: 500;
-    line-height: 100%;
     color: var(--color-neutral-10);
 
     // 等同 Figma 的 Outer 描邊：先描邊再填字，筆畫才不會被吃掉

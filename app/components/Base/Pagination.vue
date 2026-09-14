@@ -190,7 +190,6 @@ function go(page: number) {
 
         font-size: 16px;
         font-weight: 400;
-        line-height: 100%;
         color: var(--color-neutral-40);
 
         background: transparent;
@@ -227,7 +226,6 @@ function go(page: number) {
 
         font-size: 16px;
         font-weight: 400;
-        line-height: 100%;
         color: var(--color-neutral-40);
     }
 

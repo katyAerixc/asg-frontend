@@ -102,7 +102,7 @@ onMounted(() => {
     &__label {
         font-size: 18px;
         font-weight: 500;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 

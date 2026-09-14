@@ -116,7 +116,7 @@ const {
     &__date {
         font-size: 14px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-50);
     }
 
@@ -132,7 +132,6 @@ const {
         border-radius: var(--corner-full);
 
         font-size: 14px;
-        line-height: 100%;
 
         // 已回覆：藍底白字、字重 500（Figma 14/14p M）
         &--replied {
@@ -172,7 +171,7 @@ const {
 
         font-size: 16px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
     }
 
     // 類型與描述中間那條直線，用邊框畫比塞一個字元穩

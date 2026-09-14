@@ -531,7 +531,6 @@ useHead({
 
         font-size: 18px;
         font-weight: 500;
-        line-height: 100%;
         color: var(--color-neutral-10); // Figma Color/Neutral/10
         white-space: nowrap;
 

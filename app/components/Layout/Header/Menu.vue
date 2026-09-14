@@ -285,7 +285,6 @@ function selectLang(code: LocaleCode) {
 
         font-size: 14px;
         font-weight: 300;
-        line-height: 100%;
         color: var(--color-neutral-10);
 
         background: var(--color-black-80);
@@ -309,10 +308,8 @@ function selectLang(code: LocaleCode) {
     // Figma：18px / 300 / Primary/20
     &__profile-label {
         flex-shrink: 0;
-
         font-size: 18px;
         font-weight: 300;
-        line-height: 100%;
         color: var(--color-primary-20);
     }
 
@@ -322,7 +319,6 @@ function selectLang(code: LocaleCode) {
 
         font-size: 18px;
         font-weight: 500;
-        line-height: 100%;
         color: var(--color-primary-10);
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -406,7 +402,6 @@ function selectLang(code: LocaleCode) {
     &__row-label {
         font-size: 18px;
         font-weight: 500;
-        line-height: 100%;
         color: var(--color-primary-10);
     }
 
@@ -446,7 +441,6 @@ function selectLang(code: LocaleCode) {
 
         font-size: 18px;
         font-weight: 300;
-        line-height: 100%;
         color: var(--color-primary-40);
 
         background-color: transparent;
@@ -510,7 +504,7 @@ function selectLang(code: LocaleCode) {
 
         // 140% 不是設計稿的 100%：英文的下伸部（g/y/p 的尾巴）與越南文聲調會超出 20px 行框，
         // 配上 overflow: hidden 就被裁掉。列高固定 44 且垂直置中，加大行高不影響版面
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-10);
         text-align: left;
         text-overflow: ellipsis;

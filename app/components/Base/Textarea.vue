@@ -68,7 +68,7 @@ const modelValue = defineModel<string>({ default: '' });
 
         font-size: 16px;
         font-weight: 300;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-10);
 
         background: transparent;

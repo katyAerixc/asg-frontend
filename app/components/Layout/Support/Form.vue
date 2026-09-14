@@ -124,7 +124,7 @@ function submit() {
     &__label {
         font-size: 16px;
         font-weight: 500;
-        line-height: 140%;
+        line-height: 1.4;
         color: var(--color-primary-10);
     }
 
