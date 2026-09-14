@@ -217,7 +217,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         width: 60px;
         height: 60px;
-        border: 1px solid var(--color-primary-10);
+
+        // 用 neutral-10 不用 primary-10：淺色主題不覆寫 neutral，框線兩個主題都是白（她 2026-09-14 指定，同標籤的做法）
+        border: 1px solid var(--color-neutral-10);
         border-radius: var(--corner-2);
 
         object-fit: cover;
