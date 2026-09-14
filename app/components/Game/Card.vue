@@ -57,29 +57,25 @@
 
             <hr class="game-card__divider">
 
+            <!-- 三格數據跟遊戲介紹彈窗共用 GameStat，只換 variant -->
             <div class="game-card__stats">
-                <div class="game-card__stat">
-                    <span class="game-card__stat-label">{{ $t('lobby.card.volatilityLabel') }}</span>
-                    <span class="game-card__stat-value">{{ $t(`lobby.volatility.${game.volatility}`) }}</span>
-                </div>
-                <div
-                    class="game-card__stat game-card__stat--rtp"
-                    :class="rtpClass"
-                >
-                    <span class="game-card__stat-label">RTP</span>
-                    <span class="game-card__stat-value">
-                        {{ game.rtp }}
-                        <span
-                            v-if="game.rtpTrend"
-                            class="game-card__arrow"
-                            :class="`i-sp-trend-${game.rtpTrend}`"
-                        />
-                    </span>
-                </div>
-                <div class="game-card__stat">
-                    <span class="game-card__stat-label">{{ $t('lobby.card.maxMultiplier') }}</span>
-                    <span class="game-card__stat-value">{{ game.maxMultiplier }}</span>
-                </div>
+                <GameStat
+                    :label="$t('lobby.card.volatilityLabel')"
+                    :value="$t(`lobby.volatility.${game.volatility}`)"
+                    variant="card"
+                />
+                <GameStat
+                    highlight
+                    label="RTP"
+                    :trend="game.rtpTrend"
+                    :value="game.rtp"
+                    variant="card"
+                />
+                <GameStat
+                    :label="$t('lobby.card.maxMultiplier')"
+                    :value="game.maxMultiplier"
+                    variant="card"
+                />
             </div>
         </div>
     </article>
@@ -89,17 +85,10 @@
 import type { Game } from '@/types/game';
 
 // Define props, models and emits
-const props = defineProps<{ game: Game }>();
+defineProps<{ game: Game }>();
 
 // Variables
 const { openGameDetail } = useGameDetail();
-
-// Computed properties
-// 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣）；箭頭用 i-sp-trend-up / i-sp-trend-down
-const rtpClass = computed(() => ({
-    'game-card__stat--down': props.game.rtpTrend === 'down',
-    'game-card__stat--up': props.game.rtpTrend === 'up',
-}));
 </script>
 
 <style scoped lang="scss">
@@ -125,18 +114,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     100% {
         transform: scale(1.2);
         filter: blur(0); // 到位就完全清晰
-    }
-}
-
-// RTP 那格的呼吸感：2 秒一次來回，最大放到 1.06 倍（她 2026-09-09 說 1.03 太小）
-@keyframes rtp-breathe {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.06);
     }
 }
 
@@ -315,113 +292,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: 10px;
     }
 
-    &__stat {
-        display: none; // 手機版只留 RTP
-        flex: 1;
-        flex-direction: column;
-        gap: 4px;
-        align-items: center;
-
-        min-width: 0; // 允許被壓縮，裡面的文字才切得掉（不加的話會把卡片撐開）
-        padding: 4px 0;
-        border-radius: var(--corner-2);
-
-        background: var(--color-primary-opacity-6010);
-
-        // 中間 RTP 那格：背景搬到 ::before 這層，只讓背景呼吸，文字與箭頭不動
-        &--rtp {
-            position: relative;
-            z-index: 0;
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-
-            // 左右只留 4px：手機上這格要塞「RTP + 數值 + 箭頭」，內距太寬會把文字擠掉
-            padding: 4px;
-
-            background: none;
-
-            // 這層就是「會呼吸的背景」，躲在文字後面（z-index: -1）
-            &::before {
-                content: '';
-
-                position: absolute;
-                z-index: -1;
-                inset: 0;
-
-                border-radius: inherit;
-
-                background: var(--color-primary-opacity-6010);
-
-                animation: rtp-breathe 2s ease-in-out infinite;
-            }
-        }
-
-        // 漲跌的顏色也要畫在 ::before 那層，才會跟著呼吸
-        &--up::before {
-            background: linear-gradient(
-                293deg,
-                var(--color-red-opacity-2060) 35.34%,
-                var(--color-red-opacity-2020) 100%
-            );
-            box-shadow: 0 0 10px 0 var(--shadow-dark-20);
-        }
-
-        &--down::before {
-            background: linear-gradient(
-                293deg,
-                var(--color-green-opacity-2060) 35.34%,
-                var(--color-green-opacity-2020) 100%
-            );
-            box-shadow: 0 0 10px 0 var(--shadow-dark-20);
-        }
-    }
-
-    // 手機：小字 12/300、數值 16/700
-    // 多語系：字太長時切掉加「…」，不換行也不把卡片撐高（做法同上方的 __desc）
-    &__stat-label {
-        overflow: hidden;
-
-        max-width: 100%;
-
-        // 14px 是上限（375 以上就是 14）；比 375 窄才等比例縮，320 時約 11.6px
-        font-size: clamp(10px, 8.4cqw, 14px);
-        font-weight: 300;
-        color: var(--color-primary-20);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    &__stat-value {
-        overflow: hidden;
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-
-        min-width: 0;
-        max-width: 100%;
-
-        // 18px 是上限（375 以上就是 18）；比 375 窄才等比例縮，320 時約 14.9px
-        font-size: clamp(13px, 10.8cqw, 18px);
-        font-weight: 700;
-        color: var(--color-primary-10);
-        white-space: nowrap;
-
-        // 320 這種極窄畫面：數值與箭頭之間不留間距，把那 4px 讓給文字（她 2026-09-10 定）
-        @media (width < 375px) {
-            gap: 0;
-        }
-    }
-
-    // 25px 是上限（375 以上就是 25）；比 375 窄才等比例縮，320 時約 20.8px
-    // flex-shrink: 0 讓它照 clamp 算出的尺寸走，不會被旁邊的文字擠扁
-    &__arrow {
-        flex-shrink: 0;
-        width: clamp(16px, 15.1cqw, 25px);
-        height: clamp(16px, 15.1cqw, 25px);
-    }
-
     // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
     @media (hover: hover) {
         // 滑入整張卡：圖片放大（被 __media 的 overflow 裁住，外框尺寸不變）
@@ -447,8 +317,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
             transition: none;
         }
 
-        &__img,
-        &__stat--rtp::before {
+        &__img {
             animation: none;
         }
     }
@@ -457,20 +326,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     @media (width >= 960px) {
         &__thumb {
             display: block;
-        }
-
-        &__stat {
-            display: flex;
-
-            &--rtp {
-                flex-direction: column;
-                padding: 4px 0;
-            }
-        }
-
-        // 電腦：字級已由上方的 clamp 接手（14 / 18），這裡只剩字重不同
-        &__stat-value {
-            font-weight: 500;
         }
     }
 }

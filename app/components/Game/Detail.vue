@@ -41,31 +41,25 @@
                     {{ game.description }}
                 </p>
 
+                <!-- 三格數據跟遊戲卡共用 GameStat，只換 variant -->
                 <div class="game-detail__stats">
-                    <div class="game-detail__stat">
-                        <span class="game-detail__stat-label">{{ $t('lobby.card.volatilityLabel') }}</span>
-                        <span class="game-detail__stat-value">{{ $t(`lobby.volatility.${game.volatility}`) }}</span>
-                    </div>
-
-                    <div
-                        class="game-detail__stat"
-                        :class="rtpClass"
-                    >
-                        <span class="game-detail__stat-label">RTP</span>
-                        <span class="game-detail__stat-value">
-                            {{ game.rtp }}
-                            <span
-                                v-if="game.rtpTrend"
-                                class="game-detail__arrow"
-                                :class="`i-sp-trend-${game.rtpTrend}`"
-                            />
-                        </span>
-                    </div>
-
-                    <div class="game-detail__stat">
-                        <span class="game-detail__stat-label">{{ $t('lobby.card.maxMultiplier') }}</span>
-                        <span class="game-detail__stat-value">{{ game.maxMultiplier }}</span>
-                    </div>
+                    <GameStat
+                        :label="$t('lobby.card.volatilityLabel')"
+                        :value="$t(`lobby.volatility.${game.volatility}`)"
+                        variant="detail"
+                    />
+                    <GameStat
+                        highlight
+                        label="RTP"
+                        :trend="game.rtpTrend"
+                        :value="game.rtp"
+                        variant="detail"
+                    />
+                    <GameStat
+                        :label="$t('lobby.card.maxMultiplier')"
+                        :value="game.maxMultiplier"
+                        variant="detail"
+                    />
                 </div>
             </div>
         </div>
@@ -86,17 +80,10 @@
 import type { Game } from '@/types/game';
 
 // Define props, models and emits
-const props = defineProps<{ game: Game }>();
+defineProps<{ game: Game }>();
 
 // Variables
 const { closeGameDetail } = useGameDetail();
-
-// Computed properties
-// 紅＝漲 up ↗、綠＝跌 down ↘（亞洲習慣），跟遊戲卡同一套
-const rtpClass = computed(() => ({
-    'game-detail__stat--down': props.game.rtpTrend === 'down',
-    'game-detail__stat--up': props.game.rtpTrend === 'up',
-}));
 
 // Functions
 // ⚠️ 遊戲畫面那一頁還沒做，先只把彈窗關掉（她 2026-09-11：點了要跳到遊戲畫面）
@@ -212,87 +199,6 @@ function play() {
         border-image: var(--line-popup) 1;
     }
 
-    // Figma PC/Game/block：圓角 Corner-2、上下內距 Corner-1、間距 4、底 Primary/60 10%
-    &__stat {
-        position: relative;
-        z-index: 0;
-
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        gap: 4px;
-        align-items: center;
-        justify-content: center;
-
-        min-width: 0;
-
-        // Figma：H5 高 46、PC 高 51。用 min-height 而不是寫死高度——
-        // 其他語言的「最高賠率」比中文長，需要時讓它自己長高，不要把字裁掉
-        min-height: 46px;
-
-        // 上下不要 padding：行高放寬後光是兩行文字就有 46，再加內距會超過設計稿
-        padding: 0 var(--corner-3);
-        border-radius: var(--corner-2);
-
-        background: var(--color-primary-opacity-6010);
-
-        // 漲跌那格換成紅／綠漸層（Figma Rectangle 616：60% → 20%）
-        &--up {
-            background: linear-gradient(
-                293deg,
-                var(--color-red-opacity-2060) 35.34%,
-                var(--color-red-opacity-2020) 100%
-            );
-        }
-
-        &--down {
-            background: linear-gradient(
-                293deg,
-                var(--color-green-opacity-2060) 35.34%,
-                var(--color-green-opacity-2020) 100%
-            );
-        }
-    }
-
-    // Figma：H5 12 / PC 14，300，Neutral/10
-    &__stat-label {
-        overflow: hidden;
-
-        max-width: 100%;
-
-        font-size: 12px;
-        font-weight: 300;
-        color: var(--color-neutral-10);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    // Figma：H5 16 / 700，PC 18 / 500
-    &__stat-value {
-        display: inline-flex;
-        gap: 0;
-        align-items: center;
-
-        max-width: 100%;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: var(--color-neutral-10);
-        white-space: nowrap;
-    }
-
-    // 箭頭要比字大一點才看得出漲跌（比例照遊戲卡那顆：H5 22、PC 25）
-    &__arrow {
-        flex-shrink: 0;
-
-        width: 22px;
-        height: 22px;
-
-        color: currentcolor;
-
-        background-color: currentcolor;
-    }
-
     // 字級先跟著換（Figma PC 值）
     @media (width >= 600px) {
         &__name {
@@ -306,24 +212,6 @@ function play() {
 
         &__desc {
             font-size: 16px;
-        }
-
-        &__stat {
-            min-height: 51px;
-        }
-
-        &__stat-label {
-            font-size: 14px;
-        }
-
-        &__stat-value {
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        &__arrow {
-            width: 25px;
-            height: 25px;
         }
     }
 
