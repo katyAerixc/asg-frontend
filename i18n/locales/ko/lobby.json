@@ -13,6 +13,11 @@
       "slot": "슬롯"
     },
     "count": "총 {n}개 게임",
+    "detail": {
+      "open": "{name} 소개 보기",
+      "play": "지금 플레이",
+      "title": "게임 소개"
+    },
     "loadMore": "더보기",
     "searchPlaceholder": "Search",
     "title": "추천 게임",

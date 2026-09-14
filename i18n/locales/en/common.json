@@ -3,6 +3,9 @@
     "clear": "Clear",
     "close": "Close",
     "confirm": "Confirm",
+    "nextPage": "Next page",
+    "pagination": "Pagination",
+    "prevPage": "Previous page",
     "select": "Select"
   }
 }

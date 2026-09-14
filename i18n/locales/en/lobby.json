@@ -13,6 +13,11 @@
       "slot": "Slot"
     },
     "count": "{n} Games",
+    "detail": {
+      "open": "View {name} info",
+      "play": "Play Now",
+      "title": "Game Info"
+    },
     "loadMore": "Load More",
     "searchPlaceholder": "Search",
     "title": "Top Games",

@@ -3,6 +3,9 @@
     "clear": "ล้าง",
     "close": "ปิด",
     "confirm": "ยืนยัน",
+    "nextPage": "หน้าถัดไป",
+    "pagination": "แบ่งหน้า",
+    "prevPage": "หน้าก่อนหน้า",
     "select": "โปรดเลือก"
   }
 }

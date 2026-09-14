@@ -1,5 +1,14 @@
 {
   "support": {
+    "askAgain": "再次提问",
+    "attachmentHint": "文件格式仅限JPG、JPEG、PNG，15MB以内",
+    "attachmentLabel": "上传附件",
+    "attachmentTooLarge": "文件超过 15MB，请换一张小一点的图片",
+    "attachmentWrongType": "只能上传 JPG、JPEG、PNG 图片",
+    "autoCloseNote": "若无需要再次提问，系统将于24小时后自动将问题完结，届时若有疑问再请重新提交新问题需求，客服会尽速回复您",
+    "back": "上一页",
+    "descriptionLabel": "问题描述",
+    "descriptionPlaceholder": "请详细描述您的问题或建议，客服会尽快为您解答处理",
     "issueType": {
       "account": "账号与安全｜忘记账号密码、登录发生异常等",
       "billing": "账务问题｜余额显示异常、无法使用等",
@@ -7,6 +16,20 @@
       "gameError": "游戏异常｜结算异常、断线、派奖记录查询等",
       "gameInfo": "游戏相关｜玩法咨询、权益、反水机制等",
       "other": "其他"
-    }
+    },
+    "issueTypeLabel": "问题类型",
+    "issueTypePlaceholder": "请选择问题类型",
+    "remove": "删除",
+    "reply": "客服回复",
+    "status": {
+      "closed": "已完结",
+      "replied": "客服已回复"
+    },
+    "submit": "提交",
+    "tab": {
+      "form": "提交问题",
+      "history": "提问记录"
+    },
+    "title": "客服"
   }
 }

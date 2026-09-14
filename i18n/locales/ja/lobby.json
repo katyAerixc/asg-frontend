@@ -13,6 +13,11 @@
       "slot": "スロット"
     },
     "count": "全 {n} ゲーム",
+    "detail": {
+      "open": "{name} の紹介を見る",
+      "play": "今すぐプレイ",
+      "title": "ゲーム紹介"
+    },
     "loadMore": "さらに読み込む",
     "searchPlaceholder": "Search",
     "title": "おすすめゲーム",

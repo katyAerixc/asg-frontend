@@ -13,6 +13,11 @@
       "slot": "老虎机"
     },
     "count": "共 {n} 款游戏",
+    "detail": {
+      "open": "查看 {name} 的介绍",
+      "play": "立即游玩",
+      "title": "游戏介绍"
+    },
     "loadMore": "加载更多",
     "searchPlaceholder": "Search",
     "title": "精选游戏",

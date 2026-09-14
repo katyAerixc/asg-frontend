@@ -1,5 +1,14 @@
 {
   "support": {
+    "askAgain": "Hỏi lại",
+    "attachmentHint": "Chỉ hỗ trợ JPG, JPEG, PNG, tối đa 15MB",
+    "attachmentLabel": "Đính kèm",
+    "attachmentTooLarge": "Tệp vượt quá 15MB. Vui lòng chọn ảnh nhỏ hơn",
+    "attachmentWrongType": "Chỉ được tải lên ảnh JPG, JPEG, PNG",
+    "autoCloseNote": "Nếu bạn không còn câu hỏi nào khác, hệ thống sẽ tự động đóng sau 24 giờ. Nếu sau đó vẫn có thắc mắc, vui lòng gửi câu hỏi mới, CSKH sẽ phản hồi sớm nhất",
+    "back": "Quay lại",
+    "descriptionLabel": "Mô tả",
+    "descriptionPlaceholder": "Vui lòng mô tả chi tiết vấn đề hoặc góp ý của bạn. CSKH sẽ xử lý sớm nhất",
     "issueType": {
       "account": "Tài khoản & Bảo mật - Quên mật khẩu, lỗi đăng nhập, v.v.",
       "billing": "Tài chính - Lỗi hiển thị số dư, không thể sử dụng, v.v.",
@@ -7,6 +16,20 @@
       "gameError": "Lỗi game - Lỗi kết toán, mất kết nối, lịch sử cược, v.v.",
       "gameInfo": "Thông tin game - Cách chơi, quyền lợi, hoàn trả, v.v.",
       "other": "Khác"
-    }
+    },
+    "issueTypeLabel": "Loại vấn đề",
+    "issueTypePlaceholder": "Vui lòng chọn loại vấn đề",
+    "remove": "Xóa",
+    "reply": "Phản hồi CSKH",
+    "status": {
+      "closed": "Đã đóng",
+      "replied": "Đã trả lời"
+    },
+    "submit": "Gửi",
+    "tab": {
+      "form": "Gửi câu hỏi",
+      "history": "Lịch sử"
+    },
+    "title": "CSKH"
   }
 }

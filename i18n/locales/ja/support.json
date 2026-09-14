@@ -1,5 +1,14 @@
 {
   "support": {
+    "askAgain": "再度問い合わせ",
+    "attachmentHint": "JPG・JPEG・PNG のみ、15MB 以内",
+    "attachmentLabel": "ファイル添付",
+    "attachmentTooLarge": "ファイルが 15MB を超えています。もっと小さい画像を選んでください",
+    "attachmentWrongType": "JPG・JPEG・PNG の画像のみアップロードできます",
+    "autoCloseNote": "追加のご質問がない場合、24時間後に自動で完了となります。その後ご不明な点がありましたら、新しいお問い合わせをお送りください。サポートが速やかに対応いたします",
+    "back": "戻る",
+    "descriptionLabel": "内容",
+    "descriptionPlaceholder": "お問い合わせ内容やご意見を詳しくご記入ください。サポートが速やかに対応いたします",
     "issueType": {
       "account": "アカウントとセキュリティ｜パスワード忘れ、ログイン異常など",
       "billing": "財務｜残高表示の異常、利用不可など",
@@ -7,6 +16,20 @@
       "gameError": "ゲームエラー｜決済異常、切断、配当記録の照会など",
       "gameInfo": "ゲーム関連｜遊び方、権利、リベートなど",
       "other": "その他"
-    }
+    },
+    "issueTypeLabel": "お問い合わせ種別",
+    "issueTypePlaceholder": "種別を選択してください",
+    "remove": "削除",
+    "reply": "サポートからの回答",
+    "status": {
+      "closed": "完了",
+      "replied": "回答済み"
+    },
+    "submit": "送信",
+    "tab": {
+      "form": "問い合わせ",
+      "history": "履歴"
+    },
+    "title": "サポート"
   }
 }

@@ -13,6 +13,11 @@
       "slot": "Slot"
     },
     "count": "Tổng cộng {n} game",
+    "detail": {
+      "open": "Xem thông tin {name}",
+      "play": "Chơi ngay",
+      "title": "Thông tin game"
+    },
     "loadMore": "Tải thêm",
     "searchPlaceholder": "Search",
     "title": "Game hot",

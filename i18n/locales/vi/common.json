@@ -3,6 +3,9 @@
     "clear": "Xóa",
     "close": "Đóng",
     "confirm": "Xác nhận",
+    "nextPage": "Trang sau",
+    "pagination": "Phân trang",
+    "prevPage": "Trang trước",
     "select": "Vui lòng chọn"
   }
 }

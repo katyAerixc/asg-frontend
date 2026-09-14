@@ -13,6 +13,11 @@
       "slot": "สล็อต"
     },
     "count": "เกมทั้งหมด {n} เกม",
+    "detail": {
+      "open": "ดูข้อมูล {name}",
+      "play": "เล่นเลย",
+      "title": "ข้อมูลเกม"
+    },
     "loadMore": "โหลดเพิ่มเติม",
     "searchPlaceholder": "Search",
     "title": "เกมแนะนำ",

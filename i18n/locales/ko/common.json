@@ -3,6 +3,9 @@
     "clear": "지우기",
     "close": "닫기",
     "confirm": "확인",
+    "nextPage": "다음 페이지",
+    "pagination": "페이지",
+    "prevPage": "이전 페이지",
     "select": "선택하세요"
   }
 }
