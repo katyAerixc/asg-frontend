@@ -207,9 +207,23 @@ function openRecord(id: number) {
         flex-shrink: 0;
     }
 
+    // PC 字級照 Figma PC（她 2026-09-14 提供淺色版 14 張 Inspect；顏色代號與深色相同）
     @media (width >= 600px) {
+        &__date {
+            font-size: 16px;
+        }
+
+        &__status {
+            font-size: 16px;
+        }
+
+        &__dot {
+            width: 12px;
+            height: 12px;
+        }
+
         &__summary {
-            font-size: 18px;
+            font-size: 20px;
         }
     }
 }
