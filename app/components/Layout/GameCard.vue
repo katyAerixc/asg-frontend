@@ -1,12 +1,9 @@
 <template>
+    <!-- ⚠️ 整張卡不要加 role="button"：那會讓讀螢幕軟體把卡片內容全當裝飾略過，
+         只剩 aria-label 那一句。滑鼠點整張都開，鍵盤與讀螢幕走下面 ⓘ 那顆真按鈕 -->
     <article
-        :aria-label="$t('lobby.detail.open', { name: game.name })"
         class="game-card"
-        role="button"
-        tabindex="0"
         @click="openGameDetail(game)"
-        @keydown.enter="openGameDetail(game)"
-        @keydown.space.prevent="openGameDetail(game)"
     >
         <!-- 大圖區：正方形，比下方玻璃塊窄一點（Figma 360 : 390） -->
         <div class="game-card__media">
@@ -43,7 +40,14 @@
                         <h3 class="game-card__name">
                             {{ game.name }}
                         </h3>
-                        <span class="game-card__i i-sp-info" />
+                        <button
+                            :aria-label="$t('lobby.detail.open', { name: game.name })"
+                            class="game-card__i"
+                            type="button"
+                            @click.stop="openGameDetail(game)"
+                        >
+                            <span class="game-card__i-icon i-sp-info" />
+                        </button>
                     </div>
                     <p class="game-card__desc">
                         {{ game.description }}
@@ -271,9 +275,27 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         white-space: nowrap;
     }
 
-    // 只是提示圖示，不是按鈕——整張卡片都能點（她 2026-09-11 指定）
+    // 整張卡片都能點（她 2026-09-11 指定），這顆 ⓘ 是給鍵盤與讀螢幕用的真按鈕，
+    // 所以要先把瀏覽器預設外觀洗掉，看起來還是跟原本的小圖示一樣
     &__i {
+        cursor: pointer;
+
+        display: flex;
         flex-shrink: 0;
+
+        padding: 0;
+        border: 0;
+
+        background: transparent;
+
+        &:focus-visible {
+            border-radius: var(--corner-1);
+            outline: 2px solid var(--color-primary-60);
+            outline-offset: 2px;
+        }
+    }
+
+    &__i-icon {
         width: 16px;
         height: 16px;
         color: var(--color-neutral-80);
