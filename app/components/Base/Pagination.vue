@@ -110,7 +110,8 @@ function go(page: number) {
 
     width: 100%;
 
-    // Figma：30 x 30 圓形，底色 Primary/20 的 20%
+    // Figma PC/Pagination arrow（她 2026-09-14 給三個狀態）：
+    // 預設 底 Primary/20 的 20%、沒框；hover 多一圈 Primary/60 框；選取（按下去）底 Primary/20 的 30% + 框 Primary/60
     &__arrow {
         cursor: pointer;
 
@@ -122,7 +123,7 @@ function go(page: number) {
         width: 30px;
         height: 30px;
         padding: 0;
-        border: 0;
+        border: 1px solid transparent; // 平常看不到，滑鼠移上去、按下去才上色；寬度一直在，按鈕不會跳
         border-radius: var(--corner-full);
 
         background: var(--color-primary-opacity-2020);
@@ -133,10 +134,23 @@ function go(page: number) {
             outline-offset: 2px;
         }
 
+        // 選取：按下去的那一下
+        &:active:not(:disabled) {
+            border-color: var(--color-primary-60);
+            background: var(--color-primary-opacity-2030);
+        }
+
         // 走到頭就不能再按：箭頭轉灰（Figma Color/Neutral/60），底下的圓也拿掉
         &:disabled {
             cursor: not-allowed;
             background: transparent;
+        }
+
+        // hover：多一圈外框（她 2026-09-14 指定），底色不變
+        @media (hover: hover) {
+            &:hover:not(:disabled) {
+                border-color: var(--color-primary-60);
+            }
         }
     }
 
@@ -201,16 +215,17 @@ function go(page: number) {
             outline-offset: 2px;
         }
 
-        // 選中：底色 Primary/60、文字轉白且加粗到 600
+        // 選取（目前這一頁）：底色 Primary/60、文字 Neutral/10 且加粗到 600
         &--active {
             font-weight: 600;
             color: var(--color-neutral-10);
             background: var(--color-primary-60);
         }
 
+        // hover：底色 Primary/20 的 20%，文字維持 Neutral/40（Figma PC/Pagination，她 2026-09-14 給）
         @media (hover: hover) {
             &:hover:not(&--active) {
-                color: var(--color-neutral-10);
+                background: var(--color-primary-opacity-2020);
             }
         }
     }

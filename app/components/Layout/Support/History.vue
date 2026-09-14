@@ -122,7 +122,7 @@ function openRecord(id: number) {
         justify-content: space-between;
     }
 
-    // Figma：Inter 14 / 300 / Primary/50（列表卡片用 50，點進去的內容頁是 40）
+    // Figma：Inter 14 / 300 / Primary/50（點進去的內容頁也用 50，兩邊一致，她 2026-09-14 指定）
     &__date {
         font-size: 14px;
         font-weight: 300;
@@ -143,18 +143,19 @@ function openRecord(id: number) {
 
         font-size: 14px;
 
-        // 已回覆：藍底白字、字重 500（Figma 14/14p M）
+        // 已回覆、已完結的字重都是 300，深淺色一樣（她 2026-09-14 指定，取代 9/11 的 500）
+        font-weight: 300;
+
+        // 已回覆：藍底白字
         &--replied {
-            font-weight: 500;
             color: var(--color-neutral-10);
             background: var(--color-primary-50);
         }
 
-        // 已完結：白 50% 底、深灰字（她 2026-09-11 指定字重 500）
+        // 已完結：白 50% 底（淺色 #8da1e4）、深灰字
         &--closed {
-            font-weight: 500;
             color: var(--color-neutral-80);
-            background: var(--color-white-50);
+            background: var(--bg-support-status-closed);
         }
     }
 

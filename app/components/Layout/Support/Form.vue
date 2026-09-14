@@ -155,11 +155,12 @@ async function submit() {
     }
 
     // ⚠️ 字級暫定 16 / PC 20，Figma 未給
+    // 標題字：兩個主題都是白（Neutral/10 淺色不覆寫）。原本用 Primary/10，淺色會變深藍（她 2026-09-14 提供 Figma 淺色）
     &__label {
         font-size: 16px;
         font-weight: 500;
         line-height: 1.4;
-        color: var(--color-primary-10);
+        color: var(--color-neutral-10);
     }
 
     // 星號跟標題同色（她 2026-09-11 指定，不要紅色）

@@ -57,11 +57,25 @@
     // 跟 --line-divider 不同——那條是 50→90→50，這條是 0→50→0
     --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
 
+    // 遊戲介紹：Game1 那區與三格之間的分隔線。深色用漸層（border-image），淺色不用，直接吃 border 的 White/50
+    --line-game-detail-stats: var(--line-popup) 1;
+
+    // 下拉選單每列之間的分隔線：深色用漸層（border-image），淺色不用，直接吃 border 的顏色
+    --line-select-option: var(--line-popup) 1;
+    --color-select-option-line: var(--color-primary-40);
+
+    // 下拉選單右邊的箭頭
+    --color-select-caret: var(--color-primary-20);
+
     // 多行輸入框右上角的 ✕（清除鈕）：深色白，淺色另外覆寫
     --color-input-clear: var(--color-primary-10);
+
+    // 多行輸入框右下角字數（0/500）打了字之後的顏色；深色維持原本的 Primary/40
+    --color-textarea-count-filled: var(--color-primary-40);
     --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
     --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
-    --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、分頁箭頭鈕的底
+    --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭的底、頁碼數字 hover 的底
+    --color-primary-opacity-2030: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
     --color-primary-opacity-7020: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
     --color-primary-opacity-7050: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
 
@@ -147,6 +161,10 @@
     --border-button-primary: 1px solid var(--color-black-50);
     --text-stroke-button-primary: 3px var(--color-navy-50); // 她 2026-09-09 指定
 
+    // 彈窗裡的藍色按鈕（Base/Button.vue：提交、確認）。深色跟加載更多一樣，淺色另外調深
+    --text-stroke-button-modal: var(--text-stroke-button-primary);
+    --bg-button-modal: var(--bg-button-primary);
+
     // Header 下框線：兩端透明、中間半透明藍
     --line-header: linear-gradient(
         90deg,
@@ -199,6 +217,12 @@
     --bg-support-card: var(--color-primary-opacity-7050);
     --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-7020);
 
+    // 客服紀錄「已完結」膠囊底、客服回覆氣泡（淺色另外覆寫）
+    --bg-support-status-closed: var(--color-white-50);
+    --bg-support-reply: var(--color-primary-50);
+    --color-support-reply-title: var(--color-neutral-10);
+    --color-support-reply-text: var(--color-neutral-10);
+
     // Logo：用 CSS 換圖而不是 JS。server 不知道使用者選哪個主題，
     // 用 JS 判斷會讓 server 與瀏覽器渲染出不同的圖（hydration mismatch）。
     // 交給 CSS 就沒這問題，而且只會下載真正用到的那一張。
@@ -214,7 +238,9 @@
     --bg-page: #0f1723;
     --bg-page-glow: #0e3378;
     --bg-page-sticky: rgb(var(--color-primary-90-rgb) / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
-    --bg-list-hover: #223450; // 語系下拉滑過的底色（她 2026-09-10 指定）
+    // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（她 2026-09-14 給 rgb(61 119 209 / 20%)；不在色票裡）
+    --color-list-hover-rgb: 61 119 209; // #3d77d1
+    --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
     --color-search-icon: var(--color-primary-30); // 放大鏡（深色用 30、淺色用 40，Figma 如此）
     --bg-game: linear-gradient(
         180deg,
@@ -236,13 +262,14 @@
 // ✅ 標籤色（NEW/HOT/HIGH）與 RTP 漲跌紅綠：她 2026-09-11 定案「兩個主題一樣」，
 //    所以刻意不覆寫。標籤的字與框用 --color-neutral-10（淺色不覆寫），不要用 primary-10。
 // ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/20・30・40・50・60・80、分隔線、
-//    彈窗、確認按鈕、--bg-list-hover、--bg-page-glow。先沿用深色的值，畫到那裡再跟她要。
+//    彈窗、確認按鈕、--bg-page-glow。先沿用深色的值，畫到那裡再跟她要。
 [data-theme='light'] {
     // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
     --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
     --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
     --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
     --color-primary-60-rgb: 53 111 220; // #356fdc
+    --color-primary-70-rgb: 42 74 255; // #2a4aff（她 2026-09-14 給的色票；客服紀錄卡片底 Primary/opacity/70/50% 就是它）
     --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
 
     // 暗陰影：深色是純黑，淺色改成帶藍的灰（Figma Light 的 Dark/20・40・50 都是 #8a95a7）
@@ -253,7 +280,52 @@
     --color-button-primary-rgb: 104 164 255; // #68a4ff
     --border-button-primary: none;
     --text-stroke-button-primary: 1px var(--color-black-50);
+
+    // 彈窗藍色按鈕（提交、確認、再次提問）的文字描邊要比加載更多深（加載更多維持 1px Black/50）
+    // 她 2026-09-14 先選 1px Black/80，看了「再次提問」再調成 1.5px Black/70
+    --text-stroke-button-modal: 1.5px var(--color-black-70);
+
+    // 彈窗藍色按鈕可以按時的底色（她 2026-09-14 提供）：上 rgb(71 99 156) → 下 rgb(60 113 212)
+    --color-button-modal-top-rgb: 71 99 156; // #47639c
+    --color-button-modal-bottom-rgb: 60 113 212; // #3c71d4
+    --bg-button-modal: linear-gradient(
+        180deg,
+        rgb(var(--color-button-modal-top-rgb)) 0%,
+        rgb(var(--color-button-modal-bottom-rgb)) 100%
+    );
+
+    // 次要按鈕「上一頁」的底色（她 2026-09-14 提供）：上 rgb(67 73 91) → 下 #39415a
+    --color-button-secondary-top-rgb: 67 73 91; // #43495b
+    --color-button-secondary-bottom-rgb: 57 65 90; // #39415a
+    --bg-button-secondary: linear-gradient(
+        180deg,
+        rgb(var(--color-button-secondary-top-rgb)) 0%,
+        rgb(var(--color-button-secondary-bottom-rgb)) 100%
+    );
+
+    // 遊戲介紹三格上方的分隔線：不用漸層，改 Color/White/50 實線（她 2026-09-14 提供）
+    --line-game-detail-stats: none;
+
+    // 下拉選單每列之間的分隔線：實線 #a5bff4（她 2026-09-14 指定，Figma 標的 Primary/40 看起來太深）
+    --line-select-option: none;
+    --color-select-option-line-rgb: 165 191 244; // #a5bff4
+    --color-select-option-line: rgb(var(--color-select-option-line-rgb));
+    --color-select-caret: var(--color-primary-40); // 她 2026-09-14 提供 Figma 淺色
     --color-input-clear: var(--color-primary-40); // 問題描述的 ✕，她 2026-09-14 提供
+    --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深，她 2026-09-14 指定
+
+    // 客服紀錄（她 2026-09-14 提供淺色色值）
+    // 列表卡片與內容頁的卡片底：不另外覆寫，吃 :root 的 Primary/opacity/70/50%（淺色 Primary/70 已補在上面）
+
+    // 「已完結」膠囊底：#8da1e4
+    --color-support-closed-rgb: 141 161 228;
+    --bg-support-status-closed: rgb(var(--color-support-closed-rgb));
+
+    // 客服回覆氣泡：底 #82aced；標題 #303852（＝淺色 Primary/10）、內容 #4e5f98（＝淺色 Primary/20）
+    --color-support-reply-rgb: 130 172 237;
+    --bg-support-reply: rgb(var(--color-support-reply-rgb));
+    --color-support-reply-title: var(--color-primary-10);
+    --color-support-reply-text: var(--color-primary-20);
 
     // 遊戲卡滑入：淺色不長框（Primary/10 在淺色是深藍，會變成一圈深框像陰影），
     // 改成柔光暈（她 2026-09-14 從三個候選裡選的 B，再調成右下小範圍）。

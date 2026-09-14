@@ -195,8 +195,9 @@ function play() {
         padding-top: var(--corner-3);
 
         // Game1 那區與三格之間的分隔線
-        border-top: 1px solid;
-        border-image: var(--line-popup) 1;
+        // 深色：border-image 漸層蓋掉框色；淺色：border-image 是 none，顯示 White/50 實線
+        border-top: 1px solid var(--color-white-50);
+        border-image: var(--line-game-detail-stats);
     }
 
     // 字級先跟著換（Figma PC 值）

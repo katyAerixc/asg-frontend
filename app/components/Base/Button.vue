@@ -55,9 +55,9 @@ withDefaults(
     // Figma btn 屬性：預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
     // 文字描邊每種不一樣：藍的粗描邊（跟首頁「加載更多」同一組），白與橘是細的黑框
     &--primary {
-        background: var(--bg-button-primary);
+        background: var(--bg-button-modal);
 
-        -webkit-text-stroke: var(--text-stroke-button-primary);
+        -webkit-text-stroke: var(--text-stroke-button-modal);
     }
 
     // 白底但文字仍是白的，靠黑色描邊撐出可讀性（她 2026-09-11 指定 2px 黑 70%）
@@ -74,10 +74,11 @@ withDefaults(
         -webkit-text-stroke: 1px var(--color-black-50);
     }
 
+    // 左右內距 18（她 2026-09-14 指定）：寬度固定，內距小一點長語言（日文「再度問い合わせ」）才放得下
     &--default {
         width: 150px;
         height: 40px;
-        padding: 0 28px;
+        padding: 0 18px;
         font-size: 16px;
     }
 

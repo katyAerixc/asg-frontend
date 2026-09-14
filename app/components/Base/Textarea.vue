@@ -24,6 +24,7 @@
         <span
             aria-live="polite"
             class="base-textarea__count"
+            :class="{ 'base-textarea__count--filled': modelValue.length > 0 }"
         >
             {{ modelValue.length }}/{{ maxlength }}
         </span>
@@ -146,6 +147,11 @@ function clear() {
         font-size: 16px;
         font-weight: 300;
         color: var(--color-primary-40);
+
+        // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
+        &--filled {
+            color: var(--color-textarea-count-filled);
+        }
     }
 
     @media (width >= 600px) {

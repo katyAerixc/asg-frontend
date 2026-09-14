@@ -176,7 +176,7 @@ onUnmounted(() => {
         width: 18px;
         height: 18px;
 
-        color: var(--color-primary-20);
+        color: var(--color-select-caret);
 
         background-color: currentcolor;
 
@@ -208,8 +208,9 @@ onUnmounted(() => {
 
     // 每一列之間 1px 分隔線（最後一列不畫）
     li:not(:last-child) &__option {
-        border-bottom: 1px solid;
-        border-image: var(--line-popup) 1;
+        // 深色：border-image 漸層蓋掉框色；淺色：border-image 是 none，顯示 Primary/40 實線
+        border-bottom: 1px solid var(--color-select-option-line);
+        border-image: var(--line-select-option);
     }
 
     // Figma：清單文字 20 / 300 / Primary/20（H5 縮成 16）

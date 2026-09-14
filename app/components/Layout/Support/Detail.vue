@@ -92,14 +92,14 @@ const {
         background: var(--bg-support-card);
     }
 
-    // Figma：14 / 300 / Primary/40
+    // Figma：14 / 300。顏色跟列表卡片的日期一致用 Primary/50（她 2026-09-14 指定，原本 Figma 標 Primary/40）
     &__date {
         margin: 0;
 
         font-size: 14px;
         font-weight: 300;
         line-height: 1.4;
-        color: var(--color-primary-40);
+        color: var(--color-primary-50);
     }
 
     &__type {
@@ -131,7 +131,7 @@ const {
         padding: var(--corner-2);
         border-radius: var(--corner-2);
 
-        background: var(--color-primary-50);
+        background: var(--bg-support-reply);
     }
 
     &__reply-head {
@@ -147,7 +147,7 @@ const {
         font-size: 18px;
         font-weight: 500;
         line-height: 1.4;
-        color: var(--color-neutral-10);
+        color: var(--color-support-reply-title);
     }
 
     &__reply-time {
@@ -164,7 +164,7 @@ const {
         font-size: 16px;
         font-weight: 300;
         line-height: 1.4;
-        color: var(--color-neutral-10);
+        color: var(--color-support-reply-text);
         white-space: pre-line;
     }
 
