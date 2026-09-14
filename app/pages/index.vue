@@ -18,17 +18,13 @@
                 />
 
                 <div
+                    ref="filtersRef"
                     class="lobby__filters"
                     :class="{ 'lobby__filters--searching': isSearchOpen }"
                 >
-                    <!-- 手機版展開搜尋時，四顆標籤鈕收成這一顆；再點一下收回去 -->
-                    <button
-                        class="lobby__summary"
-                        type="button"
-                        @click="isSearchOpen = false"
-                    >
-                        {{ tagSummary }}
-                    </button>
+                    <!-- ⚠️ 標籤要排在摘要鈕「前面」（她 2026-09-11 抓到）：
+                         摘要鈕若排前面，它長出來時會把標籤往右推，看起來就是左右晃一下。
+                         標籤放第一個，左邊就被釘死在容器左緣，不可能被推動。 -->
 
                     <!-- ALL / NEW / HOT / HIGH：ALL 是清除鍵，其餘可單選也可複選 -->
                     <div class="lobby__toggle">
@@ -45,6 +41,15 @@
                             {{ option }}
                         </button>
                     </div>
+
+                    <!-- 手機版展開搜尋時，四顆標籤鈕收成這一顆；再點一下收回去 -->
+                    <button
+                        class="lobby__summary"
+                        type="button"
+                        @click="isSearchOpen = false"
+                    >
+                        {{ tagSummary }}
+                    </button>
 
                     <label
                         class="lobby__search"
@@ -132,6 +137,7 @@ const keyword = ref('');
 // 所以搜尋框平常收成一顆放大鏡，點了才展開；標籤列同時收成一顆摘要鈕
 const isSearchOpen = ref(false);
 const searchInputRef = ref<HTMLInputElement | null>(null);
+const filtersRef = ref<HTMLElement | null>(null);
 
 // 標籤篩選：空陣列 = ALL（不篩選）。可單選、複選；全部取消會自動回到 ALL
 const activeTags = ref<string[]>([]);
@@ -180,6 +186,14 @@ const tagSummary = computed(() => {
     return `${tags[0]} +${tags.length - 1}`;
 });
 
+// 點到搜尋列以外的地方就收回去（她 2026-09-11 指定）
+function closeSearchOnOutsideClick(event: MouseEvent) {
+    if (!isSearchOpen.value) return;
+    if (filtersRef.value?.contains(event.target as Node)) return;
+
+    isSearchOpen.value = false;
+}
+
 // Functions
 // ALL 只有在「什麼標籤都沒選」時才亮
 function isTagActive(option: string) {
@@ -221,6 +235,8 @@ function toggleTag(option: string) {
 
 // Hooks
 onMounted(() => {
+    document.addEventListener('click', closeSearchOnOutsideClick);
+
     if (!sentinelRef.value) return;
 
     // 哨兵還看得見 = 在頁面頂端；看不見 = 已經捲上去，工具列黏住了
@@ -233,6 +249,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+    document.removeEventListener('click', closeSearchOnOutsideClick);
     stickyObserver?.disconnect();
     stickyObserver = null;
 });
@@ -538,22 +555,40 @@ useHead({
 
     // 手機版寬度不夠並排：搜尋框平常收成正方形，點了才展開
     @media (width < 960px) {
+        // 手機：下方不留內距（她 2026-09-11 指定），區塊間距縮到 18
+        &__toolbar-inner {
+            gap: 18px;
+            padding-bottom: 0;
+        }
+
         // 320 只有 288px 可用，內距與間距全部縮一階才擠得下四顆 + 放大鏡
         &__filters {
             gap: 6px;
         }
 
-        // 保險：文字變長（多語系）或字體沒載到時可橫向滑，不會把搜尋框推出畫面
-        // 捲軸藏起來，因為正常情況根本不會捲到
+        // 展開搜尋時要能「縮到 0」，所以用 max-width 而不是 display: none
+        // ——display 沒辦法做動畫（她 2026-09-11 要求展開與收回都要有動畫）
+        // 🚨 只讓 max-width 動，其他都別動（她 2026-09-11 抓到「會彈一下」）：
+        //    ①flex-shrink: 0 —— 不然 flex 也會出手壓縮，跟 max-width 兩股力互搶
+        //    ②padding 不做動畫 —— box-sizing 是 border-box，max-width 0 時內距本來就被裁掉
+        //    ③overflow: hidden 取代 overflow-x: auto —— 捲動容器在縮放途中會抖
         &__toggle {
-            scrollbar-width: none;
-            overflow-x: auto;
+            overflow: hidden;
+            flex-shrink: 0;
             gap: 4px;
-            min-width: 0;
 
-            &::-webkit-scrollbar {
-                display: none;
-            }
+            // 靠左（她 2026-09-11 指定）：預設是 center，盒子縮窄時按鈕會往中間靠、
+            // 看起來像 ALL 在滑動。靠左的話只會從右邊被裁掉，ALL 原地不動
+            justify-content: flex-start;
+
+            min-width: 0;
+            max-width: 30rem;
+
+            opacity: 1;
+
+            transition:
+                max-width 0.3s ease,
+                opacity 0.2s ease;
         }
 
         &__toggle-btn {
@@ -561,35 +596,82 @@ useHead({
             padding: var(--corner-1) var(--corner-2);
         }
 
+        // 摘要鈕平常縮成 0 寬（不是 display: none），展開時才長出來
+        &__summary {
+            overflow: hidden;
+            display: flex;
+            flex-shrink: 0;
+
+            max-width: 0;
+
+            opacity: 0;
+
+            transition:
+                max-width 0.3s ease,
+                opacity 0.2s ease;
+        }
+
         &__search {
-            flex: 0 0 44px;
+            // 🚨 不要用 flex-grow 做動畫（她 2026-09-11 抓到「收起來時往右跑一下」）：
+            //    flex-grow 是「比例」不是百分比。整排只有它一個會長，所以 0.01 跟 1 拿到的
+            //    空間一樣多，動畫全程都是全寬，直到歸零才啪一下彈回去。
+            //    改用 width（真正的長度），才會一格一格平滑地變。
+            flex: 0 1 auto;
+
+            // 收起時不要留字與圖示之間的間距，不然放大鏡會被往右推 10px、看起來沒置中
+            gap: 0;
             justify-content: center;
+
+            width: 44px;
 
             // 把左邊剩下的空間全吃掉，放大鏡就會貼齊右邊
             margin-left: auto;
             padding: var(--corner-2);
+
+            transition:
+                width 0.3s ease,
+                gap 0.3s ease,
+                padding 0.3s ease,
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         &__search-input {
-            display: none;
+            max-width: 0;
+            opacity: 0;
+            transition:
+                max-width 0.3s ease,
+                opacity 0.2s ease;
         }
 
         // 展開後：四顆標籤讓位給摘要鈕，寬度全給搜尋框
         &__filters--searching &__toggle {
-            display: none;
+            max-width: 0;
+            opacity: 0;
         }
 
         &__filters--searching &__summary {
-            display: flex;
+            max-width: 12rem;
+            opacity: 1;
         }
 
         &__filters--searching &__search {
-            flex: 1 0 0;
+            width: 100%;
             padding: var(--corner-2) var(--corner-3);
         }
 
         &__filters--searching &__search-input {
-            display: block;
+            max-width: 100%;
+            opacity: 1;
+        }
+
+        // 系統設定「減少動態效果」的人直接切換，不做動畫
+        @media (prefers-reduced-motion: reduce) {
+            &__toggle,
+            &__summary,
+            &__search,
+            &__search-input {
+                transition: none;
+            }
         }
     }
 

@@ -1,5 +1,8 @@
 <template>
     <BaseModal
+        gap="18px"
+        height="248px"
+        height-pc="300px"
         :title="$t('profile.nicknameTitle')"
         @close="$emit('close')"
     >

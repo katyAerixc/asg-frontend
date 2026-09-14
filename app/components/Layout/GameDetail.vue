@@ -267,7 +267,7 @@ function play() {
     // Figma：H5 16 / 700，PC 18 / 500
     &__stat-value {
         display: inline-flex;
-        gap: 4px;
+        gap: 0;
         align-items: center;
 
         max-width: 100%;

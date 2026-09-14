@@ -87,6 +87,11 @@ const CATEGORIES: GameCategoryFilter[] = [
                 color: var(--color-primary-10);
             }
         }
+
+        // 手機上下內距縮小（她 2026-09-11 指定）
+        @media (width < 960px) {
+            padding: var(--corner-1) 0;
+        }
     }
 }
 </style>

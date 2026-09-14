@@ -597,12 +597,6 @@ function selectLang(code: LocaleCode) {
     @media (width < 960px) {
         width: 300px;
 
-        // Figma 面板高 333 = 上下內距 20 + 帳號區 57 + 四列 x 64
-        // 帳號區 57 = 頭像 56 + 分隔線 1，所以 H5 沒有下方留白
-        &__account {
-            padding-bottom: 0;
-        }
-
         &__avatar {
             width: 56px;
             height: 56px;

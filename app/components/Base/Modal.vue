@@ -219,7 +219,7 @@ onUnmounted(() => {
             gap: var(--modal-gap-pc, var(--modal-gap, 40px));
             width: var(--modal-w-pc, 600px);
             height: var(--modal-h-pc, auto);
-            padding: 25px;
+            padding: 15px 25px;
         }
     }
 }
