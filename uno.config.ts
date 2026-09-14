@@ -1,3 +1,4 @@
+import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
@@ -8,18 +9,14 @@ import {
     transformerDirectives,
 } from 'unocss';
 
+const iconDir = resolve(import.meta.dirname, './app/assets/images/icon');
+
 export default defineConfig({
     presets: [
         presetWind4({ preflights: { reset: true } }),
         // SVG 圖示不做成 Vue 組件，直接放 app/assets/images/icon/
         // 用法：<span class="i-sp-search" />（sp = 專案自訂前綴）
-        presetIcons({
-            collections: {
-                sp: FileSystemIconLoader(
-                    resolve(import.meta.dirname, './app/assets/images/icon'),
-                ),
-            },
-        }),
+        presetIcons({ collections: { sp: FileSystemIconLoader(iconDir) } }),
     ],
     rules: [
         [
@@ -27,6 +24,11 @@ export default defineConfig({
             (matches) => ({ 'font-size': matches[1] }),
         ],
     ],
+    // UnoCSS 是開站前掃原始碼文字產生 CSS，`i-sp-${name}` 這種組出來的它看不到，圖示會無聲消失
+    // 所以圖示資料夾裡每一張都直接產生，變數寫法也正常（2026-09-14 RTP 箭頭消失後加）
+    safelist: readdirSync(iconDir)
+        .filter((file) => file.endsWith('.svg'))
+        .map((file) => `i-sp-${file.replace(/\.svg$/, '')}`),
     shortcuts: {
         'bg-base': 'bg-center bg-cover bg-no-repeat',
         'flex-middle': 'flex items-center justify-center',
