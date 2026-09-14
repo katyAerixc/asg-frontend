@@ -83,7 +83,12 @@
     --color-white-30: rgb(255 255 255 / 30%); // 選單列的下框線（Figma Color/White/30）
     --shadow-light-80: rgb(255 255 255 / 80%);
     --shadow-light-50: rgb(255 255 255 / 50%);
-    --shadow-dark-20: rgb(0 0 0 / 20%);
+
+    // 暗陰影（Figma Color/Shadow/Dark/xx，數字是不透明度）：深色是黑，淺色主題只換這組數字
+    --shadow-dark-rgb: 0 0 0;
+    --shadow-dark-20: rgb(var(--shadow-dark-rgb) / 20%);
+    --shadow-dark-40: rgb(var(--shadow-dark-rgb) / 40%);
+    --shadow-dark-50: rgb(var(--shadow-dark-rgb) / 50%);
 
     // 圓角 Corner（以 Figma 面板為準）
     --corner-1: 4px;
@@ -116,20 +121,28 @@
         rgb(var(--color-primary-60-rgb) / 10%) 0%,
         rgb(var(--color-primary-60-rgb) / 50%) 100%
     );
+
+    // Figma btn/default 四層：Dark/50、Light/50、Light/80、Dark/40
     --shadow-btn:
-        0 0 10px 0 rgb(0 0 0 / 50%), -1px -1px 1px 0 rgb(255 255 255 / 50%) inset,
-        1px 1px 1px 0 rgb(255 255 255 / 80%) inset, -0.5px -1px 4px 0 rgb(0 0 0 / 40%) inset;
+        0 0 10px 0 var(--shadow-dark-50), -1px -1px 1px 0 var(--shadow-light-50) inset,
+        1px 1px 1px 0 var(--shadow-light-80) inset, -0.5px -1px 4px 0 var(--shadow-dark-40) inset;
 
     // 平常：光暈存在但大小為 0、透明（這樣才能做出「由小長大」的動畫）
     --shadow-btn-glow-off: 0 0 0 0 rgb(255 240 220 / 0%);
 
     // hover：光暈長出來（暖白、淡、貼著邊緣）
     --shadow-btn-glow-on: 0 0 8px 1px rgb(255 240 220 / 45%);
+
+    // 藍色主要按鈕（Figma button/Default/Primary）：底色、外框、文字描邊
+    // 按鈕的藍兩個主題都是 #68a4ff，不跟淺色的 Primary/60（#356fdc）走，所以另開一個
+    --color-button-primary-rgb: var(--color-primary-60-rgb);
     --bg-button-primary: linear-gradient(
         180deg,
-        rgb(var(--color-primary-60-rgb) / 50%) 0%,
-        var(--color-primary-60) 100%
+        rgb(var(--color-button-primary-rgb) / 50%) 0%,
+        rgb(var(--color-button-primary-rgb)) 100%
     );
+    --border-button-primary: 1px solid var(--color-black-50);
+    --text-stroke-button-primary: 3px var(--color-navy-50); // 她 2026-09-09 指定
 
     // Header 下框線：兩端透明、中間半透明藍
     --line-header: linear-gradient(
@@ -229,8 +242,14 @@
     --color-primary-60-rgb: 53 111 220; // #356fdc
     --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
 
-    // 遊戲卡 RTP 膠囊的外陰影：深色是純黑 20%，淺色改成帶藍的灰
-    --shadow-dark-20: rgb(138 149 167 / 20%); // #8a95a7 20%
+    // 暗陰影：深色是純黑，淺色改成帶藍的灰（Figma Light 的 Dark/20・40・50 都是 #8a95a7）
+    // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換（她 2026-09-14 提供 Dark/40・50）
+    --shadow-dark-rgb: 138 149 167; // #8a95a7
+
+    // 藍色主要按鈕（她 2026-09-14 提供淺色 Figma）：底色維持亮藍、沒有外框、文字描邊變淺（Figma 1px Black/50）
+    --color-button-primary-rgb: 104 164 255; // #68a4ff
+    --border-button-primary: none;
+    --text-stroke-button-primary: 1px var(--color-black-50);
 
     // 遊戲卡滑入：淺色不長框（Primary/10 在淺色是深藍，會變成一圈深框像陰影），
     // 改成柔光暈（她 2026-09-14 從三個候選裡選的 B，再調成右下小範圍）。

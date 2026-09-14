@@ -57,7 +57,7 @@ withDefaults(
     &--primary {
         background: var(--bg-button-primary);
 
-        -webkit-text-stroke: 3px var(--color-navy-50);
+        -webkit-text-stroke: var(--text-stroke-button-primary);
     }
 
     // 白底但文字仍是白的，靠黑色描邊撐出可讀性（她 2026-09-11 指定 2px 黑 70%）

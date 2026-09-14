@@ -66,7 +66,7 @@ const emit = defineEmits<{ loadMore: [] }>();
 
         height: 46px;
         padding: 0 28px;
-        border: 1px solid var(--color-black-50); // Figma Color/Black/50
+        border: var(--border-button-primary); // 深色 1px Black/50、淺色沒有
         border-radius: var(--corner-full);
 
         font-size: 18px;
@@ -83,7 +83,7 @@ const emit = defineEmits<{ loadMore: [] }>();
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        -webkit-text-stroke: 3px var(--color-navy-50);
+        -webkit-text-stroke: var(--text-stroke-button-primary);
 
         @media (hover: hover) {
             &:hover {
