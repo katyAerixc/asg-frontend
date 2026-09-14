@@ -60,13 +60,13 @@
     </header>
 
     <!-- 變更頭像彈窗：掛在 Header 上而不是選單裡，選單收起來時彈窗才不會一起不見 -->
-    <LayoutHeaderAvatarPicker
+    <LayoutProfileAvatarPicker
         v-if="isPickerOpen"
         @close="closePicker"
     />
 
     <!-- 變更暱稱彈窗：同樣掛在 Header 上，選單收起來也不會跟著不見 -->
-    <LayoutHeaderNicknameEditor
+    <LayoutProfileNicknameEditor
         v-if="isNicknameEditorOpen"
         @close="closeNicknameEditor"
     />
