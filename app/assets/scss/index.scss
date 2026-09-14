@@ -240,6 +240,9 @@
     // 右下 3/3、模糊 3、擴 1、37%（她在瀏覽器調好給的最終值）
     --shadow-game-hover: 3px 3px 3px 1px rgb(var(--color-game-glow-rgb) / 37%);
     --bg-page: #e9f2ff; // Figma Color/Surface
+    // 黏頂工具列的底色（她 2026-09-14 給 hwb(215deg 91% 0%)，＝ #e8f2ff；Figma 代號待她確認，先用用途命名）
+    --color-toolbar-sticky-rgb: 232 242 255;
+    --bg-page-sticky: rgb(var(--color-toolbar-sticky-rgb) / 90%);
     --color-search-icon: var(--color-primary-40);
     --logo-h5: url('@/assets/images/logo/h5-light.png');
     --logo-pc: url('@/assets/images/logo/pc-light.png');
