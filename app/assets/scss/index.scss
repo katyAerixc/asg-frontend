@@ -209,6 +209,10 @@
     --shadow-game:
         -1px -1px 2px 0 var(--shadow-light-80) inset, 1px 1px 2px 0 var(--shadow-light-50) inset,
         -1px -2px 2px 0 var(--shadow-dark-20) inset;
+
+    // 遊戲卡滑入時「長出來」的那一層（Card.vue 疊在 --shadow-game 前面）
+    // 深色：2px 白框（Primary/10 在深色是白）。淺色另外覆寫成光暈，見下方
+    --shadow-game-hover: 0 0 0 2px var(--color-primary-10);
 }
 
 // 淺色主題（Figma Modes → Light，她 2026-09-10 提供 18 張 Inspect）
@@ -227,6 +231,14 @@
 
     // 遊戲卡 RTP 膠囊的外陰影：深色是純黑 20%，淺色改成帶藍的灰
     --shadow-dark-20: rgb(138 149 167 / 20%); // #8a95a7 20%
+
+    // 遊戲卡滑入：淺色不長框（Primary/10 在淺色是深藍，會變成一圈深框像陰影），
+    // 改成柔光暈（她 2026-09-14 從三個候選裡選的 B，再調成右下小範圍）。
+    // 遊戲卡滑入的光暈色（她 2026-09-14 給的 #b8cffa；Figma 代號待她確認，先用用途命名）
+    --color-game-glow-rgb: 184 207 250;
+
+    // 右下 3/3、模糊 3、擴 1、37%（她在瀏覽器調好給的最終值）
+    --shadow-game-hover: 3px 3px 3px 1px rgb(var(--color-game-glow-rgb) / 37%);
     --bg-page: #e9f2ff; // Figma Color/Surface
     --color-search-icon: var(--color-primary-40);
     --logo-h5: url('@/assets/images/logo/h5-light.png');

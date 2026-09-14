@@ -303,10 +303,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         // 滑入整張卡：玻璃塊往「外」長出一圈白框（沒有 inset 就是畫在外面）
         // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
+        // 長出來的那層由主題決定：深色是白框、淺色是光暈（--shadow-game-hover 在 index.scss）
         &:hover &__info {
-            box-shadow:
-                0 0 0 2px var(--color-primary-10),
-                var(--shadow-game);
+            box-shadow: var(--shadow-game-hover), var(--shadow-game);
         }
     }
 
