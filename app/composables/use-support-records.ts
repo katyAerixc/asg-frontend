@@ -23,11 +23,13 @@ export function useSupportRecords() {
 
     // 後端資料疊上「這次開站看過的」：彈窗關掉再開，Nuxt 會把資料清掉重抓，
     // 假資料又是第一筆未讀；靠 store 的 readIds 蓋回去，紅點才不會又亮（2026-09-14 實測踩到）
+    // 點開「客服已回覆」那一筆 → 看過就算完結，標籤改成「已完結」（她 2026-09-14 指定）
     const records = computed(() => data.value.map((item) =>
         supportStore.readIds.includes(item.id)
             ? {
                 ...item,
                 isReplyRead: true,
+                status: 'closed' as const,
             }
             : item,
     ));
