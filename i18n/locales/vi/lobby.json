@@ -24,9 +24,9 @@
     "volatility": {
       "high": "Cao",
       "low": "Thấp",
-      "mid": "Trung bình",
-      "midHigh": "Trung-Cao",
-      "midLow": "Trung-Thấp"
+      "mid": "Vừa",
+      "midHigh": "Khá cao",
+      "midLow": "Khá thấp"
     }
   }
 }
