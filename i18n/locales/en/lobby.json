@@ -1,7 +1,7 @@
 {
   "lobby": {
     "card": {
-      "maxMultiplier": "Max Multiplier",
+      "maxMultiplier": "Max Win",
       "thumb": "{name} Thumbnail",
       "volatilityLabel": "Volatility"
     },

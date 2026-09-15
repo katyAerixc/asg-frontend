@@ -1,9 +1,9 @@
 {
   "lobby": {
     "card": {
-      "maxMultiplier": "Tỷ lệ cược tối đa",
+      "maxMultiplier": "Cược tối đa",
       "thumb": "Hình thu nhỏ {name}",
-      "volatilityLabel": "Độ biến động"
+      "volatilityLabel": "Biến động"
     },
     "category": {
       "all": "Tất cả",
