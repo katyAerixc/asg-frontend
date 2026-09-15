@@ -98,8 +98,11 @@
     --color-white-70: rgb(255 255 255 / 70%);
     --color-white-50: rgb(255 255 255 / 50%);
     --color-white-30: rgb(255 255 255 / 30%); // 選單列的下框線（Figma Color/White/30）
-    --shadow-light-80: rgb(255 255 255 / 80%);
-    --shadow-light-50: rgb(255 255 255 / 50%);
+
+    // 亮陰影（Figma Color/Shadow/Light/xx）：深色是白，淺色主題只換這組數字
+    --shadow-light-rgb: 255 255 255;
+    --shadow-light-80: rgb(var(--shadow-light-rgb) / 80%);
+    --shadow-light-50: rgb(var(--shadow-light-rgb) / 50%);
 
     // 暗陰影（Figma Color/Shadow/Dark/xx，數字是不透明度）：深色是黑，淺色主題只換這組數字
     --shadow-dark-rgb: 0 0 0;
@@ -266,15 +269,21 @@
 [data-theme='light'] {
     // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
     --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
+    --color-primary-30: #535961; // 她 2026-09-14 給的色票（目前只有放大鏡用，淺色放大鏡另外用 40）
+    --color-primary-50: #82aced; // 色票；客服紀錄日期、「客服已回覆」膠囊、客服回覆氣泡、打勾漸層起點
     --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
     --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
     --color-primary-60-rgb: 53 111 220; // #356fdc
     --color-primary-70-rgb: 42 74 255; // #2a4aff（她 2026-09-14 給的色票；客服紀錄卡片底 Primary/opacity/70/50% 就是它）
+    --color-primary-80: #20399d; // 色票；變更頭像選中的打勾漸層終點
     --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
 
     // 暗陰影：深色是純黑，淺色改成帶藍的灰（Figma Light 的 Dark/20・40・50 都是 #8a95a7）
     // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換（她 2026-09-14 提供 Dark/40・50）
     --shadow-dark-rgb: 138 149 167; // #8a95a7
+
+    // 亮陰影：淺色色票 Shadow/Light 是淡藍（她 2026-09-15 選照色票改）；按鈕與遊戲卡的細反光跟著換
+    --shadow-light-rgb: 203 223 255; // #cbdfff
 
     // 藍色主要按鈕（她 2026-09-14 提供淺色 Figma）：底色維持亮藍、沒有外框、文字描邊變淺（Figma 1px Black/50）
     --color-button-primary-rgb: 104 164 255; // #68a4ff
@@ -321,9 +330,7 @@
     --color-support-closed-rgb: 141 161 228;
     --bg-support-status-closed: rgb(var(--color-support-closed-rgb));
 
-    // 客服回覆氣泡：底 #82aced；標題 #303852（＝淺色 Primary/10）、內容 #4e5f98（＝淺色 Primary/20）
-    --color-support-reply-rgb: 130 172 237;
-    --bg-support-reply: rgb(var(--color-support-reply-rgb));
+    // 客服回覆氣泡：底吃 :root 的 Primary/50（淺色 #82aced 已補在色階）；標題 #303852（＝淺色 Primary/10）、內容 #4e5f98（＝淺色 Primary/20）
     --color-support-reply-title: var(--color-primary-10);
     --color-support-reply-text: var(--color-primary-20);
 
