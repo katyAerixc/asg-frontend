@@ -8,6 +8,8 @@
         <div class="game-toolbar__inner">
             <GameCategoryFilter
                 :active-category="category"
+                class="game-toolbar__category"
+                :class="{ 'game-toolbar__category--stuck': stuck }"
                 @update:active-category="category = $event"
             />
 
@@ -60,6 +62,36 @@
                 </label>
             </div>
         </div>
+
+        <!-- 手機版：往下捲到 ALL 那排看不見時，搜尋鈕浮在右下角（她 2026-09-15 定，#63）
+             Teleport 出去：工具列有 backdrop-filter 時，fixed 會改成貼著工具列而不是螢幕 -->
+        <Teleport to="#teleports">
+            <Transition name="game-toolbar-float">
+                <div
+                    v-if="isFloatVisible"
+                    ref="floatRef"
+                    class="game-toolbar-float"
+                    :class="{ 'game-toolbar-float--open': isFloatOpen }"
+                >
+                    <label
+                        class="game-toolbar-float__box"
+                        @click="openFloat"
+                    >
+                        <input
+                            ref="floatInputRef"
+                            v-model="keyword"
+                            class="game-toolbar-float__input"
+                            :placeholder="$t('lobby.searchPlaceholder')"
+                            type="search"
+                            @blur="closeFloat"
+                            @input="ignoreScrollForAWhile"
+                            @keydown.enter="closeFloat"
+                        >
+                        <span class="game-toolbar-float__icon i-sp-search" />
+                    </label>
+                </div>
+            </Transition>
+        </Teleport>
     </div>
 </template>
 
@@ -91,7 +123,19 @@ const isSearchOpen = ref(false);
 const searchInputRef = ref<HTMLInputElement | null>(null);
 const filtersRef = ref<HTMLElement | null>(null);
 
+// 浮動搜尋鈕（手機）：ALL 那排捲出畫面才出現
+const isFiltersOut = ref(false);
+const isFloatOpen = ref(false);
+const floatRef = ref<HTMLElement | null>(null);
+const floatInputRef = ref<HTMLInputElement | null>(null);
+// 手機跳出鍵盤、打字篩掉遊戲時頁面會跟著動，瀏覽器會當成捲動 → 這段時間內的捲動不算（她選 A：打字時不收）
+let ignoreScrollUntil = 0;
+let filtersObserver: IntersectionObserver | null = null;
+
 // Computed properties
+// 展開中就算 ALL 那排回到畫面也先留著，收起來才消失（不然打字篩選時頁面變短，按鈕會突然不見）
+const isFloatVisible = computed(() => isFiltersOut.value || isFloatOpen.value);
+
 // 搜尋展開時，四顆標籤鈕收成這一顆：沒選 = ALL、選一個 = HOT、選多個 = HOT +1
 const tagSummary = computed(() => {
     if (!tags.value.length) return 'ALL';
@@ -101,6 +145,29 @@ const tagSummary = computed(() => {
 });
 
 // Functions
+function closeFloat() {
+    if (!isFloatOpen.value) return;
+
+    isFloatOpen.value = false;
+    floatInputRef.value?.blur();
+}
+
+// 點浮動鈕以外的地方就收起來
+function closeFloatOnOutsideClick(event: MouseEvent) {
+    if (!isFloatOpen.value) return;
+    if (floatRef.value?.contains(event.target as Node)) return;
+
+    closeFloat();
+}
+
+// 往上往下捲都收起來；但鍵盤剛跳出來、正在打字的那一下不算
+function closeFloatOnScroll() {
+    if (!isFloatOpen.value) return;
+    if (Date.now() < ignoreScrollUntil) return;
+
+    closeFloat();
+}
+
 // 點到搜尋列以外的地方就收回去（她 2026-09-11 指定）
 function closeSearchOnOutsideClick(event: MouseEvent) {
     if (!isSearchOpen.value) return;
@@ -109,11 +176,25 @@ function closeSearchOnOutsideClick(event: MouseEvent) {
     isSearchOpen.value = false;
 }
 
+function ignoreScrollForAWhile() {
+    ignoreScrollUntil = Date.now() + 800;
+}
+
 // ALL 只有在「什麼標籤都沒選」時才亮
 function isTagActive(option: string) {
     if (option === 'ALL') return !tags.value.length;
 
     return tags.value.includes(option);
+}
+
+// 點浮動鈕：展開並把游標送進去（跟上面的放大鏡一樣要等畫面畫好）
+async function openFloat() {
+    if (isFloatOpen.value) return;
+
+    isFloatOpen.value = true;
+    ignoreScrollForAWhile();
+    await nextTick();
+    floatInputRef.value?.focus();
 }
 
 // 點放大鏡：先展開，等畫面畫好再把游標送進輸入框（不等的話 input 還不存在）
@@ -145,10 +226,27 @@ function toggleTag(option: string) {
 // Hooks
 onMounted(() => {
     document.addEventListener('click', closeSearchOnOutsideClick);
+    document.addEventListener('click', closeFloatOnOutsideClick);
+    window.addEventListener('scroll', closeFloatOnScroll, { passive: true });
+    // 鍵盤跳出／收起會改變可視高度，也先別收
+    window.visualViewport?.addEventListener('resize', ignoreScrollForAWhile);
+
+    // ALL 那排「往上」捲出畫面才算（電腦版工具列黏頂，永遠看得見，所以不會出現）
+    if (filtersRef.value) {
+        filtersObserver = new IntersectionObserver(([entry]) => {
+            if (!entry) return;
+            isFiltersOut.value = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        });
+        filtersObserver.observe(filtersRef.value);
+    }
 });
 
 onUnmounted(() => {
     document.removeEventListener('click', closeSearchOnOutsideClick);
+    document.removeEventListener('click', closeFloatOnOutsideClick);
+    window.removeEventListener('scroll', closeFloatOnScroll);
+    window.visualViewport?.removeEventListener('resize', ignoreScrollForAWhile);
+    filtersObserver?.disconnect();
 });
 </script>
 
@@ -340,15 +438,40 @@ onUnmounted(() => {
 
     // 手機版寬度不夠並排：搜尋框平常收成正方形，點了才展開
     @media (width < 960px) {
-        // 手機：下方不留內距（她 2026-09-11 指定），區塊間距縮到 18
+        // 手機（她 2026-09-15 定，#63）：只有「全部／老虎機…」分類列黏頂，ALL 那排跟著頁面捲走、改由右下角浮動鈕搜尋
+        // sticky 只能在爸爸範圍內黏，所以外層兩層改 display: contents（盒子消失），分類列直接變成整頁的子元素才黏得住
+        display: contents;
+
+        &__category {
+            position: sticky;
+            z-index: 40;
+            top: 0;
+
+            // 原本整條工具列的上左右內距 16；下面留 8，跟 ALL 那排的 10 加起來還是原本的間距 18
+            padding: 16px 16px 8px;
+
+            background-color: transparent;
+
+            transition:
+                background-color 0.25s ease,
+                backdrop-filter 0.25s ease;
+
+            &--stuck {
+                background-color: var(--bg-page-sticky);
+                backdrop-filter: blur(12px);
+            }
+        }
+
+        // 手機：下方不留內距（她 2026-09-11 指定）；內距改由分類列與 ALL 那排各自負責
         &__inner {
-            gap: 18px;
-            padding-bottom: 0;
+            display: contents;
         }
 
         // 320 只有 288px 可用，內距與間距全部縮一階才擠得下四顆 + 放大鏡
         &__filters {
             gap: 6px;
+            margin-top: 10px;
+            padding: 0 16px;
         }
 
         // 展開搜尋時要能「縮到 0」，所以用 max-width 而不是 display: none
@@ -473,5 +596,111 @@ onUnmounted(() => {
             flex: 0 1 445px;
         }
     }
+}
+
+// 右下角浮動搜尋鈕（只有手機會出現）
+// 收起：跟上面收起來的放大鏡同一個長相；展開：往左長成整條搜尋框
+.game-toolbar-float {
+    position: fixed;
+    z-index: 45; // 蓋過遊戲卡與工具列(40)，但在頭像選單(60)與彈窗(100)底下
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+
+    &__box {
+        cursor: pointer;
+
+        display: flex;
+        gap: 0;
+        align-items: center;
+        justify-content: center;
+
+        width: 44px;
+        height: 44px;
+        padding: var(--corner-2);
+        border-radius: var(--corner-input);
+
+        background: var(--bg-input);
+        backdrop-filter: blur(25px);
+        box-shadow: var(--shadow-btn-glow-off), var(--shadow-input);
+
+        transition:
+            width 0.3s ease,
+            gap 0.3s ease,
+            padding 0.3s ease,
+            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:focus-within {
+            box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+        }
+    }
+
+    &__input {
+        flex: 1;
+
+        min-width: 0;
+        max-width: 0;
+        border: 0;
+
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
+        color: var(--color-primary-10);
+
+        opacity: 0;
+        background: transparent;
+        outline: none;
+
+        transition:
+            max-width 0.3s ease,
+            opacity 0.2s ease;
+
+        &::placeholder {
+            color: var(--color-primary-40);
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        width: 19px;
+        height: 19px;
+        color: var(--color-search-icon);
+    }
+
+    // 展開：寬度＝螢幕寬扣掉左右各 16
+    &--open &__box {
+        gap: 10px;
+        width: calc(100vw - 32px);
+        padding: var(--input-padding-y) var(--input-padding-x);
+    }
+
+    &--open &__input {
+        max-width: 100%;
+        opacity: 1;
+    }
+
+    // 電腦版工具列會黏頂，不需要浮動鈕
+    @media (width >= 960px) {
+        display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &__box,
+        &__input {
+            transition: none;
+        }
+    }
+}
+
+// 出現／消失：淡入淡出＋往上浮一點
+.game-toolbar-float-enter-active,
+.game-toolbar-float-leave-active {
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.game-toolbar-float-enter-from,
+.game-toolbar-float-leave-to {
+    transform: translateY(8px);
+    opacity: 0;
 }
 </style>
