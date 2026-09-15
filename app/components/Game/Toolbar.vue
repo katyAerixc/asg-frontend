@@ -18,34 +18,27 @@
                 class="game-toolbar__filters"
                 :class="{ 'game-toolbar__filters--searching': isSearchOpen }"
             >
-                <!-- ⚠️ 標籤要排在摘要鈕「前面」（她 2026-09-11 抓到）：
-                     摘要鈕若排前面，它長出來時會把標籤往右推，看起來就是左右晃一下。
-                     標籤放第一個，左邊就被釘死在容器左緣，不可能被推動。 -->
-
-                <!-- ALL / NEW / HOT / HIGH：ALL 是清除鍵，其餘可單選也可複選 -->
+                <!-- ALL / NEW / HOT / HIGH：ALL 是清除鍵，其餘可單選也可複選
+                     手機展開搜尋時：後三顆收起來，第一顆「原地」變成摘要（ALL／HOT／HOT +1），點它收回搜尋
+                     🚨 摘要要用第一顆本身，不能另外長一顆（她 2026-09-15 抓到：兩塊不同的東西一個縮一個長，會跳一下） -->
                 <div class="game-toolbar__toggle">
                     <button
-                        v-for="option in filterOptions"
+                        v-for="(option, index) in filterOptions"
                         :key="option"
                         :aria-pressed="isTagActive(option)"
                         class="game-toolbar__toggle-btn"
                         :class="{ 'game-toolbar__toggle-btn--active': isTagActive(option) }"
                         :data-text="option"
                         type="button"
-                        @click="toggleTag(option)"
+                        @click="clickToggle(option, index)"
                     >
-                        {{ option }}
+                        <span class="game-toolbar__toggle-label">{{ option }}</span>
+                        <span
+                            v-if="index === 0"
+                            class="game-toolbar__toggle-summary"
+                        >{{ tagSummary }}</span>
                     </button>
                 </div>
-
-                <!-- 手機版展開搜尋時，四顆標籤鈕收成這一顆；再點一下收回去 -->
-                <button
-                    class="game-toolbar__summary"
-                    type="button"
-                    @click="isSearchOpen = false"
-                >
-                    {{ tagSummary }}
-                </button>
 
                 <label
                     class="game-toolbar__search"
@@ -138,13 +131,24 @@ let filtersObserver: IntersectionObserver | null = null;
 // 展開中就算 ALL 那排回到畫面也先留著，收起來才消失（不然打字篩選時頁面變短，按鈕會突然不見）
 const isFloatVisible = computed(() => isFiltersOut.value || isFloatOpen.value);
 
-// 搜尋展開時，四顆標籤鈕收成這一顆：沒選 = ALL、選一個 = HOT、選多個 = HOT +1
+// 手機展開搜尋時，第一顆標籤顯示的摘要：沒選 = ALL、選一個 = HOT、選多個 = HOT +1
 const tagSummary = computed(() => {
     if (!tags.value.length) return 'ALL';
     if (tags.value.length === 1) return tags.value[0];
 
     return `${tags.value[0]} +${tags.value.length - 1}`;
 });
+
+// 手機展開搜尋時，第一顆是摘要：點它收回搜尋；其他時候照常切換標籤
+function clickToggle(option: string, index: number) {
+    if (index === 0 && isSearchOpen.value && window.matchMedia('(max-width: 959.98px)').matches) {
+        isSearchOpen.value = false;
+
+        return;
+    }
+
+    toggleTag(option);
+}
 
 // Functions
 function closeFloat() {
@@ -307,7 +311,9 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        padding: var(--corner-1);
+        // 跟右邊搜尋框同高 44（她 2026-09-15）：搜尋框是內距 10＋字行高 24 撐出來的；這裡上下不給內距、用高度置中按鈕
+        height: 44px;
+        padding: 0 var(--corner-1);
         border-radius: var(--corner-full);
 
         background: var(--bg-input);
@@ -343,10 +349,12 @@ onUnmounted(() => {
             box-shadow 0.2s ease;
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
+        // 🚨 不能加 overflow: hidden（她 2026-09-15 抓到「點標籤時右邊搜尋框會晃」）：
+        //    加了之後它的「最小寬度」會被算成 0，按鈕的最小寬度改由真的文字決定，
+        //    文字變粗就變寬 → 整排的最小寬度跟著變 → 搜尋框被擠來擠去。高度 0＋看不見已經夠了
         &::before {
             content: attr(data-text);
 
-            overflow: hidden;
             grid-area: 1 / 1;
 
             height: 0;
@@ -426,26 +434,14 @@ onUnmounted(() => {
         color: var(--color-search-icon);
     }
 
-    // 手機版展開搜尋時，四顆標籤鈕收成的這一顆（電腦版空間夠，永遠不出現）
-    // 長相跟選中的 toggle-btn 一致，讓人一眼認出「這是篩選狀態」
-    &__summary {
-        cursor: pointer;
+    // 標籤文字與摘要文字疊在同一格（摘要只有手機展開搜尋時才出現，電腦版永遠不出現）
+    &__toggle-label,
+    &__toggle-summary {
+        grid-area: 1 / 1;
+    }
 
+    &__toggle-summary {
         display: none;
-        flex-shrink: 0;
-        align-items: center;
-
-        padding: var(--corner-1) var(--corner-3);
-        border: 0;
-        border-radius: var(--corner-full);
-
-        font-size: var(--font-size-16);
-        font-weight: var(--font-weight-bold);
-        color: var(--color-primary-10);
-        white-space: nowrap;
-
-        background-color: var(--color-primary-opacity-6030);
-        box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
     }
 
     // 手機版寬度不夠並排：搜尋框平常收成正方形，點了才展開
@@ -486,49 +482,38 @@ onUnmounted(() => {
             padding: 0 16px;
         }
 
-        // 展開搜尋時要能「縮到 0」，所以用 max-width 而不是 display: none
-        // ——display 沒辦法做動畫（她 2026-09-11 要求展開與收回都要有動畫）
-        // 🚨 只讓 max-width 動，其他都別動（她 2026-09-11 抓到「會彈一下」）：
-        //    ①flex-shrink: 0 —— 不然 flex 也會出手壓縮，跟 max-width 兩股力互搶
-        //    ②padding 不做動畫 —— box-sizing 是 border-box，max-width 0 時內距本來就被裁掉
-        //    ③overflow: hidden 取代 overflow-x: auto —— 捲動容器在縮放途中會抖
+        // 展開搜尋時：膠囊外框淡掉、間距收掉，只剩第一顆原地變摘要（她 2026-09-15，#74）
+        // 🚨 overflow: hidden 取代 overflow-x: auto —— 捲動容器在縮放途中會抖（她 2026-09-11 抓到）
+        // 靠左（她 2026-09-11 指定）：後三顆從右邊收起，第一顆原地不動
         &__toggle {
             overflow: hidden;
             flex-shrink: 0;
             gap: 4px;
-
-            // 靠左（她 2026-09-11 指定）：預設是 center，盒子縮窄時按鈕會往中間靠、
-            // 看起來像 ALL 在滑動。靠左的話只會從右邊被裁掉，ALL 原地不動
             justify-content: flex-start;
 
             min-width: 0;
-            max-width: 30rem;
-
-            opacity: 1;
 
             transition:
-                max-width 0.3s ease,
-                opacity 0.2s ease;
+                gap 0.3s ease,
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
+        // 收起來要「真的變 0 寬」：border-box 的最小寬度是左右內距，所以內距也要一起收
         &__toggle-btn {
-            flex-shrink: 0;
-            padding: var(--corner-1) var(--corner-2);
-        }
-
-        // 摘要鈕平常縮成 0 寬（不是 display: none），展開時才長出來
-        &__summary {
             overflow: hidden;
-            display: flex;
             flex-shrink: 0;
 
-            max-width: 0;
-
-            opacity: 0;
+            max-width: 8rem;
+            padding: var(--corner-1) var(--corner-2);
 
             transition:
                 max-width 0.3s ease,
-                opacity 0.2s ease;
+                padding 0.3s ease,
+                opacity 0.2s ease,
+                color 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         &__search {
@@ -563,15 +548,33 @@ onUnmounted(() => {
                 opacity 0.2s ease;
         }
 
-        // 展開後：四顆標籤讓位給摘要鈕，寬度全給搜尋框
+        // 展開後：膠囊外框消失、後三顆收起，第一顆變成摘要（長相同選中的標籤），寬度全給搜尋框
         &__filters--searching &__toggle {
+            gap: 0;
+            background-color: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
+        }
+
+        &__filters--searching &__toggle-btn:not(:first-child) {
             max-width: 0;
+            padding-inline: 0;
             opacity: 0;
         }
 
-        &__filters--searching &__summary {
-            max-width: 12rem;
-            opacity: 1;
+        &__filters--searching &__toggle-btn:first-child {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary-10);
+            background-color: var(--color-primary-opacity-6030);
+            box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
+        }
+
+        &__filters--searching &__toggle-btn:first-child &__toggle-label {
+            visibility: hidden;
+        }
+
+        &__filters--searching &__toggle-summary {
+            display: block;
         }
 
         &__filters--searching &__search {
@@ -587,7 +590,7 @@ onUnmounted(() => {
         // 系統設定「減少動態效果」的人直接切換，不做動畫
         @media (prefers-reduced-motion: reduce) {
             &__toggle,
-            &__summary,
+            &__toggle-btn,
             &__search,
             &__search-input {
                 transition: none;
