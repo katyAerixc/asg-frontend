@@ -68,7 +68,7 @@
         <Teleport to="#teleports">
             <Transition name="game-toolbar-float">
                 <div
-                    v-if="isFloatVisible"
+                    v-if="isPageActive && isFloatVisible"
                     ref="floatRef"
                     class="game-toolbar-float"
                     :class="{ 'game-toolbar-float--open': isFloatOpen }"
@@ -124,6 +124,8 @@ const searchInputRef = ref<HTMLInputElement | null>(null);
 const filtersRef = ref<HTMLElement | null>(null);
 
 // 浮動搜尋鈕（手機）：ALL 那排捲出畫面才出現
+// 🚨 keepalive 會把舊語系的首頁暫存起來；暫存中的工具列不能再畫浮動鈕，不然切語系後會有兩顆（她 2026-09-15）
+const isPageActive = ref(true);
 const isFiltersOut = ref(false);
 const isFloatOpen = ref(false);
 const floatRef = ref<HTMLElement | null>(null);
@@ -239,6 +241,16 @@ onMounted(() => {
         });
         filtersObserver.observe(filtersRef.value);
     }
+});
+
+// 頁面被 keepalive 暫存時收起浮動鈕；回到前台再重新判斷
+onActivated(() => {
+    isPageActive.value = true;
+});
+
+onDeactivated(() => {
+    isPageActive.value = false;
+    closeFloat();
 });
 
 onUnmounted(() => {

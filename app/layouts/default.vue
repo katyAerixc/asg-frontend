@@ -15,10 +15,21 @@
         <div class="layout__footer">
             <LayoutFooter />
         </div>
+
+        <!-- 遊戲介紹彈窗：點遊戲卡打開。🚨 要掛在 layout，不能放在頁面裡（她 2026-09-15 抓到重複彈窗）
+             nuxt.config 開了 keepalive：切語系＝換路由，舊語系的首頁會被暫存（沒有關掉）。
+             彈窗若寫在頁面裡，暫存的那份也會跟著開 → 畫面上兩個。layout 全站只有一份 -->
+        <GameDetail
+            v-if="openedGame"
+            :game="openedGame"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
+// Composables
+const { openedGame } = storeToRefs(useGameDetailStore());
+
 // Variables
 // ⚠️ 之後接 API 時改從 composable 拿
 const userCoins = ref(100000000);

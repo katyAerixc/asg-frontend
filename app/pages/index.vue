@@ -31,12 +31,6 @@
             />
         </main>
     </div>
-
-    <!-- 遊戲介紹彈窗：點遊戲卡打開，掛在頁面上而不是卡片裡 -->
-    <GameDetail
-        v-if="openedGame"
-        :game="openedGame"
-    />
 </template>
 
 <script setup lang="ts">
@@ -45,7 +39,6 @@ import type { GameCategoryFilter } from '@/types/game';
 // Composables
 // 這裡要在 script 裡拿翻譯（模板用 $t 就好，不必宣告）
 const { t } = useI18n();
-const { openedGame } = storeToRefs(useGameDetailStore());
 // Variables
 // 一次顯示幾張；點「加載更多」就把剩下的全放出來（之後接 API 改成每次要一頁）
 const PAGE_SIZE = 6;
