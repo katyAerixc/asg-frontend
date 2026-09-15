@@ -217,8 +217,8 @@ onUnmounted(() => {
         border: 0;
         border-radius: var(--corner-full);
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
         white-space: nowrap;
 
@@ -241,13 +241,13 @@ onUnmounted(() => {
 
             height: 0;
 
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
 
             visibility: hidden;
         }
 
         &--active {
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
             background-color: var(--color-primary-opacity-6030);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
@@ -296,8 +296,8 @@ onUnmounted(() => {
         min-width: 0;
         border: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-10);
 
         background: transparent;
@@ -328,8 +328,8 @@ onUnmounted(() => {
         border: 0;
         border-radius: var(--corner-full);
 
-        font-size: 16px;
-        font-weight: 700;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-bold);
         color: var(--color-primary-10);
         white-space: nowrap;
 

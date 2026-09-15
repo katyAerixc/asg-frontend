@@ -124,8 +124,8 @@ function openRecord(id: number) {
 
     // Figma：Inter 14 / 300 / Primary/50（點進去的內容頁也用 50，兩邊一致，她 2026-09-14 指定）
     &__date {
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-50);
     }
@@ -141,10 +141,10 @@ function openRecord(id: number) {
         padding: var(--corner-1) var(--corner-2);
         border-radius: var(--corner-full);
 
-        font-size: 14px;
+        font-size: var(--font-size-14);
 
         // 已回覆、已完結的字重都是 300，深淺色一樣（她 2026-09-14 指定，取代 9/11 的 500）
-        font-weight: 300;
+        font-weight: var(--font-weight-regular);
 
         // 已回覆：藍底白字
         &--replied {
@@ -180,8 +180,8 @@ function openRecord(id: number) {
 
         min-width: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
     }
 
@@ -192,7 +192,7 @@ function openRecord(id: number) {
         padding-right: var(--corner-2);
         border-right: 1px solid var(--color-white-50);
 
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10);
     }
 
@@ -211,11 +211,11 @@ function openRecord(id: number) {
     // PC 字級照 Figma PC（她 2026-09-14 提供淺色版 14 張 Inspect；顏色代號與深色相同）
     @media (width >= 600px) {
         &__date {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__status {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__dot {
@@ -224,7 +224,7 @@ function openRecord(id: number) {
         }
 
         &__summary {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
     }
 }

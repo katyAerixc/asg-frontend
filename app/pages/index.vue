@@ -167,14 +167,14 @@ useHead({
     }
 
     &__title {
-        font-size: 24px;
-        font-weight: 700;
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-bold);
         color: var(--color-primary-10);
     }
 
     &__count {
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
         text-align: right;
         white-space: nowrap;

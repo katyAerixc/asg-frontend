@@ -102,8 +102,8 @@ onMounted(() => {
 
     // Figma：H5 18 / 500 / 白（PC 20）
     &__label {
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         line-height: 1.4;
         color: var(--color-neutral-10);
     }
@@ -137,8 +137,8 @@ onMounted(() => {
         min-width: 0;
         border: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: normal;
         color: var(--color-primary-10);
 
@@ -181,7 +181,7 @@ onMounted(() => {
         max-width: 510px;
 
         &__label {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
 
         &__field {
@@ -189,7 +189,7 @@ onMounted(() => {
         }
 
         &__input {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
     }
 }

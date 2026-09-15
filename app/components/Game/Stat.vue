@@ -102,7 +102,7 @@ withDefaults(
 
         max-width: 100%;
 
-        font-weight: 300;
+        font-weight: var(--font-weight-regular);
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -113,7 +113,7 @@ withDefaults(
 
         max-width: 100%;
 
-        font-weight: 700;
+        font-weight: var(--font-weight-bold);
         white-space: nowrap;
     }
 
@@ -205,7 +205,7 @@ withDefaults(
 
             // 電腦：字級已由上方的 clamp 接手（14 / 18），這裡只剩字重不同
             @media (width >= 960px) {
-                font-weight: 500;
+                font-weight: var(--font-weight-medium);
             }
         }
 
@@ -239,14 +239,14 @@ withDefaults(
 
         // Figma：H5 12 / PC 14，300，Neutral/10
         #{$self}__label {
-            font-size: 12px;
+            font-size: var(--font-size-12);
             color: var(--color-neutral-10);
         }
 
         // Figma：H5 16 / 700，PC 18 / 500
         #{$self}__value {
             gap: 0;
-            font-size: 16px;
+            font-size: var(--font-size-16);
             color: var(--color-neutral-10);
         }
 
@@ -262,12 +262,12 @@ withDefaults(
             min-height: 51px;
 
             #{$self}__label {
-                font-size: 14px;
+                font-size: var(--font-size-14);
             }
 
             #{$self}__value {
-                font-size: 18px;
-                font-weight: 500;
+                font-size: var(--font-size-18);
+                font-weight: var(--font-weight-medium);
             }
 
             #{$self}__arrow {

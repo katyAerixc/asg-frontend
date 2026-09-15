@@ -153,8 +153,8 @@ function play() {
     &__name {
         margin: 0;
 
-        font-size: 24px;
-        font-weight: 700;
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-bold);
         line-height: 1.4;
         color: var(--color-neutral-10);
     }
@@ -170,8 +170,8 @@ function play() {
         border: 1px solid var(--color-red-10);
         border-radius: var(--corner-full);
 
-        font-size: 12px;
-        font-weight: 500;
+        font-size: var(--font-size-12);
+        font-weight: var(--font-weight-medium);
         color: var(--color-red-10);
     }
 
@@ -179,8 +179,8 @@ function play() {
     &__desc {
         margin: 0;
 
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-20);
     }
@@ -203,16 +203,16 @@ function play() {
     // 字級先跟著換（Figma PC 值）
     @media (width >= 600px) {
         &__name {
-            font-size: 26px;
+            font-size: var(--font-size-26);
         }
 
         &__category {
             min-height: 27px;
-            font-size: 14px;
+            font-size: var(--font-size-14);
         }
 
         &__desc {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
     }
 

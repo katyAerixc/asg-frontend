@@ -31,8 +31,8 @@ defineProps<{ type: string }>();
     border: 1px solid var(--color-neutral-10);
     border-radius: var(--corner-3) 0;
 
-    font-size: 14px; // 手機 14、電腦 16（見下方 media query）
-    font-weight: 700;
+    font-size: var(--font-size-14); // 手機 14、電腦 16（見下方 media query）
+    font-weight: var(--font-weight-bold);
     color: var(--color-neutral-10);
     text-shadow: 0 1px 0 var(--color-black-50);
 
@@ -53,7 +53,7 @@ defineProps<{ type: string }>();
     }
 
     @media (width >= 960px) {
-        font-size: 16px;
+        font-size: var(--font-size-16);
     }
 }
 </style>

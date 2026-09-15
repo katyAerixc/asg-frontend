@@ -157,8 +157,8 @@ async function submit() {
     // ⚠️ 字級暫定 16 / PC 20，Figma 未給
     // 標題字：兩個主題都是白（Neutral/10 淺色不覆寫）。原本用 Primary/10，淺色會變深藍（她 2026-09-14 提供 Figma 淺色）
     &__label {
-        font-size: 16px;
-        font-weight: 500;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-medium);
         line-height: 1.4;
         color: var(--color-neutral-10);
     }
@@ -181,7 +181,7 @@ async function submit() {
 
     @media (width >= 600px) {
         &__label {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
 
         // Figma PC/input：描述框 200 高

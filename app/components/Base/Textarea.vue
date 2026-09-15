@@ -101,8 +101,8 @@ function clear() {
         padding: 0;
         border: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-10);
 
@@ -127,7 +127,7 @@ function clear() {
         padding: 0;
         border: 0;
 
-        font-size: 16px;
+        font-size: var(--font-size-16);
         color: var(--color-input-clear);
 
         background-color: currentcolor;
@@ -144,8 +144,8 @@ function clear() {
     // Figma：0/500 在右下角、灰字
     &__count {
         align-self: flex-end;
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
 
         // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
@@ -158,7 +158,7 @@ function clear() {
         &__input,
         &__clear,
         &__count {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
     }
 }

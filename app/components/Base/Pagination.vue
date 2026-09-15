@@ -202,7 +202,7 @@ function go(page: number) {
         border: 0;
         border-radius: var(--corner-full);
 
-        font-size: 16px;
+        font-size: var(--font-size-16);
         font-weight: 400;
         color: var(--color-neutral-40);
 
@@ -239,7 +239,7 @@ function go(page: number) {
         width: 30px;
         height: 30px;
 
-        font-size: 16px;
+        font-size: var(--font-size-16);
         font-weight: 400;
         color: var(--color-neutral-40);
     }

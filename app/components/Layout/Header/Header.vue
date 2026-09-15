@@ -231,8 +231,8 @@ onUnmounted(() => {
 
         min-width: 0;
 
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         color: var(--color-primary-10);
         text-align: center;
         text-overflow: ellipsis;

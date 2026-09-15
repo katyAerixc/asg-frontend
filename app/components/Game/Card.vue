@@ -239,16 +239,16 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 名稱與描述：手機電腦都固定同一個字級（她 2026-09-09 定，原本是跟著卡片寬度縮）
     &__name {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-bold);
         color: var(--color-neutral-80);
     }
 
     &__desc {
         overflow: hidden;
 
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         color: var(--color-neutral-80);
         text-overflow: ellipsis;
         white-space: nowrap;

@@ -119,6 +119,23 @@
     --corner-input: 10px;
     --corner-full: 100px;
 
+    // 字級（Figma UI kit Typography「Font 12p～30p」，名字就是 px 數，想改大小就換一格；她 2026-09-15 定）
+    --font-size-12: 12px;
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-18: 18px;
+    --font-size-20: 20px;
+    --font-size-22: 22px;
+    --font-size-24: 24px;
+    --font-size-26: 26px;
+    --font-size-30: 30px;
+
+    // 字重（照 UI kit 標籤 Bold / Medium / Regular；她 2026-09-15 定）
+    // ⚠️ regular 在這個專案是 300，不是 CSS 慣例的 400（UI kit 就是這樣標的）
+    --font-weight-bold: 700;
+    --font-weight-medium: 500;
+    --font-weight-regular: 300;
+
     // 輸入框 / 切換膠囊（Figma 名稱 input）
     --bg-input: var(--color-primary-90);
     --shadow-input:

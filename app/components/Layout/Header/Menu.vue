@@ -284,8 +284,8 @@ function selectLang(code: LocaleCode) {
 
         height: 24px;
 
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         color: var(--color-neutral-10);
 
         background: var(--color-black-80);
@@ -309,8 +309,8 @@ function selectLang(code: LocaleCode) {
     // Figma：18px / 300 / Primary/20
     &__profile-label {
         flex-shrink: 0;
-        font-size: 18px;
-        font-weight: 300;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-20);
     }
 
@@ -318,8 +318,8 @@ function selectLang(code: LocaleCode) {
     &__profile-value {
         overflow: hidden;
 
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         color: var(--color-primary-10);
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -401,8 +401,8 @@ function selectLang(code: LocaleCode) {
 
     // Figma：18px / 500 / Primary/10
     &__row-label {
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         color: var(--color-primary-10);
     }
 
@@ -440,8 +440,8 @@ function selectLang(code: LocaleCode) {
         border: 0;
         border-radius: var(--corner-full);
 
-        font-size: 18px;
-        font-weight: 300;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
 
         background-color: transparent;
@@ -452,7 +452,7 @@ function selectLang(code: LocaleCode) {
             box-shadow 0.2s;
 
         &--active {
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
             background-color: var(--color-primary-opacity-6030);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
@@ -501,8 +501,8 @@ function selectLang(code: LocaleCode) {
         overflow: hidden;
         flex: 1;
 
-        font-size: 20px;
-        font-weight: 300;
+        font-size: var(--font-size-20);
+        font-weight: var(--font-weight-regular);
 
         // 140% 不是設計稿的 100%：英文的下伸部（g/y/p 的尾巴）與越南文聲調會超出 20px 行框，
         // 配上 overflow: hidden 就被裁掉。列高固定 44 且垂直置中，加大行高不影響版面
@@ -599,16 +599,16 @@ function selectLang(code: LocaleCode) {
         }
 
         &__avatar-label {
-            font-size: 12px;
+            font-size: var(--font-size-12);
         }
 
         &__profile-label,
         &__profile-value {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__row-label {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__row-arrow {
@@ -619,11 +619,11 @@ function selectLang(code: LocaleCode) {
         // 46 x 27 是靠 padding 撐出來的：文字 16 x 19 + 左右 15 + 上下 4
         &__theme-btn {
             height: 27px;
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__lang-name {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         // H5 語系按鈕與清單維持 180

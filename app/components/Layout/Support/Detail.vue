@@ -96,8 +96,8 @@ const {
     &__date {
         margin: 0;
 
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-50);
     }
@@ -105,8 +105,8 @@ const {
     &__type {
         margin: 0;
 
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         line-height: 1.4;
         color: var(--color-neutral-10);
     }
@@ -115,8 +115,8 @@ const {
     &__text {
         margin: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-20);
     }
@@ -144,15 +144,15 @@ const {
     &__reply-title {
         margin: 0;
 
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         line-height: 1.4;
         color: var(--color-support-reply-title);
     }
 
     &__reply-time {
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-20);
     }
@@ -161,8 +161,8 @@ const {
     &__reply-text {
         margin: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-support-reply-text);
         white-space: pre-line;
@@ -190,8 +190,8 @@ const {
     &__note {
         margin: 0;
 
-        font-size: 12px;
-        font-weight: 300;
+        font-size: var(--font-size-12);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-40);
         text-align: center;
@@ -200,22 +200,22 @@ const {
     // 電腦版字級（她 2026-09-11 逐項指定）
     @media (width >= 600px) {
         &__date {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__reply-time {
-            font-size: 18px;
+            font-size: var(--font-size-18);
         }
 
         &__note {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
 
         &__type,
         &__text,
         &__reply-title,
         &__reply-text {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
     }
 }

@@ -97,8 +97,8 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         padding: 0 0 var(--corner-2);
         border: 0;
 
-        font-size: 20px;
-        font-weight: 300;
+        font-size: var(--font-size-20);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-30);
 
@@ -114,7 +114,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
 
         // 選中：轉白 + 粗體，底線也是同一個色（底線用 currentcolor 跟著走）
         &--active {
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             color: var(--color-neutral-10);
         }
     }

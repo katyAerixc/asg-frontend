@@ -246,8 +246,8 @@ onUnmounted(revokePreview);
         border: 0;
         border-radius: 0 0 var(--corner-2) var(--corner-2);
 
-        font-size: 12px;
-        font-weight: 500;
+        font-size: var(--font-size-12);
+        font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10);
 
         background: var(--color-black-80);
@@ -257,8 +257,8 @@ onUnmounted(revokePreview);
     &__hint {
         margin: 0;
 
-        font-size: 14px;
-        font-weight: 300;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-40);
 
@@ -283,7 +283,7 @@ onUnmounted(revokePreview);
         }
 
         &__hint {
-            font-size: 16px;
+            font-size: var(--font-size-16);
         }
     }
 }

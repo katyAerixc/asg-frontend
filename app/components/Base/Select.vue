@@ -155,8 +155,8 @@ onUnmounted(() => {
         overflow: hidden;
         flex: 1;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: normal;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -223,8 +223,8 @@ onUnmounted(() => {
         padding: 8px var(--corner-1);
         border: 0;
 
-        font-size: 16px;
-        font-weight: 300;
+        font-size: var(--font-size-16);
+        font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-20);
         text-align: left;
@@ -251,7 +251,7 @@ onUnmounted(() => {
 
         &__value,
         &__option {
-            font-size: 20px;
+            font-size: var(--font-size-20);
         }
     }
 }

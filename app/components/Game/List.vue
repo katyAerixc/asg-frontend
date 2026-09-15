@@ -69,8 +69,8 @@ const emit = defineEmits<{ loadMore: [] }>();
         border: var(--border-button-primary); // 深色 1px Black/50、淺色沒有
         border-radius: var(--corner-full);
 
-        font-size: 18px;
-        font-weight: 500;
+        font-size: var(--font-size-18);
+        font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10); // Figma Color/Neutral/10
         white-space: nowrap;
 

@@ -66,8 +66,8 @@ const CATEGORIES: GameCategoryFilter[] = [
         border: 0;
         border-bottom: 2px solid transparent;
 
-        font-size: 20px;
-        font-weight: 300;
+        font-size: var(--font-size-20);
+        font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
         white-space: nowrap; // 多語系：分類名不換行，整列可橫向捲動
 
@@ -77,7 +77,7 @@ const CATEGORIES: GameCategoryFilter[] = [
 
         &--active {
             border-bottom-color: var(--color-primary-10);
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
         }
 

@@ -42,7 +42,7 @@ withDefaults(
     border: 0;
     border-radius: var(--corner-full);
 
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: var(--color-neutral-10);
 
     // 等同 Figma 的 Outer 描邊：先描邊再填字，筆畫才不會被吃掉
@@ -79,14 +79,14 @@ withDefaults(
         width: 150px;
         height: 40px;
         padding: 0 18px;
-        font-size: 16px;
+        font-size: var(--font-size-16);
     }
 
     &--large {
         width: 150px;
         height: 46px;
         padding: 0 28px;
-        font-size: 20px;
+        font-size: var(--font-size-20);
     }
 
     // Figma button/Default/Disabled：還不能按的時候
@@ -107,14 +107,14 @@ withDefaults(
         &--default {
             width: 200px;
             height: 46px;
-            font-size: 18px;
+            font-size: var(--font-size-18);
         }
 
         &--large {
             width: 200px;
             height: 59px;
             padding: 0 32px;
-            font-size: 22px;
+            font-size: var(--font-size-22);
         }
     }
 }
