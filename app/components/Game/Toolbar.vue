@@ -608,7 +608,14 @@ onUnmounted(() => {
         }
 
         &__filters {
-            flex: 0 1 445px;
+            flex: 0 1 auto;
+        }
+
+        // Figma 搜尋框固定寬 280（她 2026-09-15 定）；畫面太窄時可以縮
+        // 用 width 不用 flex-basis：外層寬度是「跟著內容」算的，瀏覽器算內容寬時看 width、不看 flex-basis，只寫 flex-basis 會被縮成 265
+        &__search {
+            flex: 0 1 auto;
+            width: 280px;
         }
     }
 }
