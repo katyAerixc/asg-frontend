@@ -557,8 +557,8 @@ onUnmounted(() => {
         align-items: center;
 
         width: 192px;
-        height: 44px;
-        padding: var(--corner-2) var(--corner-3);
+        height: var(--select-height);
+        padding: var(--input-padding-y) var(--input-padding-x);
 
         // 平常框線透明、展開才轉成 Primary/60（她 2026-09-11 指定）。
         // 一開始就佔著 1px，展開時盒子才不會突然變大
@@ -620,7 +620,7 @@ onUnmounted(() => {
     &__lang-list {
         position: absolute;
         z-index: 1;
-        top: calc(100% + 6px);
+        top: calc(100% + var(--select-list-offset));
         right: 0;
 
         overflow-y: auto;

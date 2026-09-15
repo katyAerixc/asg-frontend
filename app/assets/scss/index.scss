@@ -159,6 +159,12 @@
     --input-padding-y: var(--corner-2);
     --input-font-size: var(--font-size-16);
 
+    // 下拉選單尺寸（問題類型 BaseSelect、頭像選單的語系；值＝現況，她 2026-09-15 選方案 A）
+    // 只收兩個下拉一樣的；按鈕內距直接用上面的 --input-padding-x／y
+    // 不一樣的留在各自檔案等 #58 對帳：清單圓角（10／8）、選項高（內距撐／固定 44）、字級變大的寬度（600／960）
+    --select-height: 44px;
+    --select-list-offset: 6px;
+
     // 輸入框 / 切換膠囊（Figma 名稱 input）
     --bg-input: var(--color-primary-90);
     --shadow-input:

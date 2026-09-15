@@ -125,7 +125,7 @@ onUnmounted(() => {
         align-items: center;
 
         width: 100%;
-        height: 44px;
+        height: var(--select-height);
         padding: var(--input-padding-y) var(--input-padding-x);
 
         // 平常框線透明、展開時轉成 Primary/60（Figma MB/inpt Active 的 1px 內框）。
@@ -190,7 +190,7 @@ onUnmounted(() => {
     // 展開的清單：貼在框下方、同寬、底色與框同一套
     &__list {
         position: absolute;
-        top: calc(100% + 6px);
+        top: calc(100% + var(--select-list-offset));
         right: 0;
         left: 0;
 
