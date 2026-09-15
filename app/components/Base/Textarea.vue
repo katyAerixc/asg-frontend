@@ -66,7 +66,7 @@ function clear() {
     flex-direction: column;
     gap: var(--corner-1);
 
-    padding: var(--corner-2) var(--corner-3);
+    padding: var(--input-padding-y) var(--input-padding-x);
     border-radius: var(--corner-input);
 
     background: var(--bg-input);
@@ -101,7 +101,7 @@ function clear() {
         padding: 0;
         border: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-10);
@@ -127,7 +127,7 @@ function clear() {
         padding: 0;
         border: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--input-font-size);
         color: var(--color-input-clear);
 
         background-color: currentcolor;
@@ -144,21 +144,13 @@ function clear() {
     // Figma：0/500 在右下角、灰字
     &__count {
         align-self: flex-end;
-        font-size: var(--font-size-16);
+        font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
 
         // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
         &--filled {
             color: var(--color-textarea-count-filled);
-        }
-    }
-
-    @media (width >= 600px) {
-        &__input,
-        &__clear,
-        &__count {
-            font-size: var(--font-size-20);
         }
     }
 }

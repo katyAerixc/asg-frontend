@@ -268,7 +268,7 @@ onUnmounted(() => {
         align-items: center;
 
         min-width: 0;
-        padding: var(--corner-2) var(--corner-3);
+        padding: var(--input-padding-y) var(--input-padding-x);
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
@@ -290,6 +290,7 @@ onUnmounted(() => {
         }
     }
 
+    // ⚠️ UI kit 電腦版輸入框字級是 20，這裡維持 16（等對帳決定），所以沒接 --input-font-size
     &__search-input {
         flex: 1;
 
@@ -440,7 +441,7 @@ onUnmounted(() => {
 
         &__filters--searching &__search {
             width: 100%;
-            padding: var(--corner-2) var(--corner-3);
+            padding: var(--input-padding-y) var(--input-padding-x);
         }
 
         &__filters--searching &__search-input {

@@ -116,7 +116,7 @@ onMounted(() => {
 
         // 高度寫死才對得上 Figma；行高交給瀏覽器算，文字不會被裁
         height: 39px;
-        padding: var(--corner-2) var(--corner-3);
+        padding: var(--input-padding-y) var(--input-padding-x);
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
@@ -137,7 +137,7 @@ onMounted(() => {
         min-width: 0;
         border: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
         line-height: normal;
         color: var(--color-primary-10);
@@ -186,10 +186,6 @@ onMounted(() => {
 
         &__field {
             height: 44px;
-        }
-
-        &__input {
-            font-size: var(--font-size-20);
         }
     }
 }

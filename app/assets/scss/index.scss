@@ -148,6 +148,12 @@
     --button-large-padding-x: 28px;
     --button-large-font-size: var(--font-size-20);
 
+    // 輸入框尺寸（Figma UI kit PC/input、MB/input：Padding H15 V10、字級手機 16 電腦 20；她 2026-09-15 定）
+    // 內距原本借用圓角變數 corner-2/3，數字一樣但意思不同，改成自己的變數
+    --input-padding-x: 15px;
+    --input-padding-y: 10px;
+    --input-font-size: var(--font-size-16);
+
     // 輸入框 / 切換膠囊（Figma 名稱 input）
     --bg-input: var(--color-primary-90);
     --shadow-input:
@@ -389,6 +395,7 @@
         --button-large-height: 59px;
         --button-large-padding-x: 32px;
         --button-large-font-size: var(--font-size-22);
+        --input-font-size: var(--font-size-20);
     }
 }
 

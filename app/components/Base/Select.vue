@@ -126,7 +126,7 @@ onUnmounted(() => {
 
         width: 100%;
         height: 44px;
-        padding: var(--corner-2) var(--corner-3);
+        padding: var(--input-padding-y) var(--input-padding-x);
 
         // 平常框線透明、展開時轉成 Primary/60（Figma MB/inpt Active 的 1px 內框）。
         // 一開始就佔著 1px，展開時盒子才不會突然變大
@@ -155,7 +155,7 @@ onUnmounted(() => {
         overflow: hidden;
         flex: 1;
 
-        font-size: var(--font-size-16);
+        font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
         line-height: normal;
         text-overflow: ellipsis;
@@ -249,7 +249,6 @@ onUnmounted(() => {
             padding: var(--corner-2) var(--corner-1);
         }
 
-        &__value,
         &__option {
             font-size: var(--font-size-20);
         }
