@@ -34,6 +34,7 @@ withDefaults(
 <style scoped lang="scss">
 // Figma btn/Medium（程式叫 default）、btn/Large
 // 尺寸都在 index.scss 的 --button-*，手機電腦的切換也在那裡；這裡只吃變數（她 2026-09-15 定）
+// 寬度用 min-width：字短維持設計寬度，長語言（越南文「Chơi ngay」、日文「再度問い合わせ」）自己變寬不斷行（她 2026-09-15 要求）
 .base-button {
     cursor: pointer;
 
@@ -74,14 +75,14 @@ withDefaults(
     }
 
     &--default {
-        width: var(--button-medium-width);
+        min-width: var(--button-medium-width);
         height: var(--button-medium-height);
         padding: 0 var(--button-medium-padding-x);
         font-size: var(--button-medium-font-size);
     }
 
     &--large {
-        width: var(--button-large-width);
+        min-width: var(--button-large-width);
         height: var(--button-large-height);
         padding: 0 var(--button-large-padding-x);
         font-size: var(--button-large-font-size);
