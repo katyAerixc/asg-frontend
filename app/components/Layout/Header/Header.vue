@@ -6,7 +6,7 @@
             <NuxtLink
                 :aria-label="$t('header.home')"
                 class="layout-header__logo"
-                to="/"
+                :to="localePath('/')"
             />
 
             <div class="layout-header__user">
@@ -80,6 +80,8 @@
 const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000 });
 
 // Variables
+// 回首頁要帶目前語系的前綴（英文 /en、越南文 /vi），寫死 '/' 會跳回繁中（她 2026-09-15 抓到）
+const localePath = useLocalePath();
 const menuRef = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
 
