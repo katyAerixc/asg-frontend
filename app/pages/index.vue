@@ -16,10 +16,13 @@
 
         <!-- 主要內容 -->
         <main class="lobby__main">
-            <!-- 標題列：設計稿只有電腦版有 -->
+            <!-- 標題列：電腦版左標題右數量；手機版靠左，只有搜尋時才出現「搜尋結果」（設計稿 1-5、1-6，她 2026-09-15 定） -->
             <div class="lobby__title-row">
-                <h1 class="lobby__title">
-                    {{ $t('lobby.title') }}
+                <h1
+                    class="lobby__title"
+                    :class="{ 'lobby__title--searching': isSearching }"
+                >
+                    {{ isSearching ? $t('lobby.searchResult') : $t('lobby.title') }}
                 </h1>
                 <span class="lobby__count">{{ $t('lobby.count', { n: filteredGames.length }) }}</span>
             </div>
@@ -79,6 +82,9 @@ const filteredGames = computed(() => {
     });
 });
 
+// 搜尋框有字 = 正在搜尋（標題換成「搜尋結果」）
+const isSearching = computed(() => !!keyword.value.trim());
+
 // 只渲染看得到的那幾張，卡片變多時不會全部一次掛上去
 const visibleGames = computed(() => filteredGames.value.slice(0, visibleCount.value));
 
@@ -110,13 +116,23 @@ onUnmounted(() => {
 });
 
 // Watchers
-// 換篩選條件就回到第一頁，不然切回來會一次看到全部，「加載更多」形同虛設
+// 換篩選條件（含搜尋字）就回到第一頁，不然切回來會一次看到全部，「加載更多」形同虛設
 watch([
     activeCategory,
     activeTags,
+    keyword,
 ], () => {
     visibleCount.value = PAGE_SIZE;
 }, { deep: true });
+
+// 開始搜尋（搜尋框從空的變成有字）時，分類與標籤都跳回全部，才是在所有遊戲裡找（她 2026-09-15 定）
+// 只在「開始」那一下跳：搜尋中再自己選分類縮小範圍不會被打斷；清掉字後維持 ALL，不回到原本的選擇
+watch(isSearching, (searching) => {
+    if (!searching) return;
+
+    activeCategory.value = 'all';
+    activeTags.value = [];
+});
 
 // SEO 設定
 // 值寫成函式（不是字串）：切語言時 <head> 才會跟著更新
@@ -149,33 +165,52 @@ useHead({
         height: 1px;
     }
 
-    // 標題列：設計稿只有電腦版有
+    // 標題列：手機版靠左一行小灰字（搜尋結果 共 N 款遊戲）；電腦版左標題、右數量
     &__title-row {
-        display: none;
-        gap: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
         align-items: center;
-        justify-content: space-between;
 
-        margin-bottom: 24px;
+        margin-bottom: 16px;
     }
 
+    // 手機版：沒搜尋時不顯示標題，只留「共 N 款遊戲」；字跟數量一樣是小灰字
     &__title {
-        font-size: var(--font-size-24);
-        font-weight: var(--font-weight-bold);
-        color: var(--color-primary-10);
+        display: none;
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
+        color: var(--color-primary-40);
+
+        &--searching {
+            display: block;
+        }
     }
 
     &__count {
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
-        text-align: right;
         white-space: nowrap;
     }
 
     @media (width >= 960px) {
         &__title-row {
-            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        &__title {
+            display: block;
+            font-size: var(--font-size-24);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary-10);
+        }
+
+        &__count {
+            font-size: var(--font-size-16);
+            text-align: right;
         }
     }
 }
