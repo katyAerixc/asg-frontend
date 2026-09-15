@@ -32,9 +32,8 @@ withDefaults(
 </script>
 
 <style scoped lang="scss">
-// Figma btn/default：H5 150 x 40 / 16、PC 200 x 46 / 18
-// Figma btn/Large  ：H5 150 x 46 / 20、PC 200 x 59 / 22
-// 尺寸寫在這裡，用的人不用一顆一顆覆寫（她 2026-09-11 問到才發現原本漏了 H5）
+// Figma btn/Medium（程式叫 default）、btn/Large
+// 尺寸都在 index.scss 的 --button-*，手機電腦的切換也在那裡；這裡只吃變數（她 2026-09-15 定）
 .base-button {
     cursor: pointer;
 
@@ -74,19 +73,18 @@ withDefaults(
         -webkit-text-stroke: 1px var(--color-black-50);
     }
 
-    // 左右內距 18（她 2026-09-14 指定）：寬度固定，內距小一點長語言（日文「再度問い合わせ」）才放得下
     &--default {
-        width: 150px;
-        height: 40px;
-        padding: 0 18px;
-        font-size: var(--font-size-16);
+        width: var(--button-medium-width);
+        height: var(--button-medium-height);
+        padding: 0 var(--button-medium-padding-x);
+        font-size: var(--button-medium-font-size);
     }
 
     &--large {
-        width: 150px;
-        height: 46px;
-        padding: 0 28px;
-        font-size: var(--font-size-20);
+        width: var(--button-large-width);
+        height: var(--button-large-height);
+        padding: 0 var(--button-large-padding-x);
+        font-size: var(--button-large-font-size);
     }
 
     // Figma button/Default/Disabled：還不能按的時候
@@ -100,21 +98,6 @@ withDefaults(
     @media (hover: hover) {
         &:hover:not(:disabled) {
             box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
-        }
-    }
-
-    @media (width >= 600px) {
-        &--default {
-            width: 200px;
-            height: 46px;
-            font-size: var(--font-size-18);
-        }
-
-        &--large {
-            width: 200px;
-            height: 59px;
-            padding: 0 32px;
-            font-size: var(--font-size-22);
         }
     }
 }

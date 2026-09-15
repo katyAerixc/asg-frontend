@@ -136,6 +136,18 @@
     --font-weight-medium: 500;
     --font-weight-regular: 300;
 
+    // 按鈕尺寸（Figma UI kit btn/Medium、btn/Large；她 2026-09-15 定：一個變數，手機電腦的切換寫在下面 @media）
+    // 程式裡 BaseButton 的 size='default' 就是 UI kit 的 Medium
+    // 現在的值＝現況（Medium 左右內距 18 是她 09-14 為日文改的；UI kit 是 28，等對帳後再決定）
+    --button-medium-width: 150px;
+    --button-medium-height: 40px;
+    --button-medium-padding-x: 18px;
+    --button-medium-font-size: var(--font-size-16);
+    --button-large-width: 150px;
+    --button-large-height: 46px;
+    --button-large-padding-x: 28px;
+    --button-large-font-size: var(--font-size-20);
+
     // 輸入框 / 切換膠囊（Figma 名稱 input）
     --bg-input: var(--color-primary-90);
     --shadow-input:
@@ -365,6 +377,19 @@
     --color-search-icon: var(--color-primary-40);
     --logo-h5: url('@/assets/images/logo/h5-light.png');
     --logo-pc: url('@/assets/images/logo/pc-light.png');
+}
+
+// 電腦版（600 以上）的元件尺寸：跟 BaseButton 原本的斷點一樣
+@media (width >= 600px) {
+    :root {
+        --button-medium-width: 200px;
+        --button-medium-height: 46px;
+        --button-medium-font-size: var(--font-size-18);
+        --button-large-width: 200px;
+        --button-large-height: 59px;
+        --button-large-padding-x: 32px;
+        --button-large-font-size: var(--font-size-22);
+    }
 }
 
 // 全站字體：Inter（由 nuxt.config unfonts 從 Google 載入），載不到時退回系統字
