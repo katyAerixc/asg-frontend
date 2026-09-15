@@ -274,9 +274,10 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         }
     }
 
+    // Figma 24 × 24 的框，圖案 16 在正中間（四邊各留 4，SVG 本身就含留白；她 2026-09-15 給的新圖示）
     &__i-icon {
-        width: 16px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         color: var(--color-neutral-80);
     }
 
