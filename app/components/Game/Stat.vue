@@ -117,8 +117,16 @@ withDefaults(
         white-space: nowrap;
     }
 
+    // 箭頭圖示左右本身有透明空白（SVG 路徑只畫在 5.5～15.5／22：左 25%、右 29.5%）
+    // 左邊拉回再留 4px，數字和箭頭才會靠在一起（她 2026-09-15 要求 4px）；右邊也拉回，整組置中才不會偏左
+    // 尺寸統一寫在 --stat-arrow-size
     &__arrow {
         flex-shrink: 0;
+
+        width: var(--stat-arrow-size);
+        height: var(--stat-arrow-size);
+        margin-right: calc(var(--stat-arrow-size) * -0.295);
+        margin-left: calc(var(--stat-arrow-size) * -0.25 + 4px);
     }
 
     // ── 遊戲卡：字級跟著卡片寬度縮放（cqw），斷點 960 ────────────
@@ -189,19 +197,13 @@ withDefaults(
         }
 
         // 18px 是上限（375 以上就是 18）；比 375 窄才等比例縮，320 時約 14.9px
+        // 數字與箭頭之間不留 gap（她 2026-09-15 要靠在一起，間距改由箭頭的 margin 控制）
+        // 不裁切（她 2026-09-15 指定拿掉 overflow: hidden）：數字＋箭頭已經會自己縮到塞得下
         #{$self}__value {
-            overflow: hidden;
-            gap: 4px;
-
+            gap: 0;
             min-width: 0;
-
             font-size: clamp(13px, 10.8cqw, 18px);
             color: var(--color-primary-10);
-
-            // 320 這種極窄畫面：數值與箭頭之間不留間距，把那 4px 讓給文字（她 2026-09-10 定）
-            @media (width < 375px) {
-                gap: 0;
-            }
 
             // 電腦：字級已由上方的 clamp 接手（14 / 18），這裡只剩字重不同
             @media (width >= 960px) {
@@ -211,8 +213,23 @@ withDefaults(
 
         // 25px 是上限（375 以上就是 25）；比 375 窄才等比例縮，320 時約 20.8px
         #{$self}__arrow {
-            width: clamp(16px, 15.1cqw, 25px);
-            height: clamp(16px, 15.1cqw, 25px);
+            --stat-arrow-size: clamp(16px, 15.1cqw, 25px);
+        }
+
+        // 電腦版卡片變窄（約 960～1140）時，「數字＋箭頭」(97px) 塞不下、箭頭被切（她 2026-09-15）
+        // 數字和箭頭一起等比例縮（她說只縮字會太小）：字最大 18、箭頭最大 25，塞不下才縮
+        // 算法：一格寬 ≈ 卡片寬 31.5% − 9.5px；扣掉左右各留 4＋間距 4，剩下給「字(3.78 倍字級)＋箭頭實際佔的寬(0.63 倍字級)」
+        @media (width >= 960px) {
+            &#{$self}--up,
+            &#{$self}--down {
+                #{$self}__value {
+                    font-size: clamp(13px, calc(7.14cqw - 4.88px), 18px);
+                }
+
+                #{$self}__arrow {
+                    --stat-arrow-size: clamp(18px, calc(9.92cqw - 6.77px), 25px);
+                }
+            }
         }
     }
 
@@ -234,7 +251,31 @@ withDefaults(
         // 漲跌那格直接換成紅／綠漸層
         &#{$self}--up,
         &#{$self}--down {
+            // 「數字＋箭頭」比格子寬時箭頭會凸出右邊（她 2026-09-15 抓到，320 凸 22px、1280 凸 4px）
+            // ①內距維持 15（改小會讓這格比旁邊兩格窄），但數字可以置中「吃進」左右內距各 11，邊邊還留 4
+            // ②還是塞不下才讓數字＋箭頭一起等比例縮（跟遊戲卡同一套）；cqw 看的是這一格扣掉內距的寬
+            container-type: inline-size;
             background: var(--game-stat-trend);
+
+            // 字寬 3.78 倍字級＋箭頭實際佔 0.63 倍字級＋間距 4px＋保留 2px ＝ 內容寬＋吃進內距的 22px
+            #{$self}__value {
+                max-width: none;
+                font-size: clamp(12px, calc(22.68cqw + 3.63px), 16px);
+            }
+
+            #{$self}__arrow {
+                --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 22px);
+            }
+
+            @media (width >= 600px) {
+                #{$self}__value {
+                    font-size: clamp(12px, calc(22.68cqw + 3.63px), 18px);
+                }
+
+                #{$self}__arrow {
+                    --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 25px);
+                }
+            }
         }
 
         // Figma：H5 12 / PC 14，300，Neutral/10
@@ -252,8 +293,8 @@ withDefaults(
 
         // 箭頭要比字大一點才看得出漲跌（比例照遊戲卡那顆：H5 22、PC 25）
         #{$self}__arrow {
-            width: 22px;
-            height: 22px;
+            --stat-arrow-size: 22px;
+
             color: currentcolor;
             background-color: currentcolor;
         }
@@ -271,8 +312,7 @@ withDefaults(
             }
 
             #{$self}__arrow {
-                width: 25px;
-                height: 25px;
+                --stat-arrow-size: 25px;
             }
         }
     }
