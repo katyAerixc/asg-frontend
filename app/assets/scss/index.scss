@@ -403,6 +403,16 @@
     }
 }
 
+// 捲軸位置永遠預留：彈窗鎖住捲動、捲軸消失時，畫面才不會往右跳一下
+html {
+    scrollbar-gutter: stable;
+}
+
+// 彈窗打開時鎖住背景捲動（use-body-scroll-lock.ts 加上的屬性）；overflow: hidden 不會改變捲動位置，關掉後停在原位
+html[data-scroll-locked] {
+    overflow: hidden;
+}
+
 // 全站字體：Inter（由 nuxt.config unfonts 從 Google 載入），載不到時退回系統字
 body {
     position: relative;

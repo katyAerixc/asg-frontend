@@ -81,6 +81,9 @@ const emit = defineEmits<{ close: [] }>();
 // 每個彈窗要有自己的 id，同頁開兩個才不會讓 aria-labelledby 指到同一個標題
 const titleId = `base-modal-title-${useId()}`;
 
+// 彈窗開著時背景頁面不能捲，關掉後停在原位
+useBodyScrollLock();
+
 // Functions
 // 按 Esc 也關得掉，跟會員選單同一套操作習慣
 function closeOnEscape(event: KeyboardEvent) {
@@ -111,8 +114,11 @@ onUnmounted(() => {
     z-index: 100;
     inset: 0;
 
+    // 彈窗比畫面高時，整個彈窗一起捲（她 2026-09-15 選 A）：遮罩本身當捲動容器
+    // 置中改用面板的 margin: auto——用 align-items: center 的話，太高時上面會被切掉、捲不回去
+    overflow-y: auto;
+    overscroll-behavior: contain; // 捲到底不要連帶捲動後面的頁面
     display: flex;
-    align-items: center;
     justify-content: center;
 
     padding: var(--corner-3);
@@ -126,6 +132,7 @@ onUnmounted(() => {
     &__panel {
         display: flex;
         flex-direction: column;
+        flex-shrink: 0;
         gap: var(--modal-gap, 40px);
 
         width: 360px;
@@ -133,8 +140,9 @@ onUnmounted(() => {
 
         // 高度是「內容的事」，不是「殼的事」：用的人傳 height / height-pc 進來，
         // 這支不用為了新尺寸改動。沒傳就吃預設：手機 400、電腦內容撐開
+        // 不設 max-height：畫面太矮時讓面板照原本高度，交給遮罩捲（原本壓在畫面內會把內容擠出去、看不到也按不到）
         height: var(--modal-h, 400px);
-        max-height: 100%;
+        margin: auto;
         padding: var(--corner-3);
         border: 1px solid var(--color-neutral-10);
         border-radius: var(--corner-5);
