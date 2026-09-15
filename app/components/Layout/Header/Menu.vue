@@ -1,5 +1,11 @@
 <template>
-    <div class="header-menu">
+    <!-- 畫面太矮時選單自己捲（她 2026-09-15）：捲的是選單，不是頁面——捲頁面會觸發「捲動就關閉選單」 -->
+    <div
+        ref="rootRef"
+        class="header-menu"
+        :class="{ 'header-menu--scroll': isMenuScroll }"
+        :style="{ '--menu-max-h': menuMaxHeight, '--lang-list-max-h': langListMaxHeight }"
+    >
         <!-- 帳號區：頭像（可更換）+ 帳號/暱稱 + 編輯鉛筆 -->
         <div class="header-menu__account">
             <button
@@ -99,6 +105,7 @@
 
                 <ul
                     v-if="isLangOpen"
+                    ref="langListRef"
                     class="header-menu__lang-list"
                 >
                     <li
@@ -166,6 +173,14 @@ const FLAGS: Record<string, string> = {
 
 const isLangOpen = ref(false);
 
+// 畫面高度不夠時的捲動：選單最多長到畫面底部往上 12px；語系清單同樣不超出畫面
+const VIEWPORT_GAP = 12;
+const rootRef = ref<HTMLElement | null>(null);
+const langListRef = ref<HTMLElement | null>(null);
+const isMenuScroll = ref(false);
+const menuMaxHeight = ref<string>();
+const langListMaxHeight = ref<string>();
+
 // 主題與語系只是包套件，留在 composable；使用者與客服的狀態在 store，全站同一份
 const { applyTheme, theme } = useTheme();
 const { applyLocale, locale } = useLocale();
@@ -187,6 +202,42 @@ const LANGUAGES = computed(() => locales.value.map((item) => ({
     label: item.name ?? item.code,
 })));
 
+// 語系清單打開後：選單在捲動模式就先把清單捲進來，再把清單高度限制在可見範圍內（超過就清單自己捲）
+async function fitLangListToViewport() {
+    await nextTick();
+
+    const menu = rootRef.value;
+    const list = langListRef.value;
+    if (!menu || !list) return;
+
+    // 選單在捲動模式：清單最多是選單可見高度扣上下留白，再把選單捲到清單底部看得到
+    if (isMenuScroll.value) {
+        const visible = menu.clientHeight - VIEWPORT_GAP * 2;
+        langListMaxHeight.value = list.scrollHeight > visible ? `${visible}px` : undefined;
+        await nextTick();
+
+        const hidden = list.getBoundingClientRect().bottom - menu.getBoundingClientRect().bottom + VIEWPORT_GAP;
+        if (hidden > 0) menu.scrollTop += hidden;
+
+        return;
+    }
+
+    // 一般模式：清單往下長，最多到畫面底部往上 12px，太長就清單自己捲（至少留兩列高）
+    const available = viewportHeight() - list.getBoundingClientRect().top - VIEWPORT_GAP;
+    langListMaxHeight.value = list.scrollHeight > available ? `${Math.max(available, 88)}px` : undefined;
+}
+
+// 選單比「從選單頂端到畫面底」還高 → 開啟捲動模式並限制高度
+// ⚠️ 只在需要時才開 overflow：一開 overflow，往下展開的語系清單就會被選單裁切
+function fitMenuToViewport() {
+    const menu = rootRef.value;
+    if (!menu) return;
+
+    const available = viewportHeight() - menu.getBoundingClientRect().top - VIEWPORT_GAP;
+    isMenuScroll.value = menu.scrollHeight > available;
+    menuMaxHeight.value = isMenuScroll.value ? `${available}px` : undefined;
+}
+
 // Functions
 function flagOf(code: LocaleCode) {
     return FLAGS[code];
@@ -205,6 +256,32 @@ function selectLang(code: LocaleCode) {
     applyLocale(code);
     isLangOpen.value = false;
 }
+
+// 可視高度（手機跳出網址列、鍵盤時，visualViewport 比 innerHeight 準）
+function viewportHeight() {
+    return window.visualViewport?.height ?? window.innerHeight;
+}
+
+// Watchers
+watch(isLangOpen, (open) => {
+    if (open) {
+        fitLangListToViewport();
+
+        return;
+    }
+
+    langListMaxHeight.value = undefined;
+});
+
+// Hooks
+onMounted(() => {
+    fitMenuToViewport();
+    window.addEventListener('resize', fitMenuToViewport);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', fitMenuToViewport);
+});
 </script>
 
 <style scoped lang="scss">
@@ -220,6 +297,13 @@ function selectLang(code: LocaleCode) {
     background: var(--bg-normal);
     backdrop-filter: blur(50px);
     box-shadow: var(--shadow-btn);
+
+    // 畫面太矮才開：選單自己捲，捲到底不連帶捲頁面（頁面一捲選單就會關）
+    &--scroll {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        max-height: var(--menu-max-h);
+    }
 
     // 帳號區：頭像 66 + 帳號/暱稱 + 鉛筆
     &__account {
@@ -539,7 +623,11 @@ function selectLang(code: LocaleCode) {
         top: calc(100% + 6px);
         right: 0;
 
+        overflow-y: auto;
+        overscroll-behavior: contain;
+
         width: 192px;
+        max-height: var(--lang-list-max-h, none);
         padding: 0 var(--corner-2);
         border-radius: 8px;
 
