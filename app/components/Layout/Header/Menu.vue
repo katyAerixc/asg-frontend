@@ -464,6 +464,7 @@ function selectLang(code: LocaleCode) {
     }
 
     // Figma：180 × 44 固定、圓角 Corner-input、1px 邊框 Primary/60、底色 Primary/90、input_act 陰影
+    // PC 寬 192（她 2026-09-15 指定：越南文「Tiếng Việt」180 放不下）；H5 維持 180，見下方
     &__lang-current {
         cursor: pointer;
 
@@ -471,7 +472,7 @@ function selectLang(code: LocaleCode) {
         gap: var(--corner-2);
         align-items: center;
 
-        width: 180px;
+        width: 192px;
         height: 44px;
         padding: var(--corner-2) var(--corner-3);
 
@@ -531,14 +532,14 @@ function selectLang(code: LocaleCode) {
         }
     }
 
-    // Figma：寬 180、圓角 8、左右內距 Corner-2、底色 Primary/90、input_act 陰影
+    // Figma：寬 180、圓角 8、左右內距 Corner-2、底色 Primary/90、input_act 陰影（PC 跟按鈕一起改 192）
     &__lang-list {
         position: absolute;
         z-index: 1;
         top: calc(100% + 6px);
         right: 0;
 
-        width: 180px;
+        width: 192px;
         padding: 0 var(--corner-2);
         border-radius: 8px;
 
@@ -623,6 +624,12 @@ function selectLang(code: LocaleCode) {
 
         &__lang-name {
             font-size: 16px;
+        }
+
+        // H5 語系按鈕與清單維持 180
+        &__lang-current,
+        &__lang-list {
+            width: 180px;
         }
 
         &__lang-flag,
