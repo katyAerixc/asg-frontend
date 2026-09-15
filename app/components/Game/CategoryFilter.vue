@@ -49,9 +49,9 @@ const CATEGORIES: GameCategoryFilter[] = [
         gap: 24px;
 
         // 手機版：平均散開撐滿整列（電腦版維持靠左，右邊還有 NEW/HOT 與搜尋）
-        // gap 縮到 8px 當「最小間距」，窄畫面才有空間散得開
+        // gap 是「最小間距」：字短時照樣散開撐滿，字長（泰文）放不下時每個至少隔 16、改成左右滑（她 2026-09-15 由 8 改 16）
         @media (width < 960px) {
-            gap: 8px;
+            gap: 16px;
             justify-content: space-between;
         }
     }
