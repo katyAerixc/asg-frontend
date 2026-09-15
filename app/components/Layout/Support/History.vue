@@ -106,11 +106,11 @@ function openRecord(id: number) {
         background: var(--bg-support-card);
         box-shadow: var(--shadow-support-card);
 
-        transition: filter 0.2s;
+        transition: background-color 0.2s;
 
         @media (hover: hover) {
             &:hover {
-                filter: brightness(1.15);
+                background: var(--bg-support-card-hover);
             }
         }
     }

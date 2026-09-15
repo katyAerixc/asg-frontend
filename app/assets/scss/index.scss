@@ -78,6 +78,7 @@
     --color-primary-opacity-2030: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
     --color-primary-opacity-7020: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
     --color-primary-opacity-7050: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
+    --color-primary-opacity-7070: rgb(var(--color-primary-70-rgb) / 70%); // 客服紀錄卡片 hover
 
     // 語意色 Semantic（紅＝漲、綠＝跌）
     --color-red-10: #ffb0b0; // 遊戲類型標籤的字與框（Figma Color/Semantic/red-10）
@@ -253,6 +254,9 @@
 
     // 客服紀錄卡片（Figma PC/form）：Primary/70 半透明底 + 一道往下 4px 的同色淡影
     --bg-support-card: var(--color-primary-opacity-7050);
+
+    // hover 深一階（她 2026-09-15 定；深淺色各吃自己的 Primary/70）
+    --bg-support-card-hover: var(--color-primary-opacity-7070);
     --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-7020);
 
     // 客服紀錄「已完結」膠囊底、客服回覆氣泡（淺色另外覆寫）
