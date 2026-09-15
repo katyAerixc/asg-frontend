@@ -72,8 +72,12 @@
 
     // 多行輸入框右下角字數（0/500）打了字之後的顏色；深色維持原本的 Primary/40
     --color-textarea-count-filled: var(--color-primary-40);
+
+    // header 下方線：兩端 6000（Figma Color/Primary/opacity/60/0%）、中間 6050（60/50%）
+    --color-primary-opacity-6000: rgb(var(--color-primary-60-rgb) / 0%);
     --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
     --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
+    --color-primary-opacity-6050: rgb(var(--color-primary-60-rgb) / 50%);
     --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭的底、頁碼數字 hover 的底
     --color-primary-opacity-2030: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
     --color-primary-opacity-7020: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
@@ -207,9 +211,9 @@
     // Header 下框線：兩端透明、中間半透明藍
     --line-header: linear-gradient(
         90deg,
-        rgb(var(--color-primary-60-rgb) / 0%) 0%,
-        rgb(var(--color-primary-60-rgb) / 50%) 50%,
-        rgb(var(--color-primary-60-rgb) / 0%) 100%
+        var(--color-primary-opacity-6000) 0%,
+        var(--color-primary-opacity-6050) 50%,
+        var(--color-primary-opacity-6000) 100%
     );
 
     // 變更頭像彈窗（Figma backgound/popup）

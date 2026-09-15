@@ -184,23 +184,31 @@ onUnmounted(() => {
         background-size: contain;
     }
 
+    // 手機：佔滿 Logo 右邊剩下的空間，金幣膠囊才撐得開（設計稿 1-1 主頁-1）
     &__user {
         display: flex;
+        flex: 1;
         gap: 12px;
         align-items: center;
+
+        min-width: 0;
     }
 
-    // 金幣膠囊：Figma 215 × 40；最小寬 130（她 2026-09-09 指定），內容長就撐大
+    // 金幣膠囊：Figma 215 × 40；最小寬 130（她 2026-09-09 指定）
+    // 手機撐滿 Logo 與頭像中間；最寬 242 = 414 寬時中間的空間（414 − 內距 32 − Logo 40 − 間距 16 − 頭像 72 − 間距 12），
+    // 再寬（平板）就停在 242、靠右貼著頭像，跟電腦版一樣（她 2026-09-15 定：414 填滿、960 以下不置中改靠右）
     &__coins {
         overflow: hidden;
         display: flex;
-        flex: 0 1 auto;
+        flex: 1;
         gap: 10px;
         align-items: center;
         justify-content: space-between;
 
         min-width: 130px;
+        max-width: 242px;
         min-height: 40px;
+        margin-left: auto;
         padding: var(--corner-1);
         border-radius: var(--corner-full);
 
@@ -355,15 +363,61 @@ onUnmounted(() => {
         }
     }
 
+    // 電腦版照 Figma PC/Home header（Frame 10679，她 2026-09-15 定）
     @media (width >= 960px) {
+        // 內容寬 1320（Figma 固定寬、左右不留內距）；左右 16 只是窄螢幕的安全邊，寬螢幕時內容剛好 1320
+        // 高 103 = 上 Corner-4 ＋ Logo 62 ＋ 下 Corner-4 ＋ 下框線 1
         &__inner {
-            padding: var(--corner-4) 16px;
+            max-width: calc(1320px + 16px * 2);
+            padding: var(--corner-4) 16px calc(var(--corner-4) + 1px);
+
+            // 下框線跟內容一樣寬 1320，不含左右安全邊
+            &::after {
+                right: 16px;
+                left: 16px;
+            }
         }
 
         &__logo {
             width: 226px;
             height: 62px;
             background-image: var(--logo-pc);
+        }
+
+        // 電腦：金幣與頭像照舊靠右，兩者間距 10（Figma Frame 10693）
+        &__user {
+            flex: 0 1 auto;
+            gap: 10px;
+        }
+
+        // Figma 金幣膠囊 215 × 40：金額變短膠囊也不縮、旁邊不會跟著動；更長的金額可以撐大；數字靠左（她 2026-09-15 定）
+        &__coins {
+            flex: 0 1 auto;
+            min-width: 215px;
+            max-width: none;
+            margin-left: 0;
+        }
+
+        // Figma：金幣圖 32、數字 20／500、重整鈕 32 裡面圖示 24
+        &__coin-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        &__coin-value {
+            font-size: var(--font-size-20);
+            text-align: left;
+        }
+
+        &__refresh-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        // Figma 頭像膠囊 82 × 58 = 內距 4 ＋ 頭像 50 ＋ 間距 4 ＋ 箭頭 20 ＋ 內距 4
+        &__avatar-img {
+            width: 50px;
+            height: 50px;
         }
     }
 }
