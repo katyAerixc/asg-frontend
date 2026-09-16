@@ -45,7 +45,7 @@ const emit = defineEmits<{ loadMore: [] }>();
     &__grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: var(--corner-3) 16px; // Figma MB/Home：上下 15、左右 16（390 寬時卡片剛好 172）
     }
 
     &__more {
@@ -79,15 +79,27 @@ const emit = defineEmits<{ loadMore: [] }>();
         paint-order: stroke fill;
 
         background: var(--bg-button-primary);
-        box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
+        backdrop-filter: blur(50px); // Figma btn/default：bg-blur 100 ÷ 2
+        box-shadow: var(--shadow-btn);
 
-        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transition:
+            background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
         -webkit-text-stroke: var(--text-stroke-button-primary);
 
+        // Figma btn act：漸層 20% → 70%（變暗）＋ 外陰影消失
+        &:active {
+            background: var(--bg-button-primary-act);
+            box-shadow: var(--shadow-btn-active);
+        }
+
         @media (hover: hover) {
-            &:hover {
-                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+            // Figma btn hv：漸層起點 50% → 80%（變亮）＋ 外陰影換白的
+            // :not(:active) 排掉「按著不放」時 hover 也成立的情況
+            &:hover:not(:active) {
+                background: var(--bg-button-primary-hv);
+                box-shadow: var(--shadow-btn-hover);
             }
         }
     }
@@ -95,7 +107,11 @@ const emit = defineEmits<{ loadMore: [] }>();
     @media (width >= 960px) {
         &__grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: var(--corner-5) 45px; // Figma PC/Home：上下 30、左右 45（1320 寬時卡片剛好 390）
+        }
+
+        &__more {
+            margin-top: 40px; // Figma：卡片區到加載更多 40
         }
     }
 }

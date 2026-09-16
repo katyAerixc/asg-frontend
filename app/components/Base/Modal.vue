@@ -130,10 +130,13 @@ onUnmounted(() => {
 
     // Figma Frame 1558（H5）：360 x 400 固定高、內距 Corner-3、Gap 40、圓角 Corner-5、1px 白框
     &__panel {
+        // 現在用的間距（手機／電腦不同），標題區要拿來算自己的下距
+        --modal-gap-now: var(--modal-gap, 40px);
+
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
-        gap: var(--modal-gap, 40px);
+        gap: var(--modal-gap-now);
 
         width: 360px;
         max-width: 100%;
@@ -148,10 +151,12 @@ onUnmounted(() => {
         border-radius: var(--corner-5);
 
         background: var(--bg-popup);
-        backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-popup);
+        backdrop-filter: blur(25px); // Figma bg：blur 25
+        box-shadow: var(--shadow-bg);
     }
 
+    // Figma Frame 11208：標題區手機 47、電腦 52（標題 → 15 → 1px 線）
+    // 標題區到內容 Figma 是 20，比面板的 gap 小：用負的下距把 gap 扣回 20
     &__head {
         position: relative;
 
@@ -159,6 +164,8 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
+        height: 47px;
+        margin-bottom: calc(var(--corner-4) - var(--modal-gap-now));
         padding-bottom: var(--corner-2);
 
         // Figma Rectangle 603：標題下方 1px 分隔線，寬度剛好等於內容區
@@ -176,11 +183,11 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：Inter 30 / 700 / 白。行高留 140%，中文以外的語言才不會被裁到
+    // Figma：手機 26、電腦 30，都是 700 / 白。行高留 140%，中文以外的語言才不會被裁到
     &__title {
         margin: 0;
 
-        font-size: var(--font-size-30);
+        font-size: var(--font-size-26);
         font-weight: var(--font-weight-bold);
         line-height: 1.4;
         color: var(--color-neutral-10);
@@ -221,13 +228,21 @@ onUnmounted(() => {
         animation: none;
     }
 
-    // 電腦版：放大到 600、內距加大、高度改回內容撐開
+    // 電腦版：放大到 600、高度改回內容撐開；內距跟手機一樣 Corner-3（Figma Frame 1556／1557／1558）
     @media (width >= 600px) {
         &__panel {
-            gap: var(--modal-gap-pc, var(--modal-gap, 40px));
+            --modal-gap-now: var(--modal-gap-pc, var(--modal-gap, 40px));
+
             width: var(--modal-w-pc, 600px);
             height: var(--modal-h-pc, auto);
-            padding: 15px 25px;
+        }
+
+        &__head {
+            height: 52px;
+        }
+
+        &__title {
+            font-size: var(--font-size-30);
         }
     }
 }

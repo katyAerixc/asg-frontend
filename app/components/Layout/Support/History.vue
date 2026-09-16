@@ -108,8 +108,14 @@ function openRecord(id: number) {
 
         transition: background-color 0.2s;
 
+        // 按下去（Figma act，手機電腦都有）
+        &:active {
+            background: var(--bg-support-card-active);
+        }
+
+        // hover 排除按住的時候，不然寫在後面的 hover 會蓋掉按下去的顏色
         @media (hover: hover) {
-            &:hover {
+            &:hover:not(:active) {
                 background: var(--bg-support-card-hover);
             }
         }
@@ -175,7 +181,7 @@ function openRecord(id: number) {
     // Figma：H5 16 / PC 18，300
     &__summary {
         display: flex;
-        gap: var(--corner-2);
+        gap: var(--corner-1); // Figma 4
         align-items: baseline;
 
         min-width: 0;
@@ -185,15 +191,15 @@ function openRecord(id: number) {
         line-height: 1.4;
     }
 
-    // 類型與描述中間那條直線，用邊框畫比塞一個字元穩
+    // 類型後面的分隔：Figma 是全形字「｜」接在類型後面（同字級同顏色），不是框線
     &__type {
         flex-shrink: 0;
-
-        padding-right: var(--corner-2);
-        border-right: 1px solid var(--color-white-50);
-
         font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10);
+
+        &::after {
+            content: '｜';
+        }
     }
 
     // Figma Color/Neutral/20；一行放不下就切掉補「...」

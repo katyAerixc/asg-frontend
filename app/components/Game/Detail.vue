@@ -220,7 +220,7 @@ function play() {
     // （彈窗 PC 是 765 寬，低於 768 擠不下，會把三格壓到看不見字）
     @media (width >= 768px) {
         flex-direction: row;
-        gap: var(--corner-4);
+        gap: var(--corner-3); // Figma Frame 11321：主圖 → 右欄 15
 
         &__media {
             width: 360px;

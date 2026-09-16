@@ -50,21 +50,52 @@ withDefaults(
 </script>
 
 <style scoped lang="scss">
-// RTP 那格的呼吸感：2 秒一次來回，最大放到 1.06 倍（她 2026-09-09 說 1.03 太小）
+// RTP 那格的呼吸感，節奏照 Figma prototype（item=up2 ⇄ item=up2_animat）：
+// 停 0.2 秒 → 0.6 秒 LINEAR 走完 → 停 0.2 秒 → 0.6 秒回來，一趟 1.6 秒
+// 放大的量是「四邊各外擴固定 px」（電腦 3、手機 1），不是等比放大，所以用 inset 不用 scale
 @keyframes rtp-breathe {
     0%,
+    12.5% {
+        inset: 0;
+    }
+
+    50%,
+    62.5% {
+        inset: calc(var(--stat-breathe-out) * -1);
+    }
+
     100% {
+        inset: 0;
+    }
+}
+
+// 箭頭跟著長大：Figma 圖形 10 → 13（電腦）、9.5 → 11（手機）
+@keyframes rtp-breathe-arrow {
+    0%,
+    12.5% {
         transform: scale(1);
     }
 
-    50% {
-        transform: scale(1.06);
+    50%,
+    62.5% {
+        transform: scale(var(--stat-breathe-arrow));
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
 
 .game-stat {
     // 指回 .game-stat 自己：variant 裡要組合「同一格的其他狀態」時用（stylelint 不准直接寫完整 class 名）
     $self: &;
+
+    // 漲跌的漸層只定義在這裡（Figma Rectangle 616：60% → 20%）
+    // 要畫在哪一層由下面兩個 variant 決定：卡片畫在會呼吸的 ::before、彈窗畫在本體
+    // Figma 那條線是「底邊中點 → 左上角」。同一條線放進不同比例的格子，換算成 CSS 的角度與起點就不一樣：
+    // 手機格 142 × 27 → 290.8deg 從 46.6% 起；電腦格 112 × 51 → 312.3deg 從 35.3% 起
+    --game-stat-trend-angle: 290.8deg;
+    --game-stat-trend-start: 46.6%;
 
     // ── 兩邊共用 ────────────────────────────────────────────
     display: flex;
@@ -78,20 +109,18 @@ withDefaults(
 
     background: var(--color-primary-opacity-6010);
 
-    // 漲跌的漸層只定義在這裡（Figma Rectangle 616：60% → 20%）
-    // 要畫在哪一層由下面兩個 variant 決定：卡片畫在會呼吸的 ::before、彈窗畫在本體
     &--up {
         --game-stat-trend: linear-gradient(
-            293deg,
-            var(--color-red-opacity-2060) 35.34%,
+            var(--game-stat-trend-angle),
+            var(--color-red-opacity-2060) var(--game-stat-trend-start),
             var(--color-red-opacity-2020) 100%
         );
     }
 
     &--down {
         --game-stat-trend: linear-gradient(
-            293deg,
-            var(--color-green-opacity-2060) 35.34%,
+            var(--game-stat-trend-angle),
+            var(--color-green-opacity-2060) var(--game-stat-trend-start),
             var(--color-green-opacity-2020) 100%
         );
     }
@@ -131,7 +160,7 @@ withDefaults(
 
     // ── 遊戲卡：字級跟著卡片寬度縮放（cqw），斷點 960 ────────────
     &--card {
-        padding: 4px 0;
+        padding: var(--corner-1) 0;
 
         // 手機版只留主角格（RTP）
         &:not(#{$self}--highlight) {
@@ -144,14 +173,19 @@ withDefaults(
 
         // 主角格：背景搬到 ::before 這層，只讓背景呼吸，文字與箭頭不動
         &#{$self}--highlight {
+            // Figma 手機外擴 1、電腦外擴 3；箭頭手機 ×1.156、電腦 ×1.3
+            --stat-breathe-out: 1px;
+            --stat-breathe-arrow: 1.156;
+
             position: relative;
             z-index: 0;
 
-            flex-direction: row;
+            // Figma MB/Game/block/RTP：橫排、塞不下就換行，行距 4（＝上面的 gap）
+            flex-flow: row wrap;
             justify-content: center;
 
-            // 左右只留 4px：手機上這格要塞「RTP + 數值 + 箭頭」，內距太寬會把文字擠掉
-            padding: 4px;
+            // Figma MB/Game/block/RTP：上下 4、左右 15。窄機（<375）等比縮到最小 4，免得把文字擠掉
+            padding: var(--corner-1) clamp(var(--corner-1), 8.72cqw, var(--corner-3));
 
             background: none;
 
@@ -167,17 +201,25 @@ withDefaults(
 
                 background: var(--color-primary-opacity-6010);
 
-                animation: rtp-breathe 2s ease-in-out infinite;
+                animation: rtp-breathe var(--motion-breathe) infinite;
+            }
+
+            #{$self}__arrow {
+                animation: rtp-breathe-arrow var(--motion-breathe) infinite;
             }
 
             @media (width >= 960px) {
+                --stat-breathe-out: 3px;
+                --stat-breathe-arrow: 1.3;
+
                 flex-direction: column;
-                padding: 4px 0;
+                padding: var(--corner-1) 0;
             }
 
             // 使用者若在系統開了「減少動態效果」，一律不動（W3C 無障礙要求）
             @media (prefers-reduced-motion: reduce) {
-                &::before {
+                &::before,
+                #{$self}__arrow {
                     animation: none;
                 }
             }
@@ -190,44 +232,61 @@ withDefaults(
             box-shadow: 0 0 10px 0 var(--shadow-dark-20);
         }
 
-        // 14px 是上限（375 以上就是 14）；比 375 窄才等比例縮，320 時約 11.6px
+        // Figma 手機 12；比 Figma 的 390（卡片 172）窄才等比例縮
         #{$self}__label {
-            font-size: clamp(10px, 8.4cqw, 14px);
+            font-size: clamp(9px, 6.98cqw, 12px);
+            line-height: var(--line-height-figma);
             color: var(--color-primary-20);
         }
 
-        // 18px 是上限（375 以上就是 18）；比 375 窄才等比例縮，320 時約 14.9px
+        // Figma 手機 16 / 700；比 Figma 的 390（卡片 172）窄才等比例縮
         // 數字與箭頭之間不留 gap（她 2026-09-15 要靠在一起，間距改由箭頭的 margin 控制）
         // 不裁切（她 2026-09-15 指定拿掉 overflow: hidden）：數字＋箭頭已經會自己縮到塞得下
         #{$self}__value {
             gap: 0;
+
             min-width: 0;
-            font-size: clamp(13px, 10.8cqw, 18px);
+
+            font-size: clamp(12px, 9.3cqw, 16px);
+            line-height: var(--line-height-figma);
             color: var(--color-primary-10);
 
-            // 電腦：字級已由上方的 clamp 接手（14 / 18），這裡只剩字重不同
+            // Figma 電腦 18 / 500
             @media (width >= 960px) {
+                font-size: var(--font-size-18);
                 font-weight: var(--font-weight-medium);
             }
         }
 
-        // 25px 是上限（375 以上就是 25）；比 375 窄才等比例縮，320 時約 20.8px
+        // Figma 手機 ic_go 19（電腦 22，見下方）；比 Figma 的 390 窄才等比例縮
         #{$self}__arrow {
-            --stat-arrow-size: clamp(16px, 15.1cqw, 25px);
+            --stat-arrow-size: clamp(14px, 11.05cqw, 19px);
         }
 
-        // 電腦版卡片變窄（約 960～1140）時，「數字＋箭頭」(97px) 塞不下、箭頭被切（她 2026-09-15）
-        // 數字和箭頭一起等比例縮（她說只縮字會太小）：字最大 18、箭頭最大 25，塞不下才縮
-        // 算法：一格寬 ≈ 卡片寬 31.5% − 9.5px；扣掉左右各留 4＋間距 4，剩下給「字(3.78 倍字級)＋箭頭實際佔的寬(0.63 倍字級)」
+        // 電腦版卡片變窄（約 960～1140）時，「數字＋箭頭」塞不下、箭頭被切（她 2026-09-15）
+        // 數字和箭頭一起等比例縮（她說只縮字會太小）：字最大 18、箭頭最大 22（Figma ic_go），塞不下才縮
+        // 算法：一格寬 ≈ 卡片寬 31.5% − 9.5px；扣掉左右各留 4＋間距 4，剩下給「字(3.78 倍字級)＋箭頭實際佔的寬(0.556 倍字級)」
         @media (width >= 960px) {
+            --game-stat-trend-angle: 312.3deg;
+            --game-stat-trend-start: 35.3%;
+
+            // Figma 電腦：標籤 14 / 300、箭頭 ic_go 22
+            #{$self}__label {
+                font-size: var(--font-size-14);
+            }
+
+            #{$self}__arrow {
+                --stat-arrow-size: 22px;
+            }
+
             &#{$self}--up,
             &#{$self}--down {
                 #{$self}__value {
-                    font-size: clamp(13px, calc(7.14cqw - 4.88px), 18px);
+                    font-size: clamp(12px, calc(7.26cqw - 4.96px), 18px);
                 }
 
                 #{$self}__arrow {
-                    --stat-arrow-size: clamp(18px, calc(9.92cqw - 6.77px), 25px);
+                    --stat-arrow-size: clamp(16px, calc(8.88cqw - 6.07px), 22px);
                 }
             }
         }
@@ -300,6 +359,10 @@ withDefaults(
         }
 
         @media (width >= 600px) {
+            // 電腦格子是 112 × 51，漸層角度與起點跟手機不同（同遊戲卡）
+            --game-stat-trend-angle: 312.3deg;
+            --game-stat-trend-start: 35.3%;
+
             min-height: 51px;
 
             #{$self}__label {

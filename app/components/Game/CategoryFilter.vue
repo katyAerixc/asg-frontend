@@ -47,6 +47,7 @@ const CATEGORIES: GameCategoryFilter[] = [
     &__list {
         overflow-x: auto;
         display: flex;
+        padding: var(--corner-1) 0; // Figma MB/Tag：52 = 上 4 ＋ Tab 44 ＋ 下 4
 
         // 分類之間不留間距：每個分類自己有左右內距 15，字與字自然隔 30（Figma PC/Tab、MB/Tab）
         // 手機版：平均散開撐滿整列；字長放不下時改成左右滑（電腦版維持靠左，右邊還有 NEW/HOT 與搜尋）
@@ -95,7 +96,7 @@ const CATEGORIES: GameCategoryFilter[] = [
             visibility: hidden;
         }
 
-        // 選中的底線：Figma 手機 30 × 2、電腦 50 × 2，圓角 full，Primary/10，置中
+        // 選中的底線：Figma 手機 30 × 2 Primary/20、電腦 50 × 2 Primary/10，圓角 full，置中
         &::after {
             content: '';
 
@@ -109,7 +110,7 @@ const CATEGORIES: GameCategoryFilter[] = [
             border-radius: var(--corner-full);
 
             opacity: 0;
-            background: var(--color-primary-10);
+            background: var(--color-primary-20);
 
             transition: opacity 0.2s;
         }
@@ -133,6 +134,7 @@ const CATEGORIES: GameCategoryFilter[] = [
         @media (width >= 960px) {
             &::after {
                 width: 50px;
+                background: var(--color-primary-10);
             }
         }
     }

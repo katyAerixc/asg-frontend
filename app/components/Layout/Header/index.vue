@@ -146,13 +146,13 @@ onUnmounted(() => {
         position: relative;
 
         display: flex;
-        gap: 16px;
+        gap: var(--corner-3);
         align-items: center;
         justify-content: space-between;
 
         max-width: 80rem;
         margin: 0 auto;
-        padding: 12px 16px;
+        padding: var(--corner-2) var(--corner-3);
 
         // 下框線：橫向漸層（兩端透明、中間藍）。畫在這裡而不是 .layout-header，
         // 寬度才會跟內容一樣，不會拉到整個螢幕寬
@@ -166,7 +166,7 @@ onUnmounted(() => {
 
             height: 1px;
 
-            background: var(--line-header);
+            background: var(--line-3);
         }
     }
 
@@ -188,7 +188,7 @@ onUnmounted(() => {
     &__user {
         display: flex;
         flex: 1;
-        gap: 12px;
+        gap: var(--corner-3);
         align-items: center;
 
         min-width: 0;
@@ -198,6 +198,9 @@ onUnmounted(() => {
     // 手機撐滿 Logo 與頭像中間；最寬 242 = 414 寬時中間的空間（414 − 內距 32 − Logo 40 − 間距 16 − 頭像 72 − 間距 12），
     // 再寬（平板）就停在 242、靠右貼著頭像，跟電腦版一樣（她 2026-09-15 定：414 填滿、960 以下不置中改靠右）
     &__coins {
+        // 手機是 Figma 的 bg 效果、電腦是 btn/default；抽成變數，hover 那層才不用再寫一次
+        --coins-shadow: var(--shadow-bg);
+
         overflow: hidden;
         display: flex;
         flex: 1;
@@ -207,29 +210,31 @@ onUnmounted(() => {
 
         min-width: 130px;
         max-width: 242px;
-        min-height: 40px;
+        min-height: 38px;
         margin-left: auto;
         padding: var(--corner-1);
         border-radius: var(--corner-full);
 
         background: var(--bg-normal);
-        backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
+        backdrop-filter: blur(25px);
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--coins-shadow);
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
+        // 只有真的有滑鼠的裝置才做；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
-                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+                box-shadow: var(--shadow-pc-hover), var(--coins-shadow);
             }
         }
     }
 
     &__coin-icon {
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
+        width: 30px;
+        height: 30px;
     }
 
     // 金幣數字：Inter 18px / 500（Figma）
@@ -256,8 +261,8 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         padding: var(--corner-1);
         border: 0;
         border-radius: var(--corner-full);
@@ -268,8 +273,16 @@ onUnmounted(() => {
         backdrop-filter: blur(50px);
         box-shadow: var(--shadow-btn);
 
-        // hover：icon 放大 + 變白（她 2026-09-09 指定，這顆不要光暈、按鈕本身不變大）
-        transition: color 0.35s;
+        // hover：icon 放大 + 變白（她 2026-09-09 指定，按鈕本身不變大）
+        // Figma PC/btn/refresh 只有 default 與 press 兩態，滑入本來就不變陰影
+        transition:
+            color 0.35s,
+            box-shadow 0.35s;
+
+        // Figma btn=press：外陰影換成白的
+        &:active {
+            box-shadow: var(--shadow-btn-hover);
+        }
 
         @media (hover: hover) {
             &:hover {
@@ -279,8 +292,8 @@ onUnmounted(() => {
     }
 
     &__refresh-icon {
-        width: 18px;
-        height: 18px;
+        width: 22px;
+        height: 22px;
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -299,13 +312,13 @@ onUnmounted(() => {
 
         background: var(--bg-normal);
         backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-btn-glow-off), var(--shadow-btn);
+        box-shadow: var(--shadow-btn);
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
         @media (hover: hover) {
             &:hover {
-                box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+                box-shadow: var(--shadow-btn-hover);
             }
         }
     }
@@ -313,7 +326,8 @@ onUnmounted(() => {
     &__avatar-img {
         width: 40px;
         height: 40px;
-        border-radius: 50%;
+        border-radius: var(--corner-full);
+        outline: 1px solid var(--color-primary-20);
     }
 
     // 會員選單：掛在頭像下方，靠右對齊（設計稿 top 63、往左展開）
@@ -335,8 +349,8 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
 
         color: var(--color-primary-20);
 
@@ -344,9 +358,9 @@ onUnmounted(() => {
         // ⚠️ 2026-09-11 踩過：svg 的 fill 從寫死色改成 currentColor 後，
         //    UnoCSS 會從 background-image 模式切成 mask 模式，原本的 background-size 就失效，
         //    圖示被 mask-size: 100% 100% 拉滿整個框 → 又大又變形。
-        // 框維持 Figma 的 20 × 20（點擊區），圖維持 12 × 6.67 並置中。
+        // 框與圖都照 Figma：手機 15 框 / 9 × 5 圖，電腦 20 框 / 12 × 6.67 圖。
         mask-position: center;
-        mask-size: 12px 6.67px;
+        mask-size: 9px 5px;
 
         transition: transform 0.25s;
 
@@ -384,7 +398,7 @@ onUnmounted(() => {
             background-image: var(--logo-pc);
         }
 
-        // 電腦：金幣與頭像照舊靠右，兩者間距 10（Figma Frame 10693）
+        // 電腦：金幣與頭像照舊靠右，兩者間距 10
         &__user {
             flex: 0 1 auto;
             gap: 10px;
@@ -392,10 +406,16 @@ onUnmounted(() => {
 
         // Figma 金幣膠囊 215 × 40：金額變短膠囊也不縮、旁邊不會跟著動；更長的金額可以撐大；數字靠左（她 2026-09-15 定）
         &__coins {
+            --coins-shadow: var(--shadow-btn);
+
             flex: 0 1 auto;
+
             min-width: 215px;
             max-width: none;
+            min-height: 40px;
             margin-left: 0;
+
+            backdrop-filter: blur(50px);
         }
 
         // Figma：金幣圖 32、數字 20／500、重整鈕 32 裡面圖示 24
@@ -409,6 +429,11 @@ onUnmounted(() => {
             text-align: left;
         }
 
+        &__refresh {
+            width: 32px;
+            height: 32px;
+        }
+
         &__refresh-icon {
             width: 24px;
             height: 24px;
@@ -418,6 +443,13 @@ onUnmounted(() => {
         &__avatar-img {
             width: 50px;
             height: 50px;
+            outline-color: var(--color-neutral-10);
+        }
+
+        &__avatar-arrow {
+            width: 20px;
+            height: 20px;
+            mask-size: 12px 6.67px;
         }
     }
 }

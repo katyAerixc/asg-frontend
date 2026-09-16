@@ -293,9 +293,9 @@ onUnmounted(() => {
         flex-direction: column;
         gap: 24px;
 
-        max-width: 80rem;
+        max-width: 1320px; // 跟下面卡片區同寬（Figma PC/Home 外框 1320）
         margin: 0 auto;
-        padding: 16px;
+        padding: 16px var(--corner-3);
     }
 
     &__filters {
@@ -311,9 +311,9 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        // 跟右邊搜尋框同高 44（她 2026-09-15）：搜尋框是內距 10＋字行高 24 撐出來的；這裡上下不給內距、用高度置中按鈕
-        height: 44px;
-        padding: 0 var(--corner-1);
+        // Figma PC/switch 149×38、MB/switch 140×35（2026-09-16 對帳；跟搜尋框不同高，設計稿本來就這樣）
+        height: 38px;
+        padding: var(--corner-1);
         border-radius: var(--corner-full);
 
         background: var(--bg-input);
@@ -333,7 +333,7 @@ onUnmounted(() => {
         border: 0;
         border-radius: var(--corner-full);
 
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
         white-space: nowrap;
@@ -391,31 +391,33 @@ onUnmounted(() => {
 
         background: var(--bg-input);
         backdrop-filter: blur(25px);
-        box-shadow: var(--shadow-btn-glow-off), var(--shadow-input);
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-input);
 
-        // hover：跟頭像同一組光暈
+        // 平常補一圈全透明的外圈，湊成跟 input_act 一樣的 4 層——層數不同 box-shadow 會直接跳、補不出漸變
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
         // focus-within 留著：那是真的「游標在裡面」，手機也該亮
         &:focus-within {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+            box-shadow: var(--shadow-input-act);
         }
 
         @media (hover: hover) {
             &:hover {
-                box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+                box-shadow: var(--shadow-input-act);
             }
         }
     }
 
-    // ⚠️ UI kit 電腦版輸入框字級是 20，這裡維持 16（等對帳決定），所以沒接 --input-font-size
+    // Figma PC/input 字 20、MB/inpt 字 16（2026-09-16 對帳確認）
     &__search-input {
         flex: 1;
 
         min-width: 0;
         border: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-20);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-10);
 
@@ -450,13 +452,26 @@ onUnmounted(() => {
         // sticky 只能在爸爸範圍內黏，所以外層兩層改 display: contents（盒子消失），分類列直接變成整頁的子元素才黏得住
         display: contents;
 
+        // Figma MB/switch 140×35、按鈕字 16、MB/inpt 字 16（電腦是 38／18／20，見基準）
+        &__toggle {
+            height: 35px;
+        }
+
+        &__toggle-btn {
+            font-size: var(--font-size-16);
+        }
+
+        &__search-input {
+            font-size: var(--font-size-16);
+        }
+
         &__category {
             position: sticky;
             z-index: 40;
             top: 0;
 
             // 原本整條工具列的上左右內距 16；下面留 8，跟 ALL 那排的 10 加起來還是原本的間距 18
-            padding: 16px 16px 8px;
+            padding: 16px var(--corner-3) 8px; // 左右跟卡片區一樣 15
 
             background-color: transparent;
 
@@ -479,7 +494,7 @@ onUnmounted(() => {
         &__filters {
             gap: 6px;
             margin-top: 10px;
-            padding: 0 16px;
+            padding: 0 var(--corner-3);
         }
 
         // 展開搜尋時：膠囊外框淡掉、間距收掉，只剩第一顆原地變摘要（她 2026-09-15，#74）
@@ -516,7 +531,11 @@ onUnmounted(() => {
                 box-shadow 0.2s ease;
         }
 
+        // Figma MB/btn/search 收起：50 × 50 圓形、底 button/01 漸層、btn/default 陰影、blur 50、白色圖示
+        // 漸層放在 ::before 用透明度淡出（漸層本身不能做動畫），展開時才看得到底下的 input 底色
         &__search {
+            position: relative;
+
             // 🚨 不要用 flex-grow 做動畫（她 2026-09-11 抓到「收起來時往右跑一下」）：
             //    flex-grow 是「比例」不是百分比。整排只有它一個會長，所以 0.01 跟 1 拿到的
             //    空間一樣多，動畫全程都是全寬，直到歸零才啪一下彈回去。
@@ -527,17 +546,52 @@ onUnmounted(() => {
             gap: 0;
             justify-content: center;
 
-            width: 44px;
+            // 320 寬時一排塞不下 50，會被擠窄：高度跟著寬度走（aspect-ratio），擠窄時還是正圓
+            aspect-ratio: 1;
+            width: 50px;
+            min-height: 0; // 不讓裡面的輸入框把高度撐回 44
 
             // 把左邊剩下的空間全吃掉，放大鏡就會貼齊右邊
             margin-left: auto;
             padding: var(--corner-2);
+            border-radius: var(--corner-full);
+
+            backdrop-filter: blur(50px);
+            box-shadow: var(--shadow-btn);
 
             transition:
                 width 0.3s ease,
                 gap 0.3s ease,
                 padding 0.3s ease,
                 box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &::before {
+                content: '';
+
+                position: absolute;
+                z-index: -1;
+                inset: 0;
+
+                border-radius: inherit;
+
+                background: var(--bg-button-01);
+
+                transition: opacity 0.3s ease;
+            }
+
+            &:focus-within {
+                box-shadow: var(--shadow-btn-hover);
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    box-shadow: var(--shadow-btn-hover);
+                }
+            }
+        }
+
+        &__search-icon {
+            color: var(--color-neutral-10);
         }
 
         &__search-input {
@@ -577,9 +631,25 @@ onUnmounted(() => {
             display: block;
         }
 
+        // Figma MB/btn/search 展開：高 50、膠囊圓角、底 Primary/90、外陰影 0 0 5 Dark/50＋input 內陰影、blur 25
         &__filters--searching &__search {
+            aspect-ratio: auto;
             width: 100%;
+            height: 50px;
             padding: var(--input-padding-y) var(--input-padding-x);
+
+            backdrop-filter: blur(25px);
+            box-shadow:
+                0 0 5px 0 var(--shadow-dark-50),
+                var(--shadow-input);
+
+            &::before {
+                opacity: 0;
+            }
+        }
+
+        &__filters--searching &__search-icon {
+            color: var(--color-search-icon);
         }
 
         &__filters--searching &__search-input {
@@ -592,6 +662,7 @@ onUnmounted(() => {
             &__toggle,
             &__toggle-btn,
             &__search,
+            &__search::before,
             &__search-input {
                 transition: none;
             }
@@ -605,6 +676,8 @@ onUnmounted(() => {
             gap: 24px;
             align-items: center;
             justify-content: space-between;
+
+            padding-inline: var(--corner-5); // 跟卡片區左右 30 對齊
         }
 
         &__filters {
@@ -628,22 +701,25 @@ onUnmounted(() => {
     right: 16px;
     bottom: calc(16px + env(safe-area-inset-bottom));
 
+    // Figma MB/btn/search：收起 50 圓形藍漸層；展開膠囊、底 Primary/90（漸層在 ::before，展開時淡出）
     &__box {
         cursor: pointer;
+
+        position: relative;
 
         display: flex;
         gap: 0;
         align-items: center;
         justify-content: center;
 
-        width: 44px;
-        height: 44px;
+        width: 50px;
+        height: 50px;
         padding: var(--corner-2);
-        border-radius: var(--corner-input);
+        border-radius: var(--corner-full);
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px);
-        box-shadow: var(--shadow-btn-glow-off), var(--shadow-input);
+        backdrop-filter: blur(50px);
+        box-shadow: var(--shadow-btn);
 
         transition:
             width 0.3s ease,
@@ -651,8 +727,22 @@ onUnmounted(() => {
             padding 0.3s ease,
             box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
+        &::before {
+            content: '';
+
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+
+            border-radius: inherit;
+
+            background: var(--bg-button-01);
+
+            transition: opacity 0.3s ease;
+        }
+
         &:focus-within {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-input);
+            box-shadow: var(--shadow-btn-hover);
         }
     }
 
@@ -684,14 +774,28 @@ onUnmounted(() => {
         flex-shrink: 0;
         width: 19px;
         height: 19px;
-        color: var(--color-search-icon);
+        color: var(--color-neutral-10);
     }
 
     // 展開：寬度＝螢幕寬扣掉左右各 16
     &--open &__box {
         gap: 10px;
+
         width: calc(100vw - 32px);
         padding: var(--input-padding-y) var(--input-padding-x);
+
+        backdrop-filter: blur(25px);
+        box-shadow:
+            0 0 5px 0 var(--shadow-dark-50),
+            var(--shadow-input);
+
+        &::before {
+            opacity: 0;
+        }
+    }
+
+    &--open &__icon {
+        color: var(--color-search-icon);
     }
 
     &--open &__input {
@@ -706,6 +810,7 @@ onUnmounted(() => {
 
     @media (prefers-reduced-motion: reduce) {
         &__box,
+        &__box::before,
         &__input {
             transition: none;
         }

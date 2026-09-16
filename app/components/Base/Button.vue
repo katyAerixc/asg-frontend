@@ -48,28 +48,39 @@ withDefaults(
     // 等同 Figma 的 Outer 描邊：先描邊再填字，筆畫才不會被吃掉
     paint-order: stroke fill;
 
+    background: var(--btn-bg);
+    backdrop-filter: blur(50px); // Figma btn/default：bg-blur 100 ÷ 2
     box-shadow: var(--shadow-btn);
 
-    transition: box-shadow 0.25s ease;
+    transition:
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 
     // Figma btn 屬性：預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
     // 文字描邊每種不一樣：藍的粗描邊（跟首頁「加載更多」同一組），白與橘是細的黑框
     &--primary {
-        background: var(--bg-button-modal);
+        --btn-bg: var(--bg-button-modal);
+        --btn-bg-hv: var(--bg-button-modal-hv);
+        --btn-bg-act: var(--bg-button-modal-act);
 
         -webkit-text-stroke: var(--text-stroke-button-modal);
     }
 
     // 白底但文字仍是白的，靠黑色描邊撐出可讀性（她 2026-09-11 指定 2px 黑 70%）
     &--secondary {
+        --btn-bg: var(--bg-button-secondary);
+        --btn-bg-hv: var(--bg-button-secondary-hv);
+        --btn-bg-act: var(--bg-button-secondary-act);
+
         color: var(--color-neutral-10);
-        background: var(--bg-button-secondary);
 
         -webkit-text-stroke: 2px var(--color-black-70);
     }
 
     &--highlight {
-        background: var(--bg-button-highlight);
+        --btn-bg: var(--bg-button-highlight);
+        --btn-bg-hv: var(--bg-button-highlight-hv);
+        --btn-bg-act: var(--bg-button-highlight-act);
 
         -webkit-text-stroke: 1px var(--color-black-50);
     }
@@ -95,10 +106,19 @@ withDefaults(
         box-shadow: var(--shadow-btn-disabled);
     }
 
+    // Figma btn act：漸層 20% → 70%（變暗）＋ 外陰影整個消失，做出凹下去的感覺
+    &:active:not(:disabled) {
+        background: var(--btn-bg-act);
+        box-shadow: var(--shadow-btn-active);
+    }
+
     // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
+    // Figma btn hv：漸層起點 50% → 80%（變亮）＋ 外陰影換成白的
+    // 加 :not(:active) 是因為按下去時 hover 也還成立，不排掉就會蓋掉上面的 act
     @media (hover: hover) {
-        &:hover:not(:disabled) {
-            box-shadow: var(--shadow-btn-glow-on), var(--shadow-btn);
+        &:hover:not(:disabled, :active) {
+            background: var(--btn-bg-hv);
+            box-shadow: var(--shadow-btn-hover);
         }
     }
 }

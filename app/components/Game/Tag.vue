@@ -22,7 +22,7 @@ defineProps<{ type: string }>();
     align-items: center;
     justify-content: center;
 
-    // 高度用 min-height 對齊 Figma（27），上下不要 padding：
+    // 高度用 min-height 對齊 Figma（手機 27、電腦 29），上下不要 padding：
     // 行高放寬後文字盒本來就夠高，再加內距就會超過設計稿（她 2026-09-14）
     min-height: 27px;
     padding: 0 var(--corner-2);
@@ -53,6 +53,7 @@ defineProps<{ type: string }>();
     }
 
     @media (width >= 960px) {
+        min-height: 29px; // Figma PC/Game/Tag 高 29（手機 27）
         font-size: var(--font-size-16);
     }
 }

@@ -5,11 +5,20 @@
         class="game-card"
         @click="openGameDetail(game)"
     >
-        <!-- 大圖區：正方形，比下方玻璃塊窄一點（Figma 360 : 390） -->
+        <!-- 大圖區：正方形，比下方玻璃塊窄一點 -->
         <div class="game-card__media">
             <img
                 :alt="game.name"
                 class="game-card__img"
+                :src="game.image"
+            >
+            <!-- Figma item=hover 的放大版圖。Figma 用 DISSOLVE（交叉淡化）換狀態，不是把圖放大，
+                 所以這裡疊第二張已放大的圖，滑入時兩張互換透明度。
+                 同一個 src 不會多下載一次；它只是裝飾，讀螢幕軟體跳過 -->
+            <img
+                alt=""
+                aria-hidden="true"
+                class="game-card__img game-card__img--hover"
                 :src="game.image"
             >
 
@@ -93,29 +102,10 @@ const { open: openGameDetail } = useGameDetailStore();
 
 <style scoped lang="scss">
 // 屬性順序照 stylelint-config-clean-order：定位 → 排版 → 盒模型 → 文字 → 外觀，群組間空一行
-// Figma：卡片 390 × 451、大圖 360×360（1:1）
-// 圖比玻璃塊窄，兩側各縮 15px；玻璃塊底部比圖底再往下 91px（451 − 360）
+// Figma 電腦：卡片寬 390、大圖 360 × 380（兩側各縮 15）、玻璃塊蓋住圖 100
+// Figma 手機：卡片寬 172、大圖 156 × 200（兩側各縮 8）、玻璃塊蓋住圖 60（圖底 200、玻璃塊 Top 140）
 $img-ratio: calc(360 / 390 * 100%);
 $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以能等比縮放
-
-// 滑入時圖片放大：一路放到 1.14 就停，不回彈也不縮回（她 2026-09-09 看影片後指定）
-// 搭一層淺淺的模糊：移動途中最糊，到位就完全清晰
-@keyframes img-pop {
-    0% {
-        transform: scale(1);
-        filter: blur(0);
-    }
-
-    45% {
-        transform: scale(1.11);
-        filter: blur(1.5px); // 移動途中，淺淺一層
-    }
-
-    100% {
-        transform: scale(1.2);
-        filter: blur(0); // 到位就完全清晰
-    }
-}
 
 .game-card {
     cursor: pointer;
@@ -137,31 +127,44 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         overflow: hidden;
 
-        width: $img-ratio;
+        width: calc(156 / 172 * 100%); // 手機；電腦版在最下面換成 $img-ratio
         margin: 0 auto;
         border-radius: var(--corner-3);
+
+        transition: box-shadow var(--motion-hover-game);
     }
 
     &__img {
         display: block;
 
-        aspect-ratio: 1 / 1.12; // 她 2026-09-09 修正（原本以為是 1:1）
+        aspect-ratio: 156 / 200; // 手機 Figma Image 156 × 200；電腦版在最下面換成 360 / 380
         width: 100%;
         border-radius: var(--corner-3);
 
         object-fit: cover;
 
-        // 滑鼠離開時：平順收回，跟放大同樣的 0.3 秒
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        // Figma 是 DISSOLVE（交叉淡化）：兩張圖互換透明度，不是把同一張放大
+        transition: opacity var(--motion-hover-game);
+    }
+
+    // 放大版：疊在原圖正上方，平常透明
+    // 倍率照 Figma item=hover：圖 360 × 380 → 444 × 468，以中心放大 ＝ 1.233
+    &__img--hover {
+        position: absolute;
+        inset: 0;
+        transform: scale(1.233);
+        opacity: 0;
     }
 
     // 標籤：距大圖左上角留一點白；左上/右下圓角 15px、白邊、漸層、陰影（照 Figma）
     &__tags {
         position: absolute;
         top: var(--corner-1);
+        right: var(--corner-1);
         left: var(--corner-1);
 
         display: flex;
+        flex-wrap: wrap; // Figma Frame 11386：塞不下就換行
         gap: 4px;
     }
 
@@ -174,18 +177,23 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         display: flex;
         flex-direction: column;
-        gap: clamp(4px, 2cqw, 10px);
 
-        margin-top: -26.9%; // 往上蓋圖片固定量（% 的 margin 以容器寬度換算，會等比縮放）
-        padding: clamp(12px, 4cqw, 15px);
+        // 手機 Figma MB/Game/block：間距 10、內距 15（卡片 172 寬時剛好；更窄的手機等比縮，最小 4／12）
+        gap: clamp(4px, calc(10 / 172 * 100cqw), 10px);
+
+        // 往上蓋圖片固定量（% 的 margin 以容器寬度換算，會等比縮放）：手機蓋 60，電腦版在最下面換成 100
+        margin-top: calc(-60 / 172 * 100%);
+        padding: clamp(12px, calc(15 / 172 * 100cqw), var(--corner-3)); // 最大值＝Figma Corner/Corner-3
         border-radius: var(--corner-3);
 
-        // 第一段是「還沒 hover 的白框」：0 寬、全透明，這樣 hover 時才能平滑長出來
+        // 前兩段是「還沒 hover 的白框與外陰影」：全透明，這樣 hover 時才能平滑長出來
+        // 模糊值先寫成跟 hover 一樣（10px），過渡時只有顏色在變，比較滑順
         box-shadow:
             0 0 0 0 var(--color-white-0),
-            var(--shadow-game);
+            0 0 10px 0 var(--color-white-0),
+            var(--shadow-game-bg-default);
 
-        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: box-shadow var(--motion-hover-game);
 
         // 底色與霧化獨立成一層,不跟文字擠在同一層
         // 2026-09-09 她回報:偶爾整塊只剩模糊、文字沒出現。原因是霧化與文字同層時
@@ -225,22 +233,30 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         object-fit: cover;
     }
 
+    // Figma Frame 12：名稱列與描述之間手機 4、電腦 5
     &__text {
+        display: flex;
         flex: 1;
+        flex-direction: column;
+        gap: var(--corner-1);
+
         min-width: 0;
     }
 
+    // Figma Frame 10704：名稱與 ⓘ 之間 5
     &__name-row {
         display: flex;
-        gap: 8px;
+        gap: 5px;
         align-items: center;
         justify-content: space-between;
     }
 
-    // 名稱與描述：手機電腦都固定同一個字級（她 2026-09-09 定，原本是跟著卡片寬度縮）
+    // 名稱與描述：各斷點固定一個字級，不跟著卡片寬度縮（她 2026-09-09 定）
+    // 字級照 Figma：名稱手機 18／電腦 20，描述手機 14／電腦 16
     &__name {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-figma);
         color: var(--color-neutral-80);
     }
 
@@ -249,6 +265,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
+        line-height: var(--line-height-figma);
         color: var(--color-neutral-80);
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -274,19 +291,19 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         }
     }
 
-    // Figma 24 × 24 的框，圖案 16 在正中間（四邊各留 4，SVG 本身就含留白；她 2026-09-15 給的新圖示）
+    // Figma icon/01：手機 22 × 22、電腦 24 × 24（圖案在正中間，SVG 本身就含留白）
     &__i-icon {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
         color: var(--color-neutral-80);
     }
 
-    // 上下多留一點白（外層 gap 之外再加），卡片變小時跟著縮
+    // 上下不另外留白：Figma 手機／電腦都只靠玻璃塊自己的間距（10 / 15）
     &__divider {
         height: 1px;
-        margin: clamp(4px, 1.5cqw, 6px) 0;
+        margin: 0;
         border: 0;
-        background: var(--line-divider);
+        background: var(--line-2);
     }
 
     // 統計格
@@ -297,35 +314,74 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
     @media (hover: hover) {
-        // 滑入整張卡：圖片放大（被 __media 的 overflow 裁住，外框尺寸不變）
-        // 停在 1.2；進場那 0.3 秒由 img-pop 接手（快速放大 + 途中淺淺的模糊）
+        // 滑入整張卡：原圖淡出、放大版淡入（Figma DISSOLVE）。
+        // 放大版被 __media 的 overflow 裁住，所以外框尺寸不變，不會把旁邊卡片推開
         &:hover &__img {
-            transform: scale(1.2);
-            animation: img-pop 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+            opacity: 0;
         }
 
-        // 滑入整張卡：玻璃塊往「外」長出一圈白框（沒有 inset 就是畫在外面）
+        &:hover &__img--hover {
+            opacity: 1;
+        }
+
+        // Figma item=hover：大圖那層多一道外陰影 0 0 10 黑 50%
+        &:hover &__media {
+            box-shadow: 0 0 10px 0 var(--shadow-dark-50);
+        }
+
+        // 滑入整張卡（Figma item=default → item=hover）：
+        // ①往外長 1px 白框 ②多一道 0 0 10 外陰影 ③三層內陰影換成位移較大的 game/bg_act
         // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
-        // 長出來的那層由主題決定：深色是白框、淺色是光暈（--shadow-game-hover 在 index.scss）
         &:hover &__info {
-            box-shadow: var(--shadow-game-hover), var(--shadow-game);
+            box-shadow: var(--shadow-game-hover), var(--shadow-game-bg-act);
         }
     }
 
     // 使用者若在系統開了「減少動態效果」，一律不動（W3C 無障礙要求）
     @media (prefers-reduced-motion: reduce) {
         &__img,
+        &__media,
         &__info {
             transition: none;
-        }
-
-        &__img {
-            animation: none;
         }
     }
 
     // 電腦版
     @media (width >= 960px) {
+        &__media {
+            width: $img-ratio;
+        }
+
+        // Figma Image 360 × 380（她 2026-09-15 定照 Figma，原本 1:1.12）
+        &__img {
+            aspect-ratio: 360 / 380;
+        }
+
+        // Figma 圖高 380、玻璃塊 Top 280，蓋住 100
+        // Figma Frame 10684：玻璃塊裡「頭像列／分隔線／三格數據」的間距是 15（不是玻璃塊自己的 10）
+        &__info {
+            gap: var(--corner-3);
+            margin-top: calc(-100 / 390 * 100%);
+            padding: clamp(12px, 4cqw, var(--corner-3));
+        }
+
+        &__text {
+            gap: 5px;
+        }
+
+        &__name {
+            font-size: var(--font-size-20);
+        }
+
+        &__desc {
+            font-size: var(--font-size-16);
+        }
+
+        &__i-icon {
+            width: 24px;
+            height: 24px;
+        }
+
         &__thumb {
             display: block;
         }

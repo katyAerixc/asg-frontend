@@ -60,23 +60,24 @@ function clear() {
 </script>
 
 <style scoped lang="scss">
-// 外觀跟輸入框同一套（Figma input / input_act）
+// 外觀跟輸入框同一套
 .base-textarea {
     display: flex;
     flex-direction: column;
-    gap: var(--corner-1);
+    gap: var(--corner-2); // Figma PC/input：文字區 → 字數 10
 
     padding: var(--input-padding-y) var(--input-padding-x);
     border-radius: var(--corner-input);
 
     background: var(--bg-input);
+    backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
     box-shadow: var(--shadow-input);
 
     transition: box-shadow 0.25s ease;
 
-    // 游標在裡面時多一圈內光（Figma input_act）
+    // 游標在裡面時多一圈內光
     &:focus-within {
-        box-shadow: var(--shadow-input-active);
+        box-shadow: var(--shadow-input-act);
     }
 
     // 輸入區與 ✕ 左右排：✕ 固定寬，輸入區吃剩下的
@@ -109,8 +110,10 @@ function clear() {
         background: transparent;
         outline: none;
 
+        // Figma 4-1：描述框的提示文字是 Primary/30 #8F9BAD（比下拉的 Primary/40 淡一階）。
+        // 她 2026-09-16 指示「要依照 Figma」，所以兩個欄位刻意不同色
         &::placeholder {
-            color: var(--color-primary-40);
+            color: var(--color-primary-30);
         }
     }
 
@@ -146,7 +149,7 @@ function clear() {
         align-self: flex-end;
         font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
-        color: var(--color-primary-40);
+        color: var(--color-primary-30); // Figma 0/500：Primary/30
 
         // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
         &--filled {

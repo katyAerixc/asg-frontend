@@ -20,7 +20,7 @@
                     type="button"
                     @click="switchTab(tab)"
                 >
-                    <!-- 文字獨立包一層：底線只跟著文字寬度，不要把紅點也算進去 -->
+                    <!-- 文字獨立包一層：給紅點當定位基準（底線改成固定 50，掛在按鈕上） -->
                     <span
                         class="support__tab-label"
                         :class="{ 'support__tab-label--active': activeTab === tab }"
@@ -73,7 +73,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         display: flex;
         flex: 1;
         flex-direction: column;
-        gap: var(--corner-4);
+        gap: var(--corner-5); // Figma Frame 11363：頁籤 → 表單 30
 
         min-height: 0;
     }
@@ -88,16 +88,23 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
     &__tab {
         cursor: pointer;
 
+        // 底線用絕對定位貼在底部，這裡當它的定位基準
+        position: relative;
+
         display: flex;
         flex: 1;
         gap: 6px;
         align-items: center;
         justify-content: center;
 
-        padding: 0 0 var(--corner-2);
+        height: 44px; // Figma MB 頁籤 44、PC 47
+
+        // Figma：上下各留 10（文字區 = 手機 24、電腦 27），底線貼在最底部
+        padding: var(--corner-2) 0;
         border: 0;
 
-        font-size: var(--font-size-20);
+        // Figma UI kit 的 Large 字級（手機 20／電腦 22）；頁籤文字樣式是 22/22p
+        font-size: var(--size-large-font-size);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-30);
@@ -117,24 +124,29 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
             font-weight: var(--font-weight-bold);
             color: var(--color-neutral-10);
         }
-    }
 
-    // 底線只畫在文字底下，紅點不算在內（她 2026-09-11 指定）
-    &__tab-label {
-        position: relative;
-
+        // Figma Rectangle 611：底線固定 50 寬、置中、貼齊頁籤底部（手機 1px、電腦 2px）
+        // 固定寬度的好處：切成越南文「Gửi câu hỏi」底線不會跟著變長
+        // 顏色照 Figma 的顏色樣式 Neutral/10 寫死，不用 currentcolor——未選中的字是 Neutral/30，
+        // 用 currentcolor 以後若加上 hover 變色，底線會跟著變，跟設計稿不合
         &--active::after {
             content: '';
 
             position: absolute;
-            right: 0;
-            bottom: -6px;
-            left: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
 
-            height: 2px;
+            width: 50px;
+            height: 1px;
 
-            background: currentcolor;
+            background: var(--color-neutral-10);
         }
+    }
+
+    // 只為了給紅點當定位基準（底線 2026-09-16 改成固定 50 寬，掛在 &__tab 上）
+    &__tab-label {
+        position: relative;
     }
 
     // Figma Ellipse 3：10 x 10。
@@ -143,7 +155,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
     &__dot {
         position: absolute;
         top: 50%;
-        left: calc(100% + 6px);
+        left: calc(100% + var(--corner-2)); // Figma Frame 3 的 gap 10
         transform: translateY(-50%);
 
         width: 10px;
@@ -151,6 +163,22 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         border-radius: var(--corner-full);
 
         background: var(--color-red-20);
+    }
+
+    @media (width >= 600px) {
+        &__tab {
+            height: 47px;
+        }
+
+        &__tab--active::after {
+            height: 2px; // Figma PC 底線 2px（手機 1px）
+        }
+
+        // Figma PC Ellipse 3：12 x 12
+        &__dot {
+            width: 12px;
+            height: 12px;
+        }
     }
 }
 </style>

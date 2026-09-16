@@ -120,13 +120,14 @@ onMounted(() => {
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
 
         transition: box-shadow 0.25s ease;
 
-        // 游標在裡面時多一圈內光（Figma input_act）
+        // 游標在裡面時多一圈內光
         &:focus-within {
-            box-shadow: var(--shadow-input-active);
+            box-shadow: var(--shadow-input-act);
         }
     }
 

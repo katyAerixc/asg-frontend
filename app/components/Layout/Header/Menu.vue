@@ -224,7 +224,7 @@ async function fitLangListToViewport() {
 
     // 一般模式：清單往下長，最多到畫面底部往上 12px，太長就清單自己捲（至少留兩列高）
     const available = viewportHeight() - list.getBoundingClientRect().top - VIEWPORT_GAP;
-    langListMaxHeight.value = list.scrollHeight > available ? `${Math.max(available, 88)}px` : undefined;
+    langListMaxHeight.value = list.scrollHeight > available ? `${Math.max(available, 90)}px` : undefined;
 }
 
 // 選單比「從選單頂端到畫面底」還高 → 開啟捲動模式並限制高度
@@ -295,8 +295,10 @@ onUnmounted(() => {
     border-radius: var(--corner-4);
 
     background: var(--bg-normal);
-    backdrop-filter: blur(50px);
-    box-shadow: var(--shadow-btn);
+
+    // Figma 面板寫 bg-blur 50；換成 CSS 要除以 2，所以是 25
+    backdrop-filter: blur(25px);
+    box-shadow: var(--shadow-bg);
 
     // 畫面太矮才開：選單自己捲，捲到底不連帶捲頁面（頁面一捲選單就會關）
     &--scroll {
@@ -313,6 +315,9 @@ onUnmounted(() => {
         gap: var(--corner-2);
         align-items: center;
 
+        // Figma 是 col + gap 10：分隔線上下各留 10（上面靠 padding-bottom，下面靠這條 margin）
+        margin-bottom: var(--corner-2);
+
         // 左右內距跟下面的連結列一致，鉛筆才會跟那些箭頭對在同一條直線上
         padding: 0 var(--corner-2) var(--corner-2);
 
@@ -327,7 +332,7 @@ onUnmounted(() => {
 
             height: 1px;
 
-            background: var(--line-divider);
+            background: var(--line-2);
         }
     }
 
@@ -343,7 +348,7 @@ onUnmounted(() => {
         width: 66px;
         height: 66px;
         border: 1px solid var(--color-primary-20);
-        border-radius: 50%;
+        border-radius: var(--corner-full);
 
         background: none;
     }
@@ -366,7 +371,7 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        height: 24px;
+        height: 25px;
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
@@ -473,7 +478,7 @@ onUnmounted(() => {
         // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
-                background-color: rgb(255 255 255 / 6%);
+                background-color: var(--color-primary-opacity-6020);
             }
 
             // 語系那列不是連結，滑過不變色；寫在後面才壓得過上面那條
@@ -508,6 +513,7 @@ onUnmounted(() => {
         border-radius: var(--corner-full);
 
         background: var(--bg-input);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
     }
 
@@ -553,7 +559,9 @@ onUnmounted(() => {
         cursor: pointer;
 
         display: flex;
-        gap: var(--corner-2);
+
+        // Figma：旗子與文字只隔 4（箭頭靠文字的 flex: 1 推到最右）
+        gap: var(--corner-1);
         align-items: center;
 
         width: 192px;
@@ -566,18 +574,30 @@ onUnmounted(() => {
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
-        box-shadow: var(--shadow-input-active);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+
+        // 收合是 Figma 的 input（3-1 會員選單）、展開才是 input_act（3-2 語系下拉）
+        // 平常補一圈全透明的外圈，湊成跟 input_act 一樣的 4 層，漸變才補得出來
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-input);
+
+        transition:
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
 
         &--open {
             border-color: var(--color-primary-60);
+            box-shadow: var(--shadow-input-act);
         }
     }
 
+    // Figma：按鈕上的旗子 24，清單裡的小一號 22（H5 分別是 19 與 17）
     &__lang-flag {
         flex-shrink: 0;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        border-radius: var(--corner-full);
     }
 
     // Figma：20px / 300 / Primary/10
@@ -603,8 +623,8 @@ onUnmounted(() => {
 
         flex-shrink: 0;
 
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
 
         color: var(--color-primary-10);
 
@@ -632,21 +652,26 @@ onUnmounted(() => {
         border-radius: 8px;
 
         background: var(--bg-input);
-        box-shadow: var(--shadow-input-active);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        box-shadow: var(--shadow-input-act);
     }
 
     &__lang-item {
         cursor: pointer;
 
         display: flex;
-        gap: var(--corner-2);
+
+        // Figma：旗子與文字只隔 4
+        gap: var(--corner-1);
         align-items: center;
 
         width: 100%;
-        height: 44px;
+        height: 45px;
         padding: 0 var(--corner-2); // 左右留白：國旗與文字不貼著邊
         border: 0;
-        border-bottom: 1px solid var(--color-white-30);
+
+        // Figma PC/list 的分隔線是 Primary/40 實色，不是半透明白；跟 Base/Select 的選項用同一支變數
+        border-bottom: 1px solid var(--color-select-option-line);
 
         background: none;
 
@@ -657,6 +682,11 @@ onUnmounted(() => {
                 background-color: var(--bg-list-hover);
             }
         }
+    }
+
+    &__lang-item &__lang-flag {
+        width: 22px;
+        height: 22px;
     }
 
     // Figma：清單文字 20px / 300 / Primary/20（比按鈕上的淡一階）
@@ -686,7 +716,9 @@ onUnmounted(() => {
             height: 56px;
         }
 
+        // Figma H5：黑帶 20（PC 25）
         &__avatar-label {
+            height: 20px;
             font-size: var(--font-size-12);
         }
 
@@ -704,6 +736,17 @@ onUnmounted(() => {
             height: 19px;
         }
 
+        // Figma H5：選單列 59（PC 64）
+        &__row {
+            height: 59px;
+        }
+
+        // Figma H5：鉛筆 19（PC 22）
+        &__edit {
+            width: 19px;
+            height: 19px;
+        }
+
         // 46 x 27 是靠 padding 撐出來的：文字 16 x 19 + 左右 15 + 上下 4
         &__theme-btn {
             height: 27px;
@@ -714,16 +757,27 @@ onUnmounted(() => {
             font-size: var(--font-size-16);
         }
 
-        // H5 語系按鈕與清單維持 180
+        // Figma H5：160。她 2026-09-15 曾為越南文「Tiếng Việt」放寬到 180（PC 192），
+        // 2026-09-16 決定先照設計稿試 160，爆版再找設計師確認
         &__lang-current,
         &__lang-list {
-            width: 180px;
+            width: 160px;
         }
 
         &__lang-flag,
         &__lang-caret {
             width: 19px;
             height: 19px;
+        }
+
+        // Figma H5：清單列 40（PC 45）、清單旗子 17（PC 22）
+        &__lang-item {
+            height: 40px;
+        }
+
+        &__lang-item &__lang-flag {
+            width: 17px;
+            height: 17px;
         }
     }
 

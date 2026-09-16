@@ -78,12 +78,11 @@ function confirm() {
     &__list {
         display: grid;
 
-        // 欄寬固定，剩下的空間平均塞進欄與欄之間，第一顆貼左、最後一顆貼右
+        // Figma MB 頭像區：一排 4 顆、左右上下都間距 15、整塊置中靠上（她 2026-09-15 定照 Figma）
         grid-template-columns: repeat(4, 60px);
-
-        // 面板高度固定，這裡吃掉剩餘空間，三列才會平均散開
         flex: 1;
-        place-content: space-between;
+        gap: var(--corner-3);
+        place-content: start center;
 
         margin: 0;
         padding: 0;
@@ -104,7 +103,7 @@ function confirm() {
         max-width: 100%;
         padding: 0;
         border: 0;
-        border-radius: 50%;
+        border-radius: var(--corner-full);
 
         background: none;
 
@@ -142,7 +141,7 @@ function confirm() {
 
         aspect-ratio: 1;
         width: 100%;
-        border-radius: 50%;
+        border-radius: var(--corner-full);
 
         object-fit: cover;
     }
@@ -160,7 +159,7 @@ function confirm() {
         width: 20px;
         height: 20px;
         border: 1px solid var(--color-neutral-10);
-        border-radius: 50%;
+        border-radius: var(--corner-full);
 
         background: var(--bg-check);
         box-shadow: var(--shadow-check);
@@ -178,7 +177,7 @@ function confirm() {
     @media (width >= 600px) {
         &__list {
             grid-template-columns: repeat(5, 80px);
-            gap: 20px;
+            gap: var(--corner-3); // Figma PC：間距 15
             align-self: center;
             max-width: 460px;
         }

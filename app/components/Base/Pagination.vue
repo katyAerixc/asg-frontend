@@ -140,7 +140,7 @@ function go(page: number) {
             background: var(--color-primary-opacity-2030);
         }
 
-        // 走到頭就不能再按：箭頭轉灰（Figma Color/Neutral/60），底下的圓也拿掉
+        // 走到頭就不能再按：箭頭轉灰，底下的圓也拿掉
         &:disabled {
             cursor: not-allowed;
             background: transparent;
@@ -244,9 +244,18 @@ function go(page: number) {
         color: var(--color-neutral-40);
     }
 
+    // 電腦版：Figma PC/Pagination 每顆 34 × 34（手機 MB/Pagination 是 30）
     @media (width >= 600px) {
+        &__arrow,
+        &__page,
+        &__gap {
+            width: 34px;
+            height: 34px;
+        }
+
         &__list {
             gap: 8px;
+            height: 42px; // 34 ＋ 上下內距各 4
         }
     }
 }

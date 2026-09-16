@@ -282,6 +282,12 @@ onUnmounted(revokePreview);
             }
         }
 
+        // Figma img/other：電腦版圖示 40×38（手機 28×27）
+        &__icon {
+            width: 40px;
+            height: 38px;
+        }
+
         &__hint {
             font-size: var(--font-size-16);
         }

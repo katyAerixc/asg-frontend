@@ -111,7 +111,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-// 外觀跟輸入框同一套（Figma input / input_act），展開的清單跟語系下拉同一套
+// 外觀跟輸入框同一套，展開的清單跟語系下拉同一套
 .base-select {
     position: relative;
     z-index: 2; // 展開的清單要蓋過下面的描述框
@@ -137,6 +137,7 @@ onUnmounted(() => {
         text-align: left;
 
         background: var(--bg-input);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
 
         transition: box-shadow 0.25s ease;
@@ -146,7 +147,7 @@ onUnmounted(() => {
         &--open {
             border-color: var(--color-primary-60);
             outline: none;
-            box-shadow: var(--shadow-input-active);
+            box-shadow: var(--shadow-input-act);
         }
     }
 
@@ -203,7 +204,8 @@ onUnmounted(() => {
         list-style: none;
 
         background: var(--bg-input);
-        box-shadow: var(--shadow-input-active);
+        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        box-shadow: var(--shadow-input-act);
     }
 
     // 每一列之間 1px 分隔線（最後一列不畫）
@@ -219,8 +221,8 @@ onUnmounted(() => {
 
         width: 100%;
 
-        // 手機上下留 8（她 2026-09-11 指定），電腦回到 Corner-2
-        padding: 8px var(--corner-1);
+        // Figma MB/list、PC/list：四邊 Corner-2（她 2026-09-15 定照 Figma，取代 09-11 的上下 8）
+        padding: var(--corner-2);
         border: 0;
 
         font-size: var(--font-size-16);
@@ -239,16 +241,14 @@ onUnmounted(() => {
 
         @media (hover: hover) {
             &:hover {
-                background-color: var(--bg-list-hover);
+                // Figma MB/list、PC/list hover：Primary/opacity/60/20%（她 2026-09-15 定照 Figma）
+                // 只改這個下拉；頭像選單的語系清單還吃 --bg-list-hover（Header 不在這次範圍）
+                background-color: rgb(var(--color-primary-60-rgb) / 20%);
             }
         }
     }
 
     @media (width >= 600px) {
-        &__option {
-            padding: var(--corner-2) var(--corner-1);
-        }
-
         &__option {
             font-size: var(--font-size-20);
         }

@@ -141,12 +141,13 @@ async function submit() {
         gap: var(--corner-3);
 
         min-height: 0;
+        padding: 0 var(--corner-2); // Figma：表單三塊比彈窗內容左右各縮 10（手機 310、電腦 550）
     }
 
     &__field {
         display: flex;
         flex-direction: column;
-        gap: var(--corner-1);
+        gap: var(--corner-2); // Figma：標籤 → 欄位 10
 
         // 描述框固定高（Figma：H5 130、PC 200），不跟著彈窗長高
         &--grow {
@@ -154,10 +155,10 @@ async function submit() {
         }
     }
 
-    // ⚠️ 字級暫定 16 / PC 20，Figma 未給
+    // Figma：手機 18 / PC 20，500
     // 標題字：兩個主題都是白（Neutral/10 淺色不覆寫）。原本用 Primary/10，淺色會變深藍（她 2026-09-14 提供 Figma 淺色）
     &__label {
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
         line-height: 1.4;
         color: var(--color-neutral-10);
@@ -168,9 +169,10 @@ async function submit() {
         color: inherit;
     }
 
+    // Figma MB/inpt：描述框 150 高（內容 130 ＋ 上下內距 10）
     &__textarea {
         flex: none;
-        height: 130px;
+        height: 150px;
     }
 
     // 尺寸由 BaseButton 自己管（H5 150 x 40、PC 200 x 46），這裡只管擺哪裡

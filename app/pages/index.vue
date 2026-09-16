@@ -154,10 +154,11 @@ useHead({
 <style scoped lang="scss">
 // 工具列的樣式在 Game/Toolbar.vue、卡片網格與加載更多在 Game/List.vue
 .lobby {
+    // Figma MB/Home：左右 Corner-3、下 Corner-4；PC/Home：外框 1320、左右 Corner-5、下 40（電腦值在下面）
     &__main {
-        max-width: 80rem;
+        max-width: 1320px;
         margin: 0 auto;
-        padding: 24px 16px;
+        padding: 24px var(--corner-3) var(--corner-4);
     }
 
     // 哨兵：1px 高的透明元素，只負責讓 JS 知道工具列黏住了沒
@@ -195,6 +196,10 @@ useHead({
     }
 
     @media (width >= 960px) {
+        &__main {
+            padding: 24px var(--corner-5) 40px;
+        }
+
         &__title-row {
             gap: 16px;
             justify-content: space-between;
