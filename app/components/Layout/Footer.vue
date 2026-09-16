@@ -1,5 +1,4 @@
 <template>
-    <!-- ⚠️ 佔位：等設計稿。結構先立好，之後填內容 -->
     <footer class="layout-footer" />
 </template>
 

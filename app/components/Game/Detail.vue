@@ -9,7 +9,6 @@
         @close="closeGameDetail"
     >
         <div class="game-detail">
-            <!-- 主圖：手機在上、電腦在左 -->
             <div class="game-detail__media">
                 <img
                     :alt="game.name"
@@ -41,7 +40,6 @@
                     {{ game.description }}
                 </p>
 
-                <!-- 三格數據跟遊戲卡共用 GameStat，只換 variant -->
                 <div class="game-detail__stats">
                     <GameStat
                         :label="$t('lobby.card.volatilityLabel')"

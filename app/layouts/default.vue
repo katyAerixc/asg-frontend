@@ -1,9 +1,6 @@
 <template>
-    <!-- 版面骨架：Header / 內容 / Footer 三區分離 -->
-    <!-- 頁面只負責自己的內容，共用區塊放這裡（同事的建議做法） -->
     <div class="layout">
-        <!-- __header / __footer 目前沒有樣式，是預留給 layout 管「放在哪、怎麼疊」的外層：
-             例如 Header 要黏頂，sticky 必須寫在這層（寫在 Header 組件身上，爸爸只跟它一樣高，黏不住） -->
+        <!-- ⚠️ 黏頂的 sticky 要寫在這層外框：寫在組件身上，父層只跟它一樣高，黏不住 -->
         <div class="layout__header">
             <LayoutHeader :coins="userCoins" />
         </div>
@@ -16,9 +13,6 @@
             <LayoutFooter />
         </div>
 
-        <!-- 遊戲介紹彈窗：點遊戲卡打開。🚨 要掛在 layout，不能放在頁面裡（她 2026-09-15 抓到重複彈窗）
-             nuxt.config 開了 keepalive：切語系＝換路由，舊語系的首頁會被暫存（沒有關掉）。
-             彈窗若寫在頁面裡，暫存的那份也會跟著開 → 畫面上兩個。layout 全站只有一份 -->
         <GameDetail
             v-if="openedGame"
             :game="openedGame"

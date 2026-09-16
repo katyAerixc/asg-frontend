@@ -1,6 +1,5 @@
 <template>
     <div class="support-detail">
-        <!-- Figma Frame 11：整張卡跟列表卡同一套底色 -->
         <div class="support-detail__card">
             <p class="support-detail__date">
                 {{ record.createdAt }}
@@ -12,7 +11,6 @@
                 {{ record.description }}
             </p>
 
-            <!-- Figma Frame 1570：客服回覆的氣泡，底色比外層淺一階 -->
             <div
                 v-if="record.reply"
                 class="support-detail__reply"

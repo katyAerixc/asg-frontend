@@ -20,14 +20,14 @@
                     type="button"
                     @click="switchTab(tab)"
                 >
-                    <!-- 文字獨立包一層：給紅點當定位基準（底線改成固定 50，掛在按鈕上） -->
+                    <!-- 文字獨立包一層：給紅點當定位基準 -->
                     <span
                         class="support__tab-label"
                         :class="{ 'support__tab-label--active': activeTab === tab }"
                     >
                         {{ $t(`support.tab.${tab}`) }}
 
-                        <!-- 有客服回覆還沒看就亮紅點。掛在文字裡面用絕對定位，不佔版面 -->
+                        <!-- 紅點用絕對定位，不佔版面，出現或消失時頁籤不會跳 -->
                         <span
                             v-if="tab === 'history' && hasUnreadReply"
                             class="support__dot"
@@ -36,7 +36,6 @@
                 </button>
             </div>
 
-            <!-- 點開某一筆時，紀錄列表換成那一筆的內容 -->
             <LayoutSupportForm v-if="activeTab === 'form'" />
             <LayoutSupportDetail
                 v-else-if="openedRecord"

@@ -12,8 +12,7 @@
         <span class="game-stat__label">{{ label }}</span>
         <span class="game-stat__value">
             {{ value }}
-            <!-- 🚨 圖示 class 要寫完整的字，不能用 `i-sp-trend-${trend}` 組：
-                 UnoCSS 是掃原始碼找字串來產生 CSS，組出來的它看不到，箭頭就會消失（2026-09-14 她抓到） -->
+            <!-- 🚨 圖示 class 要寫完整的字，不能用 `i-sp-trend-${trend}` 組：UnoCSS 掃不到，箭頭會消失 -->
             <span
                 v-if="trend"
                 class="game-stat__arrow"

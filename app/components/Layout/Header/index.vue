@@ -1,8 +1,6 @@
 <template>
     <header class="layout-header">
         <div class="layout-header__inner">
-            <!-- Logo：手機用 h5 版、電腦（≥960px）用 pc 版，深淺主題各一張。
-                 四張圖都掛在 CSS 變數上（見 index.scss），靠 media query 與 data-theme 決定載哪張 -->
             <NuxtLink
                 :aria-label="$t('header.home')"
                 class="layout-header__logo"
@@ -10,7 +8,6 @@
             />
 
             <div class="layout-header__user">
-                <!-- 金幣膠囊：圖示 + 數字 + 重新整理 -->
                 <div class="layout-header__coins">
                     <img
                         alt=""
@@ -27,7 +24,6 @@
                     </button>
                 </div>
 
-                <!-- 頭像 + 下拉箭頭；點了展開會員選單 -->
                 <div
                     ref="menuRef"
                     class="layout-header__menu-wrap"
@@ -59,19 +55,16 @@
         </div>
     </header>
 
-    <!-- 變更頭像彈窗：掛在 Header 上而不是選單裡，選單收起來時彈窗才不會一起不見 -->
     <LayoutProfileAvatarPicker
         v-if="isAvatarPickerOpen"
         @close="closeAvatarPicker"
     />
 
-    <!-- 變更暱稱彈窗：同樣掛在 Header 上，選單收起來也不會跟著不見 -->
     <LayoutProfileNicknameEditor
         v-if="isNicknameEditorOpen"
         @close="closeNicknameEditor"
     />
 
-    <!-- 客服彈窗：從選單的「客服中心」打開，同樣掛在 Header 上 -->
     <LayoutSupport v-if="isSupportOpen" />
 </template>
 

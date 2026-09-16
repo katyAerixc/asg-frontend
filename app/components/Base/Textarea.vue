@@ -10,7 +10,6 @@
                 :placeholder="placeholder"
             />
 
-            <!-- 有字才出現清除鈕（Figma：右上角 ✕；做法跟暱稱輸入框同一套） -->
             <button
                 v-if="modelValue"
                 :aria-label="$t('common.clear')"
@@ -20,7 +19,6 @@
             />
         </div>
 
-        <!-- 右下角字數：0/500 -->
         <span
             aria-live="polite"
             class="base-textarea__count"

@@ -1,12 +1,11 @@
 <template>
     <div class="lobby">
-        <!-- 哨兵：只有 1px 高。它捲出畫面 = 工具列黏住了，用來切換底色 -->
+        <!-- 哨兵：它捲出畫面 = 工具列黏住了，用來切換底色 -->
         <div
             ref="sentinelRef"
             class="lobby__sentinel"
         />
 
-        <!-- 工具列：分類、標籤篩選、搜尋 -->
         <GameToolbar
             v-model:category="activeCategory"
             v-model:keyword="keyword"
@@ -14,9 +13,7 @@
             :stuck="isStuck"
         />
 
-        <!-- 主要內容 -->
         <main class="lobby__main">
-            <!-- 標題列：電腦版左標題右數量；手機版靠左，只有搜尋時才出現「搜尋結果」（設計稿 1-5、1-6，她 2026-09-15 定） -->
             <div class="lobby__title-row">
                 <h1
                     class="lobby__title"

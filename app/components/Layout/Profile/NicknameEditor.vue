@@ -26,7 +26,6 @@
                     @keyup.enter="confirm"
                 >
 
-                <!-- 有字才出現清除鈕（設計稿：空的時候整顆不在） -->
                 <button
                     v-if="draft"
                     :aria-label="$t('common.clear')"

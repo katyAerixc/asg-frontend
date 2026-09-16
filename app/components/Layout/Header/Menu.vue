@@ -1,12 +1,11 @@
 <template>
-    <!-- 畫面太矮時選單自己捲（她 2026-09-15）：捲的是選單，不是頁面——捲頁面會觸發「捲動就關閉選單」 -->
+    <!-- 捲的是選單不是頁面：捲頁面會觸發「捲動就關閉選單」 -->
     <div
         ref="rootRef"
         class="header-menu"
         :class="{ 'header-menu--scroll': isMenuScroll }"
         :style="{ '--menu-max-h': menuMaxHeight, '--lang-list-max-h': langListMaxHeight }"
     >
-        <!-- 帳號區：頭像（可更換）+ 帳號/暱稱 + 編輯鉛筆 -->
         <div class="header-menu__account">
             <button
                 :aria-label="$t('header.menu.changeAvatar')"
@@ -49,7 +48,6 @@
             />
         </div>
 
-        <!-- 連結列：客服中心 / 聯絡我們 -->
         <button
             v-for="link in LINKS"
             :key="link"
@@ -61,7 +59,6 @@
             <span class="header-menu__row-arrow i-sp-arrow-right" />
         </button>
 
-        <!-- 主題切換：深 / 淺 -->
         <div class="header-menu__row">
             <span class="header-menu__row-label">{{ $t('header.menu.theme') }}</span>
             <div class="header-menu__theme">
@@ -79,7 +76,6 @@
             </div>
         </div>
 
-        <!-- 語系：點了往下展開 7 種語言 -->
         <div class="header-menu__row header-menu__row--lang">
             <span class="header-menu__row-label">{{ $t('header.menu.language') }}</span>
 

@@ -13,13 +13,11 @@
             <span class="base-pagination__arrow-icon base-pagination__arrow-icon--prev i-sp-arrow-right" />
         </button>
 
-        <!-- 圓框只包數字與省略號，左右箭頭在框外（她 2026-09-11 指定） -->
         <ul class="base-pagination__list">
             <li
                 v-for="(item, index) in items"
                 :key="index"
             >
-                <!-- 省略號只是佔位，不能點 -->
                 <span
                     v-if="item === GAP"
                     class="base-pagination__gap"

@@ -1,6 +1,5 @@
 <template>
     <div class="base-upload">
-        <!-- 還沒選檔案：整塊就是一顆按鈕，點下去開檔案總管 -->
         <button
             v-if="!previewUrl"
             :aria-label="$t('support.attachmentLabel')"
@@ -11,7 +10,6 @@
             <span class="base-upload__icon i-sp-upload" />
         </button>
 
-        <!-- 選好了：顯示縮圖，底部壓一條「刪除」 -->
         <div
             v-else
             class="base-upload__box base-upload__box--filled"
@@ -31,7 +29,6 @@
             </button>
         </div>
 
-        <!-- 格式與大小說明；檔案太大時同一行換成紅字警告 -->
         <p
             class="base-upload__hint"
             :class="{ 'base-upload__hint--error': errorKey }"
@@ -39,7 +36,6 @@
             {{ errorKey ? $t(errorKey) : $t('support.attachmentHint') }}
         </p>
 
-        <!-- 真正的檔案輸入框藏起來，外觀完全交給上面那塊 -->
         <input
             ref="inputRef"
             :accept="accept"

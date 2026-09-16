@@ -1,6 +1,5 @@
 <template>
-    <!-- 工具列：外層負責滿版底色與黏頂，內層才限制最大寬度（同 Header 的做法）
-         ⚠️ 根節點本身就是 sticky 的那層，外面不要再包 div——sticky 只在父層範圍內有效 -->
+    <!-- ⚠️ 根節點本身就是 sticky 的那層，外面不要再包 div——sticky 只在父層範圍內有效 -->
     <div
         class="game-toolbar"
         :class="{ 'game-toolbar--stuck': stuck }"
@@ -18,9 +17,7 @@
                 class="game-toolbar__filters"
                 :class="{ 'game-toolbar__filters--searching': isSearchOpen }"
             >
-                <!-- ALL / NEW / HOT / HIGH：ALL 是清除鍵，其餘可單選也可複選
-                     手機展開搜尋時：後三顆收起來，第一顆「原地」變成摘要（ALL／HOT／HOT +1），點它收回搜尋
-                     🚨 摘要要用第一顆本身，不能另外長一顆（她 2026-09-15 抓到：兩塊不同的東西一個縮一個長，會跳一下） -->
+                <!-- 🚨 手機展開搜尋時，摘要要用第一顆按鈕本身，不能另外長一顆，不然會跳一下 -->
                 <div class="game-toolbar__toggle">
                     <button
                         v-for="(option, index) in filterOptions"
@@ -56,8 +53,6 @@
             </div>
         </div>
 
-        <!-- 手機版：往下捲到 ALL 那排看不見時，搜尋鈕浮在右下角（她 2026-09-15 定，#63）
-             Teleport 出去：工具列有 backdrop-filter 時，fixed 會改成貼著工具列而不是螢幕 -->
         <Teleport to="#teleports">
             <Transition name="game-toolbar-float">
                 <div

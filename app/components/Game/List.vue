@@ -1,6 +1,5 @@
 <template>
     <div class="game-list">
-        <!-- 遊戲卡片網格：手機 2 欄、電腦 3 欄（照設計規格） -->
         <section class="game-list__grid">
             <GameCard
                 v-for="game in games"
@@ -9,7 +8,6 @@
             />
         </section>
 
-        <!-- 加載更多：全部載完就自己消失 -->
         <div
             v-if="hasMore"
             class="game-list__more"

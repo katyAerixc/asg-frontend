@@ -22,7 +22,6 @@
                         :src="item.image"
                     >
 
-                    <!-- 藍色打勾＝現在正在用的那顆（不是剛點的那顆） -->
                     <span
                         v-if="item.id === currentId"
                         class="avatar-picker__check"

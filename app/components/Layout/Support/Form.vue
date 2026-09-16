@@ -48,7 +48,6 @@
             </div>
         </div>
 
-        <!-- 兩個必填都有值才能按 -->
         <BaseButton
             class="support-form__submit"
             :disabled="!canSubmit"

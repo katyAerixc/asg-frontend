@@ -1,6 +1,5 @@
 <template>
-    <!-- 送到 Nuxt 內建的 #teleports 容器：彈窗才不會被祖先的 transform / backdrop-filter 影響，
-         那些屬性會讓 position: fixed 改成貼著祖先而不是螢幕 -->
+    <!-- 送到 #teleports：祖先有 transform / backdrop-filter 時，fixed 會貼著祖先而不是螢幕 -->
     <Teleport to="#teleports">
         <div
             class="base-modal"
@@ -35,10 +34,8 @@
                     />
                 </header>
 
-                <!-- 中間內容由使用它的人填 -->
                 <slot />
 
-                <!-- 底部按鈕區；沒放東西時整個不佔位 -->
                 <footer
                     v-if="$slots.footer"
                     class="base-modal__foot"

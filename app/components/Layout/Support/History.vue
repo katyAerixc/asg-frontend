@@ -19,8 +19,7 @@
                         >
                             {{ $t(`support.status.${record.status}`) }}
 
-                            <!-- 紅點只在「回覆過但還沒看」時亮。用 visibility 藏起來而不是移除，
-                                 位子留著，已讀後標籤才不會突然縮一下 -->
+                            <!-- 用 visibility 藏而不是移除：位子留著，已讀後標籤才不會縮一下 -->
                             <span
                                 v-if="record.status === 'replied'"
                                 class="support-history__dot"

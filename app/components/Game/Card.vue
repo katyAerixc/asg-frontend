@@ -1,20 +1,16 @@
 <template>
-    <!-- ⚠️ 整張卡不要加 role="button"：那會讓讀螢幕軟體把卡片內容全當裝飾略過，
-         只剩 aria-label 那一句。滑鼠點整張都開，鍵盤與讀螢幕走下面 ⓘ 那顆真按鈕 -->
+    <!-- ⚠️ 整張卡不要加 role="button"：讀螢幕軟體會把卡片內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕 -->
     <article
         class="game-card"
         @click="openGameDetail(game)"
     >
-        <!-- 大圖區：正方形，比下方玻璃塊窄一點 -->
         <div class="game-card__media">
             <img
                 :alt="game.name"
                 class="game-card__img"
                 :src="game.image"
             >
-            <!-- Figma item=hover 的放大版圖。Figma 用 DISSOLVE（交叉淡化）換狀態，不是把圖放大，
-                 所以這裡疊第二張已放大的圖，滑入時兩張互換透明度。
-                 同一個 src 不會多下載一次；它只是裝飾，讀螢幕軟體跳過 -->
+            <!-- 滑入時兩張圖互換透明度，不是把圖放大；同一個 src 不會多下載 -->
             <img
                 alt=""
                 aria-hidden="true"
@@ -22,7 +18,6 @@
                 :src="game.image"
             >
 
-            <!-- 標籤（NEW / HOT / HIGH） -->
             <div
                 v-if="game.tags.length"
                 class="game-card__tags"
@@ -35,7 +30,6 @@
             </div>
         </div>
 
-        <!-- 玻璃塊 -->
         <div class="game-card__info">
             <div class="game-card__head">
                 <img
@@ -44,7 +38,6 @@
                     :src="game.image"
                 >
                 <div class="game-card__text">
-                    <!-- 名稱與 ⓘ 同一行，描述才能佔滿整行（到 ⓘ 底下） -->
                     <div class="game-card__name-row">
                         <h3 class="game-card__name">
                             {{ game.name }}
@@ -66,7 +59,6 @@
 
             <hr class="game-card__divider">
 
-            <!-- 三格數據跟遊戲介紹彈窗共用 GameStat，只換 variant -->
             <div class="game-card__stats">
                 <GameStat
                     :label="$t('lobby.card.volatilityLabel')"
