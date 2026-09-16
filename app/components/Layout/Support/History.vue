@@ -169,7 +169,7 @@ function openRecord(id: number) {
         width: 10px;
         height: 10px;
         border-radius: var(--corner-full);
-        background: var(--color-red-20);
+        background: var(--color-semantic-red-20);
 
         // 已讀：藏起來但位子留著，標籤寬度不變（不然會抖一下）
         &--read {

@@ -106,21 +106,21 @@ withDefaults(
     min-width: 0; // 允許被壓縮，裡面的文字才切得掉（不加的話會把外框撐開）
     border-radius: var(--corner-2);
 
-    background: var(--color-primary-opacity-6010);
+    background: var(--color-primary-opacity-60-10);
 
     &--up {
         --game-stat-trend: linear-gradient(
             var(--game-stat-trend-angle),
-            var(--color-red-opacity-2060) var(--game-stat-trend-start),
-            var(--color-red-opacity-2020) 100%
+            var(--color-semantic-red-opacity-20-60) var(--game-stat-trend-start),
+            var(--color-semantic-red-opacity-20-20) 100%
         );
     }
 
     &--down {
         --game-stat-trend: linear-gradient(
             var(--game-stat-trend-angle),
-            var(--color-green-opacity-2060) var(--game-stat-trend-start),
-            var(--color-green-opacity-2020) 100%
+            var(--color-semantic-green-opacity-20-60) var(--game-stat-trend-start),
+            var(--color-semantic-green-opacity-20-20) 100%
         );
     }
 
@@ -198,7 +198,7 @@ withDefaults(
 
                 border-radius: inherit;
 
-                background: var(--color-primary-opacity-6010);
+                background: var(--color-primary-opacity-60-10);
 
                 animation: rtp-breathe var(--motion-breathe) infinite;
             }
@@ -228,7 +228,7 @@ withDefaults(
         &#{$self}--up::before,
         &#{$self}--down::before {
             background: var(--game-stat-trend);
-            box-shadow: 0 0 10px 0 var(--shadow-dark-20);
+            box-shadow: 0 0 10px 0 var(--color-shadow-dark-20);
         }
 
         // Figma 手機 12；比 Figma 的 390（卡片 172）窄才等比例縮

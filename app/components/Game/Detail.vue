@@ -165,12 +165,12 @@ function play() {
 
         min-height: 25px;
         padding: 0 var(--corner-2);
-        border: 1px solid var(--color-red-10);
+        border: 1px solid var(--color-semantic-red-10);
         border-radius: var(--corner-full);
 
         font-size: var(--font-size-12);
         font-weight: var(--font-weight-medium);
-        color: var(--color-red-10);
+        color: var(--color-semantic-red-10);
     }
 
     // Figma：H5 14 / PC 16，300，Neutral/20

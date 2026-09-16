@@ -161,7 +161,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         height: 10px;
         border-radius: var(--corner-full);
 
-        background: var(--color-red-20);
+        background: var(--color-semantic-red-20);
     }
 
     @media (width >= 600px) {

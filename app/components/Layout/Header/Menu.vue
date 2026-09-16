@@ -474,7 +474,7 @@ onUnmounted(() => {
         // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
-                background-color: var(--color-primary-opacity-6020);
+                background-color: var(--color-primary-opacity-60-20);
             }
 
             // 語系那列不是連結，滑過不變色；寫在後面才壓得過上面那條
@@ -540,7 +540,7 @@ onUnmounted(() => {
         &--active {
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
-            background-color: var(--color-primary-opacity-6030);
+            background-color: var(--color-primary-opacity-60-30);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
         }
     }
@@ -692,7 +692,7 @@ onUnmounted(() => {
 
     // 選中的那一列：藍底 30%（跟「深」膠囊、NEW/HOT 選中同一色），文字轉白
     &__lang-item--active {
-        background-color: var(--color-primary-opacity-6030);
+        background-color: var(--color-primary-opacity-60-30);
     }
 
     &__lang-item--active &__lang-name {

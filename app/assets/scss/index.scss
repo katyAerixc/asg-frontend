@@ -57,34 +57,34 @@
     // 多行輸入框右下角字數（0/500）打了字之後的顏色；深色維持原本的 Primary/40
     --color-textarea-count-filled: var(--color-primary-40);
 
-    // header 下方線：兩端 6000（Figma Color/Primary/opacity/60/0%）、中間 6050（60/50%）
-    --color-primary-opacity-6000: rgb(var(--color-primary-60-rgb) / 0%);
-    --color-primary-opacity-6010: rgb(var(--color-primary-60-rgb) / 10%);
-    --color-primary-opacity-6020: rgb(var(--color-primary-60-rgb) / 20%); // 選單列滑入的底（Figma MB/list item=hover）
-    --color-primary-opacity-6030: rgb(var(--color-primary-60-rgb) / 30%);
-    --color-primary-opacity-6050: rgb(var(--color-primary-60-rgb) / 50%);
-    --color-primary-opacity-2020: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭的底、頁碼數字 hover 的底
-    --color-primary-opacity-2030: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
-    --color-primary-opacity-7020: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
-    --color-primary-opacity-7050: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
-    --color-primary-opacity-7060: rgb(var(--color-primary-70-rgb) / 60%); // 客服紀錄卡片按下去
-    --color-primary-opacity-7070: rgb(var(--color-primary-70-rgb) / 70%); // 客服紀錄卡片 hover
+    // header 下方線：兩端 60-0、中間 60-50
+    --color-primary-opacity-60-0: rgb(var(--color-primary-60-rgb) / 0%);
+    --color-primary-opacity-60-10: rgb(var(--color-primary-60-rgb) / 10%);
+    --color-primary-opacity-60-20: rgb(var(--color-primary-60-rgb) / 20%); // 選單列滑入的底（Figma MB/list item=hover）
+    --color-primary-opacity-60-30: rgb(var(--color-primary-60-rgb) / 30%);
+    --color-primary-opacity-60-50: rgb(var(--color-primary-60-rgb) / 50%);
+    --color-primary-opacity-20-20: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭、頁碼 hover 的底
+    --color-primary-opacity-20-30: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
+    --color-primary-opacity-70-20: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
+    --color-primary-opacity-70-50: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
+    --color-primary-opacity-70-60: rgb(var(--color-primary-70-rgb) / 60%); // 客服紀錄卡片按下去
+    --color-primary-opacity-70-70: rgb(var(--color-primary-70-rgb) / 70%); // 客服紀錄卡片 hover
 
     // 語意色 Semantic（名字就是 Figma 的 Semantic/{Red,Green,Yellow}/NN，深淺色同值）
     // ⚠️ 驗證方式：只信 UI Kit「Color Variables」頁的色塊實際填色，那頁手打的 hex 文字會過期
     //    （實測 Green/20 文字寫 #19FF47，色塊其實是 #21B83F）
-    --color-red-10: #ffb0b0; // 遊戲類型標籤的字與框
-    --color-red-20: #ff4141; // 未讀紅點、上傳錯誤提示
-    --color-red-30: #8f2424; // HOT 標籤底色漸層的深色端
-    --color-green-20: #21b83f; // NEW 標籤底色漸層的起點
-    --color-green-30: #1b7e2f; // NEW 標籤底色漸層的深色端
-    --color-yellow-20-rgb: 255 157 46; // #ff9d2e，「立即遊玩」漸層要疊透明度
-    --color-yellow-20: rgb(var(--color-yellow-20-rgb));
-    --color-yellow-30: #8c510f; // 橘標籤底色漸層的深色端
-    --color-red-opacity-2060: rgb(255 65 65 / 60%);
-    --color-red-opacity-2020: rgb(255 65 65 / 20%);
-    --color-green-opacity-2060: rgb(33 184 63 / 60%);
-    --color-green-opacity-2020: rgb(33 184 63 / 20%);
+    --color-semantic-red-10: #ffb0b0; // 遊戲類型標籤的字與框
+    --color-semantic-red-20: #ff4141; // 未讀紅點、上傳錯誤提示
+    --color-semantic-red-30: #8f2424; // HOT 標籤底色漸層的深色端
+    --color-semantic-green-20: #21b83f; // NEW 標籤底色漸層的起點
+    --color-semantic-green-30: #1b7e2f; // NEW 標籤底色漸層的深色端
+    --color-semantic-yellow-20-rgb: 255 157 46; // #ff9d2e，「立即遊玩」漸層要疊透明度
+    --color-semantic-yellow-20: rgb(var(--color-semantic-yellow-20-rgb));
+    --color-semantic-yellow-30: #8c510f; // 橘標籤底色漸層的深色端
+    --color-semantic-red-opacity-20-60: rgb(255 65 65 / 60%);
+    --color-semantic-red-opacity-20-20: rgb(255 65 65 / 20%);
+    --color-semantic-green-opacity-20-60: rgb(33 184 63 / 60%);
+    --color-semantic-green-opacity-20-20: rgb(33 184 63 / 20%);
 
     // 白 / 陰影
     --color-white-0: rgb(255 255 255 / 0%); // 全透明白：hover 光暈/白框的起點
@@ -96,16 +96,16 @@
     --color-white-20: rgb(255 255 255 / 20%); // 次要按鈕按下去的漸層起點
 
     // 亮陰影：深色是白，淺色主題只換這組數字
-    --shadow-light-rgb: 255 255 255;
-    --shadow-light-80: rgb(var(--shadow-light-rgb) / 80%);
-    --shadow-light-50: rgb(var(--shadow-light-rgb) / 50%);
-    --shadow-light-20: rgb(var(--shadow-light-rgb) / 20%);
+    --color-shadow-light-rgb: 255 255 255;
+    --color-shadow-light-80: rgb(var(--color-shadow-light-rgb) / 80%);
+    --color-shadow-light-50: rgb(var(--color-shadow-light-rgb) / 50%);
+    --color-shadow-light-20: rgb(var(--color-shadow-light-rgb) / 20%);
 
     // 暗陰影（Figma Color/Shadow/Dark/xx，數字是不透明度）：深色是黑，淺色主題只換這組數字
-    --shadow-dark-rgb: 0 0 0;
-    --shadow-dark-20: rgb(var(--shadow-dark-rgb) / 20%);
-    --shadow-dark-40: rgb(var(--shadow-dark-rgb) / 40%);
-    --shadow-dark-50: rgb(var(--shadow-dark-rgb) / 50%);
+    --color-shadow-dark-rgb: 0 0 0;
+    --color-shadow-dark-20: rgb(var(--color-shadow-dark-rgb) / 20%);
+    --color-shadow-dark-40: rgb(var(--color-shadow-dark-rgb) / 40%);
+    --color-shadow-dark-50: rgb(var(--color-shadow-dark-rgb) / 50%);
 
     // ── 動畫（Figma prototype）────────────────────────────────
     // ⚠️ 名字是我們自己取的：Figma 的變數只管顏色／圓角／數字，**沒有動畫變數**，
@@ -203,15 +203,15 @@
 
     // Figma 效果樣式 input（層順序照 Figma 面板由上到下）
     --shadow-input:
-        -0.5px -1px 4px 0 var(--shadow-dark-40) inset, 1px 1px 1px 0 var(--shadow-light-50) inset,
-        -1px -1px 1px 0 var(--shadow-light-20) inset;
+        -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-50) inset,
+        -1px -1px 1px 0 var(--color-shadow-light-20) inset;
 
     // 語系下拉展開時：比 input 多一圈 20% 白的內光暈
     // Figma 效果樣式 input_act：第一層是**外**光暈（Figma 沒標 inset），後三層才是 inset
     // 她 2026-09-16 指示「Figma 裡是什麼就照他的」→ 第一層的 inset 拿掉
     --shadow-input-act:
-        0 0 10px 0 var(--shadow-light-20), -0.5px -1px 4px 0 var(--shadow-dark-40) inset,
-        1px 1px 1px 0 var(--shadow-light-50) inset, -1px -1px 1px 0 var(--shadow-light-20) inset;
+        0 0 10px 0 var(--color-shadow-light-20), -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset,
+        1px 1px 1px 0 var(--color-shadow-light-50) inset, -1px -1px 1px 0 var(--color-shadow-light-20) inset;
 
     // 按鈕（Figma 名稱 btn/default）
     --bg-normal: linear-gradient(
@@ -227,16 +227,16 @@
 
     // Figma btn/default 四層：Dark/50、Light/50、Light/80、Dark/40
     --shadow-btn:
-        -0.5px -1px 4px 0 var(--shadow-dark-40) inset, 1px 1px 1px 0 var(--shadow-light-80) inset,
-        -1px -1px 1px 0 var(--shadow-light-50) inset, 0 0 10px 0 var(--shadow-dark-50);
+        -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-80) inset,
+        -1px -1px 1px 0 var(--color-shadow-light-50) inset, 0 0 10px 0 var(--color-shadow-dark-50);
 
     // 疊在平常那組陰影之外（Figma prototype/coin bar 的 item=PC hover 用它）
-    --shadow-pc-hover: 0 0 20px 0 var(--shadow-light-20);
+    --shadow-pc-hover: 0 0 20px 0 var(--color-shadow-light-20);
 
     // Figma 效果樣式 btn/hover：跟 btn/default 只差最外那層改成白的
     --shadow-btn-hover:
-        -0.5px -1px 4px 0 var(--shadow-dark-40) inset, 1px 1px 1px 0 var(--shadow-light-80) inset,
-        -1px -1px 1px 0 var(--shadow-light-50) inset, 0 0 10px 0 var(--shadow-light-50);
+        -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-80) inset,
+        -1px -1px 1px 0 var(--color-shadow-light-50) inset, 0 0 10px 0 var(--color-shadow-light-50);
 
     // 藍色主要按鈕：底色、外框、文字描邊
     // Figma PC/btn/Medium 的漸層兩個停駐點都綁 Primary/60，深淺色跟著它走
@@ -268,9 +268,9 @@
     // Header 下框線：兩端透明、中間半透明藍
     --line-3: linear-gradient(
         90deg,
-        var(--color-primary-opacity-6000) 0%,
-        var(--color-primary-opacity-6050) 50%,
-        var(--color-primary-opacity-6000) 100%
+        var(--color-primary-opacity-60-0) 0%,
+        var(--color-primary-opacity-60-50) 50%,
+        var(--color-primary-opacity-60-0) 100%
     );
 
     // 彈窗底：180deg、30% 0% → 50% 30% → 20% 100%（2026-09-15 讀 Figma Dev Mode 確認停駐點）
@@ -283,8 +283,8 @@
 
     // 層順序照 Figma 面板由上到下
     --shadow-bg:
-        -0.5px -1px 2px 0 var(--shadow-dark-40) inset, 1px 1px 1px 0 var(--shadow-light-50) inset,
-        -1px -1px 1px 0 var(--shadow-light-20) inset, 0 0 5px 0 var(--shadow-dark-50);
+        -0.5px -1px 2px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-50) inset,
+        -1px -1px 1px 0 var(--color-shadow-light-20) inset, 0 0 5px 0 var(--color-shadow-dark-50);
 
     // 「這是你正在用的頭像」那顆藍色打勾
     --bg-check: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-primary-80) 100%);
@@ -303,8 +303,8 @@
     // 值跟 btn/disabled 同一組（Figma 分成兩支樣式，數值一樣）
     --shadow-btn-active: var(--shadow-btn-disabled);
     --shadow-btn-disabled:
-        -0.5px -1px 4px 0 var(--shadow-dark-40) inset, 1px 1px 1px 0 var(--shadow-light-80) inset,
-        -1px -1px 1px 0 var(--shadow-light-50) inset;
+        -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-80) inset,
+        -1px -1px 1px 0 var(--color-shadow-light-50) inset;
 
     // 次要按鈕「上一頁」：白 50% → 白 100%
     // 陰影跟主要按鈕同一組（--shadow-btn），Figma 兩者的四層完全一樣
@@ -315,31 +315,31 @@
     // 主要動作按鈕「立即遊玩」：橘 50% → 橘 100%
     --bg-button-highlight: linear-gradient(
         180deg,
-        rgb(var(--color-yellow-20-rgb) / 50%) 0%,
-        var(--color-yellow-20) 100%
+        rgb(var(--color-semantic-yellow-20-rgb) / 50%) 0%,
+        var(--color-semantic-yellow-20) 100%
     );
     --bg-button-highlight-hv: linear-gradient(
         180deg,
-        rgb(var(--color-yellow-20-rgb) / 80%) 0%,
-        var(--color-yellow-20) 100%
+        rgb(var(--color-semantic-yellow-20-rgb) / 80%) 0%,
+        var(--color-semantic-yellow-20) 100%
     );
     --bg-button-highlight-act: linear-gradient(
         180deg,
-        rgb(var(--color-yellow-20-rgb) / 20%) 0%,
-        rgb(var(--color-yellow-20-rgb) / 70%) 100%
+        rgb(var(--color-semantic-yellow-20-rgb) / 20%) 0%,
+        rgb(var(--color-semantic-yellow-20-rgb) / 70%) 100%
     );
 
     // 客服紀錄卡片：Primary/70 半透明底 + 一道往下 4px 的同色淡影
-    --bg-support-card: var(--color-primary-opacity-7050);
+    --bg-support-card: var(--color-primary-opacity-70-50);
 
     // hover 深一階（她 2026-09-15 定；深淺色各吃自己的 Primary/70）
-    --bg-support-card-hover: var(--color-primary-opacity-7070);
+    --bg-support-card-hover: var(--color-primary-opacity-70-70);
 
     // 按下去（Figma PC/form、MB/form act）：60%
-    --bg-support-card-active: var(--color-primary-opacity-7060);
+    --bg-support-card-active: var(--color-primary-opacity-70-60);
 
     // 陰影：手機 MB/form 是 50%，電腦 PC/form 是 20%（電腦值在最下面 600 以上那段）
-    --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-7050);
+    --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-70-50);
 
     // 客服紀錄「已完結」膠囊底、客服回覆氣泡（淺色另外覆寫）
     --bg-support-status-closed: var(--color-white-50);
@@ -370,22 +370,22 @@
         180deg,
         var(--color-white-70) 0%,
         var(--color-white-50) 50%,
-        var(--color-primary-opacity-6030) 100%
+        var(--color-primary-opacity-60-30) 100%
     );
     --shadow-game-bg-default:
-        -1px -2px 2px 0 var(--shadow-dark-20) inset, 1px 1px 2px 0 var(--shadow-light-50) inset,
-        -1px -1px 2px 0 var(--shadow-light-80) inset;
+        -1px -2px 2px 0 var(--color-shadow-dark-20) inset, 1px 1px 2px 0 var(--color-shadow-light-50) inset,
+        -1px -1px 2px 0 var(--color-shadow-light-80) inset;
 
     // 滑入版（Figma 效果樣式 game/bg_act）：同樣三層，位移從 1/2 變成 2/5
     --shadow-game-bg-act:
-        -2px -5px 2px 0 var(--shadow-dark-20) inset, 2px 2px 2px 0 var(--shadow-light-50) inset,
-        -2px -2px 2px 0 var(--shadow-light-80) inset;
+        -2px -5px 2px 0 var(--color-shadow-dark-20) inset, 2px 2px 2px 0 var(--color-shadow-light-50) inset,
+        -2px -2px 2px 0 var(--color-shadow-light-80) inset;
 
     // 遊戲卡滑入時「長出來」的那兩層（Card.vue 疊在 --shadow-game-bg-act 前面）
     // ①1px 白框：Figma item=hover 的 stroke ＝ Neutral/10、OUTSIDE。用 neutral 不用 primary，
     //   淺色主題不覆寫 neutral，兩個主題都是白（她 2026-09-11 同標籤的做法）
     // ②外陰影 0 0 10：Figma item=hover 的 DROP_SHADOW，綁 Shadow/Dark/50（淺色 #8A95A7 50%）
-    --shadow-game-hover: 0 0 0 1px var(--color-neutral-10), 0 0 10px 0 var(--shadow-dark-50);
+    --shadow-game-hover: 0 0 0 1px var(--color-neutral-10), 0 0 10px 0 var(--color-shadow-dark-50);
 }
 
 // 淺色主題（Figma Modes → Light，她 2026-09-10 提供 18 張 Inspect）
@@ -408,10 +408,10 @@
 
     // 暗陰影：深色是純黑，淺色改成帶藍的灰（Figma Light 的 Dark/20・40・50 都是 #8a95a7）
     // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換（她 2026-09-14 提供 Dark/40・50）
-    --shadow-dark-rgb: 138 149 167; // #8a95a7
+    --color-shadow-dark-rgb: 138 149 167; // #8a95a7
 
     // 亮陰影：淺色色票 Shadow/Light 是淡藍（她 2026-09-15 選照色票改）；按鈕與遊戲卡的細反光跟著換
-    --shadow-light-rgb: 203 223 255; // #cbdfff
+    --color-shadow-light-rgb: 203 223 255; // #cbdfff
 
     // 藍色主要按鈕（她 2026-09-14 提供淺色 Figma）：沒有外框、文字描邊變淺
     // 底色不再寫死，跟著 Primary/60 走（2026-09-16 查證 Figma 淺色是 #356fdc）
@@ -499,7 +499,7 @@
         --button-medium-width: 200px;
         --button-large-width: 200px;
         --input-font-size: var(--font-size-20);
-        --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-7020);
+        --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-70-20);
     }
 }
 

@@ -362,7 +362,7 @@ onUnmounted(() => {
         &--active {
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
-            background-color: var(--color-primary-opacity-6030);
+            background-color: var(--color-primary-opacity-60-30);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
         }
 
@@ -614,7 +614,7 @@ onUnmounted(() => {
         &__filters--searching &__toggle-btn:first-child {
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
-            background-color: var(--color-primary-opacity-6030);
+            background-color: var(--color-primary-opacity-60-30);
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
         }
 
@@ -635,7 +635,7 @@ onUnmounted(() => {
 
             backdrop-filter: blur(25px);
             box-shadow:
-                0 0 5px 0 var(--shadow-dark-50),
+                0 0 5px 0 var(--color-shadow-dark-50),
                 var(--shadow-input);
 
             &::before {
@@ -781,7 +781,7 @@ onUnmounted(() => {
 
         backdrop-filter: blur(25px);
         box-shadow:
-            0 0 5px 0 var(--shadow-dark-50),
+            0 0 5px 0 var(--color-shadow-dark-50),
             var(--shadow-input);
 
         &::before {

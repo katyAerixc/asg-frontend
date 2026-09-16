@@ -318,7 +318,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         // Figma item=hover：大圖那層多一道外陰影 0 0 10 黑 50%
         &:hover &__media {
-            box-shadow: 0 0 10px 0 var(--shadow-dark-50);
+            box-shadow: 0 0 10px 0 var(--color-shadow-dark-50);
         }
 
         // 滑入整張卡（Figma item=default → item=hover）：

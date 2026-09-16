@@ -124,7 +124,7 @@ function go(page: number) {
         border: 1px solid transparent; // 平常看不到，滑鼠移上去、按下去才上色；寬度一直在，按鈕不會跳
         border-radius: var(--corner-full);
 
-        background: var(--color-primary-opacity-2020);
+        background: var(--color-primary-opacity-20-20);
 
         // 鍵盤操作時的焦點框：瀏覽器預設是灰色方框，換成設計裡的藍
         &:focus-visible {
@@ -135,7 +135,7 @@ function go(page: number) {
         // 選取：按下去的那一下
         &:active:not(:disabled) {
             border-color: var(--color-primary-60);
-            background: var(--color-primary-opacity-2030);
+            background: var(--color-primary-opacity-20-30);
         }
 
         // 走到頭就不能再按：箭頭轉灰，底下的圓也拿掉
@@ -223,7 +223,7 @@ function go(page: number) {
         // hover：底色 Primary/20 的 20%，文字維持 Neutral/40（Figma PC/Pagination，她 2026-09-14 給）
         @media (hover: hover) {
             &:hover:not(&--active) {
-                background: var(--color-primary-opacity-2020);
+                background: var(--color-primary-opacity-20-20);
             }
         }
     }

@@ -113,7 +113,7 @@ function confirm() {
 
         &--picked {
             box-shadow:
-                0 0 0 2px var(--color-yellow-20),
+                0 0 0 2px var(--color-semantic-yellow-20),
                 var(--shadow-avatar-active);
         }
 
@@ -129,7 +129,7 @@ function confirm() {
             // 已選中的那顆滑過時仍要保住橘框，所以連 :hover 一起寫，權重才壓得過上面那條
             &--picked:hover {
                 box-shadow:
-                    0 0 0 2px var(--color-yellow-20),
+                    0 0 0 2px var(--color-semantic-yellow-20),
                     var(--shadow-avatar-active);
             }
         }
@@ -187,7 +187,7 @@ function confirm() {
 
             &--picked {
                 box-shadow:
-                    0 0 0 3px var(--color-yellow-20),
+                    0 0 0 3px var(--color-semantic-yellow-20),
                     var(--shadow-avatar-active);
             }
 
@@ -200,7 +200,7 @@ function confirm() {
 
                 &--picked:hover {
                     box-shadow:
-                        0 0 0 3px var(--color-yellow-20),
+                        0 0 0 3px var(--color-semantic-yellow-20),
                         var(--shadow-avatar-active);
                 }
             }

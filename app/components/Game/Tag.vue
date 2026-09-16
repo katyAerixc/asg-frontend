@@ -41,15 +41,15 @@ defineProps<{ type: string }>();
         0 -2px 0 0 var(--color-black-25) inset;
 
     &--new {
-        background: linear-gradient(90deg, var(--color-green-20) 0%, var(--color-green-30) 100%);
+        background: linear-gradient(90deg, var(--color-semantic-green-20) 0%, var(--color-semantic-green-30) 100%);
     }
 
     &--hot {
-        background: linear-gradient(90deg, var(--color-red-20) 0%, var(--color-red-30) 100%);
+        background: linear-gradient(90deg, var(--color-semantic-red-20) 0%, var(--color-semantic-red-30) 100%);
     }
 
     &--high {
-        background: linear-gradient(90deg, var(--color-yellow-20) 0%, var(--color-yellow-30) 100%);
+        background: linear-gradient(90deg, var(--color-semantic-yellow-20) 0%, var(--color-semantic-yellow-30) 100%);
     }
 
     @media (width >= 960px) {

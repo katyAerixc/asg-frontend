@@ -175,7 +175,7 @@ onUnmounted(revokePreview);
         border: 0;
         border-radius: var(--corner-2);
 
-        background: var(--color-primary-opacity-2020);
+        background: var(--color-primary-opacity-20-20);
 
         // 虛線框畫在這一層。為什麼不用 border: 1px dashed？
         // CSS 的 dashed 沒辦法指定「線多長、空多寬」，瀏覽器自己決定（看起來很密）。
@@ -259,7 +259,7 @@ onUnmounted(revokePreview);
         color: var(--color-primary-40);
 
         &--error {
-            color: var(--color-red-20);
+            color: var(--color-semantic-red-20);
         }
     }
 
