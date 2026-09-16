@@ -145,7 +145,9 @@ onUnmounted(() => {
 
         max-width: 80rem;
         margin: 0 auto;
-        padding: var(--corner-2) var(--corner-3);
+
+        // 下內距 +1：框線是 ::after 絕對定位、不佔空間，要自己留 1px，不然會吃掉下內距
+        padding: var(--corner-2) var(--corner-3) calc(var(--corner-2) + 1px);
 
         // 下框線：橫向漸層（兩端透明、中間藍）。畫在這裡而不是 .layout-header，
         // 寬度才會跟內容一樣，不會拉到整個螢幕寬
