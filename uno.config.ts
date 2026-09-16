@@ -16,7 +16,16 @@ export default defineConfig({
         presetWind4({ preflights: { reset: true } }),
         // SVG 圖示不做成 Vue 組件，直接放 app/assets/images/icon/
         // 用法：<span class="i-sp-search" />（sp = 專案自訂前綴）
-        presetIcons({ collections: { sp: FileSystemIconLoader(iconDir) } }),
+        // 尺寸一律由元件的 CSS 決定：拿掉最外層 <svg> 的 width/height，不然會被抄成沒單位的無效 CSS（width: 24）
+        // ⚠️ 只動最外層標籤，裡面 <rect> 等圖形的 width/height 是畫圖用的，刪了圖會壞
+        presetIcons({
+            collections: {
+                sp: FileSystemIconLoader(
+                    iconDir,
+                    (svg) => svg.replace(/<svg\b[^>]*>/, (tag) => tag.replace(/\s(?:width|height)="[^"]*"/g, '')),
+                ),
+            },
+        }),
     ],
     rules: [
         [
