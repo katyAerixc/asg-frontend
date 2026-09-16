@@ -240,7 +240,7 @@ onUnmounted(() => {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
         color: var(--color-primary-10);
-        text-align: center;
+        text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -397,7 +397,7 @@ onUnmounted(() => {
             gap: 10px;
         }
 
-        // Figma 金幣膠囊 215 × 40：金額變短膠囊也不縮、旁邊不會跟著動；更長的金額可以撐大；數字靠左（她 2026-09-15 定）
+        // Figma 金幣膠囊 215 × 40：金額變短膠囊也不縮、旁邊不會跟著動；更長的金額可以撐大
         &__coins {
             --coins-shadow: var(--shadow-btn);
 
@@ -419,7 +419,6 @@ onUnmounted(() => {
 
         &__coin-value {
             font-size: var(--font-size-20);
-            text-align: left;
         }
 
         &__refresh {
