@@ -542,9 +542,11 @@ onUnmounted(() => {
             justify-content: center;
 
             // 320 寬時一排塞不下 50，會被擠窄：高度跟著寬度走（aspect-ratio），擠窄時還是正圓
+            // ⚠️ max-height 不能拿掉：收起動畫途中寬度還很寬，aspect-ratio 會把高度一起撐大
             aspect-ratio: 1;
             width: 50px;
             min-height: 0; // 不讓裡面的輸入框把高度撐回 44
+            max-height: 50px;
 
             // 把左邊剩下的空間全吃掉，放大鏡就會貼齊右邊
             margin-left: auto;
