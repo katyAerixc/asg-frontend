@@ -56,7 +56,7 @@ withDefaults(
         background 0.25s ease,
         box-shadow 0.25s ease;
 
-    // 預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
+    // 預設藍、次要白、強調橘
     // 文字描邊三種都一樣（跟首頁「加載更多」同一組）
     &--primary {
         --btn-bg: var(--bg-button-modal);

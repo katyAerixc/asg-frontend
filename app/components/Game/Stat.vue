@@ -29,7 +29,7 @@
 import type { Game } from '@/types/game';
 
 // Define props, models and emits
-// 遊戲卡與遊戲介紹彈窗共用的「一格數據」（波動度／RTP／最高賠率）
+// 一格數據（波動度／RTP／最高賠率）
 // 結構與紅綠漸層只寫一次；卡片與彈窗的尺寸、字色不同，用 variant 切換
 withDefaults(
     defineProps<{

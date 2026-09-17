@@ -1,10 +1,11 @@
 :root {
     // 主色 Primary
     --color-primary-10: #fff;
-    --color-primary-10-rgb: 255 255 255; // 次要按鈕漸層要疊透明度
+    --color-primary-10-rgb: 255 255 255;
     --color-primary-30: #8f9bad;
     --color-primary-40: #697b96;
-    --color-primary-50: #6086c1; // 打勾底色漸層的起點
+    --color-primary-50: #6086c1;
+
     // 這幾階要拿來疊透明度（漸層、半透明底），所以多存一份「只有數字」的版本。
     // CSS 沒辦法把 #68a4ff 直接加透明度，但 rgb(R G B / 30%) 可以。
     // 換主題時只要改這幾行，所有用到的漸層自動跟著變。
@@ -14,16 +15,16 @@
     --color-primary-90-rgb: 15 23 35; // #0f1723
     --color-primary-20: rgb(var(--color-primary-20-rgb));
     --color-primary-60: rgb(var(--color-primary-60-rgb));
-    --color-primary-80: #2752ff; // 打勾底色漸層的終點
+    --color-primary-80: #2752ff;
     --color-primary-90: rgb(var(--color-primary-90-rgb));
 
     // 中性色 Neutral
     --color-neutral-10: #fff; // 值同 primary-10，但 Figma 分成兩個代號
-    --color-neutral-20: #d9d9d9; // 紀錄卡片的描述文字
-    --color-neutral-30: #bfbfbf; // 分頁 tab 的文字
-    --color-neutral-40: #a6a6a6; // 分頁未選中的數字、分頁外框
-    --color-neutral-50: #8c8c8c; // 按鈕不能按時的文字
-    --color-neutral-60: #737373; // 分頁走到頭、箭頭轉灰
+    --color-neutral-20: #d9d9d9;
+    --color-neutral-30: #bfbfbf;
+    --color-neutral-40: #a6a6a6;
+    --color-neutral-50: #8c8c8c;
+    --color-neutral-60: #737373;
     --color-neutral-80: #404040;
 
     // 黑 Black，數字是不透明度
@@ -50,41 +51,40 @@
     // 多行輸入框右下角字數（0/500）打了字之後的顏色；深色維持原本的 Primary/40
     --color-textarea-count-filled: var(--color-primary-40);
 
-    // header 下方線：兩端 60-0、中間 60-50
+    // header 下方線
     --color-primary-opacity-60-0: rgb(var(--color-primary-60-rgb) / 0%);
     --color-primary-opacity-60-10: rgb(var(--color-primary-60-rgb) / 10%);
-    --color-primary-opacity-60-20: rgb(var(--color-primary-60-rgb) / 20%); // 選單列滑入的底
+    --color-primary-opacity-60-20: rgb(var(--color-primary-60-rgb) / 20%);
     --color-primary-opacity-60-30: rgb(var(--color-primary-60-rgb) / 30%);
     --color-primary-opacity-60-50: rgb(var(--color-primary-60-rgb) / 50%);
-    --color-primary-opacity-20-20: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭、頁碼 hover 的底
-    --color-primary-opacity-20-30: rgb(var(--color-primary-20-rgb) / 30%); // 頁碼箭頭「選取」（按下去）的底
-    --color-primary-opacity-70-20: rgb(var(--color-primary-70-rgb) / 20%); // 客服紀錄卡片的外陰影
-    --color-primary-opacity-70-50: rgb(var(--color-primary-70-rgb) / 50%); // 客服紀錄卡片的底
-    --color-primary-opacity-70-60: rgb(var(--color-primary-70-rgb) / 60%); // 客服紀錄卡片按下去
-    --color-primary-opacity-70-70: rgb(var(--color-primary-70-rgb) / 70%); // 客服紀錄卡片 hover
+    --color-primary-opacity-20-20: rgb(var(--color-primary-20-rgb) / 20%);
+    --color-primary-opacity-20-30: rgb(var(--color-primary-20-rgb) / 30%);
+    --color-primary-opacity-70-20: rgb(var(--color-primary-70-rgb) / 20%);
+    --color-primary-opacity-70-50: rgb(var(--color-primary-70-rgb) / 50%);
+    --color-primary-opacity-70-60: rgb(var(--color-primary-70-rgb) / 60%);
+    --color-primary-opacity-70-70: rgb(var(--color-primary-70-rgb) / 70%);
 
     // 語意色 Semantic（深淺色同值）
-    // ⚠️ 驗證方式：只信 UI Kit「Color Variables」頁的色塊實際填色，那頁手打的 hex 文字會過期
-    //    （實測 Green/20 文字寫 #19FF47，色塊其實是 #21B83F）
-    --color-semantic-red-10: #ffb0b0; // 遊戲類型標籤的字與框
-    --color-semantic-red-20: #ff4141; // 未讀紅點、上傳錯誤提示
-    --color-semantic-red-30: #8f2424; // HOT 標籤底色漸層的深色端
-    --color-semantic-green-20: #21b83f; // NEW 標籤底色漸層的起點
-    --color-semantic-green-30: #1b7e2f; // NEW 標籤底色漸層的深色端
-    --color-semantic-yellow-20-rgb: 255 157 46; // #ff9d2e，「立即遊玩」漸層要疊透明度
+    // ⚠️ 只信 UI Kit「Color Variables」頁色塊的實際填色，旁邊手打的 hex 文字會過期
+    --color-semantic-red-10: #ffb0b0;
+    --color-semantic-red-20: #ff4141;
+    --color-semantic-red-30: #8f2424;
+    --color-semantic-green-20: #21b83f;
+    --color-semantic-green-30: #1b7e2f;
+    --color-semantic-yellow-20-rgb: 255 157 46;
     --color-semantic-yellow-20: rgb(var(--color-semantic-yellow-20-rgb));
-    --color-semantic-yellow-30: #8c510f; // 橘標籤底色漸層的深色端
+    --color-semantic-yellow-30: #8c510f;
     --color-semantic-red-opacity-20-60: rgb(255 65 65 / 60%);
     --color-semantic-red-opacity-20-20: rgb(255 65 65 / 20%);
     --color-semantic-green-opacity-20-60: rgb(33 184 63 / 60%);
     --color-semantic-green-opacity-20-20: rgb(33 184 63 / 20%);
 
     // 白 / 陰影
-    --color-white-0: rgb(255 255 255 / 0%); // 全透明白：hover 光暈/白框的起點
-    --color-white-90: rgb(255 255 255 / 90%); // line/line2 的中段
+    --color-white-0: rgb(255 255 255 / 0%);
+    --color-white-90: rgb(255 255 255 / 90%);
     --color-white-70: rgb(255 255 255 / 70%);
     --color-white-50: rgb(255 255 255 / 50%);
-    --color-white-30: rgb(255 255 255 / 30%); // 選單列的下框線
+    --color-white-30: rgb(255 255 255 / 30%);
 
     // 亮陰影：深色是白，淺色主題只換這組數字
     --color-shadow-light-rgb: 255 255 255;
@@ -123,9 +123,7 @@
     --corner-full: 100px; // ⚠️ Figma 就叫 full，沒有 Corner/ 前綴
 
     // 字級：名字就是 px 數，想改大小就換一格
-    // ⚠️ 文字在 Figma 沒有「變數」，只有「樣式」，一個名字包字級＋字重：`22/22p B`、`20/20p R`…
-    //    CSS 的 font-size 與 font-weight 是兩個屬性，只能拆成兩支變數，沒辦法照 Figma 的名字取
-    //    對照法：`22/22p B` = --font-size-22 + --font-weight-bold（B=700 / M=500 / R=300）
+    // Figma 文字樣式 `22/22p B` ＝ --font-size-22 ＋ --font-weight-bold（B=700 / M=500 / R=300）
     --font-size-12: 12px;
     --font-size-14: 14px;
     --font-size-16: 16px;
@@ -142,13 +140,7 @@
     --font-weight-regular: 300;
 
     // 通用尺寸階層 Size：Large / Medium / Small
-    //            字級      高度   左右內距
-    //   手機  L   20px      46     28
-    //         M   16px      40     24
-    //         S   14px      36     20
-    //   電腦  L   22px      59     32     ← 電腦的值寫在檔案最下面的 @media
-    //         M   18px      46     28
-    //         S   16px      43     24
+    // 電腦的值寫在檔案最下面的 @media
     // ⚠️ 這是「通用」階層，不只按鈕用：客服頁籤的字級也吃 Large
     --size-large-font-size: var(--font-size-20);
     --size-large-height: 46px;
@@ -176,9 +168,9 @@
     --input-padding-y: var(--corner-2);
     --input-font-size: var(--font-size-16);
 
-    // 下拉選單尺寸（問題類型 BaseSelect、頭像選單的語系）
+    // 下拉選單尺寸
     // 只收兩個下拉一樣的；按鈕內距直接用上面的 --input-padding-x／y
-    // 不一樣的留在各自檔案等 #58 對帳：清單圓角（10／8）、選項高（內距撐／固定 44）、字級變大的寬度（600／960）
+    // 不一樣的留在各自檔案：清單圓角（10／8）、選項高（內距撐／固定 44）、字級變大的寬度（600／960）
     --select-height: 44px;
     --select-list-offset: 5px;
 
@@ -239,7 +231,7 @@
     // CSS 描邊是「一半在字裡、一半在字外」，Button 有 paint-order: stroke fill 讓字蓋住裡面那半 → 寫 2px 才等於外側 1px
     --text-stroke-button-primary: 2px var(--color-black-50);
 
-    // 彈窗裡的藍色按鈕（Base/Button.vue：提交、確認）。深色跟加載更多一樣，淺色另外調深
+    // 彈窗裡的藍色按鈕。深色跟加載更多一樣，淺色另外調深
     --text-stroke-button-modal: var(--text-stroke-button-primary);
     --bg-button-modal: var(--bg-button-primary);
     --bg-button-modal-hv: var(--bg-button-primary-hv);
@@ -329,8 +321,6 @@
 
     // 陰影：手機 MB/form 是 50%，電腦 PC/form 是 20%（電腦值在最下面 600 以上那段）
     --shadow-support-card: 0 4px 0 0 var(--color-primary-opacity-70-50);
-
-    // 客服紀錄「已完結」膠囊底、客服回覆氣泡（淺色另外覆寫）
     --bg-support-status-closed: var(--color-white-50);
     --bg-support-reply: var(--color-primary-50);
     --color-support-reply-title: var(--color-neutral-10);
@@ -350,11 +340,12 @@
     // 背景
     --bg-page: #0b1421;
     --bg-page-glow: #0e3378; // Figma bg dark（不在色票裡）
-    --bg-page-rgb: 11 20 33; // ＝ --bg-page 拆成數字，給黏頂分類列加透明度用
+    --bg-page-rgb: 11 20 33;
+
     // 往下滑、分類列黏在頂部時的底色：跟頁面同色 90%＋模糊（Figma 沒畫滑動狀態）
     --bg-page-sticky: rgb(var(--bg-page-rgb) / 90%);
 
-    // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（不在色票裡）
+    // 下拉選單滑鼠移到選項上的底色：深淺色一樣（不在色票裡）
     --color-list-hover-rgb: 61 119 209; // #3d77d1
     --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
     --bg-game: linear-gradient(
@@ -385,30 +376,29 @@
 //    所以刻意不覆寫。標籤的字與框用 --color-neutral-10（淺色不覆寫），不要用 primary-10。
 [data-theme='light'] {
     // 色階
-    --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
+    --color-primary-10: #303852;
     --color-primary-10-rgb: 48 56 82;
-    --color-primary-30: #535961; // 目前只有放大鏡用，淺色放大鏡另外用 40
-    --color-primary-50: #82aced; // 色票；客服紀錄日期、「客服已回覆」膠囊、客服回覆氣泡、打勾漸層起點
-    --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
-    --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
+    --color-primary-30: #535961;
+    --color-primary-50: #82aced;
+    --color-primary-20-rgb: 78 95 152; // #4e5f98
+    --color-primary-40: #7b9bea;
     --color-primary-60-rgb: 53 111 220; // #356fdc
-    --color-primary-70-rgb: 42 74 255; // #2a4aff；客服紀錄卡片底 Primary/opacity/70/50% 就是它
-    --color-primary-80: #20399d; // 色票；變更頭像選中的打勾漸層終點
-    --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
+    --color-primary-70-rgb: 42 74 255; // #2a4aff
+    --color-primary-80: #20399d;
+    --color-primary-90-rgb: 209 228 255; // #d1e4ff
 
     // 暗陰影：深色是純黑，淺色改成帶藍的灰
-    // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換
     --color-shadow-dark-rgb: 138 149 167; // #8a95a7
 
-    // 亮陰影：淺色色票 Shadow/Light 是淡藍；按鈕與遊戲卡的細反光跟著換
+    // 亮陰影：淺色色票 Shadow/Light 是淡藍
     --color-shadow-light-rgb: 203 223 255; // #cbdfff
 
     // 藍色主要按鈕：沒有外框、文字描邊變淺
     --border-button-primary: none;
 
-    // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40
+    // 分隔線：實線 Primary/40
     --line-select-option: none;
-    --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深
+    --color-textarea-count-filled: var(--color-primary-10);
 
     // 客服紀錄
     // 列表卡片與內容頁的卡片底：不另外覆寫，吃 :root 的 Primary/opacity/70/50%（淺色 Primary/70 已補在上面）
@@ -426,10 +416,10 @@
     --logo-pc: url('@/assets/images/logo/pc-light.png');
 }
 
-// 電腦版（600 以上）的元件尺寸：跟 BaseButton 原本的斷點一樣
+// 電腦版的元件尺寸
 @media (width >= 600px) {
     :root {
-        // 通用尺寸階層的電腦版值（按鈕、頁籤都跟著變）
+        // 通用尺寸階層的電腦版值
         --size-large-font-size: var(--font-size-22);
         --size-large-height: 59px;
         --size-large-padding-x: 32px;
@@ -462,7 +452,7 @@ html[data-scroll-locked] {
 body {
     position: relative;
 
-    // 支援範圍的地板：低於 320 不保證（見 katy-designs/SUPPORT.md）
+    // 支援範圍的地板：低於 320 不保證
     min-width: 320px;
 
     // Inter 打頭陣（拉丁字母、數字）；中日韓泰各接一款 Noto Sans。
@@ -549,13 +539,7 @@ body::after {
     }
 }
 
-// 捲軸：預設的灰色滾輪跟這個站格格不入，換成細長的藍色藥丸
-// 顏色走 primary-60，換淺色主題時會自動跟著變（那階有覆寫）
-// ⚠️ 兩套寫法不能同時下：
-//    Chrome 只要看到標準的 scrollbar-width / scrollbar-color，
-//    就會整組忽略 ::-webkit-scrollbar，圓角與寬度全都調不動（量到 10px 而不是 6px）。
-//    所以用 @supports 把兩套分開：認得 ::-webkit-scrollbar 的（Chrome / Safari / Edge）
-//    走下面那組細節版；不認得的（Firefox）才吃標準版。
+// ⚠️ 兩套不能同時下：Chrome 看到 scrollbar-width／scrollbar-color 就會忽略 ::-webkit-scrollbar，圓角和寬度調不動
 @supports not selector(::-webkit-scrollbar) {
     * {
         scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
@@ -568,7 +552,6 @@ body::after {
     height: 6px;
 }
 
-// 軌道：很淡的一條凹槽，讓人知道「這裡可以捲」，但不搶戲
 ::-webkit-scrollbar-track {
     border-radius: var(--corner-full);
     background: var(--color-scrollbar-track);
@@ -586,12 +569,10 @@ body::after {
     }
 }
 
-// 兩條軌道交會的那個小方塊，不畫東西才不會出現一塊灰色
 ::-webkit-scrollbar-corner {
     background: transparent;
 }
 
-// 電腦：滑鼠比手指精準，可以做粗一點好抓
 @media (width >= 960px) {
     ::-webkit-scrollbar {
         width: 8px;
@@ -599,11 +580,7 @@ body::after {
     }
 }
 
-// 🚨 全站行高＝Figma Auto 1.21
-//   為什麼寫 :root 不寫 html／body：CSS reset 在 html 寫了 line-height: 1.5 而且比這支晚載入；
-//   :root 的優先級比 html 高，不管誰先載入都會贏。所有元素都繼承這裡，元件裡不要再各自寫行高。
-//   不怕被切的前提：「…」截斷一律用 overflow: clip visible（只裁左右），不要用 overflow: hidden 裁到上下。
-//   越南文、泰文被切或上下行擠在一起的地方，才在那一處放寬，並寫明原因。
+// 🚨 寫 :root 不寫 html：reset 在 html 寫了 line-height 1.5 又比較晚載入，寫 html 會被蓋掉
 :root {
     line-height: var(--line-height-figma);
 }

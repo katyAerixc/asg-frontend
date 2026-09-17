@@ -101,8 +101,6 @@ function confirm() {
         border-radius: var(--corner-full);
 
         background: none;
-
-        // H5 的未選外框是 Primary/20，PC 是白——設計稿兩邊確實不同
         box-shadow: 0 0 0 1px var(--color-primary-20);
 
         transition: box-shadow 0.25s ease;
@@ -166,7 +164,6 @@ function confirm() {
         background-color: currentcolor;
     }
 
-    // 電腦版：5 欄、頭像 80、清單限寬 460 置中
     @media (width >= 600px) {
         &__list {
             grid-template-columns: repeat(5, 80px);

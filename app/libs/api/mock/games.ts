@@ -4,7 +4,7 @@
 import IMG from '@/assets/images/game/products.png';
 import type { Game } from '@/types/game';
 
-// 12 筆真實文案（從設計稿來）；圖片仍共用同一張，等正式素材
+// 12 筆文案；圖片仍共用同一張，等正式素材
 // RTP 依漲跌分配：紅↗ 96.45%、綠↘ 97.10%（截圖上老虎機／棋牌是紅、魚機／小遊戲是綠）
 // category 與 volatility 是英文 id，顯示名在 i18n/locales/*/lobby.json
 export const MOCK_GAMES: Game[] = [

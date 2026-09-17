@@ -156,7 +156,6 @@ onUnmounted(() => {
         color: var(--color-primary-10);
     }
 
-    // ⚠️ 字級暫定 H5 16 / PC 20（Figma 只給了 PC 清單文字 20 / 300）
     &__value {
         // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
@@ -244,7 +243,7 @@ onUnmounted(() => {
 
         @media (hover: hover) {
             &:hover {
-                // 只改這個下拉；頭像選單的語系清單還吃 --bg-list-hover（Header 不在這次範圍）
+                // ⚠️ 語系清單用的是 --bg-list-hover，不是這支
                 background-color: rgb(var(--color-primary-60-rgb) / 20%);
             }
         }

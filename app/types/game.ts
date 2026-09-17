@@ -11,7 +11,7 @@ export type GameSort = 'HOT' | 'NEW';
 // 波動度：同樣用英文 id，顯示走 i18n（lobby.volatility.*）
 export type GameVolatility = 'high' | 'low' | 'mid' | 'midHigh' | 'midLow';
 
-// 遊戲卡片的資料格式（欄位定義見 katy-designs/CONTEXT.md「遊戲卡片」）
+// 遊戲卡片的資料格式
 export interface Game {
     category: GameCategory; // 分類列用這個篩選
     description: string;

@@ -1,9 +1,7 @@
 // 使用者：帳號、暱稱、頭像，以及「變更頭像」「變更暱稱」兩個彈窗的開關
 // Header 顯示、選單顯示、兩個彈窗都讀同一份；之後接 API 只要改這一支
 //
-// 🚨 為什麼是 Pinia store 不是 composable 的模組層 ref（ADR 0003）：
-//    SSR 開著時，寫在檔案最外層的 ref 會被伺服器上所有使用者共用——
-//    A 的暱稱會出現在 B 的畫面。store 是「每個請求一份」，不會混。
+// 🚨 不能用 composable 的模組層 ref：SSR 時會被所有使用者共用，A 的暱稱會出現在 B 的畫面
 
 import avatarImage from '@/assets/images/ui/avatar.png';
 
@@ -12,8 +10,7 @@ export interface AvatarOption {
     image: string;
 }
 
-// 設計稿是 11 顆頭像。Figma 裡 11 顆都是同一張 girl1.png 佔位，
-// 這裡照樣先共用 avatar.png；之後拿到 11 張真圖，改成逐一 import 即可
+// 11 顆頭像先共用 avatar.png 佔位；之後拿到 11 張真圖，改成逐一 import 即可
 const AVATAR_COUNT = 11;
 
 // 固定清單不是狀態，放 store 外面（每個請求不用各自建一份）

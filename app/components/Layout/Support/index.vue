@@ -123,7 +123,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         // 底線固定寬、置中、貼齊頁籤底部
         // 固定寬度的好處：切成越南文「Gửi câu hỏi」底線不會跟著變長
         // 顏色寫死 Neutral/10，不用 currentcolor——未選中的字是 Neutral/30，
-        // 用 currentcolor 以後若加上 hover 變色，底線會跟著變，跟設計稿不合
+        // 用 currentcolor 以後若加上 hover 變色，底線會跟著變
         &--active::after {
             content: '';
 
@@ -140,13 +140,11 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         }
     }
 
-    // 只為了給紅點當定位基準（底線固定 50 寬，掛在 &__tab 上）
     &__tab-label {
         position: relative;
     }
 
-    // 🚨 用絕對定位掛在文字右邊，不佔版面空間——
-    //    如果讓它排在文字旁邊，紅點消失時整個 tab 的字會往回跳一下
+    // 🚨 如果讓它排在文字旁邊，紅點消失時整個 tab 的字會往回跳一下
     &__dot {
         position: absolute;
         top: 50%;

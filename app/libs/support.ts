@@ -3,7 +3,7 @@
 
 import type { IssueType } from '@/types/support';
 
-// 問題類型（Figma 下拉選單的六個選項，順序照設計稿）
+// 問題類型
 // 這裡存翻譯 key 不存文字：資料層不該綁死語言
 export const ISSUE_TYPES: IssueType[] = [
     {
@@ -39,8 +39,7 @@ export function toIssueTypeValue(labelKey: string) {
 }
 
 // 卡片與單筆內容只顯示短標籤（「帳務問題」），下拉選單才顯示完整說明。
-// 🚨 不要拿翻譯後的文字去切分隔符號——中日韓用全形「｜」，英泰越用半形「-」，
-//    切不到就會把整句說明塞進卡片。key 是我們自己的，換算才穩。
+// 🚨 不要切翻譯後的文字：中日韓用全形「｜」、英泰越用半形「-」，切不到會把整句塞進卡片
 export function toShortIssueKey(labelKey: string) {
     return labelKey.replace('.issueType.', '.issueTypeShort.');
 }
@@ -50,5 +49,5 @@ export const DESCRIPTION_MAX_LENGTH = 500;
 export const ATTACHMENT_ACCEPT = 'image/jpeg,image/png';
 export const ATTACHMENT_MAX_BYTES = 15 * 1024 * 1024;
 
-// 一頁幾筆。設計稿 PC 一頁 6 筆、共 12 頁
+// 一頁幾筆
 export const RECORDS_PER_PAGE = 6;

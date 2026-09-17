@@ -229,7 +229,6 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
 
-        // 切換鈕跟搜尋框不同高，設計稿本來就這樣
         height: 38px;
         padding: var(--corner-1);
         border-radius: var(--corner-full);
@@ -267,9 +266,7 @@ onUnmounted(() => {
             box-shadow 0.2s ease;
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
-        // 🚨 不能加 overflow: hidden（點標籤時右邊搜尋框會晃）：
-        //    加了之後它的「最小寬度」會被算成 0，按鈕的最小寬度改由真的文字決定，
-        //    文字變粗就變寬 → 整排的最小寬度跟著變 → 搜尋框被擠來擠去。高度 0＋看不見已經夠了
+        // 🚨 不能加 overflow: hidden：最小寬度會變 0，點標籤時文字變粗，右邊搜尋框會被擠得晃
         &::before {
             content: attr(data-text);
 
@@ -381,7 +378,7 @@ onUnmounted(() => {
             z-index: 40;
             top: 0;
 
-            // 原本整條工具列的上左右內距 16；下面留 8，跟排序那排的 10 加起來還是原本的間距 18
+            // 下面留 8，跟排序那排的 10 加起來間距 18
             padding: 16px var(--corner-2) 8px;
 
             background-color: transparent;
@@ -443,7 +440,7 @@ onUnmounted(() => {
 }
 
 // 右下角浮動搜尋鈕（只有手機會出現）
-// 收起：跟上面收起來的放大鏡同一個長相；展開：往左長成整條搜尋框
+// 收起是圓形鈕；展開往左長成整條搜尋框
 .game-toolbar-float {
     position: fixed;
     z-index: 45; // 蓋過遊戲卡與工具列(40)，但在頭像選單(60)與彈窗(100)底下

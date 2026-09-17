@@ -68,7 +68,7 @@ const listRef = useTemplateRef<HTMLUListElement>('list');
 const navRef = useTemplateRef<HTMLElement>('nav');
 
 // Computed properties
-// 寬度夠：固定 7 格，寬度才不會隨著頁數變來變去（設計稿 12 頁時是 1 2 3 … 10 11 12）
+// 寬度夠：固定 7 格，寬度才不會隨著頁數變來變去
 // 寬度不夠：固定 5 格（頭尾 1 2 3 … 12、中間 1 … 5 … 12）
 const items = computed<(number | typeof GAP)[]>(() => {
     const { total } = props;
@@ -107,7 +107,7 @@ const items = computed<(number | typeof GAP)[]>(() => {
         ];
     }
 
-    // 頭尾附近：照設計稿長相，前三顆 + 後三顆
+    // 頭尾附近：前三顆 + 後三顆
     if (current <= 3 || current >= total - 2) {
         return [
             1,
@@ -276,7 +276,7 @@ useResizeObserver(navRef, updateCompact);
             outline-offset: 2px;
         }
 
-        // 選取（目前這一頁）：底色 Primary/60、文字 Neutral/10 且加粗到 600
+        // 選取（目前這一頁）
         &--active {
             font-weight: 600;
             color: var(--color-neutral-10);

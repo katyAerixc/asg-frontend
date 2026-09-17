@@ -29,7 +29,7 @@ const emit = defineEmits<{
 }>();
 
 // Variables
-// id 用英文，顯示名走 i18n（lobby.category.*）。順序照設計稿
+// id 用英文，顯示名走 i18n（lobby.category.*）
 const CATEGORIES: GameCategoryFilter[] = [
     'all',
     'slot',
@@ -40,7 +40,6 @@ const CATEGORIES: GameCategoryFilter[] = [
 </script>
 
 <style scoped lang="scss">
-// 設計稿：分類列沒有底線（只有 Header 下面有線）
 .category-filter {
     min-width: 0;
 
@@ -80,7 +79,7 @@ const CATEGORIES: GameCategoryFilter[] = [
         transition: color 0.2s;
 
         // 幽靈文字：永遠是粗體、看不見，把分類撐到選中時的寬度，點選時旁邊的分類才不會被推動
-        // 🚨 不能加 overflow: hidden（會讓最小寬度變 0，照樣會晃；見 CHECKLIST 踩坑）
+        // 🚨 不能加 overflow: hidden（會讓最小寬度變 0，照樣會晃）
         &::before {
             content: attr(data-text);
 

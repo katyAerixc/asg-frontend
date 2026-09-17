@@ -244,7 +244,6 @@ onUnmounted(revokePreview);
         background: var(--color-black-80);
     }
 
-    // ⚠️ 顏色暫定，跟 placeholder 同一套
     &__hint {
         margin: 0;
         font-size: var(--font-size-14);

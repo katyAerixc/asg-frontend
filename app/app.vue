@@ -8,8 +8,7 @@
 <script setup lang="ts">
 // Variables
 // 中日韓泰各有自己的字型：Inter 沒有這些字，不載的話會退回系統字，每台電腦長不一樣。
-// ⚠️ 不能一次全載——日文漢字與中文漢字字形不同，全放進 font-family 會被前面的搶去顯示。
-// 所以只載「當前語言」需要的那一份；英文不用（Inter 就夠）。
+// ⚠️ 不能一次全載：日文漢字與中文漢字字形不同，全放進 font-family 會被前面的字型搶去顯示
 const CJK_FONTS: Partial<Record<LocaleCode, string>> = {
     'ja': 'Noto+Sans+JP',
     'ko': 'Noto+Sans+KR',

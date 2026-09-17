@@ -661,7 +661,7 @@ onUnmounted(() => {
         color: var(--color-primary-20);
     }
 
-    // 選中的那一列：藍底 30%（跟「深」膠囊、NEW/HOT 選中同一色），文字轉白
+    // 選中的那一列：藍底 30%，文字轉白
     &__lang-item--active {
         background-color: var(--color-primary-opacity-60-30);
     }

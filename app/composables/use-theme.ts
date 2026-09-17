@@ -6,7 +6,6 @@
  * 實際幹活的是 @nuxtjs/color-mode（設定在 nuxt.config.ts 的 colorMode）：
  *   - 存在 cookie（不是 localStorage）→ server 渲染時就知道要哪個顏色，首屏不會閃
  *   - preference 預設 'system'：跟著使用者的系統設定；系統沒說就用 fallback 'dark'
- *   - 使用者手動按過深／淺之後，就永遠照他選的（她 2026-09-10 定）
  *
  * 這一支只是薄薄一層包裝，讓選單那邊不用直接碰套件的 API。
  */

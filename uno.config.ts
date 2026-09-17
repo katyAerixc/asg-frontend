@@ -34,7 +34,7 @@ export default defineConfig({
         ],
     ],
     // UnoCSS 是開站前掃原始碼文字產生 CSS，`i-sp-${name}` 這種組出來的它看不到，圖示會無聲消失
-    // 所以圖示資料夾裡每一張都直接產生，變數寫法也正常（2026-09-14 RTP 箭頭消失後加）
+    // 所以圖示資料夾裡每一張都直接產生，變數寫法也正常
     safelist: readdirSync(iconDir)
         .filter((file) => file.endsWith('.svg'))
         .map((file) => `i-sp-${file.replace(/\.svg$/, '')}`),

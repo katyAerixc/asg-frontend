@@ -141,10 +141,7 @@ export default defineNuxtConfig({
                     `'sha256-F1noxsLOnJhyRSgc0zu5JgzoLjG2BBMaXaSG24k2mRM='`,
                 ],
 
-                // 🚨 開發時一定要關。這條會把所有 http 資源請求強制升級成 https，
-                // 但 dev server 只有 http → CSS 與 JS 全部 SSL 錯誤、畫面變成純文字。
-                // 用 localhost 開看不出來（瀏覽器對 localhost 豁免），
-                // 用區網 IP（例如手機連 192.168.x.x 測試）才會炸。正式站有 https，照常開。
+                // 🚨 開發時要關：dev server 只有 http，用區網 IP 開會變純文字（localhost 看不出來）
                 'upgrade-insecure-requests': process.env.NODE_ENV === 'production',
             },
         },
@@ -152,7 +149,7 @@ export default defineNuxtConfig({
     ssr: true,
     unfonts: {
         google: {
-            // 載 300 / 400 / 500 / 600 / 700（400、600 是客服頁碼用的）
+            // 400、600 是客服頁碼用的
             families: [
                 {
                     name: 'Inter',

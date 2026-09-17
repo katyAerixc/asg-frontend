@@ -14,7 +14,6 @@ defineProps<{ type: string }>();
 </script>
 
 <style scoped lang="scss">
-// 遊戲卡與遊戲介紹彈窗共用同一顆（兩邊規格完全一樣）
 .game-tag {
     display: flex;
     gap: 10px;

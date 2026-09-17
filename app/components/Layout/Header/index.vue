@@ -350,7 +350,6 @@ onUnmounted(() => {
 
         transition: transform 0.25s;
 
-        // 選單展開時箭頭轉向上（設計稿指定）
         &--open {
             transform: rotate(180deg);
         }

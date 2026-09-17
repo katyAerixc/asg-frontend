@@ -88,7 +88,6 @@ function clear() {
         min-height: 0;
     }
 
-    // ⚠️ 字級暫定 H5 16 / PC 20（跟下拉、輸入框同一套）
     &__input {
         resize: none;
 

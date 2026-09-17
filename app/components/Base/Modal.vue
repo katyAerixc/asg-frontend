@@ -52,8 +52,7 @@
 // 每個 prop 都收字串（例如 '650px'），不給就吃 CSS 的預設值：
 //   height / heightPc = 高度、widthPc = 電腦版寬度、gap / gapPc = 內部區塊間距。
 // 不做 size="large" 這種開關：來第三種尺寸時這支不用改。
-// ⚠️ 必須由 prop 傳進來、不能讓用的人在自己的 scoped CSS 設——
-//    這支的根節點是 <Teleport>，父層的 class 與 scope id 都傳不進來。
+// ⚠️ 不能讓用的人在自己的 scoped CSS 設：根節點是 <Teleport>，父層的 class 與 scope id 傳不進來
 withDefaults(
     defineProps<{
         gap?: string;
@@ -221,7 +220,6 @@ onUnmounted(() => {
         animation: none;
     }
 
-    // 電腦版：放大到 600、高度改回內容撐開
     @media (width >= 600px) {
         &__panel {
             --modal-gap-now: var(--modal-gap-pc, var(--modal-gap, 40px));
