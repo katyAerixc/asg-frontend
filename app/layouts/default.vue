@@ -9,10 +9,6 @@
             <slot />
         </main>
 
-        <div class="layout__footer">
-            <LayoutFooter />
-        </div>
-
         <GameDetail
             v-if="openedGame"
             :game="openedGame"
