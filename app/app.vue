@@ -38,5 +38,10 @@ const fontLinks = computed(() => {
     ];
 });
 
-useHead({ link: fontLinks });
+// <html lang> 跟著目前語言走（例：泰文頁 → lang="th"）
+// 讀螢幕軟體靠它選發音、Google 靠它判斷語言、CSS 的 :lang() 也靠它
+useHead({
+    htmlAttrs: { lang: locale },
+    link: fontLinks,
+});
 </script>
