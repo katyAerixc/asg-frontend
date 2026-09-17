@@ -9,7 +9,7 @@
         <GameToolbar
             v-model:category="activeCategory"
             v-model:keyword="keyword"
-            v-model:tags="activeTags"
+            v-model:sort="activeSort"
             :stuck="isStuck"
         />
 
@@ -34,7 +34,11 @@
 </template>
 
 <script setup lang="ts">
-import type { GameCategoryFilter } from '@/types/game';
+import type {
+    Game,
+    GameCategoryFilter,
+    GameSort,
+} from '@/types/game';
 
 // Composables
 // 這裡要在 script 裡拿翻譯（模板用 $t 就好，不必宣告）
@@ -44,12 +48,11 @@ const { t } = useI18n();
 const PAGE_SIZE = 6;
 const visibleCount = ref(PAGE_SIZE);
 
-// 三個篩選條件放在頁面：工具列負責改它們，這裡負責算出要顯示哪些遊戲
+// 篩選與排序條件放在頁面：工具列負責改它們，這裡負責算出要顯示哪些遊戲
 const activeCategory = ref<GameCategoryFilter>('all');
 const keyword = ref('');
 
-// 標籤篩選：空陣列 = ALL（不篩選）。可單選、複選；全部取消會自動回到 ALL
-const activeTags = ref<string[]>([]);
+const activeSort = ref<GameSort>('NEW');
 
 // 工具列黏在頂部時才加底色：靠哨兵元素判斷（CSS 沒有「我黏住了」這種選擇器）
 const sentinelRef = ref<HTMLElement | null>(null);
@@ -60,23 +63,26 @@ let stickyObserver: IntersectionObserver | null = null;
 const { games } = useGames();
 
 // Computed properties
-// 三個條件是「且」的關係：分類、標籤、關鍵字，全部符合才顯示
-// 分類選「全部」= 不篩分類；標籤一個都沒選（ALL）= 不篩標籤；沒打字 = 不篩關鍵字
+// 分類、關鍵字都符合才顯示；分類選「全部」= 不篩分類，沒打字 = 不篩關鍵字
+// ⚠️ 排序暫定：有對應標籤的排前面，其餘維持原順序。後端還沒給「上架時間／熱門度」欄位，接 API 後改由後端排序
 const filteredGames = computed(() => {
     // 前後空白去掉、轉小寫，避免「打了空格就搜不到」與大小寫不符
     const search = keyword.value.trim().toLowerCase();
 
     const noCategory = activeCategory.value === 'all';
-    const noTags = !activeTags.value.length;
 
-    return games.value.filter((game) => {
+    const matched = games.value.filter((game) => {
         const matchCategory = noCategory || game.category === activeCategory.value;
-        const matchTags = noTags || game.tags.some((tag) => activeTags.value.includes(tag));
         // 只搜遊戲名稱，不搜描述（她 2026-09-10 定）
         const matchKeyword = !search || game.name.toLowerCase().includes(search);
 
-        return matchCategory && matchTags && matchKeyword;
+        return matchCategory && matchKeyword;
     });
+
+    // toSorted 不改原陣列；同分時保留原順序
+    const hasSortTag = (game: Game) => Number(game.tags.includes(activeSort.value));
+
+    return matched.toSorted((a, b) => hasSortTag(b) - hasSortTag(a));
 });
 
 // 搜尋框有字 = 正在搜尋（標題換成「搜尋結果」）
@@ -116,19 +122,18 @@ onUnmounted(() => {
 // 換篩選條件（含搜尋字）就回到第一頁，不然切回來會一次看到全部，「加載更多」形同虛設
 watch([
     activeCategory,
-    activeTags,
+    activeSort,
     keyword,
 ], () => {
     visibleCount.value = PAGE_SIZE;
 }, { deep: true });
 
-// 開始搜尋（搜尋框從空的變成有字）時，分類與標籤都跳回全部，才是在所有遊戲裡找（她 2026-09-15 定）
-// 只在「開始」那一下跳：搜尋中再自己選分類縮小範圍不會被打斷；清掉字後維持 ALL，不回到原本的選擇
+// 開始搜尋（搜尋框從空的變成有字）時，分類跳回全部，才是在所有遊戲裡找；排序不用動，它不會少掉遊戲
+// 只在「開始」那一下跳：搜尋中再自己選分類縮小範圍不會被打斷
 watch(isSearching, (searching) => {
     if (!searching) return;
 
     activeCategory.value = 'all';
-    activeTags.value = [];
 });
 
 // SEO 設定

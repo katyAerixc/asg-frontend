@@ -5,6 +5,9 @@ export type GameCategory = 'card' | 'fish' | 'mini' | 'slot';
 // 分類列比類型多一個「全部」——那是「不篩選」，不是一種類型
 export type GameCategoryFilter = 'all' | GameCategory;
 
+// 首頁排序：NEW 新遊戲在前、HOT 熱門在前
+export type GameSort = 'HOT' | 'NEW';
+
 // 波動度：同樣用英文 id，顯示走 i18n（lobby.volatility.*）
 export type GameVolatility = 'high' | 'low' | 'mid' | 'midHigh' | 'midLow';
 
