@@ -305,8 +305,6 @@ onUnmounted(() => {
 
     // 帳號區：頭像 66 + 帳號/暱稱 + 鉛筆
     &__account {
-        position: relative;
-
         display: flex;
         gap: var(--corner-2);
         align-items: center;
@@ -316,20 +314,8 @@ onUnmounted(() => {
 
         // 左右內距跟下面的連結列一致，鉛筆才會跟那些箭頭對在同一條直線上
         padding: 0 var(--corner-2) var(--corner-2);
-
-        // Figma 圖七：暱稱下方是漸層線（白 50 → 90 → 50），跟卡片分隔線同一條
-        &::after {
-            content: '';
-
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-
-            height: 1px;
-
-            background: var(--line-2);
-        }
+        border-bottom: 1px solid transparent;
+        border-image: var(--line-2) 1;
     }
 
     // Figma：66 × 66、1px 邊框 Primary/20
