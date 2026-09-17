@@ -34,13 +34,17 @@
         <div class="support-detail__foot">
             <div class="support-detail__actions">
                 <BaseButton
+                    class="support-detail__action"
                     variant="secondary"
                     @click="closeRecord"
                 >
                     {{ $t('support.back') }}
                 </BaseButton>
 
-                <BaseButton @click="askAgain(toIssueTypeValue(record.issueTypeKey))">
+                <BaseButton
+                    class="support-detail__action"
+                    @click="askAgain(toIssueTypeValue(record.issueTypeKey))"
+                >
                     {{ $t('support.askAgain') }}
                 </BaseButton>
             </div>
@@ -187,7 +191,23 @@ const {
         width: 100%;
     }
 
-    // Figma：PC 16（她 2026-09-11 給值）。⚠️ H5 字級與顏色暫定
+    // 手機：兩顆並排、字不換行、寬度跟著字走、間距固定 20（她 2026-09-17 給範例圖，取代原本「窄時上下疊」）
+    // 先各佔 Figma 的 150，放不下就一起縮，但最窄只縮到「字＋左右內距」（max-content），不會斷行
+    &__action {
+        @media (width < 600px) {
+            flex: 0 1 var(--button-medium-width);
+            min-width: max-content;
+            white-space: nowrap;
+        }
+
+        // 比 360 窄時日文「再度問い合わせ」＋「戻る」放不下（276 > 267）→ 左右內距 28 → 20（她 2026-09-17 選 A）
+        // 改變數不改 padding：蓋掉 BaseButton 的值不用拚權重
+        @media (width < 360px) {
+            --button-medium-padding-x: 20px;
+        }
+    }
+
+    // Figma：H5 14 / PC 16（PC 她 2026-09-11 給值）、Primary/40
     &__note {
         margin: 0;
 
