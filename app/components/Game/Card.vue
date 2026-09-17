@@ -135,7 +135,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
         object-fit: cover;
 
-        // Figma 是 DISSOLVE（交叉淡化）：兩張圖互換透明度，不是把同一張放大
+        // Figma 是 DISSOLVE：放大版淡入蓋上去，不是把同一張放大（原圖保持不透明，見下方 hover）
         transition: opacity var(--motion-hover-game);
     }
 
@@ -311,12 +311,9 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
     @media (hover: hover) {
-        // 滑入整張卡：原圖淡出、放大版淡入（Figma DISSOLVE）。
+        // 滑入整張卡：放大版淡入蓋住原圖（Figma DISSOLVE）。
+        // 🚨 原圖不要同時淡出：兩張一起變透明時，一半的瞬間深色底會透出來、畫面暗一下（她 2026-09-17 抓到）
         // 放大版被 __media 的 overflow 裁住，所以外框尺寸不變，不會把旁邊卡片推開
-        &:hover &__img {
-            opacity: 0;
-        }
-
         &:hover &__img--hover {
             opacity: 1;
         }
