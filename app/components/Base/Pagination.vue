@@ -1,5 +1,6 @@
 <template>
     <nav
+        ref="nav"
         :aria-label="$t('common.pagination')"
         class="base-pagination"
     >
@@ -13,7 +14,10 @@
             <span class="base-pagination__arrow-icon base-pagination__arrow-icon--prev i-sp-arrow-right" />
         </button>
 
-        <ul class="base-pagination__list">
+        <ul
+            ref="list"
+            class="base-pagination__list"
+        >
             <li
                 v-for="(item, index) in items"
                 :key="index"
@@ -58,15 +62,53 @@ const modelValue = defineModel<number>({ default: 1 });
 // 省略號的代號。用字串當標記，跟真的頁碼（數字）分得開
 const GAP = '…';
 
+// 一排放不下 7 格時（320～375 的彈窗裡）改成 5 格，不用橫向捲軸（她 2026-09-17 選）
+const isCompact = ref<boolean>(false);
+const listRef = useTemplateRef<HTMLUListElement>('list');
+const navRef = useTemplateRef<HTMLElement>('nav');
+
 // Computed properties
-// 固定 7 格，寬度才不會隨著頁數變來變去（設計稿 12 頁時是 1 2 3 … 10 11 12）
+// 寬度夠：固定 7 格，寬度才不會隨著頁數變來變去（設計稿 12 頁時是 1 2 3 … 10 11 12）
+// 寬度不夠：固定 5 格（頭尾 1 2 3 … 12、中間 1 … 5 … 12）
 const items = computed<(number | typeof GAP)[]>(() => {
     const { total } = props;
+    const current = modelValue.value;
+    const slots = isCompact.value ? 5 : 7;
 
-    if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1);
+    if (total <= slots) return Array.from({ length: total }, (_, index) => index + 1);
+
+    if (isCompact.value) {
+        if (current <= 2) {
+            return [
+                1,
+                2,
+                3,
+                GAP,
+                total,
+            ];
+        }
+
+        if (current >= total - 1) {
+            return [
+                1,
+                GAP,
+                total - 2,
+                total - 1,
+                total,
+            ];
+        }
+
+        return [
+            1,
+            GAP,
+            current,
+            GAP,
+            total,
+        ];
+    }
 
     // 頭尾附近：照設計稿長相，前三顆 + 後三顆
-    if (modelValue.value <= 3 || modelValue.value >= total - 2) {
+    if (current <= 3 || current >= total - 2) {
         return [
             1,
             2,
@@ -82,9 +124,9 @@ const items = computed<(number | typeof GAP)[]>(() => {
     return [
         1,
         GAP,
-        modelValue.value - 1,
-        modelValue.value,
-        modelValue.value + 1,
+        current - 1,
+        current,
+        current + 1,
         GAP,
         total,
     ];
@@ -96,6 +138,30 @@ function go(page: number) {
 
     modelValue.value = page;
 }
+
+// 用畫面上真的尺寸算「7 格要多寬」，手機 30、電腦 34 都不用在這裡寫死
+// 不管現在畫的是 5 格還是 7 格，算出來都一樣，所以切換後不會來回跳
+function updateCompact() {
+    const nav = navRef.value;
+    const list = listRef.value;
+    const slot = list?.firstElementChild as HTMLElement | null | undefined;
+    if (!nav || !list || !slot) return;
+
+    const count = list.children.length;
+    const slotWidth = slot.offsetWidth;
+    const listGap = Number.parseFloat(getComputedStyle(list).columnGap) || 0;
+    const navGap = Number.parseFloat(getComputedStyle(nav).columnGap) || 0;
+    const arrowsWidth = [...nav.children]
+        .filter((element) => element !== list)
+        .reduce((sum, element) => sum + (element as HTMLElement).offsetWidth, 0);
+    const listExtra = list.offsetWidth - (count * slotWidth + (count - 1) * listGap);
+    const fullWidth = arrowsWidth + 2 * navGap + listExtra + 7 * slotWidth + 6 * listGap;
+
+    isCompact.value = fullWidth > nav.clientWidth;
+}
+
+// Hooks
+useResizeObserver(navRef, updateCompact);
 </script>
 
 <style scoped lang="scss">
