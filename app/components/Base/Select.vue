@@ -159,12 +159,17 @@ onUnmounted(() => {
 
     // ⚠️ 字級暫定 H5 16 / PC 20（Figma 只給了 PC 清單文字 20 / 300）
     &__value {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
         flex: 1;
+
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        min-width: 0;
 
         font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
-        line-height: normal;
         text-overflow: ellipsis;
         white-space: nowrap;
 
@@ -234,7 +239,6 @@ onUnmounted(() => {
 
         font-size: var(--font-size-16);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-20);
         text-align: justify;
 

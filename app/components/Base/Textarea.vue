@@ -102,7 +102,6 @@ function clear() {
 
         font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-10);
 
         background: transparent;

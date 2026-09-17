@@ -96,7 +96,6 @@ const {
     // Figma：14 / 300 / Primary/40（她 2026-09-17 說照 Figma，取代 09-14 的 Primary/50）
     &__date {
         margin: 0;
-
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
@@ -110,10 +109,8 @@ const {
 
     &__type {
         margin: 0;
-
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
-        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
@@ -123,7 +120,6 @@ const {
 
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-neutral-20);
         text-align: justify;
     }
@@ -149,10 +145,8 @@ const {
 
     &__reply-title {
         margin: 0;
-
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
-        line-height: 1.4;
         color: var(--color-support-reply-title);
     }
 
@@ -160,7 +154,6 @@ const {
     &__reply-time {
         font-size: var(--font-size-16);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-20);
     }
 
@@ -170,7 +163,6 @@ const {
 
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-support-reply-text);
         text-align: justify;
         white-space: pre-line;
@@ -201,7 +193,6 @@ const {
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-40);
         text-align: center;
     }

@@ -401,7 +401,13 @@ onUnmounted(() => {
 
     // Figma：18px / 500 / Primary/10
     &__profile-value {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
+
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        min-width: 0;
 
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
@@ -598,15 +604,17 @@ onUnmounted(() => {
 
     // Figma：20px / 300 / Primary/10
     &__lang-name {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
         flex: 1;
+
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        min-width: 0;
 
         font-size: var(--font-size-20);
         font-weight: var(--font-weight-regular);
-
-        // 140% 不是設計稿的 100%：英文的下伸部（g/y/p 的尾巴）與越南文聲調會超出 20px 行框，
-        // 配上 overflow: hidden 就被裁掉。列高固定 44 且垂直置中，加大行高不影響版面
-        line-height: 1.4;
         color: var(--color-primary-10);
         text-align: left;
         text-overflow: ellipsis;

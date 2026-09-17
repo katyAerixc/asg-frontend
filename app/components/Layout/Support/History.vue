@@ -132,7 +132,6 @@ function openRecord(id: number) {
     &__date {
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-50);
     }
 
@@ -189,7 +188,6 @@ function openRecord(id: number) {
 
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
     }
 
     // 類型後面的分隔：Figma 是全形字「｜」接在類型後面（同字級同顏色），不是框線
@@ -205,7 +203,14 @@ function openRecord(id: number) {
 
     // Figma Color/Neutral/20；一行放不下就切掉補「...」
     &__text {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
+
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        min-width: 0;
+
         color: var(--color-neutral-20);
         text-overflow: ellipsis;
         white-space: nowrap;

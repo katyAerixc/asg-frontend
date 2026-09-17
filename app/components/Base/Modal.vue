@@ -181,13 +181,11 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：手機 26、電腦 30，都是 700 / 白。行高留 140%，中文以外的語言才不會被裁到
+    // Figma：手機 26、電腦 30，都是 700 / 白
     &__title {
         margin: 0;
-
         font-size: var(--font-size-26);
         font-weight: var(--font-weight-bold);
-        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 

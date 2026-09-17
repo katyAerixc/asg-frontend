@@ -252,10 +252,8 @@ onUnmounted(revokePreview);
     // Figma：H5 14 / PC 16（她 2026-09-11 給值）。⚠️ 顏色暫定，跟 placeholder 同一套
     &__hint {
         margin: 0;
-
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-primary-40);
 
         &--error {

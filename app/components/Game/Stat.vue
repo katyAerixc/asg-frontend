@@ -126,7 +126,10 @@ withDefaults(
 
     // 多語系：字太長時切掉加「…」，不換行也不把外框撐高
     &__label {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
 
         max-width: 100%;
 
@@ -245,11 +248,8 @@ withDefaults(
         // 不裁切（她 2026-09-15 指定拿掉 overflow: hidden）：數字＋箭頭已經會自己縮到塞得下
         #{$self}__value {
             gap: 0;
-
             min-width: 0;
-
             font-size: clamp(12px, 9.3cqw, 16px);
-            line-height: var(--line-height-figma);
             color: var(--color-primary-10);
 
             // Figma 電腦 18 / 500

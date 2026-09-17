@@ -58,7 +58,6 @@ const CATEGORIES: GameCategoryFilter[] = [
 
     // 分類：Figma PC/Tab、MB/Tab（她 2026-09-15 給）
     // 高 44 = 上 10（Corner-2）＋ 字 24 ＋ 下 10；選中時下面換成「間距 8 ＋ 底線 2」，高度一樣不跳
-    // 行高照 Figma 1.2（24），不用專案預設的 1.4：字外面沒有貼著的牆，上下各有 10 內距讓越南文、泰文的聲調超出也不會被切
     // （外層 overflow-x: auto 的邊界在整個分類框外面；她 2026-09-15 同意）
     &__tab {
         cursor: pointer;
@@ -74,7 +73,6 @@ const CATEGORIES: GameCategoryFilter[] = [
 
         font-size: var(--font-size-20);
         font-weight: var(--font-weight-regular);
-        line-height: 1.2;
         color: var(--color-primary-40);
         white-space: nowrap; // 多語系：分類名不換行，整列可橫向捲動
 

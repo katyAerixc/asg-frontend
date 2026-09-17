@@ -150,10 +150,8 @@ function play() {
     // Figma：H5 24 / PC 26，都是 700
     &__name {
         margin: 0;
-
         font-size: var(--font-size-24);
         font-weight: var(--font-weight-bold);
-        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
@@ -187,7 +185,6 @@ function play() {
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-neutral-20);
         text-align: justify;
 

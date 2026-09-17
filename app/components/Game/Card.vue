@@ -248,16 +248,17 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     &__name {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-bold);
-        line-height: var(--line-height-figma);
         color: var(--color-neutral-80);
     }
 
     &__desc {
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
+        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
         overflow: hidden;
+        overflow: clip visible;
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: var(--line-height-figma);
         color: var(--color-neutral-80);
         text-overflow: ellipsis;
         white-space: nowrap;

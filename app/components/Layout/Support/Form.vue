@@ -159,7 +159,6 @@ async function submit() {
     &__label {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
-        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 

@@ -82,7 +82,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         flex-shrink: 0;
     }
 
-    // Figma：Inter 20 / 300 / 行高 100%（這裡留 140%，其他語言才不會被裁到）
+    // Figma：Inter 20 / 300
     // 未選中 Neutral/30、選中 Neutral/10（她 2026-09-11 給值）
     &__tab {
         cursor: pointer;
@@ -105,7 +105,6 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         // Figma UI kit 的 Large 字級（手機 20／電腦 22）；頁籤文字樣式是 22/22p
         font-size: var(--size-large-font-size);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
         color: var(--color-neutral-30);
 
         background: transparent;

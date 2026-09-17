@@ -102,7 +102,6 @@ onMounted(() => {
     &__label {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
-        line-height: 1.4;
         color: var(--color-neutral-10);
     }
 
@@ -138,7 +137,6 @@ onMounted(() => {
 
         font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
-        line-height: normal;
         color: var(--color-primary-10);
 
         background: transparent;
