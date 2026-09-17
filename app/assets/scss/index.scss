@@ -82,11 +82,9 @@
     // 白 / 陰影
     --color-white-0: rgb(255 255 255 / 0%); // 全透明白：hover 光暈/白框的起點
     --color-white-90: rgb(255 255 255 / 90%); // line/line2 的中段
-    --color-white-80: rgb(255 255 255 / 80%); // 次要按鈕滑入的漸層起點
     --color-white-70: rgb(255 255 255 / 70%);
     --color-white-50: rgb(255 255 255 / 50%);
     --color-white-30: rgb(255 255 255 / 30%); // 選單列的下框線
-    --color-white-20: rgb(255 255 255 / 20%); // 次要按鈕按下去的漸層起點
 
     // 亮陰影：深色是白，淺色主題只換這組數字
     --color-shadow-light-rgb: 255 255 255;
@@ -292,8 +290,16 @@
         rgb(var(--color-primary-10-rgb) / 50%) 0%,
         var(--color-primary-10) 100%
     );
-    --bg-button-secondary-hv: linear-gradient(180deg, var(--color-white-80) 0%, var(--color-primary-10) 100%);
-    --bg-button-secondary-act: linear-gradient(180deg, var(--color-white-20) 0%, var(--color-white-70) 100%);
+    --bg-button-secondary-hv: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-10-rgb) / 80%) 0%,
+        var(--color-primary-10) 100%
+    );
+    --bg-button-secondary-act: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-10-rgb) / 20%) 0%,
+        rgb(var(--color-primary-10-rgb) / 70%) 100%
+    );
 
     // 主要動作按鈕「立即遊玩」：橘 50% → 橘 100%
     --bg-button-highlight: linear-gradient(
@@ -399,13 +405,6 @@
 
     // 藍色主要按鈕：沒有外框、文字描邊變淺
     --border-button-primary: none;
-
-    // 彈窗藍色按鈕、次要按鈕的底色：淺色沿用 :root，不覆寫
-    // ⚠️ Figma UI Kit 只畫了深色的 hv／act，淺色的底色變化等設計師給值 → 先維持不變
-    --bg-button-modal-hv: var(--bg-button-modal);
-    --bg-button-modal-act: var(--bg-button-modal);
-    --bg-button-secondary-hv: var(--bg-button-secondary);
-    --bg-button-secondary-act: var(--bg-button-secondary);
 
     // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40
     --line-select-option: none;
