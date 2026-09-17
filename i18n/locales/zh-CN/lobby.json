@@ -12,7 +12,7 @@
       "mini": "小游戏",
       "slot": "老虎机"
     },
-    "count": "共 {n} 款游戏",
+    "count": "共{n}款游戏",
     "detail": {
       "open": "查看 {name} 的介绍",
       "play": "立即游玩",
