@@ -199,12 +199,6 @@ const {
             min-width: max-content;
             white-space: nowrap;
         }
-
-        // 比 360 窄時日文「再度問い合わせ」＋「戻る」放不下（276 > 267）→ 左右內距 28 → 20（她 2026-09-17 選 A）
-        // 改變數不改 padding：蓋掉 BaseButton 的值不用拚權重
-        @media (width < 360px) {
-            --button-medium-padding-x: 20px;
-        }
     }
 
     // Figma：H5 14 / PC 16（PC 她 2026-09-11 給值）、Primary/40

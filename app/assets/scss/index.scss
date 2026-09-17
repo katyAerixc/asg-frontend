@@ -170,10 +170,7 @@
     // 程式裡 BaseButton 的 size='default' 就是 UI kit 的 Medium
     --button-medium-width: 150px;
     --button-medium-height: var(--size-medium-height);
-
-    // ⚠️ 不接 --size-medium-padding-x（UI kit 尺寸表寫手機 24）：畫面上的 MB／PC btn/Medium 全部是 28
-    //    （9 個手機畫面＋深淺主題、原始 JSON 8 處一致；她 2026-09-17 說照 Figma，取代 09-14 的 18）
-    --button-medium-padding-x: 28px;
+    --button-medium-padding-x: var(--size-medium-padding-x);
     --button-medium-font-size: var(--size-medium-font-size);
     --button-large-width: 150px;
     --button-large-height: var(--size-large-height);
