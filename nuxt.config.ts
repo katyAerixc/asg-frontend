@@ -153,11 +153,11 @@ export default defineNuxtConfig({
     ssr: true,
     unfonts: {
         google: {
-            // 設計稿全用 Inter；只載 300 / 500 / 700 三種粗細（設計稿用到的）
+            // 設計稿全用 Inter；載 300 / 400 / 500 / 600 / 700（400、600 是客服頁碼用的，她 2026-09-17 同意照 Figma 多載）
             families: [
                 {
                     name: 'Inter',
-                    styles: 'wght@300;500;700',
+                    styles: 'wght@300;400;500;600;700',
                 },
             ],
         },

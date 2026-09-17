@@ -116,7 +116,7 @@ onUnmounted(() => {
     position: relative;
     z-index: 2; // 展開的清單要蓋過下面的描述框
 
-    // Figma：高 44、內距上下 Corner-2 左右 Corner-3、圓角 Corner-input、底色 Primary/90
+    // Figma MB/inpt 高 39、PC/input 高 44；內距上下 Corner-2 左右 Corner-3、圓角 Corner-input、底色 Primary/90
     &__trigger {
         cursor: pointer;
 
@@ -125,7 +125,7 @@ onUnmounted(() => {
         align-items: center;
 
         width: 100%;
-        height: var(--select-height);
+        height: 39px; // 電腦版在最下面改回 --select-height（44）
         padding: var(--input-padding-y) var(--input-padding-x);
 
         // 平常框線透明、展開時轉成 Primary/60（Figma MB/inpt Active 的 1px 內框）。
@@ -151,6 +151,12 @@ onUnmounted(() => {
         }
     }
 
+    // 展開時字與箭頭都轉 Primary/10（Figma MB/inpt、PC/input 的 Active），連提示字也是
+    &__trigger--open &__value,
+    &__trigger--open &__caret {
+        color: var(--color-primary-10);
+    }
+
     // ⚠️ 字級暫定 H5 16 / PC 20（Figma 只給了 PC 清單文字 20 / 300）
     &__value {
         overflow: hidden;
@@ -169,15 +175,16 @@ onUnmounted(() => {
     }
 
     // 用跟選單列同一支箭頭（arrow-right），靠旋轉決定方向：收起朝下、展開朝上
+    // Figma icon/arrow：手機 19、電腦 24，顏色 Primary/40（深淺色都是）
     &__caret {
         transform: rotate(90deg);
 
         flex-shrink: 0;
 
-        width: 18px;
-        height: 18px;
+        width: 19px;
+        height: 19px;
 
-        color: var(--color-select-caret);
+        color: var(--color-primary-40);
 
         background-color: currentcolor;
 
@@ -197,9 +204,9 @@ onUnmounted(() => {
 
         margin: 0;
 
-        // 上下留一點內距：不然第一列 hover 的底色會蓋掉清單最上面那道內光
-        padding: var(--corner-1) var(--corner-2);
-        border-radius: var(--corner-input);
+        // Figma Frame 10680：上下 0、左右 10，圓角 8（沒綁變數）
+        padding: 0 var(--corner-2);
+        border-radius: 8px;
 
         list-style: none;
 
@@ -229,7 +236,7 @@ onUnmounted(() => {
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-20);
-        text-align: left;
+        text-align: justify;
 
         background: transparent;
 
@@ -249,6 +256,15 @@ onUnmounted(() => {
     }
 
     @media (width >= 600px) {
+        &__trigger {
+            height: var(--select-height);
+        }
+
+        &__caret {
+            width: 24px;
+            height: 24px;
+        }
+
         &__option {
             font-size: var(--font-size-20);
         }

@@ -622,7 +622,8 @@ onUnmounted(() => {
         width: 24px;
         height: 24px;
 
-        color: var(--color-primary-10);
+        // Figma icon/arrow：Primary/20（比按鈕上的字淡一階）
+        color: var(--color-primary-20);
 
         transition: transform 0.25s;
 
@@ -758,6 +759,11 @@ onUnmounted(() => {
         &__lang-current,
         &__lang-list {
             width: 160px;
+        }
+
+        // Figma MB/inpt：160 × 39 固定（PC 44）；清單跟著往上貼，仍離按鈕 5
+        &__lang-current {
+            height: 39px;
         }
 
         &__lang-flag,

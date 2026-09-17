@@ -69,7 +69,7 @@ function openRecord(id: number) {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: var(--corner-3);
+    gap: var(--corner-5); // Figma 彈窗 gap 30：清單 → 分頁
 
     min-height: 0;
 
@@ -82,7 +82,7 @@ function openRecord(id: number) {
 
         min-height: 0;
         margin: 0;
-        padding: 0;
+        padding: 0 var(--corner-2); // Figma Frame 11211／1562：左右 10
 
         list-style: none;
     }
@@ -120,9 +120,10 @@ function openRecord(id: number) {
         }
     }
 
+    // Figma Frame 1569：日期 ↔ 狀態 gap 15
     &__head {
         display: flex;
-        gap: var(--corner-2);
+        gap: var(--corner-3);
         align-items: center;
         justify-content: space-between;
     }
@@ -148,16 +149,17 @@ function openRecord(id: number) {
 
         font-size: var(--font-size-14);
 
-        // 已回覆、已完結的字重都是 300，深淺色一樣（她 2026-09-14 指定，取代 9/11 的 500）
+        // 字重照 Figma：已完結 300、已回覆 500（她 2026-09-17 說照 Figma，取代 09-14 兩個都 300）
         font-weight: var(--font-weight-regular);
 
         // 已回覆：藍底白字
         &--replied {
+            font-weight: var(--font-weight-medium);
             color: var(--color-neutral-10);
             background: var(--color-primary-50);
         }
 
-        // 已完結：白 50% 底（淺色 #8da1e4）、深灰字
+        // 已完結：Figma 手機 White/50（深淺都是 #fff 50%）、電腦 Shadow/Light/50（淺色 #cbdfff 50%，見下方 media）
         &--closed {
             color: var(--color-neutral-80);
             background: var(--bg-support-status-closed);
@@ -177,7 +179,7 @@ function openRecord(id: number) {
         }
     }
 
-    // Figma：H5 16 / PC 18，300
+    // Figma MB/form、PC/form：H5 18 / PC 20，類型 500、描述 300
     &__summary {
         display: flex;
         gap: var(--corner-1); // Figma 4
@@ -185,7 +187,7 @@ function openRecord(id: number) {
 
         min-width: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
     }
@@ -221,6 +223,10 @@ function openRecord(id: number) {
 
         &__status {
             font-size: var(--font-size-16);
+
+            &--closed {
+                background: var(--color-shadow-light-50);
+            }
         }
 
         &__dot {

@@ -185,10 +185,11 @@ function confirm() {
             width: 80px;
             box-shadow: 0 0 0 1px var(--color-neutral-10);
 
+            // Figma PC 選中光暈綁變數 Shadow/Light 50%（淺色 #CBDFFF）；H5 沒綁、寫死白色，所以只有 PC 換
             &--picked {
                 box-shadow:
                     0 0 0 3px var(--color-semantic-yellow-20),
-                    var(--shadow-avatar-active);
+                    0 0 20px 0 var(--color-shadow-light-50);
             }
 
             @media (hover: hover) {
@@ -201,7 +202,7 @@ function confirm() {
                 &--picked:hover {
                     box-shadow:
                         0 0 0 3px var(--color-semantic-yellow-20),
-                        var(--shadow-avatar-active);
+                        0 0 20px 0 var(--color-shadow-light-50);
                 }
             }
         }

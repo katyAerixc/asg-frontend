@@ -144,11 +144,12 @@ onUnmounted(() => {
         height: var(--modal-h, 400px);
         margin: auto;
         padding: var(--corner-3);
-        border: 1px solid var(--color-neutral-10);
         border-radius: var(--corner-5);
 
         background: var(--bg-popup);
         backdrop-filter: blur(25px); // Figma bg：blur 25
+        outline: 1px solid var(--color-neutral-10); // Figma 框線畫在內側（INSIDE）、不佔寬度，border 會讓內容少 2px
+        outline-offset: -1px;
         box-shadow: var(--shadow-bg);
     }
 
@@ -197,14 +198,18 @@ onUnmounted(() => {
         position: absolute;
         right: 0;
 
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         padding: 0;
         border: 0;
 
         color: var(--color-neutral-10);
 
         background-color: currentcolor;
+
+        // Figma icon：點擊區手機 24（電腦 30），裡面的叉 14.4（電腦 18），圖比框小所以用 mask-size 縮、置中
+        mask-position: center;
+        mask-size: 14.4px 14.4px;
 
         transition: opacity 0.2s;
 
@@ -240,6 +245,12 @@ onUnmounted(() => {
 
         &__title {
             font-size: var(--font-size-30);
+        }
+
+        &__close {
+            width: 30px;
+            height: 30px;
+            mask-size: 18px 18px;
         }
     }
 }

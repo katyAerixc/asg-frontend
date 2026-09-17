@@ -291,11 +291,16 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     }
 
     // 上下不另外留白：Figma 手機／電腦都只靠玻璃塊自己的間距（10 / 15）
+    // Figma 分隔線高 0、不佔排版高度 → 用 -1px 下距抵掉；手機 Figma 寬 140（左右各內縮 1），電腦填滿
     &__divider {
         height: 1px;
-        margin: 0;
+        margin: 0 0 -1px;
         border: 0;
         background: var(--line-2);
+
+        @media (width < 960px) {
+            margin: 0 1px -1px;
+        }
     }
 
     // 統計格
@@ -325,6 +330,40 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         // ①往外長 1px 白框 ②多一道 0 0 10 外陰影 ③三層內陰影換成位移較大的 game/bg_act
         // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
         &:hover &__info {
+            box-shadow: var(--shadow-game-hover), var(--shadow-game-bg-act);
+        }
+    }
+
+    // 手機沒有 hover：按下去時換成 Figma MB/Game/block item=active（0.1 秒）
+    // 圖框 156 → 164 時比例一起換成 164 / 200，高度不變，下面的玻璃塊不會跳
+    @media (hover: none) and (width < 960px) {
+        &__media {
+            transition: box-shadow var(--motion-press);
+        }
+
+        &__img {
+            transition: opacity var(--motion-press);
+        }
+
+        &__info {
+            transition: box-shadow var(--motion-press);
+        }
+
+        &:active &__media {
+            width: calc(164 / 172 * 100%);
+            box-shadow: 0 0 5px 0 var(--color-shadow-dark-50);
+        }
+
+        // 原圖不淡出，理由同上面 hover
+        &:active &__img {
+            aspect-ratio: 164 / 200;
+        }
+
+        &:active &__img--hover {
+            opacity: 1;
+        }
+
+        &:active &__info {
             box-shadow: var(--shadow-game-hover), var(--shadow-game-bg-act);
         }
     }

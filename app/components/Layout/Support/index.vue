@@ -138,6 +138,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
 
             width: 50px;
             height: 1px;
+            border-radius: var(--corner-full); // Figma Rectangle 611：radius 100
 
             background: var(--color-neutral-10);
         }
@@ -165,8 +166,10 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
     }
 
     @media (width >= 600px) {
+        // Figma PC/Tab：左右內距 Corner-3（手機 MB 頁籤是 0）
         &__tab {
             height: 47px;
+            padding-inline: var(--corner-3);
         }
 
         &__tab--active::after {

@@ -175,7 +175,7 @@ useHead({
         gap: 4px;
         align-items: center;
 
-        margin-bottom: 16px;
+        margin-bottom: var(--corner-3); // Figma MB 1-6：「共 N 款遊戲」到卡片 15
     }
 
     // 手機版：沒搜尋時不顯示標題，只留「共 N 款遊戲」；字跟數量一樣是小灰字
@@ -199,18 +199,18 @@ useHead({
 
     @media (width >= 960px) {
         &__main {
-            padding: 24px var(--corner-5) 40px;
+            padding: 5px var(--corner-5) 40px; // 上 5 ＋ 工具列下內距 15 ＝ Figma 分類列到標題 20
         }
 
         &__title-row {
             gap: 16px;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: var(--corner-4); // Figma PC Frame 11369 間距 20（標題列 → 卡片）
         }
 
         &__title {
             display: block;
-            font-size: var(--font-size-24);
+            font-size: var(--font-size-26); // Figma 精選遊戲 26/700
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
         }

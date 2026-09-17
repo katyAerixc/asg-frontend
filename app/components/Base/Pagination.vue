@@ -154,9 +154,10 @@ function go(page: number) {
 
     // 用跟選單列同一支箭頭（arrow-right），往左那顆轉 180 度
     // UnoCSS 的圖示是遮罩，尺寸要用 mask-size，background-size 對遮罩沒作用
+    // Figma icon/arrow：手機 20、電腦 24
     &__arrow-icon {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         color: var(--color-primary-60);
         background-color: currentcolor;
 
@@ -251,8 +252,19 @@ function go(page: number) {
             height: 34px;
         }
 
+        &__arrow-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        // Figma PC/Pagination：數字 18（手機 16）
+        &__page,
+        &__gap {
+            font-size: var(--font-size-18);
+        }
+
         &__list {
-            gap: 8px;
+            gap: var(--corner-2);
             height: 42px; // 34 ＋ 上下內距各 4
         }
     }

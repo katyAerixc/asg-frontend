@@ -214,19 +214,19 @@ onUnmounted(() => {
 
         max-width: 1320px; // 跟下面卡片區同寬（Figma PC/Home 外框 1320）
         margin: 0 auto;
-        padding: 16px var(--corner-3);
+        padding: var(--corner-3); // Figma PC 1-1／1-2：Header（或畫面頂）到分類列 15
     }
 
     &__filters {
         display: flex;
-        gap: 12px;
+        gap: var(--corner-3); // Figma PC Frame 10709 間距 15（切換膠囊 ↔ 搜尋框）
         align-items: center;
     }
 
     // NEW / HOT：一顆膠囊、左右切換（Figma input 風格：內嵌陰影 + 模糊）
     &__toggle {
         display: flex;
-        gap: 10px;
+        gap: 0; // Figma PC/switch、MB/switch 按鈕之間沒有間距（md 與 raw JSON 確認，2026-09-16）
         align-items: center;
         justify-content: center;
 
@@ -348,11 +348,13 @@ onUnmounted(() => {
         }
     }
 
+    // 🚨 search.svg 沒有留白（viewBox 12、圖 11.4），Figma 的 icon 框有留白：要比「圖」的大小，不是比框
+    // 手機 MB/btn/search：框 30、圖 18 → 元素 19；電腦見下面 @media
     &__search-icon {
         flex-shrink: 0;
         width: 19px;
         height: 19px;
-        color: var(--color-search-icon);
+        color: var(--color-primary-40); // Figma PC/input 放大鏡 Primary/40（手機另外蓋）
     }
 
     // 真的文字跟上面的幽靈文字疊在同一格
@@ -384,7 +386,7 @@ onUnmounted(() => {
             top: 0;
 
             // 原本整條工具列的上左右內距 16；下面留 8，跟 ALL 那排的 10 加起來還是原本的間距 18
-            padding: 16px var(--corner-3) 8px; // 左右跟卡片區一樣 15
+            padding: 16px var(--corner-2) 8px; // 左右 10：Figma MB/Tag 寬 370、離畫面左右各 10
 
             background-color: transparent;
 
@@ -436,6 +438,12 @@ onUnmounted(() => {
             flex: 0 1 auto;
             width: 280px;
         }
+
+        // Figma PC/input：icon 框 24、圖 14.4 → 元素 14.4 ÷ (11.4 / 12) ≈ 15.2
+        &__search-icon {
+            width: 15.2px;
+            height: 15.2px;
+        }
     }
 }
 
@@ -444,8 +452,8 @@ onUnmounted(() => {
 .game-toolbar-float {
     position: fixed;
     z-index: 45; // 蓋過遊戲卡與工具列(40)，但在頭像選單(60)與彈窗(100)底下
-    right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    right: var(--corner-2); // Figma 1-3／1-4 MB/btn/search 離畫面右、下各 10
+    bottom: calc(var(--corner-2) + env(safe-area-inset-bottom));
 
     // Figma MB/btn/search：收起 50 圓形藍漸層；展開膠囊、底 Primary/90（漸層在 ::before，展開時淡出）
     &__box {
@@ -463,7 +471,7 @@ onUnmounted(() => {
         padding: var(--corner-2);
         border-radius: var(--corner-full);
 
-        background: var(--bg-input);
+        background-color: transparent; // Figma 收起只有半透明漸層，底下不墊 Primary/90（展開才換上）
         backdrop-filter: blur(50px);
         box-shadow: var(--shadow-btn);
 
@@ -471,6 +479,7 @@ onUnmounted(() => {
             width 0.3s ease,
             gap 0.3s ease,
             padding 0.3s ease,
+            background-color 0.3s ease,
             box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
         &::before {
@@ -523,25 +532,26 @@ onUnmounted(() => {
         color: var(--color-neutral-10);
     }
 
-    // 展開：寬度＝螢幕寬扣掉左右各 16
+    // 展開：寬度＝螢幕寬扣掉左右各 10（Figma 1-4：390 寬時 370）
+    // 陰影是效果樣式 282:2752 ＝ --shadow-bg（內陰影模糊 2、外陰影排最後）
     &--open &__box {
         gap: 10px;
 
-        width: calc(100vw - 32px);
+        width: calc(100vw - 20px);
         padding: var(--input-padding-y) var(--input-padding-x);
 
+        background-color: var(--bg-input);
         backdrop-filter: blur(25px);
-        box-shadow:
-            0 0 5px 0 var(--color-shadow-dark-50),
-            var(--shadow-input);
+        box-shadow: var(--shadow-bg);
 
         &::before {
             opacity: 0;
         }
     }
 
+    // Figma MB/btn/search 展開的放大鏡：深淺色都是 Primary/30
     &--open &__icon {
-        color: var(--color-search-icon);
+        color: var(--color-primary-30);
     }
 
     &--open &__input {

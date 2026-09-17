@@ -4,12 +4,15 @@
             <p class="support-detail__date">
                 {{ record.createdAt }}
             </p>
-            <h3 class="support-detail__type">
-                {{ $t(toShortIssueKey(record.issueTypeKey)) }}
-            </h3>
-            <p class="support-detail__text">
-                {{ record.description }}
-            </p>
+            <!-- Figma Frame 1568：類型與描述自成一組，組內間距 10 -->
+            <div class="support-detail__question">
+                <h3 class="support-detail__type">
+                    {{ $t(toShortIssueKey(record.issueTypeKey)) }}
+                </h3>
+                <p class="support-detail__text">
+                    {{ record.description }}
+                </p>
+            </div>
 
             <div
                 v-if="record.reply"
@@ -70,18 +73,18 @@ const {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: var(--corner-3);
+    gap: 40px; // Figma 彈窗 gap 40：內容 → 按鈕區（按鈕區還是 margin-top: auto 推到最底）
 
     min-height: 0;
 
-    // Figma Frame 11：圓角 Corner-2、內距 上下 Corner-2／左右 Corner-3、間距 15
+    // Figma Frame 11：圓角 Corner-2、內距 上下 Corner-2／左右 Corner-3、間距 手機 10／電腦 15
     // 高度依內容，不要撐滿——撐滿的話回覆下面會留一大塊空的深藍底（她 2026-09-11 指出）
     &__card {
         overflow-y: auto;
         display: flex;
         flex: 0 1 auto;
         flex-direction: column;
-        gap: var(--corner-1);
+        gap: var(--corner-2);
 
         min-height: 0;
         padding: var(--corner-2) var(--corner-3);
@@ -90,14 +93,19 @@ const {
         background: var(--bg-support-card);
     }
 
-    // Figma：14 / 300。顏色跟列表卡片的日期一致用 Primary/50（她 2026-09-14 指定，原本 Figma 標 Primary/40）
+    // Figma：14 / 300 / Primary/40（她 2026-09-17 說照 Figma，取代 09-14 的 Primary/50）
     &__date {
         margin: 0;
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
-        line-height: 1.4;
-        color: var(--color-primary-50);
+        color: var(--color-primary-40);
+    }
+
+    &__question {
+        display: flex;
+        flex-direction: column;
+        gap: var(--corner-2);
     }
 
     &__type {
@@ -109,14 +117,15 @@ const {
         color: var(--color-neutral-10);
     }
 
-    // Figma Color/Neutral/20
+    // Figma Color/Neutral/20；H5 18 / PC 20
     &__text {
         margin: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-20);
+        text-align: justify;
     }
 
     // Figma Frame 1570：圓角 Corner-2、內距 Corner-2、間距 10
@@ -125,7 +134,6 @@ const {
         flex-direction: column;
         gap: var(--corner-2);
 
-        margin-top: var(--corner-3);
         padding: var(--corner-2);
         border-radius: var(--corner-2);
 
@@ -148,8 +156,9 @@ const {
         color: var(--color-support-reply-title);
     }
 
+    // Figma：H5 16 / PC 18
     &__reply-time {
-        font-size: var(--font-size-14);
+        font-size: var(--font-size-16);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-20);
@@ -159,10 +168,11 @@ const {
     &__reply-text {
         margin: 0;
 
-        font-size: var(--font-size-16);
+        font-size: var(--font-size-18);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-support-reply-text);
+        text-align: justify;
         white-space: pre-line;
     }
 
@@ -177,9 +187,10 @@ const {
         margin-top: auto;
     }
 
+    // Figma Frame 11205：兩顆按鈕間距 手機 20／電腦 30
     &__actions {
         display: flex;
-        gap: var(--corner-2);
+        gap: var(--corner-4);
         justify-content: center;
         width: 100%;
     }
@@ -188,7 +199,7 @@ const {
     &__note {
         margin: 0;
 
-        font-size: var(--font-size-12);
+        font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-primary-40);
@@ -197,6 +208,14 @@ const {
 
     // 電腦版字級（她 2026-09-11 逐項指定）
     @media (width >= 600px) {
+        &__card {
+            gap: var(--corner-3);
+        }
+
+        &__actions {
+            gap: var(--corner-5);
+        }
+
         &__date {
             font-size: var(--font-size-16);
         }

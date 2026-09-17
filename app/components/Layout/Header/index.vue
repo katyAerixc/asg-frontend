@@ -311,6 +311,11 @@ onUnmounted(() => {
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
+        // Figma 3-1 會員選單：選單打開時頭像膠囊用 btn/hover（外圈變白）
+        &[aria-expanded='true'] {
+            box-shadow: var(--shadow-btn-hover);
+        }
+
         @media (hover: hover) {
             &:hover {
                 box-shadow: var(--shadow-btn-hover);
@@ -333,7 +338,7 @@ onUnmounted(() => {
     &__menu {
         position: absolute;
         z-index: 60; // 要蓋過 Header 本身
-        top: calc(100% + 11px); // 設計稿：頭像下方 63px 起算
+        top: calc(100% + 5px); // Figma：選單頂距頭像膠囊頂 63（PC 膠囊高 58）／53（H5 膠囊高 48），兩邊都離膠囊底 5
         right: 0;
     }
 

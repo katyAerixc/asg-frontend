@@ -199,8 +199,6 @@ withDefaults(
                 border-radius: inherit;
 
                 background: var(--color-primary-opacity-60-10);
-
-                animation: rtp-breathe var(--motion-breathe) infinite;
             }
 
             #{$self}__arrow {
@@ -217,24 +215,28 @@ withDefaults(
 
             // 使用者若在系統開了「減少動態效果」，一律不動（W3C 無障礙要求）
             @media (prefers-reduced-motion: reduce) {
-                &::before,
                 #{$self}__arrow {
                     animation: none;
                 }
             }
         }
 
-        // 漲跌的顏色也要畫在 ::before 那層，才會跟著呼吸
+        // 漲跌的顏色畫在 ::before 那層，跟著呼吸
+        // Figma 只有漲／跌（up2／down2）有呼吸的 prototype，沒漲跌的 default2 不動（她 2026-09-17 說照 Figma）
         &#{$self}--up::before,
         &#{$self}--down::before {
             background: var(--game-stat-trend);
             box-shadow: 0 0 10px 0 var(--color-shadow-dark-20);
+            animation: rtp-breathe var(--motion-breathe) infinite;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
         }
 
-        // Figma 手機 12；比 Figma 的 390（卡片 172）窄才等比例縮
+        // Figma 手機 12；字級表最小就是 12，不再縮小（她 2026-09-17 說照 Figma）
         #{$self}__label {
-            font-size: clamp(9px, 6.98cqw, 12px);
-            line-height: var(--line-height-figma);
+            font-size: var(--font-size-12);
             color: var(--color-primary-20);
         }
 
@@ -297,20 +299,22 @@ withDefaults(
         position: relative;
         z-index: 0;
 
-        justify-content: center;
+        // Figma MB/Game/block/RTP：橫排、塞不下就換行；電腦改回直排（見下方 media）
+        flex-flow: row wrap;
+        place-content: center;
 
         // Figma：H5 高 46、PC 高 51。用 min-height 而不是寫死高度——
         // 其他語言的「最高賠率」比中文長，需要時讓它自己長高，不要把字裁掉
         min-height: 46px;
 
-        // 上下不要 padding：行高放寬後光是兩行文字就有 46，再加內距會超過設計稿
-        padding: 0 var(--corner-3);
+        // Figma MB/Game/block/RTP pad 4/15（她 2026-09-17 說照 Figma，取代上下 0）
+        padding: var(--corner-1) var(--corner-3);
 
         // 漲跌那格直接換成紅／綠漸層
         &#{$self}--up,
         &#{$self}--down {
             // 「數字＋箭頭」比格子寬時箭頭會凸出右邊（她 2026-09-15 抓到，320 凸 22px、1280 凸 4px）
-            // ①內距維持 15（改小會讓這格比旁邊兩格窄），但數字可以置中「吃進」左右內距各 11，邊邊還留 4
+            // ①手機內距維持 15（改小會讓這格比旁邊兩格窄），但數字可以置中「吃進」左右內距各 11，邊邊還留 4；電腦三格都是 0，寬度一樣
             // ②還是塞不下才讓數字＋箭頭一起等比例縮（跟遊戲卡同一套）；cqw 看的是這一格扣掉內距的寬
             container-type: inline-size;
             background: var(--game-stat-trend);
@@ -322,7 +326,7 @@ withDefaults(
             }
 
             #{$self}__arrow {
-                --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 22px);
+                --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 19px);
             }
 
             @media (width >= 600px) {
@@ -331,7 +335,7 @@ withDefaults(
                 }
 
                 #{$self}__arrow {
-                    --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 25px);
+                    --stat-arrow-size: clamp(16px, calc(31.5cqw + 5.04px), 22px);
                 }
             }
         }
@@ -349,9 +353,9 @@ withDefaults(
             color: var(--color-neutral-10);
         }
 
-        // 箭頭要比字大一點才看得出漲跌（比例照遊戲卡那顆：H5 22、PC 25）
+        // Figma ic_go：H5 19、PC 22（跟遊戲卡同一顆，md 與 raw JSON 兩種方法確認 2026-09-16）
         #{$self}__arrow {
-            --stat-arrow-size: 22px;
+            --stat-arrow-size: 19px;
 
             color: currentcolor;
             background-color: currentcolor;
@@ -362,7 +366,9 @@ withDefaults(
             --game-stat-trend-angle: 312.3deg;
             --game-stat-trend-start: 35.3%;
 
+            flex-direction: column;
             min-height: 51px;
+            padding: var(--corner-1) 0; // Figma PC/Game/block pad 4/0
 
             #{$self}__label {
                 font-size: var(--font-size-14);
@@ -374,7 +380,7 @@ withDefaults(
             }
 
             #{$self}__arrow {
-                --stat-arrow-size: 25px;
+                --stat-arrow-size: 22px;
             }
         }
     }

@@ -1,7 +1,6 @@
 <template>
     <BaseModal
-        gap="18px"
-        height="248px"
+        height="auto"
         height-pc="300px"
         :title="$t('profile.nicknameTitle')"
         @close="$emit('close')"
@@ -150,20 +149,23 @@ onMounted(() => {
         }
     }
 
-    // Figma：19 x 19 的點擊區，裡面的叉 11.4
+    // Figma：19 x 19 的點擊區，裡面的叉 11.4（框比圖大，用 mask-size 縮圖、置中）
     &__clear {
         cursor: pointer;
 
         flex-shrink: 0;
 
-        width: 12px;
-        height: 12px;
+        width: 19px;
+        height: 19px;
         padding: 0;
         border: 0;
 
         color: var(--color-primary-10);
 
         background-color: currentcolor;
+
+        mask-position: center;
+        mask-size: 11.4px 11.4px;
 
         transition: opacity 0.2s;
 
@@ -186,6 +188,13 @@ onMounted(() => {
 
         &__field {
             height: 44px;
+        }
+
+        // Figma PC：24 x 24 的點擊區，裡面的叉 14.4
+        &__clear {
+            width: 24px;
+            height: 24px;
+            mask-size: 14.4px 14.4px;
         }
     }
 }

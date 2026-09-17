@@ -57,7 +57,7 @@ withDefaults(
         box-shadow 0.25s ease;
 
     // Figma btn 屬性：預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
-    // 文字描邊每種不一樣：藍的粗描邊（跟首頁「加載更多」同一組），白與橘是細的黑框
+    // 文字描邊三種都一樣：Figma 1px Black/50 外側（跟首頁「加載更多」同一組）
     &--primary {
         --btn-bg: var(--bg-button-modal);
         --btn-bg-hv: var(--bg-button-modal-hv);
@@ -66,7 +66,7 @@ withDefaults(
         -webkit-text-stroke: var(--text-stroke-button-modal);
     }
 
-    // 白底但文字仍是白的，靠黑色描邊撐出可讀性（她 2026-09-11 指定 2px 黑 70%）
+    // 白底但文字仍是白的，靠黑色描邊撐出可讀性（Figma 1px Black/50 外側 → CSS 2px，見 index.scss --text-stroke-button-primary）
     &--secondary {
         --btn-bg: var(--bg-button-secondary);
         --btn-bg-hv: var(--bg-button-secondary-hv);
@@ -74,7 +74,7 @@ withDefaults(
 
         color: var(--color-neutral-10);
 
-        -webkit-text-stroke: 2px var(--color-black-70);
+        -webkit-text-stroke: var(--text-stroke-button-primary);
     }
 
     &--highlight {
@@ -82,7 +82,7 @@ withDefaults(
         --btn-bg-hv: var(--bg-button-highlight-hv);
         --btn-bg-act: var(--bg-button-highlight-act);
 
-        -webkit-text-stroke: 1px var(--color-black-50);
+        -webkit-text-stroke: var(--text-stroke-button-primary);
     }
 
     &--default {
@@ -102,6 +102,7 @@ withDefaults(
     // Figma button/Default/Disabled：還不能按的時候
     &:disabled {
         cursor: not-allowed;
+        color: var(--color-button-disabled-text);
         background: var(--bg-button-disabled);
         box-shadow: var(--shadow-btn-disabled);
     }

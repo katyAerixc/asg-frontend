@@ -2,6 +2,7 @@
 :root {
     // 主色 Primary
     --color-primary-10: #fff;
+    --color-primary-10-rgb: 255 255 255; // 次要按鈕漸層要疊透明度
     --color-primary-30: #8f9bad;
     --color-primary-40: #697b96;
     --color-primary-50: #6086c1; // 打勾底色漸層的起點
@@ -32,9 +33,6 @@
     --color-black-70: rgb(0 0 0 / 70%);
     --color-black-80: rgb(0 0 0 / 80%);
 
-    // 深藍 — 加載更多按鈕的文字描邊（她 2026-09-09 指定）
-    --color-navy-50: rgb(0 12 59 / 50%);
-
     // 線 Line
     --line-2: linear-gradient(90deg, var(--color-white-50) 0%, var(--color-white-90) 50%, var(--color-white-50) 100%);
 
@@ -42,14 +40,11 @@
     --line-popup: linear-gradient(90deg, var(--color-white-0) 0%, var(--color-white-50) 50%, var(--color-white-0) 100%);
 
     // 遊戲介紹：Game1 那區與三格之間的分隔線。深色用漸層（border-image），淺色不用，直接吃 border 的 White/50
-    --line-game-detail-stats: var(--line-popup) 1;
+    --line-game-detail-stats: var(--line-2) 1;
 
     // 下拉選單每列之間的分隔線：深色用漸層（border-image），淺色不用，直接吃 border 的顏色
     --line-select-option: var(--line-popup) 1;
     --color-select-option-line: var(--color-primary-40);
-
-    // 下拉選單右邊的箭頭
-    --color-select-caret: var(--color-primary-20);
 
     // 多行輸入框右上角的 ✕（清除鈕）：深色白，淺色另外覆寫
     --color-input-clear: var(--color-primary-10);
@@ -177,9 +172,9 @@
     --button-medium-width: 150px;
     --button-medium-height: var(--size-medium-height);
 
-    // ⚠️ 故意不接 --size-medium-padding-x：規格表是手機 24／電腦 28，
-    // 但她 2026-09-14 為了日文字太長改成 18，這是刻意的例外
-    --button-medium-padding-x: 18px;
+    // ⚠️ 不接 --size-medium-padding-x（UI kit 尺寸表寫手機 24）：畫面上的 MB／PC btn/Medium 全部是 28
+    //    （9 個手機畫面＋深淺主題、原始 JSON 8 處一致；她 2026-09-17 說照 Figma，取代 09-14 的 18）
+    --button-medium-padding-x: 28px;
     --button-medium-font-size: var(--size-medium-font-size);
     --button-large-width: 150px;
     --button-large-height: var(--size-large-height);
@@ -257,7 +252,10 @@
         rgb(var(--color-primary-60-rgb) / 70%) 100%
     );
     --border-button-primary: 1px solid var(--color-black-50);
-    --text-stroke-button-primary: 3px var(--color-navy-50); // 她 2026-09-09 指定
+
+    // Figma 按鈕文字描邊：1px、Black/50、畫在字外面（OUTSIDE），深淺色相同（她 2026-09-17 說照 Figma）
+    // CSS 描邊是「一半在字裡、一半在字外」，Button 有 paint-order: stroke fill 讓字蓋住裡面那半 → 寫 2px 才等於外側 1px
+    --text-stroke-button-primary: 2px var(--color-black-50);
 
     // 彈窗裡的藍色按鈕（Base/Button.vue：提交、確認）。深色跟加載更多一樣，淺色另外調深
     --text-stroke-button-modal: var(--text-stroke-button-primary);
@@ -293,7 +291,8 @@
     // 選中的頭像：橘框外的白光暈
     --shadow-avatar-active: 0 0 20px 0 rgb(255 255 255 / 50%);
 
-    // 確認按鈕・還不能按的時候
+    // 確認按鈕・還不能按的時候（字色 Figma btn=05 Dis：Neutral/50，深淺色同值；她 2026-09-16 說照 Figma）
+    --color-button-disabled-text: var(--color-neutral-50);
     --bg-button-disabled: linear-gradient(
         180deg,
         rgb(var(--color-primary-90-rgb) / 5%) 0%,
@@ -308,7 +307,11 @@
 
     // 次要按鈕「上一頁」：白 50% → 白 100%
     // 陰影跟主要按鈕同一組（--shadow-btn），Figma 兩者的四層完全一樣
-    --bg-button-secondary: linear-gradient(180deg, var(--color-white-50) 0%, var(--color-primary-10) 100%);
+    --bg-button-secondary: linear-gradient(
+        180deg,
+        rgb(var(--color-primary-10-rgb) / 50%) 0%,
+        var(--color-primary-10) 100%
+    );
     --bg-button-secondary-hv: linear-gradient(180deg, var(--color-white-80) 0%, var(--color-primary-10) 100%);
     --bg-button-secondary-act: linear-gradient(180deg, var(--color-white-20) 0%, var(--color-white-70) 100%);
 
@@ -345,7 +348,7 @@
     --bg-support-status-closed: var(--color-white-50);
     --bg-support-reply: var(--color-primary-50);
     --color-support-reply-title: var(--color-neutral-10);
-    --color-support-reply-text: var(--color-neutral-10);
+    --color-support-reply-text: var(--color-primary-20); // Figma 4-5 MB、4-3 PC：Primary/20
 
     // Logo：用 CSS 換圖而不是 JS。server 不知道使用者選哪個主題，
     // 用 JS 判斷會讓 server 與瀏覽器渲染出不同的圖（hydration mismatch）。
@@ -365,7 +368,6 @@
     // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（她 2026-09-14 給 rgb(61 119 209 / 20%)；不在色票裡）
     --color-list-hover-rgb: 61 119 209; // #3d77d1
     --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
-    --color-search-icon: var(--color-primary-30); // 放大鏡（深色用 30、淺色用 40，Figma 如此）
     --bg-game: linear-gradient(
         180deg,
         var(--color-white-70) 0%,
@@ -393,10 +395,11 @@
 // ✅ 標籤色（NEW/HOT/HIGH）與 RTP 漲跌紅綠：她 2026-09-11 定案「兩個主題一樣」，
 //    所以刻意不覆寫。標籤的字與框用 --color-neutral-10（淺色不覆寫），不要用 primary-10。
 // ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/20・30・40・50・60・80、分隔線、
-//    彈窗、確認按鈕、--bg-page-glow。先沿用深色的值，畫到那裡再跟她要。
+//    彈窗、確認按鈕。先沿用深色的值，畫到那裡再跟她要。
 [data-theme='light'] {
     // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
     --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
+    --color-primary-10-rgb: 48 56 82;
     --color-primary-30: #535961; // 她 2026-09-14 給的色票（目前只有放大鏡用，淺色放大鏡另外用 40）
     --color-primary-50: #82aced; // 色票；客服紀錄日期、「客服已回覆」膠囊、客服回覆氣泡、打勾漸層起點
     --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
@@ -416,53 +419,21 @@
     // 藍色主要按鈕（她 2026-09-14 提供淺色 Figma）：沒有外框、文字描邊變淺
     // 底色不再寫死，跟著 Primary/60 走（2026-09-16 查證 Figma 淺色是 #356fdc）
     --border-button-primary: none;
-    --text-stroke-button-primary: 1px var(--color-black-50);
 
-    // 彈窗藍色按鈕（提交、確認、再次提問）的文字描邊要比加載更多深（加載更多維持 1px Black/50）
-    // 她 2026-09-14 先選 1px Black/80，看了「再次提問」再調成 1.5px Black/70
-    --text-stroke-button-modal: 1.5px var(--color-black-70);
-
-    // 彈窗藍色按鈕可以按時的底色（她 2026-09-14 提供）：上 rgb(71 99 156) → 下 rgb(60 113 212)
-    --color-button-modal-top-rgb: 71 99 156; // #47639c
-    --color-button-modal-bottom-rgb: 60 113 212; // #3c71d4
-    --bg-button-modal: linear-gradient(
-        180deg,
-        rgb(var(--color-button-modal-top-rgb)) 0%,
-        rgb(var(--color-button-modal-bottom-rgb)) 100%
-    );
-
+    // 彈窗藍色按鈕、次要按鈕的底色：照 Figma 吃 :root 的 Primary/60、Primary/10 漸層（她 2026-09-17 說照 Figma，取代 09-14 自訂色）
     // ⚠️ Figma UI Kit 只畫了深色的 hv／act，淺色的底色變化等設計師給值 → 先維持不變
     --bg-button-modal-hv: var(--bg-button-modal);
     --bg-button-modal-act: var(--bg-button-modal);
-
-    // 次要按鈕「上一頁」的底色（她 2026-09-14 提供）：上 rgb(67 73 91) → 下 #39415a
-    --color-button-secondary-top-rgb: 67 73 91; // #43495b
-    --color-button-secondary-bottom-rgb: 57 65 90; // #39415a
-    --bg-button-secondary: linear-gradient(
-        180deg,
-        rgb(var(--color-button-secondary-top-rgb)) 0%,
-        rgb(var(--color-button-secondary-bottom-rgb)) 100%
-    );
     --bg-button-secondary-hv: var(--bg-button-secondary);
     --bg-button-secondary-act: var(--bg-button-secondary);
 
-    // 遊戲介紹三格上方的分隔線：不用漸層，改 Color/White/50 實線（她 2026-09-14 提供）
-    --line-game-detail-stats: none;
-
-    // 下拉選單每列之間的分隔線：實線 #a5bff4（她 2026-09-14 指定，Figma 標的 Primary/40 看起來太深）
+    // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40（她 2026-09-17 改回照 Figma，原本 09-14 指定 #a5bff4）
     --line-select-option: none;
-    --color-select-option-line-rgb: 165 191 244; // #a5bff4
-    --color-select-option-line: rgb(var(--color-select-option-line-rgb));
-    --color-select-caret: var(--color-primary-40); // 她 2026-09-14 提供 Figma 淺色
     --color-input-clear: var(--color-primary-40); // 問題描述的 ✕，她 2026-09-14 提供
     --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深，她 2026-09-14 指定
 
     // 客服紀錄（她 2026-09-14 提供淺色色值）
     // 列表卡片與內容頁的卡片底：不另外覆寫，吃 :root 的 Primary/opacity/70/50%（淺色 Primary/70 已補在上面）
-
-    // 「已完結」膠囊底：#8da1e4
-    --color-support-closed-rgb: 141 161 228;
-    --bg-support-status-closed: rgb(var(--color-support-closed-rgb));
 
     // 客服回覆氣泡：底吃 :root 的 Primary/50（淺色 #82aced 已補在色階）；標題 #303852（＝淺色 Primary/10）、內容 #4e5f98（＝淺色 Primary/20）
     --color-support-reply-title: var(--color-primary-10);
@@ -550,26 +521,68 @@ body {
     background: var(--bg-page);
 }
 
-// 頁面左上角的藍色光暈
-// Figma 原本是一張 SVG（橢圓 + 高斯模糊），這裡用偽元素畫，不必載圖
-// 橢圓 rx 69.5 / ry 127.5、#0E3378、透明度 30%、旋轉 45 度、模糊 75px
-body::before {
+// 頁面背景的兩顆光暈：::before 左上、::after 右下（Figma PC/Home、MB/Home 的 bg dark／bg light）
+// 位置用「超出畫面多少」貼在角落，視窗變寬變窄都黏著角落
+// ⚠️ 模糊值是 Figma 的一半：Figma 的 blur 數字約是 CSS blur() 的 2 倍（玻璃塊 50 → 25 同理）
+body::before,
+body::after {
     pointer-events: none; // 不擋滑鼠點擊
     content: '';
 
     position: fixed;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: -1; // 墊在所有內容底下；底色靠 body，所以 layout 不能再塗一層不透明底色，不然會把光暈蓋掉
 
-    width: 139px;
-    height: 255px;
     border-radius: 50%;
 
-    opacity: 0.3;
     background: var(--bg-page-glow);
+}
+
+// 手機：左上 279×279、超出 -129／-88、透明度 30%、Figma 模糊 150
+body::before {
+    top: -88px;
+    left: -129px;
+
+    width: 279px;
+    height: 279px;
+
+    opacity: 0.3;
     filter: blur(75px);
+}
+
+// 手機：右下 357×357、超出 -182／-159、透明度 20%、Figma 模糊 100
+body::after {
+    right: -182px;
+    bottom: -159px;
+
+    width: 357px;
+    height: 357px;
+
+    opacity: 0.2;
+    filter: blur(50px);
+}
+
+@media (width >= 960px) {
+    // 電腦：左上 488×638、超出 -244／-186、Figma 模糊 300
+    body::before {
+        top: -186px;
+        left: -244px;
+
+        width: 488px;
+        height: 638px;
+
+        filter: blur(150px);
+    }
+
+    // 電腦：右下 536×618、超出 -227／-166、Figma 模糊 200
+    body::after {
+        right: -227px;
+        bottom: -166px;
+
+        width: 536px;
+        height: 618px;
+
+        filter: blur(100px);
+    }
 }
 
 // 捲軸：預設的灰色滾輪跟這個站格格不入，換成細長的藍色藥丸

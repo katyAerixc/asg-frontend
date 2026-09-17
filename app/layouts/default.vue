@@ -34,7 +34,6 @@ const userCoins = ref(100000000);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: var(--bg-page);
 
     &__page {
         flex: 1;

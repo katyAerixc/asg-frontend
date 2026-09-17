@@ -128,8 +128,8 @@ function play() {
         gap: 4px;
     }
 
+    // 只有說明文字會捲，名稱與三格固定不動
     &__body {
-        overflow-y: auto;
         display: flex;
         flex: 1;
         flex-direction: column;
@@ -164,7 +164,7 @@ function play() {
         align-items: center;
 
         min-height: 25px;
-        padding: 0 var(--corner-2);
+        padding: var(--corner-1) var(--corner-2); // Figma pad 4/10（她 2026-09-17 說照 Figma）
         border: 1px solid var(--color-semantic-red-10);
         border-radius: var(--corner-full);
 
@@ -174,23 +174,36 @@ function play() {
     }
 
     // Figma：H5 14 / PC 16，300，Neutral/20
+    // 文字太多時可以滑，但不顯示捲軸；捲到底不帶動後面的頁面
     &__desc {
+        scrollbar-width: none;
+
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        flex: 1;
+
+        min-height: 0;
         margin: 0;
 
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
         line-height: 1.4;
         color: var(--color-neutral-20);
+        text-align: justify;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
-    // 三格之間留 10（照設計稿比例）
+    // 三格之間留 10（照設計稿比例）；分隔線到三格也是 10（Figma Frame 11389／11390 gap 10）
     &__stats {
         display: flex;
         flex-shrink: 0;
         gap: 10px;
 
         margin-top: auto;
-        padding-top: var(--corner-3);
+        padding-top: var(--corner-2);
 
         // Game1 那區與三格之間的分隔線
         // 深色：border-image 漸層蓋掉框色；淺色：border-image 是 none，顯示 White/50 實線
@@ -222,6 +235,11 @@ function play() {
 
         &__media {
             width: 360px;
+            height: 300px;
+        }
+
+        // 右欄跟圖一樣高，文字再多也不會把彈窗撐高
+        &__body {
             height: 300px;
         }
     }
