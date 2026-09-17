@@ -375,7 +375,7 @@ onUnmounted(() => {
     // 滑到按鈕上時只有 icon 放大（圖示是 CSS 背景圖，不能選 svg/path）
     @media (hover: hover) {
         &__refresh:hover &__refresh-icon {
-            transform: scale(1.1);
+            transform: scale(calc(26 / 24));
         }
     }
 
