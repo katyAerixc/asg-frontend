@@ -121,16 +121,19 @@ function clear() {
 
         flex-shrink: 0;
 
-        width: 12px;
-        height: 12px;
-        margin-top: calc((1.4em - 12px) / 2);
+        width: 19px;
+        height: 19px;
+        margin-top: calc((var(--line-height-figma) * 1em - 19px) / 2);
         padding: 0;
         border: 0;
 
         font-size: var(--input-font-size);
-        color: var(--color-input-clear);
+        color: var(--color-primary-20);
 
         background-color: currentcolor;
+
+        mask-position: center;
+        mask-size: 11.4px 11.4px;
 
         transition: opacity 0.2s;
 
@@ -138,6 +141,16 @@ function clear() {
             &:hover {
                 opacity: 0.7;
             }
+        }
+
+        @media (width >= 600px) {
+            width: 24px;
+            height: 24px;
+            margin-top: calc((var(--line-height-figma) * 1em - 24px) / 2);
+
+            color: var(--color-primary-40);
+
+            mask-size: 14.4px 14.4px;
         }
     }
 

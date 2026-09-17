@@ -47,7 +47,6 @@
     --color-select-option-line: var(--color-primary-40);
 
     // 多行輸入框右上角的 ✕（清除鈕）：深色白，淺色另外覆寫
-    --color-input-clear: var(--color-primary-10);
 
     // 多行輸入框右下角字數（0/500）打了字之後的顏色；深色維持原本的 Primary/40
     --color-textarea-count-filled: var(--color-primary-40);
@@ -432,8 +431,7 @@
 
     // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40（她 2026-09-17 改回照 Figma，原本 09-14 指定 #a5bff4）
     --line-select-option: none;
-    --color-input-clear: var(--color-primary-40); // 問題描述的 ✕，她 2026-09-14 提供
-    --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深，她 2026-09-14 指定
+    --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深
 
     // 客服紀錄（她 2026-09-14 提供淺色色值）
     // 列表卡片與內容頁的卡片底：不另外覆寫，吃 :root 的 Primary/opacity/70/50%（淺色 Primary/70 已補在上面）
