@@ -387,9 +387,7 @@ onUnmounted(() => {
 
     // Figma：18px / 500 / Primary/10
     &__profile-value {
-        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
-        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
-        overflow: hidden;
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
 
         // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
@@ -590,9 +588,7 @@ onUnmounted(() => {
 
     // Figma：20px / 300 / Primary/10
     &__lang-name {
-        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切（2026-09-17）
-        // 舊瀏覽器（iOS 16 以前）看不懂 clip → 停在 hidden，退回原本的樣子
-        overflow: hidden;
+        // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
         flex: 1;
 
