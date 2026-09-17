@@ -362,9 +362,12 @@
     --color-scrollbar-thumb-hover: rgb(var(--color-primary-60-rgb) / 80%);
 
     // 背景
-    --bg-page: #0f1723;
-    --bg-page-glow: #0e3378;
-    --bg-page-sticky: rgb(var(--color-primary-90-rgb) / 90%); // 黏在頂部的工具列：半透明 + 模糊，看得到底下有東西在動
+    --bg-page: #0b1421; // Figma Color/Surface（首頁 md 與 home-raw.json 兩種方法確認，她 2026-09-17 說改；原本 #0f1723）
+    --bg-page-glow: #0e3378; // Figma bg dark 的光暈色（不在色票裡）
+    --bg-page-rgb: 11 20 33; // ＝ --bg-page 拆成數字，給黏頂分類列加透明度用
+    // 往下滑、分類列黏在頂部時的底色：跟頁面同色 90%＋模糊（Figma 沒畫滑動狀態，她 2026-09-17 定）
+    --bg-page-sticky: rgb(var(--bg-page-rgb) / 90%);
+
     // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（她 2026-09-14 給 rgb(61 119 209 / 20%)；不在色票裡）
     --color-list-hover-rgb: 61 119 209; // #3d77d1
     --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
@@ -444,10 +447,8 @@
     // ⚠️ 2026-09-16 刪掉舊的自創光暈 --color-game-glow-rgb：當初會用它，是因為原本綁 Primary/10
     //    在淺色變深藍框；換成 Figma 真正用的 Neutral/10 之後就沒這個問題了
     --bg-page: #e9f2ff; // Figma Color/Surface
-    // 黏頂工具列的底色（她 2026-09-14 給 hwb(215deg 91% 0%)，＝ #e8f2ff；Figma 代號待她確認，先用用途命名）
-    --color-toolbar-sticky-rgb: 232 242 255;
-    --bg-page-sticky: rgb(var(--color-toolbar-sticky-rgb) / 90%);
-    --color-search-icon: var(--color-primary-40);
+    --bg-page-glow: #0073ff; // Figma bg light 的光暈色（不在色票裡，設計稿直接寫色碼）
+    --bg-page-rgb: 233 242 255; // ＝ --bg-page
     --logo-h5: url('@/assets/images/logo/h5-light.png');
     --logo-pc: url('@/assets/images/logo/pc-light.png');
 }

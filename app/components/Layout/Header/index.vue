@@ -132,9 +132,8 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 // 不黏住：往下捲時 Header 會跟著捲走，把畫面讓給篩選列（她 2026-09-09 定）
+// 沒有底色：Figma header 只有下框線、沒有填色，後面的光暈要透出來（她 2026-09-17 說要和 Figma 一樣）
 .layout-header {
-    background: var(--bg-page);
-
     &__inner {
         position: relative;
 
