@@ -62,7 +62,7 @@ const modelValue = defineModel<number>({ default: 1 });
 // 省略號的代號。用字串當標記，跟真的頁碼（數字）分得開
 const GAP = '…';
 
-// 一排放不下 7 格時（320～375 的彈窗裡）改成 5 格，不用橫向捲軸（她 2026-09-17 選）
+// 一排放不下 7 格時（320～375 的彈窗裡）改成 5 格，不用橫向捲軸
 const isCompact = ref<boolean>(false);
 const listRef = useTemplateRef<HTMLUListElement>('list');
 const navRef = useTemplateRef<HTMLElement>('nav');
@@ -165,7 +165,6 @@ useResizeObserver(navRef, updateCompact);
 </script>
 
 <style scoped lang="scss">
-// Figma Frame 1558：圓框只包數字與省略號，左右箭頭放在框外（她 2026-09-11 指定）
 .base-pagination {
     display: flex;
     gap: var(--corner-2);
@@ -174,7 +173,6 @@ useResizeObserver(navRef, updateCompact);
 
     width: 100%;
 
-    // Figma PC/Pagination arrow（她 2026-09-14 給三個狀態）：
     // 預設 底 Primary/20 的 20%、沒框；hover 多一圈 Primary/60 框；選取（按下去）底 Primary/20 的 30% + 框 Primary/60
     &__arrow {
         cursor: pointer;
@@ -210,7 +208,7 @@ useResizeObserver(navRef, updateCompact);
             background: transparent;
         }
 
-        // hover：多一圈外框（她 2026-09-14 指定），底色不變
+        // hover：多一圈外框，底色不變
         @media (hover: hover) {
             &:hover:not(:disabled) {
                 border-color: var(--color-primary-60);
@@ -220,7 +218,6 @@ useResizeObserver(navRef, updateCompact);
 
     // 用跟選單列同一支箭頭（arrow-right），往左那顆轉 180 度
     // UnoCSS 的圖示是遮罩，尺寸要用 mask-size，background-size 對遮罩沒作用
-    // Figma icon/arrow：手機 20、電腦 24
     &__arrow-icon {
         width: 20px;
         height: 20px;
@@ -252,7 +249,6 @@ useResizeObserver(navRef, updateCompact);
         list-style: none;
     }
 
-    // Figma：30 x 30 圓形。未選中沒有底色，文字 16 / 400 / Neutral/40
     &__page {
         cursor: pointer;
 
@@ -287,7 +283,6 @@ useResizeObserver(navRef, updateCompact);
             background: var(--color-primary-60);
         }
 
-        // hover：底色 Primary/20 的 20%，文字維持 Neutral/40（Figma PC/Pagination，她 2026-09-14 給）
         @media (hover: hover) {
             &:hover:not(&--active) {
                 background: var(--color-primary-opacity-20-20);
@@ -309,7 +304,6 @@ useResizeObserver(navRef, updateCompact);
         color: var(--color-neutral-40);
     }
 
-    // 電腦版：Figma PC/Pagination 每顆 34 × 34（手機 MB/Pagination 是 30）
     @media (width >= 600px) {
         &__arrow,
         &__page,
@@ -323,7 +317,6 @@ useResizeObserver(navRef, updateCompact);
             height: 24px;
         }
 
-        // Figma PC/Pagination：數字 18（手機 16）
         &__page,
         &__gap {
             font-size: var(--font-size-18);

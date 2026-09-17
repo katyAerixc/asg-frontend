@@ -73,7 +73,7 @@ const filteredGames = computed(() => {
 
     const matched = games.value.filter((game) => {
         const matchCategory = noCategory || game.category === activeCategory.value;
-        // 只搜遊戲名稱，不搜描述（她 2026-09-10 定）
+        // 只搜遊戲名稱，不搜描述
         const matchKeyword = !search || game.name.toLowerCase().includes(search);
 
         return matchCategory && matchKeyword;
@@ -156,7 +156,6 @@ useHead({
 <style scoped lang="scss">
 // 工具列的樣式在 Game/Toolbar.vue、卡片網格與加載更多在 Game/List.vue
 .lobby {
-    // Figma MB/Home：左右 Corner-3、下 Corner-4；PC/Home：外框 1320、左右 Corner-5、下 40（電腦值在下面）
     &__main {
         max-width: 1320px;
         margin: 0 auto;
@@ -175,7 +174,7 @@ useHead({
         gap: 4px;
         align-items: center;
 
-        margin-bottom: var(--corner-3); // Figma MB 1-6：「共 N 款遊戲」到卡片 15
+        margin-bottom: var(--corner-3);
     }
 
     // 手機版：沒搜尋時不顯示標題，只留「共 N 款遊戲」；字跟數量一樣是小灰字
@@ -205,12 +204,12 @@ useHead({
         &__title-row {
             gap: 16px;
             justify-content: space-between;
-            margin-bottom: var(--corner-4); // Figma PC Frame 11369 間距 20（標題列 → 卡片）
+            margin-bottom: var(--corner-4);
         }
 
         &__title {
             display: block;
-            font-size: var(--font-size-26); // Figma 精選遊戲 26/700
+            font-size: var(--font-size-26);
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
         }

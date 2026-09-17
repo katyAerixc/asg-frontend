@@ -84,14 +84,13 @@ defineProps<{ game: Game }>();
 const { close: closeGameDetail } = useGameDetailStore();
 
 // Functions
-// ⚠️ 遊戲畫面那一頁還沒做，先只把彈窗關掉（她 2026-09-11：點了要跳到遊戲畫面）
+// ⚠️ 遊戲畫面那一頁還沒做，先只把彈窗關掉（之後點了要跳到遊戲畫面）
 function play() {
     closeGameDetail();
 }
 </script>
 
 <style scoped lang="scss">
-// 全部數值來自 Figma 屬性面板（她 2026-09-11 提供 34 張截圖）
 .game-detail {
     display: flex;
     flex: 1;
@@ -100,7 +99,6 @@ function play() {
 
     min-height: 0;
 
-    // Figma：H5 330 x 225、PC 360 x 300、圓角 Corner-4
     &__media {
         position: relative;
         flex-shrink: 0;
@@ -147,7 +145,6 @@ function play() {
         align-items: center;
     }
 
-    // Figma：H5 24 / PC 26，都是 700
     &__name {
         margin: 0;
         font-size: var(--font-size-24);
@@ -155,14 +152,13 @@ function play() {
         color: var(--color-neutral-10);
     }
 
-    // Figma Frame 10856：圓角 full、1px Semantic/red-10、內距 Corner-1／Corner-2
     &__category {
         display: flex;
         flex-shrink: 0;
         align-items: center;
 
         min-height: 25px;
-        padding: var(--corner-1) var(--corner-2); // Figma pad 4/10（她 2026-09-17 說照 Figma）
+        padding: var(--corner-1) var(--corner-2);
         border: 1px solid var(--color-semantic-red-10);
         border-radius: var(--corner-full);
 
@@ -171,7 +167,6 @@ function play() {
         color: var(--color-semantic-red-10);
     }
 
-    // Figma：H5 14 / PC 16，300，Neutral/20
     // 文字太多時可以滑，但不顯示捲軸；捲到底不帶動後面的頁面
     &__desc {
         scrollbar-width: none;
@@ -193,7 +188,6 @@ function play() {
         }
     }
 
-    // 三格之間留 10（照設計稿比例）；分隔線到三格也是 10（Figma Frame 11389／11390 gap 10）
     &__stats {
         display: flex;
         flex-shrink: 0;
@@ -208,7 +202,7 @@ function play() {
         border-image: var(--line-game-detail-stats);
     }
 
-    // 字級先跟著換（Figma PC 值）
+    // 字級先跟著換
     @media (width >= 600px) {
         &__name {
             font-size: var(--font-size-26);
@@ -228,7 +222,7 @@ function play() {
     // （彈窗 PC 是 765 寬，低於 768 擠不下，會把三格壓到看不見字）
     @media (width >= 768px) {
         flex-direction: row;
-        gap: var(--corner-3); // Figma Frame 11321：主圖 → 右欄 15
+        gap: var(--corner-3);
 
         &__media {
             width: 360px;

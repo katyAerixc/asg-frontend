@@ -98,8 +98,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-// 全部數值來自 Figma 屬性面板（她 2026-09-10 提供 14 張截圖）
-// Figma Interactions：彈窗用 Dissolve（淡入）、Linear、100ms
 @keyframes dissolve {
     from {
         opacity: 0;
@@ -111,7 +109,7 @@ onUnmounted(() => {
     z-index: 100;
     inset: 0;
 
-    // 彈窗比畫面高時，整個彈窗一起捲（她 2026-09-15 選 A）：遮罩本身當捲動容器
+    // 彈窗比畫面高時，整個彈窗一起捲：遮罩本身當捲動容器
     // 置中改用面板的 margin: auto——用 align-items: center 的話，太高時上面會被切掉、捲不回去
     overflow-y: auto;
     overscroll-behavior: contain; // 捲到底不要連帶捲動後面的頁面
@@ -120,12 +118,10 @@ onUnmounted(() => {
 
     padding: var(--corner-3);
 
-    // Figma Rectangle 212：蓋滿全螢幕的黑 80%
     background-color: var(--color-black-80);
 
     animation: dissolve 0.1s linear;
 
-    // Figma Frame 1558（H5）：360 x 400 固定高、內距 Corner-3、Gap 40、圓角 Corner-5、1px 白框
     &__panel {
         // 現在用的間距（手機／電腦不同），標題區要拿來算自己的下距
         --modal-gap-now: var(--modal-gap, 40px);
@@ -147,13 +143,12 @@ onUnmounted(() => {
         border-radius: var(--corner-5);
 
         background: var(--bg-popup);
-        backdrop-filter: blur(25px); // Figma bg：blur 25
+        backdrop-filter: blur(25px);
         outline: 1px solid var(--color-neutral-10); // Figma 框線畫在內側（INSIDE）、不佔寬度，border 會讓內容少 2px
         outline-offset: -1px;
         box-shadow: var(--shadow-bg);
     }
 
-    // Figma Frame 11208：標題區手機 47、電腦 52（標題 → 15 → 1px 線）
     // 標題區到內容 Figma 是 20，比面板的 gap 小：用負的下距把 gap 扣回 20
     &__head {
         position: relative;
@@ -166,7 +161,7 @@ onUnmounted(() => {
         margin-bottom: calc(var(--corner-4) - var(--modal-gap-now));
         padding-bottom: var(--corner-2);
 
-        // Figma Rectangle 603：標題下方 1px 分隔線，寬度剛好等於內容區
+        // 標題下方 1px 分隔線，寬度剛好等於內容區
         &::after {
             content: '';
 
@@ -181,7 +176,6 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：手機 26、電腦 30，都是 700 / 白
     &__title {
         margin: 0;
         font-size: var(--font-size-26);
@@ -189,7 +183,6 @@ onUnmounted(() => {
         color: var(--color-neutral-10);
     }
 
-    // Figma icon/01：18 x 18，貼在標題列右端
     &__close {
         cursor: pointer;
 
@@ -205,7 +198,7 @@ onUnmounted(() => {
 
         background-color: currentcolor;
 
-        // Figma icon：點擊區手機 24（電腦 30），裡面的叉 14.4（電腦 18），圖比框小所以用 mask-size 縮、置中
+        // 圖比框小，所以用 mask-size 縮、置中
         mask-position: center;
         mask-size: 14.4px 14.4px;
 
@@ -228,7 +221,7 @@ onUnmounted(() => {
         animation: none;
     }
 
-    // 電腦版：放大到 600、高度改回內容撐開；內距跟手機一樣 Corner-3（Figma Frame 1556／1557／1558）
+    // 電腦版：放大到 600、高度改回內容撐開
     @media (width >= 600px) {
         &__panel {
             --modal-gap-now: var(--modal-gap-pc, var(--modal-gap, 40px));

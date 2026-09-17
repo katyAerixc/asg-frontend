@@ -4,7 +4,7 @@
 
 import type { $Fetch } from 'nitropack/types';
 
-// 後端還沒接上，先照她的對接模板留好三個攔截點；有加密需求時填在標 🔲 的地方
+// 後端還沒接上，先照對接模板留好三個攔截點；有加密需求時填在標 🔲 的地方
 export function createApi(baseURL: string): $Fetch {
     return $fetch.create({
         baseURL,
@@ -17,7 +17,7 @@ export function createApi(baseURL: string): $Fetch {
         },
 
         onResponseError({ response }) {
-            // 🔲 認證失效要踢出（她的模板：code 900403）：等後端規格確定再填
+            // 🔲 認證失效要踢出（對接模板：code 900403）：等後端規格確定再填
             console.error('[API]', response.status, response._data);
         },
 

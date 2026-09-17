@@ -30,7 +30,7 @@ import type { Game } from '@/types/game';
 
 // Define props, models and emits
 // 遊戲卡與遊戲介紹彈窗共用的「一格數據」（波動度／RTP／最高賠率）
-// 結構與紅綠漸層只寫一次；尺寸、字色照 Figma 兩邊各自的值，用 variant 切換（她 2026-09-14 定）
+// 結構與紅綠漸層只寫一次；卡片與彈窗的尺寸、字色不同，用 variant 切換
 withDefaults(
     defineProps<{
         // 主角格（RTP）：卡片版會呼吸、手機只留這一格
@@ -49,7 +49,7 @@ withDefaults(
 </script>
 
 <style scoped lang="scss">
-// RTP 那格的呼吸感，節奏照 Figma prototype（item=up2 ⇄ item=up2_animat）：
+// RTP 那格的呼吸感（Figma item=up2 ⇄ item=up2_animat）：
 // 停 0.2 秒 → 0.6 秒 LINEAR 走完 → 停 0.2 秒 → 0.6 秒回來，一趟 1.6 秒
 // 放大的量是「四邊各外擴固定 px」（電腦 3、手機 1），不是等比放大，所以用 inset 不用 scale
 @keyframes rtp-breathe {
@@ -89,7 +89,7 @@ withDefaults(
     // 指回 .game-stat 自己：variant 裡要組合「同一格的其他狀態」時用（stylelint 不准直接寫完整 class 名）
     $self: &;
 
-    // 漲跌的漸層只定義在這裡（Figma Rectangle 616：60% → 20%）
+    // 漲跌的漸層只定義在這裡
     // 要畫在哪一層由下面兩個 variant 決定：卡片畫在會呼吸的 ::before、彈窗畫在本體
     // Figma 那條線是「底邊中點 → 左上角」。同一條線放進不同比例的格子，換算成 CSS 的角度與起點就不一樣：
     // 手機格 142 × 27 → 290.8deg 從 46.6% 起；電腦格 112 × 51 → 312.3deg 從 35.3% 起
@@ -147,7 +147,7 @@ withDefaults(
     }
 
     // 箭頭圖示左右本身有透明空白（SVG 路徑只畫在 5.5～15.5／22：左 25%、右 29.5%）
-    // 左邊拉回再留 4px，數字和箭頭才會靠在一起（她 2026-09-15 要求 4px）；右邊也拉回，整組置中才不會偏左
+    // 左邊拉回再留 4px，數字和箭頭才會靠在一起；右邊也拉回，整組置中才不會偏左
     // 尺寸統一寫在 --stat-arrow-size
     &__arrow {
         flex-shrink: 0;
@@ -173,18 +173,16 @@ withDefaults(
 
         // 主角格：背景搬到 ::before 這層，只讓背景呼吸，文字與箭頭不動
         &#{$self}--highlight {
-            // Figma 手機外擴 1、電腦外擴 3；箭頭手機 ×1.156、電腦 ×1.3
             --stat-breathe-out: 1px;
             --stat-breathe-arrow: 1.156;
 
             position: relative;
             z-index: 0;
 
-            // Figma MB/Game/block/RTP：橫排、塞不下就換行，行距 4（＝上面的 gap）
             flex-flow: row wrap;
             justify-content: center;
 
-            // Figma MB/Game/block/RTP：上下 4、左右 15。窄機（<375）等比縮到最小 4，免得把文字擠掉
+            // 窄機（<375）左右內距等比縮到最小 4，免得把文字擠掉
             padding: var(--corner-1) clamp(var(--corner-1), 8.72cqw, var(--corner-3));
 
             background: none;
@@ -223,7 +221,7 @@ withDefaults(
         }
 
         // 漲跌的顏色畫在 ::before 那層，跟著呼吸
-        // Figma 只有漲／跌（up2／down2）有呼吸的 prototype，沒漲跌的 default2 不動（她 2026-09-17 說照 Figma）
+        // 只有漲／跌有呼吸動畫，沒漲跌的不動
         &#{$self}--up::before,
         &#{$self}--down::before {
             background: var(--game-stat-trend);
@@ -235,41 +233,39 @@ withDefaults(
             }
         }
 
-        // Figma 手機 12；字級表最小就是 12，不再縮小（她 2026-09-17 說照 Figma）
+        // 手機 12 是字級表最小值，不再縮小
         #{$self}__label {
             font-size: var(--font-size-12);
             color: var(--color-primary-20);
         }
 
-        // Figma 手機 16 / 700；比 Figma 的 390（卡片 172）窄才等比例縮
-        // 數字與箭頭之間不留 gap（她 2026-09-15 要靠在一起，間距改由箭頭的 margin 控制）
-        // 不裁切（她 2026-09-15 指定拿掉 overflow: hidden）：數字＋箭頭已經會自己縮到塞得下
+        // 比 390 寬（卡片 172）窄才等比例縮
+        // 數字與箭頭之間不留 gap（間距改由箭頭的 margin 控制）
+        // 不裁切（不加 overflow: hidden）：數字＋箭頭已經會自己縮到塞得下
         #{$self}__value {
             gap: 0;
             min-width: 0;
             font-size: clamp(12px, 9.3cqw, 16px);
             color: var(--color-primary-10);
 
-            // Figma 電腦 18 / 500
             @media (width >= 960px) {
                 font-size: var(--font-size-18);
                 font-weight: var(--font-weight-medium);
             }
         }
 
-        // Figma 手機 ic_go 19（電腦 22，見下方）；比 Figma 的 390 窄才等比例縮
+        // Figma ic_go；比 390 寬窄才等比例縮
         #{$self}__arrow {
             --stat-arrow-size: clamp(14px, 11.05cqw, 19px);
         }
 
-        // 電腦版卡片變窄（約 960～1140）時，「數字＋箭頭」塞不下、箭頭被切（她 2026-09-15）
-        // 數字和箭頭一起等比例縮（她說只縮字會太小）：字最大 18、箭頭最大 22（Figma ic_go），塞不下才縮
+        // 電腦版卡片變窄（約 960～1140）時，「數字＋箭頭」塞不下、箭頭被切
+        // 數字和箭頭一起等比例縮（只縮字會太小），塞不下才縮
         // 算法：一格寬 ≈ 卡片寬 31.5% − 9.5px；扣掉左右各留 4＋間距 4，剩下給「字(3.78 倍字級)＋箭頭實際佔的寬(0.556 倍字級)」
         @media (width >= 960px) {
             --game-stat-trend-angle: 312.3deg;
             --game-stat-trend-start: 35.3%;
 
-            // Figma 電腦：標籤 14 / 300、箭頭 ic_go 22
             #{$self}__label {
                 font-size: var(--font-size-14);
             }
@@ -292,26 +288,23 @@ withDefaults(
     }
 
     // ── 遊戲介紹彈窗：固定字級，斷點 600 ────────────────────────
-    // Figma PC/Game/block：圓角 Corner-2、間距 4、底 Primary/60 10%
     &--detail {
         position: relative;
         z-index: 0;
 
-        // Figma MB/Game/block/RTP：橫排、塞不下就換行；電腦改回直排（見下方 media）
+        // 手機橫排、塞不下就換行；電腦改回直排（見下方 media）
         flex-flow: row wrap;
         place-content: center;
 
-        // Figma：H5 高 46、PC 高 51。用 min-height 而不是寫死高度——
+        // 用 min-height 而不是寫死高度——
         // 其他語言的「最高賠率」比中文長，需要時讓它自己長高，不要把字裁掉
         min-height: 46px;
-
-        // Figma MB/Game/block/RTP pad 4/15（她 2026-09-17 說照 Figma，取代上下 0）
         padding: var(--corner-1) var(--corner-3);
 
         // 漲跌那格直接換成紅／綠漸層
         &#{$self}--up,
         &#{$self}--down {
-            // 「數字＋箭頭」比格子寬時箭頭會凸出右邊（她 2026-09-15 抓到，320 凸 22px、1280 凸 4px）
+            // 「數字＋箭頭」比格子寬時箭頭會凸出右邊
             // ①手機內距維持 15（改小會讓這格比旁邊兩格窄），但數字可以置中「吃進」左右內距各 11，邊邊還留 4；電腦三格都是 0，寬度一樣
             // ②還是塞不下才讓數字＋箭頭一起等比例縮（跟遊戲卡同一套）；cqw 看的是這一格扣掉內距的寬
             container-type: inline-size;
@@ -338,20 +331,17 @@ withDefaults(
             }
         }
 
-        // Figma：H5 12 / PC 14，300，Neutral/10
         #{$self}__label {
             font-size: var(--font-size-12);
             color: var(--color-neutral-10);
         }
 
-        // Figma：H5 16 / 700，PC 18 / 500
         #{$self}__value {
             gap: 0;
             font-size: var(--font-size-16);
             color: var(--color-neutral-10);
         }
 
-        // Figma ic_go：H5 19、PC 22（跟遊戲卡同一顆，md 與 raw JSON 兩種方法確認 2026-09-16）
         #{$self}__arrow {
             --stat-arrow-size: 19px;
 
@@ -366,7 +356,7 @@ withDefaults(
 
             flex-direction: column;
             min-height: 51px;
-            padding: var(--corner-1) 0; // Figma PC/Game/block pad 4/0
+            padding: var(--corner-1) 0;
 
             #{$self}__label {
                 font-size: var(--font-size-14);

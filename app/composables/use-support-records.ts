@@ -22,8 +22,8 @@ export function useSupportRecords() {
     const pending = computed(() => status.value === 'pending');
 
     // 後端資料疊上「這次開站看過的」：彈窗關掉再開，Nuxt 會把資料清掉重抓，
-    // 假資料又是第一筆未讀；靠 store 的 readIds 蓋回去，紅點才不會又亮（2026-09-14 實測踩到）
-    // 點開「客服已回覆」那一筆 → 看過就算完結，標籤改成「已完結」（她 2026-09-14 指定）
+    // 假資料又是第一筆未讀；靠 store 的 readIds 蓋回去，紅點才不會又亮
+    // 點開「客服已回覆」那一筆 → 看過就算完結，標籤改成「已完結」
     const records = computed(() => data.value.map((item) =>
         supportStore.readIds.includes(item.id)
             ? {
@@ -46,7 +46,7 @@ export function useSupportRecords() {
     const openedRecord = computed(() => records.value.find((item) => item.id === supportStore.openedRecordId) ?? null);
 
     // 「提問紀錄」旁的紅點：只要還有「客服回覆過但沒看」的就亮。
-    // 一筆紀錄都沒有時 some() 回 false，紅點自然不會出現（她 2026-09-11 指定）
+    // 一筆紀錄都沒有時 some() 回 false，紅點自然不會出現
     const hasUnreadReply = computed(() => records.value.some((item) => item.status === 'replied' && !item.isReplyRead));
 
     // Functions

@@ -38,12 +38,11 @@ const emit = defineEmits<{ loadMore: [] }>();
 </script>
 
 <style scoped lang="scss">
-// ⚠️ 加載更多按鈕的顏色尺寸多為暫定（來自設計規格 md），等 Figma 規格再對
 .game-list {
     &__grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--corner-3) 16px; // Figma MB/Home：上下 15、左右 16（390 寬時卡片剛好 172）
+        gap: var(--corner-3) 16px;
     }
 
     &__more {
@@ -52,7 +51,6 @@ const emit = defineEmits<{ loadMore: [] }>();
         margin-top: 32px;
     }
 
-    // Figma PC/btn/Medium：高 46、圓角 100、左右內距 28、藍色漸層
     // 寬度不寫死（Hug），多語系文字變長會自己撐開
     &__more-btn {
         cursor: pointer;
@@ -69,15 +67,14 @@ const emit = defineEmits<{ loadMore: [] }>();
 
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
-        color: var(--color-neutral-10); // Figma Color/Neutral/10
+        color: var(--color-neutral-10);
         white-space: nowrap;
 
-        // Figma：文字自己有 1px Black/50 描邊（Outer）；疊在藍色漸層上看起來是深藍
         // paint-order 讓描邊畫在字體後面，等同 Figma 的 Outer，筆畫不會被吃掉
         paint-order: stroke fill;
 
         background: var(--bg-button-primary);
-        backdrop-filter: blur(50px); // Figma btn/default：bg-blur 100 ÷ 2
+        backdrop-filter: blur(50px); // Figma bg-blur 100 ÷ 2
         box-shadow: var(--shadow-btn);
 
         transition:
@@ -86,14 +83,14 @@ const emit = defineEmits<{ loadMore: [] }>();
 
         -webkit-text-stroke: var(--text-stroke-button-primary);
 
-        // Figma btn act：漸層 20% → 70%（變暗）＋ 外陰影消失
+        // 按下去：變暗＋外陰影消失
         &:active {
             background: var(--bg-button-primary-act);
             box-shadow: var(--shadow-btn-active);
         }
 
         @media (hover: hover) {
-            // Figma btn hv：漸層起點 50% → 80%（變亮）＋ 外陰影換白的
+            // hover：變亮＋外陰影換白的
             // :not(:active) 排掉「按著不放」時 hover 也成立的情況
             &:hover:not(:active) {
                 background: var(--bg-button-primary-hv);
@@ -105,11 +102,11 @@ const emit = defineEmits<{ loadMore: [] }>();
     @media (width >= 960px) {
         &__grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--corner-5) 45px; // Figma PC/Home：上下 30、左右 45（1320 寬時卡片剛好 390）
+            gap: var(--corner-5) 45px;
         }
 
         &__more {
-            margin-top: 40px; // Figma：卡片區到加載更多 40
+            margin-top: 40px;
         }
     }
 }

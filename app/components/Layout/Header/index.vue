@@ -73,7 +73,7 @@
 const props = withDefaults(defineProps<{ coins?: number }>(), { coins: 100000000 });
 
 // Variables
-// 回首頁要帶目前語系的前綴（英文 /en、越南文 /vi），寫死 '/' 會跳回繁中（她 2026-09-15 抓到）
+// 回首頁要帶目前語系的前綴（英文 /en、越南文 /vi），寫死 '/' 會跳回繁中
 const localePath = useLocalePath();
 const menuRef = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
@@ -107,7 +107,7 @@ function closeOnOutsideClick(event: MouseEvent) {
 }
 
 // 捲動就收起來：Header 不是黏住的，往下捲時選單會跟著跑掉，
-// 留著它會浮在半空中變成鬼影（她 2026-09-11 定，以後任何下拉都比照）
+// 留著它會浮在半空中變成鬼影（任何下拉都比照）
 function closeOnScroll() {
     if (!isMenuOpen.value) return;
 
@@ -131,8 +131,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-// 不黏住：往下捲時 Header 會跟著捲走，把畫面讓給篩選列（她 2026-09-09 定）
-// 沒有底色：Figma header 只有下框線、沒有填色，後面的光暈要透出來（她 2026-09-17 說要和 Figma 一樣）
+// 不黏住：往下捲時 Header 跟著捲走，把畫面讓給篩選列
+// 沒有底色：背景光暈要透出來
 .layout-header {
     &__inner {
         position: relative;
@@ -178,7 +178,6 @@ onUnmounted(() => {
         background-size: contain;
     }
 
-    // 手機：佔滿 Logo 右邊剩下的空間，金幣膠囊才撐得開（設計稿 1-1 主頁-1）
     &__user {
         display: flex;
         flex: 1;
@@ -188,11 +187,10 @@ onUnmounted(() => {
         min-width: 0;
     }
 
-    // 金幣膠囊：Figma 215 × 40；最小寬 130（她 2026-09-09 指定）
     // 手機撐滿 Logo 與頭像中間；最寬 242 = 414 寬時中間的空間（414 − 內距 32 − Logo 40 − 間距 16 − 頭像 72 − 間距 12），
-    // 再寬（平板）就停在 242、靠右貼著頭像，跟電腦版一樣（她 2026-09-15 定：414 填滿、960 以下不置中改靠右）
+    // 再寬（平板）就停在 242、靠右貼著頭像，跟電腦版一樣
     &__coins {
-        // 手機是 Figma 的 bg 效果、電腦是 btn/default；抽成變數，hover 那層才不用再寫一次
+        // 手機、電腦的陰影不一樣（電腦在下方 media 換掉），抽成變數，hover 那層才不用再寫一次
         --coins-shadow: var(--shadow-bg);
 
         overflow: hidden;
@@ -217,7 +215,6 @@ onUnmounted(() => {
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        // 只有真的有滑鼠的裝置才做；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
                 box-shadow: var(--shadow-pc-hover), var(--coins-shadow);
@@ -231,7 +228,6 @@ onUnmounted(() => {
         height: 30px;
     }
 
-    // 金幣數字：Inter 18px / 500（Figma）
     &__coin-value {
         // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
@@ -247,7 +243,7 @@ onUnmounted(() => {
         white-space: nowrap;
     }
 
-    // 重新整理鈕：Figma 32 × 32，button/01 漸層
+    // 重新整理鈕
     &__refresh {
         cursor: pointer;
 
@@ -268,13 +264,10 @@ onUnmounted(() => {
         backdrop-filter: blur(50px);
         box-shadow: var(--shadow-btn);
 
-        // hover：icon 放大 + 變白（她 2026-09-09 指定，按鈕本身不變大）
-        // Figma PC/btn/refresh 只有 default 與 press 兩態，滑入本來就不變陰影
         transition:
             color 0.35s,
             box-shadow 0.35s;
 
-        // Figma btn=press：外陰影換成白的
         &:active {
             box-shadow: var(--shadow-btn-hover);
         }
@@ -292,7 +285,6 @@ onUnmounted(() => {
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    // 頭像：Figma padding 4px、gap 4px、圓角 100px
     &__avatar {
         cursor: pointer;
 
@@ -311,7 +303,7 @@ onUnmounted(() => {
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-        // Figma 3-1 會員選單：選單打開時頭像膠囊用 btn/hover（外圈變白）
+        // 選單打開時頭像膠囊用 btn/hover（外圈變白）
         &[aria-expanded='true'] {
             box-shadow: var(--shadow-btn-hover);
         }
@@ -330,7 +322,6 @@ onUnmounted(() => {
         outline: 1px solid var(--color-primary-20);
     }
 
-    // 會員選單：掛在頭像下方，靠右對齊（設計稿 top 63、往左展開）
     &__menu-wrap {
         position: relative;
     }
@@ -338,11 +329,10 @@ onUnmounted(() => {
     &__menu {
         position: absolute;
         z-index: 60; // 要蓋過 Header 本身
-        top: calc(100% + 5px); // Figma：選單頂距頭像膠囊頂 63（PC 膠囊高 58）／53（H5 膠囊高 48），兩邊都離膠囊底 5
+        top: calc(100% + 5px);
         right: 0;
     }
 
-    // 箭頭放在 20 × 20 的框裡置中（Figma 尺寸）
     &__avatar-arrow {
         display: flex;
         flex-shrink: 0;
@@ -355,10 +345,6 @@ onUnmounted(() => {
         color: var(--color-primary-20);
 
         // UnoCSS 的圖示是「遮罩」，尺寸要用 mask-size 控制——background-size 對遮罩沒有作用。
-        // ⚠️ 2026-09-11 踩過：svg 的 fill 從寫死色改成 currentColor 後，
-        //    UnoCSS 會從 background-image 模式切成 mask 模式，原本的 background-size 就失效，
-        //    圖示被 mask-size: 100% 100% 拉滿整個框 → 又大又變形。
-        // 框與圖都照 Figma：手機 15 框 / 9 × 5 圖，電腦 20 框 / 12 × 6.67 圖。
         mask-position: center;
         mask-size: 9px 5px;
 
@@ -370,22 +356,20 @@ onUnmounted(() => {
         }
     }
 
-    // 滑到按鈕上時只有 icon 放大（圖示是 CSS 背景圖，不能選 svg/path）
+    // 圖示是 CSS 遮罩，選不到 svg／path，只能整顆放大
     @media (hover: hover) {
         &__refresh:hover &__refresh-icon {
             transform: scale(calc(26 / 24));
         }
     }
 
-    // 電腦版照 Figma PC/Home header（Frame 10679，她 2026-09-15 定）
     @media (width >= 960px) {
-        // 內容寬 1320（Figma 固定寬、左右不留內距）；左右 16 只是窄螢幕的安全邊，寬螢幕時內容剛好 1320
+        // 左右 16 只是窄螢幕的安全邊，寬螢幕時內容剛好 1320
         // 高 103 = 上 Corner-4 ＋ Logo 62 ＋ 下 Corner-4 ＋ 下框線 1
         &__inner {
             max-width: calc(1320px + 16px * 2);
             padding: var(--corner-4) 16px calc(var(--corner-4) + 1px);
 
-            // 下框線跟內容一樣寬 1320，不含左右安全邊
             &::after {
                 right: 16px;
                 left: 16px;
@@ -398,13 +382,11 @@ onUnmounted(() => {
             background-image: var(--logo-pc);
         }
 
-        // 電腦：金幣與頭像照舊靠右，兩者間距 10
         &__user {
             flex: 0 1 auto;
             gap: 10px;
         }
 
-        // Figma 金幣膠囊 215 × 40：金額變短膠囊也不縮、旁邊不會跟著動；更長的金額可以撐大
         &__coins {
             --coins-shadow: var(--shadow-btn);
 
@@ -418,7 +400,6 @@ onUnmounted(() => {
             backdrop-filter: blur(50px);
         }
 
-        // Figma：金幣圖 32、數字 20／500、重整鈕 32 裡面圖示 24
         &__coin-icon {
             width: 32px;
             height: 32px;
@@ -438,7 +419,6 @@ onUnmounted(() => {
             height: 24px;
         }
 
-        // Figma 頭像膠囊 82 × 58 = 內距 4 ＋ 頭像 50 ＋ 間距 4 ＋ 箭頭 20 ＋ 內距 4
         &__avatar-img {
             width: 50px;
             height: 50px;

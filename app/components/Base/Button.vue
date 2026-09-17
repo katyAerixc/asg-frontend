@@ -33,8 +33,8 @@ withDefaults(
 
 <style scoped lang="scss">
 // Figma btn/Medium（程式叫 default）、btn/Large
-// 尺寸都在 index.scss 的 --button-*，手機電腦的切換也在那裡；這裡只吃變數（她 2026-09-15 定）
-// 寬度用 min-width：字短維持設計寬度，長語言（越南文「Chơi ngay」、日文「再度問い合わせ」）自己變寬不斷行（她 2026-09-15 要求）
+// 尺寸都在 index.scss 的 --button-*，手機電腦的切換也在那裡；這裡只吃變數
+// 寬度用 min-width：字短維持設計寬度，長語言（越南文「Chơi ngay」、日文「再度問い合わせ」）自己變寬不斷行
 .base-button {
     cursor: pointer;
 
@@ -49,15 +49,15 @@ withDefaults(
     paint-order: stroke fill;
 
     background: var(--btn-bg);
-    backdrop-filter: blur(50px); // Figma btn/default：bg-blur 100 ÷ 2
+    backdrop-filter: blur(50px); // Figma bg-blur 100 ÷ 2
     box-shadow: var(--shadow-btn);
 
     transition:
         background 0.25s ease,
         box-shadow 0.25s ease;
 
-    // Figma btn 屬性：預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
-    // 文字描邊三種都一樣：Figma 1px Black/50 外側（跟首頁「加載更多」同一組）
+    // 預設藍、次要白（客服「上一頁」）、強調橘（「立即遊玩」）
+    // 文字描邊三種都一樣（跟首頁「加載更多」同一組）
     &--primary {
         --btn-bg: var(--bg-button-modal);
         --btn-bg-hv: var(--bg-button-modal-hv);
@@ -99,7 +99,6 @@ withDefaults(
         font-size: var(--button-large-font-size);
     }
 
-    // Figma button/Default/Disabled：還不能按的時候
     &:disabled {
         cursor: not-allowed;
         color: var(--color-button-disabled-text);
@@ -107,14 +106,13 @@ withDefaults(
         box-shadow: var(--shadow-btn-disabled);
     }
 
-    // Figma btn act：漸層 20% → 70%（變暗）＋ 外陰影整個消失，做出凹下去的感覺
+    // 按下去：變暗＋外陰影消失，做出凹下去的感覺
     &:active:not(:disabled) {
         background: var(--btn-bg-act);
         box-shadow: var(--shadow-btn-active);
     }
 
-    // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
-    // Figma btn hv：漸層起點 50% → 80%（變亮）＋ 外陰影換成白的
+    // hover：變亮＋外陰影換成白的
     // 加 :not(:active) 是因為按下去時 hover 也還成立，不排掉就會蓋掉上面的 act
     @media (hover: hover) {
         &:hover:not(:disabled, :active) {

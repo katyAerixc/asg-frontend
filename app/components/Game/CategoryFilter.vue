@@ -47,18 +47,17 @@ const CATEGORIES: GameCategoryFilter[] = [
     &__list {
         overflow-x: auto;
         display: flex;
-        padding: var(--corner-1) 0; // Figma MB/Tag：52 = 上 4 ＋ Tab 44 ＋ 下 4
+        padding: var(--corner-1) 0;
 
-        // 分類之間不留間距：每個分類自己有左右內距 15，字與字自然隔 30（Figma PC/Tab、MB/Tab）
+        // 分類之間不留間距：每個分類自己有左右內距 15，字與字自然隔 30
         // 手機版：平均散開撐滿整列；字長放不下時改成左右滑（電腦版維持靠左，右邊還有 NEW/HOT 與搜尋）
         @media (width < 960px) {
             justify-content: space-between;
         }
     }
 
-    // 分類：Figma PC/Tab、MB/Tab（她 2026-09-15 給）
     // 高 44 = 上 10（Corner-2）＋ 字 24 ＋ 下 10；選中時下面換成「間距 8 ＋ 底線 2」，高度一樣不跳
-    // （外層 overflow-x: auto 的邊界在整個分類框外面；她 2026-09-15 同意）
+    // （外層 overflow-x: auto 的邊界在整個分類框外面）
     &__tab {
         cursor: pointer;
 
@@ -94,7 +93,6 @@ const CATEGORIES: GameCategoryFilter[] = [
             visibility: hidden;
         }
 
-        // 選中的底線：Figma 手機 30 × 2 Primary/20、電腦 50 × 2 Primary/10，圓角 full，置中
         &::after {
             content: '';
 
@@ -122,7 +120,6 @@ const CATEGORIES: GameCategoryFilter[] = [
             }
         }
 
-        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
                 color: var(--color-primary-10);

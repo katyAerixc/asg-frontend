@@ -39,7 +39,7 @@ export const useSupportStore = defineStore('support', () => {
         isOpen.value = true;
     }
 
-    // 再次提問：回到「提交問題」，並先選好這筆的問題類型（她 2026-09-14 指定）
+    // 再次提問：回到「提交問題」，並先選好這筆的問題類型
     function askAgain(issueType: null | string) {
         presetIssueType.value = issueType;
         switchTab('form');

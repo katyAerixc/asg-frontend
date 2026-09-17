@@ -60,7 +60,7 @@ const avatars = AVATARS;
 const pickedId = ref(currentId.value);
 
 // Computed properties
-// 沒改就不能按確認（Figma 有 btn/disabled 這個狀態）
+// 沒改就不能按確認
 const hasChanged = computed(() => pickedId.value !== currentId.value);
 
 // Functions
@@ -72,12 +72,9 @@ function confirm() {
 
 <style scoped lang="scss">
 // 只留頭像網格；遮罩/面板/標題/X/按鈕都在 BaseModal 與 BaseButton
-// 全部數值來自 Figma 屬性面板（她 2026-09-10 提供 14 張截圖）
 .avatar-picker {
     &__list {
         display: grid;
-
-        // Figma MB 頭像區：一排 4 顆、左右上下都間距 15、整塊置中靠上（她 2026-09-15 定照 Figma）
         grid-template-columns: repeat(4, 60px);
         flex: 1;
         gap: var(--corner-3);
@@ -89,7 +86,6 @@ function confirm() {
         list-style: none;
     }
 
-    // Figma：H5 60 x 60 圓形。未選 1px Primary/20；選中 2px 橘框 + 外白光暈
     // 外框用 box-shadow 不用 border：框不會把圖擠小，光暈也才長得出來
     &__item {
         cursor: pointer;
@@ -117,7 +113,6 @@ function confirm() {
                 var(--shadow-avatar-active);
         }
 
-        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             // 滑過就先亮起來，告訴人「這顆點得下去」
             &:hover {
@@ -145,7 +140,6 @@ function confirm() {
         object-fit: cover;
     }
 
-    // Figma：H5 20 x 20 藍圓 + 1px 白框 + 外陰影，壓在頭像右下角
     &__check {
         position: absolute;
         right: 0;
@@ -176,7 +170,7 @@ function confirm() {
     @media (width >= 600px) {
         &__list {
             grid-template-columns: repeat(5, 80px);
-            gap: var(--corner-3); // Figma PC：間距 15
+            gap: var(--corner-3);
             align-self: center;
             max-width: 460px;
         }
@@ -185,7 +179,7 @@ function confirm() {
             width: 80px;
             box-shadow: 0 0 0 1px var(--color-neutral-10);
 
-            // Figma PC 選中光暈綁變數 Shadow/Light 50%（淺色 #CBDFFF）；H5 沒綁、寫死白色，所以只有 PC 換
+            // 只有 PC 光暈跟主題換色：Figma PC 綁 Shadow/Light 50%，H5 沒綁、寫死白色
             &--picked {
                 box-shadow:
                     0 0 0 3px var(--color-semantic-yellow-20),

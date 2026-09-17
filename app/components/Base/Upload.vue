@@ -92,7 +92,7 @@ function onChange(event: Event) {
 
     if (!file) return;
 
-    // 兩道關卡：格式與大小。任一不過就不收，說明那行變紅字告訴她原因。
+    // 兩道關卡：格式與大小。任一不過就不收，說明那行變紅字告訴使用者原因。
     // accept 只是讓檔案總管預設篩選，使用者切成「所有檔案」還是選得到，所以這裡要自己再擋一次
     // ⚠️ 擋下來時只還原輸入框，不要呼叫 clear()——那會把先前選好的合法檔案一起丟掉
     if (!isAccepted(file.type)) {
@@ -134,7 +134,7 @@ function revokePreview() {
 
 // Hooks
 // 父層送出表單後會把 v-model 設回 null。這支自己留著 previewUrl，
-// 不看著它就會「描述清空了、縮圖還在」，而且那個 blob 網址也沒被收回（2026-09-14 修）
+// 不看著它就會「描述清空了、縮圖還在」，而且那個 blob 網址也沒被收回
 watch(modelValue, (value) => {
     if (!value) {
         revokePreview();
@@ -146,15 +146,13 @@ onUnmounted(revokePreview);
 </script>
 
 <style scoped lang="scss">
-// Figma Group 1537（上傳方塊）／Frame 11387（刪除條）
 .base-upload {
     display: flex;
     gap: var(--corner-2);
 
-    // 說明文字對齊方塊的「下緣」，不是上緣（她 2026-09-11 指定）
+    // 說明文字對齊方塊的「下緣」，不是上緣
     align-items: flex-end;
 
-    // Figma：70 x 70、底色 Primary/20 的 20%、1px Primary/40 內框
     // 圓角 Figma 沒直接給（那層是 Group，面板不顯示 Radius），
     // 但底下的刪除條下兩角寫明 Corner-2，方塊本身一定同值，否則會露出直角
     &__box {
@@ -168,7 +166,6 @@ onUnmounted(revokePreview);
         align-items: center;
         justify-content: center;
 
-        // Figma：H5 70 x 70、PC 100 x 100
         width: 70px;
         height: 70px;
         padding: 0;
@@ -213,7 +210,6 @@ onUnmounted(revokePreview);
         }
     }
 
-    // Figma icon：28 x 27，顏色同外框的 Primary/40
     // UnoCSS 的圖示是遮罩，尺寸要用 mask-size，background-size 對遮罩沒作用
     &__icon {
         width: 28px;
@@ -228,7 +224,6 @@ onUnmounted(revokePreview);
         object-fit: cover;
     }
 
-    // Figma Frame 11387：70 x 23、貼底、黑 80%、只有下兩角圓
     &__remove {
         cursor: pointer;
 
@@ -249,7 +244,7 @@ onUnmounted(revokePreview);
         background: var(--color-black-80);
     }
 
-    // Figma：H5 14 / PC 16（她 2026-09-11 給值）。⚠️ 顏色暫定，跟 placeholder 同一套
+    // ⚠️ 顏色暫定，跟 placeholder 同一套
     &__hint {
         margin: 0;
         font-size: var(--font-size-14);
@@ -276,7 +271,6 @@ onUnmounted(revokePreview);
             }
         }
 
-        // Figma img/other：電腦版圖示 40×38（手機 28×27）
         &__icon {
             width: 40px;
             height: 38px;

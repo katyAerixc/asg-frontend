@@ -40,12 +40,12 @@ export function toIssueTypeValue(labelKey: string) {
 
 // 卡片與單筆內容只顯示短標籤（「帳務問題」），下拉選單才顯示完整說明。
 // 🚨 不要拿翻譯後的文字去切分隔符號——中日韓用全形「｜」，英泰越用半形「-」，
-//    切不到就會把整句說明塞進卡片（2026-09-14 修）。key 是我們自己的，換算才穩。
+//    切不到就會把整句說明塞進卡片。key 是我們自己的，換算才穩。
 export function toShortIssueKey(labelKey: string) {
     return labelKey.replace('.issueType.', '.issueTypeShort.');
 }
 
-// 描述字數上限、附件限制（她 2026-09-10 指定：JPG / JPEG / PNG，15MB 以內）
+// 描述字數上限、附件限制（JPG / JPEG / PNG，15MB 以內）
 export const DESCRIPTION_MAX_LENGTH = 500;
 export const ATTACHMENT_ACCEPT = 'image/jpeg,image/png';
 export const ATTACHMENT_MAX_BYTES = 15 * 1024 * 1024;

@@ -1,4 +1,3 @@
-// 設計變數（design tokens）— 值全部來自 Figma 屬性面板，見 katy-designs/CONTEXT.md
 :root {
     // 主色 Primary
     --color-primary-10: #fff;
@@ -19,7 +18,7 @@
     --color-primary-90: rgb(var(--color-primary-90-rgb));
 
     // 中性色 Neutral
-    --color-neutral-10: #fff; // Figma Color/Neutral/10（值同 primary-10，但 Figma 分成兩個代號）
+    --color-neutral-10: #fff; // 值同 primary-10，但 Figma 分成兩個代號
     --color-neutral-20: #d9d9d9; // 紀錄卡片的描述文字
     --color-neutral-30: #bfbfbf; // 分頁 tab 的文字
     --color-neutral-40: #a6a6a6; // 分頁未選中的數字、分頁外框
@@ -27,7 +26,7 @@
     --color-neutral-60: #737373; // 分頁走到頭、箭頭轉灰
     --color-neutral-80: #404040;
 
-    // 黑 Black — Figma Color/Black/xx，數字是不透明度
+    // 黑 Black，數字是不透明度
     --color-black-25: rgb(0 0 0 / 25%);
     --color-black-50: rgb(0 0 0 / 50%);
     --color-black-70: rgb(0 0 0 / 70%);
@@ -54,7 +53,7 @@
     // header 下方線：兩端 60-0、中間 60-50
     --color-primary-opacity-60-0: rgb(var(--color-primary-60-rgb) / 0%);
     --color-primary-opacity-60-10: rgb(var(--color-primary-60-rgb) / 10%);
-    --color-primary-opacity-60-20: rgb(var(--color-primary-60-rgb) / 20%); // 選單列滑入的底（Figma MB/list item=hover）
+    --color-primary-opacity-60-20: rgb(var(--color-primary-60-rgb) / 20%); // 選單列滑入的底
     --color-primary-opacity-60-30: rgb(var(--color-primary-60-rgb) / 30%);
     --color-primary-opacity-60-50: rgb(var(--color-primary-60-rgb) / 50%);
     --color-primary-opacity-20-20: rgb(var(--color-primary-20-rgb) / 20%); // 上傳方塊、頁碼箭頭、頁碼 hover 的底
@@ -64,7 +63,7 @@
     --color-primary-opacity-70-60: rgb(var(--color-primary-70-rgb) / 60%); // 客服紀錄卡片按下去
     --color-primary-opacity-70-70: rgb(var(--color-primary-70-rgb) / 70%); // 客服紀錄卡片 hover
 
-    // 語意色 Semantic（名字就是 Figma 的 Semantic/{Red,Green,Yellow}/NN，深淺色同值）
+    // 語意色 Semantic（深淺色同值）
     // ⚠️ 驗證方式：只信 UI Kit「Color Variables」頁的色塊實際填色，那頁手打的 hex 文字會過期
     //    （實測 Green/20 文字寫 #19FF47，色塊其實是 #21B83F）
     --color-semantic-red-10: #ffb0b0; // 遊戲類型標籤的字與框
@@ -95,15 +94,14 @@
     --color-shadow-light-50: rgb(var(--color-shadow-light-rgb) / 50%);
     --color-shadow-light-20: rgb(var(--color-shadow-light-rgb) / 20%);
 
-    // 暗陰影（Figma Color/Shadow/Dark/xx，數字是不透明度）：深色是黑，淺色主題只換這組數字
+    // 暗陰影（數字是不透明度）：深色是黑，淺色主題只換這組數字
     --color-shadow-dark-rgb: 0 0 0;
     --color-shadow-dark-20: rgb(var(--color-shadow-dark-rgb) / 20%);
     --color-shadow-dark-40: rgb(var(--color-shadow-dark-rgb) / 40%);
     --color-shadow-dark-50: rgb(var(--color-shadow-dark-rgb) / 50%);
 
-    // ── 動畫（Figma prototype）────────────────────────────────
-    // ⚠️ 名字是我們自己取的：Figma 的變數只管顏色／圓角／數字，**沒有動畫變數**，
-    //    動畫是寫在 prototype 的 interaction 上。值則 100% 照 Figma。
+    // ── 動畫 ────────────────────────────────
+    // ⚠️ 名字是我們自己取的：Figma 沒有動畫變數（動畫寫在 prototype 的 interaction 上）
     // 全站 680 條互動統計下來只有這 4 種組合：
     --motion-hover: 300ms linear; // 一般元件滑入（DISSOLVE／LINEAR／300ms，108 處）
     --motion-hover-game: 300ms ease-out; // 遊戲卡滑入（DISSOLVE／EASE_OUT／300ms，92 處）
@@ -112,13 +110,12 @@
 
     // ── 行高 ──────────────────────────────────────────────
     // Figma 的「Auto」行高 ＝ 字級 × 1.2102（從 API 的 lineHeightPx ÷ fontSize 算出來，14 種字級全一致）
-    // 🚨 2026-09-17 起是**全站行高**（寫在下面 :root，所有元素繼承）：Figma 3,509 個文字圖層有 3,496 個是 Auto＝1.21
+    // 🚨 這是**全站行高**（寫在下面 :root，所有元素繼承）
     // ⚠️ Figma 用 Inter，我們多語系載 Noto Sans，字體高矮不同 → 越南文、泰文要掃「被切」與「上下行擠在一起」，有問題才在那一處放寬
     --line-height-figma: 1.21;
 
-    // 圓角 Corner（名字就是 Figma 的變數名 Corner/Corner-N）
+    // 圓角 Corner
     // ⚠️ Figma 沒有 padding 專用變數，Padding 欄位直接接 Corner/Corner-N
-    //    → 下面 --input-padding-x／y 接 Corner 是照 Figma，不是我們自己發明的
     --corner-1: 4px;
     --corner-2: 10px;
     --corner-3: 15px;
@@ -127,7 +124,7 @@
     --corner-input: 10px; // ⚠️ 值同 Corner-2，但 Figma 分成兩支，不要合併
     --corner-full: 100px; // ⚠️ Figma 就叫 full，沒有 Corner/ 前綴
 
-    // 字級（Figma UI kit Typography「Font 12p～30p」，名字就是 px 數，想改大小就換一格；她 2026-09-15 定）
+    // 字級：名字就是 px 數，想改大小就換一格
     // ⚠️ 文字在 Figma 沒有「變數」，只有「樣式」，一個名字包字級＋字重：`22/22p B`、`20/20p R`…
     //    CSS 的 font-size 與 font-weight 是兩個屬性，只能拆成兩支變數，沒辦法照 Figma 的名字取
     //    對照法：`22/22p B` = --font-size-22 + --font-weight-bold（B=700 / M=500 / R=300）
@@ -141,13 +138,12 @@
     --font-size-26: 26px;
     --font-size-30: 30px;
 
-    // 字重（照 UI kit 標籤 Bold / Medium / Regular；她 2026-09-15 定）
     // ⚠️ regular 在這個專案是 300，不是 CSS 慣例的 400（UI kit 就是這樣標的）
     --font-weight-bold: 700;
     --font-weight-medium: 500;
     --font-weight-regular: 300;
 
-    // 通用尺寸階層 Size（Figma UI kit 的 Large / Medium / Small 規格表，她 2026-09-16 給圖並指定照這個規劃）
+    // 通用尺寸階層 Size：Large / Medium / Small
     //            字級      高度   左右內距
     //   手機  L   20px      46     28
     //         M   16px      40     24
@@ -155,7 +151,7 @@
     //   電腦  L   22px      59     32     ← 電腦的值寫在檔案最下面的 @media
     //         M   18px      46     28
     //         S   16px      43     24
-    // ⚠️ 這是「通用」階層，不只按鈕用：客服頁籤的字級也吃 Large（Figma 頁籤文字樣式 22/22p）
+    // ⚠️ 這是「通用」階層，不只按鈕用：客服頁籤的字級也吃 Large
     --size-large-font-size: var(--font-size-20);
     --size-large-height: 46px;
     --size-large-padding-x: 28px;
@@ -177,34 +173,30 @@
     --button-large-padding-x: var(--size-large-padding-x);
     --button-large-font-size: var(--size-large-font-size);
 
-    // 輸入框尺寸（Figma UI kit PC/input、MB/input：Padding H15 V10、字級手機 16 電腦 20；她 2026-09-15 定）
-    // 內距用自己的變數名，值接 Figma 標的 Corner/Corner-3（左右）、Corner/Corner-2（上下）（她 2026-09-15 定：照 Figma 變數）
+    // 輸入框尺寸
     --input-padding-x: var(--corner-3);
     --input-padding-y: var(--corner-2);
     --input-font-size: var(--font-size-16);
 
-    // 下拉選單尺寸（問題類型 BaseSelect、頭像選單的語系；值＝現況，她 2026-09-15 選方案 A）
+    // 下拉選單尺寸（問題類型 BaseSelect、頭像選單的語系）
     // 只收兩個下拉一樣的；按鈕內距直接用上面的 --input-padding-x／y
     // 不一樣的留在各自檔案等 #58 對帳：清單圓角（10／8）、選項高（內距撐／固定 44）、字級變大的寬度（600／960）
     --select-height: 44px;
-    --select-list-offset: 5px; // Figma prototype/list-cust：清單離框 gap 5（她 2026-09-15 定照 Figma，原本 6）
+    --select-list-offset: 5px;
 
-    // 輸入框 / 切換膠囊（Figma 名稱 input）
+    // 輸入框 / 切換膠囊
     --bg-input: var(--color-primary-90);
-
-    // Figma 效果樣式 input（層順序照 Figma 面板由上到下）
     --shadow-input:
         -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-50) inset,
         -1px -1px 1px 0 var(--color-shadow-light-20) inset;
 
     // 語系下拉展開時：比 input 多一圈 20% 白的內光暈
-    // Figma 效果樣式 input_act：第一層是**外**光暈（Figma 沒標 inset），後三層才是 inset
-    // 她 2026-09-16 指示「Figma 裡是什麼就照他的」→ 第一層的 inset 拿掉
+    // 第一層是**外**光暈（Figma 沒標 inset），後三層才是 inset
     --shadow-input-act:
         0 0 10px 0 var(--color-shadow-light-20), -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset,
         1px 1px 1px 0 var(--color-shadow-light-50) inset, -1px -1px 1px 0 var(--color-shadow-light-20) inset;
 
-    // 按鈕（Figma 名稱 btn/default）
+    // 按鈕
     --bg-normal: linear-gradient(
         180deg,
         rgb(var(--color-primary-60-rgb) / 30%) 0%,
@@ -216,22 +208,18 @@
         rgb(var(--color-primary-60-rgb) / 50%) 100%
     );
 
-    // Figma btn/default 四層：Dark/50、Light/50、Light/80、Dark/40
+    // Figma btn/default
     --shadow-btn:
         -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-80) inset,
         -1px -1px 1px 0 var(--color-shadow-light-50) inset, 0 0 10px 0 var(--color-shadow-dark-50);
 
     // 疊在平常那組陰影之外（Figma prototype/coin bar 的 item=PC hover 用它）
     --shadow-pc-hover: 0 0 20px 0 var(--color-shadow-light-20);
-
-    // Figma 效果樣式 btn/hover：跟 btn/default 只差最外那層改成白的
     --shadow-btn-hover:
         -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-80) inset,
         -1px -1px 1px 0 var(--color-shadow-light-50) inset, 0 0 10px 0 var(--color-shadow-light-50);
 
     // 藍色主要按鈕：底色、外框、文字描邊
-    // Figma PC/btn/Medium 的漸層兩個停駐點都綁 Primary/60，深淺色跟著它走
-    // （深 #68a4ff／淺 #356fdc；2026-09-16 從 1-1 主頁的 boundVariables 查證）
     --bg-button-primary: linear-gradient(
         180deg,
         rgb(var(--color-primary-60-rgb) / 50%) 0%,
@@ -249,7 +237,7 @@
     );
     --border-button-primary: 1px solid var(--color-black-50);
 
-    // Figma 按鈕文字描邊：1px、Black/50、畫在字外面（OUTSIDE），深淺色相同（她 2026-09-17 說照 Figma）
+    // 文字描邊畫在字外面：CSS 描邊一半在字裡，寫 2px 才等於外側 1px
     // CSS 描邊是「一半在字裡、一半在字外」，Button 有 paint-order: stroke fill 讓字蓋住裡面那半 → 寫 2px 才等於外側 1px
     --text-stroke-button-primary: 2px var(--color-black-50);
 
@@ -266,16 +254,12 @@
         var(--color-primary-opacity-60-50) 50%,
         var(--color-primary-opacity-60-0) 100%
     );
-
-    // 彈窗底：180deg、30% 0% → 50% 30% → 20% 100%（2026-09-15 讀 Figma Dev Mode 確認停駐點）
     --bg-popup: linear-gradient(
         180deg,
         rgb(var(--color-primary-90-rgb) / 30%) 0%,
         rgb(var(--color-primary-90-rgb) / 50%) 30%,
         rgb(var(--color-primary-90-rgb) / 20%) 100%
     );
-
-    // 層順序照 Figma 面板由上到下
     --shadow-bg:
         -0.5px -1px 2px 0 var(--color-shadow-dark-40) inset, 1px 1px 1px 0 var(--color-shadow-light-50) inset,
         -1px -1px 1px 0 var(--color-shadow-light-20) inset, 0 0 5px 0 var(--color-shadow-dark-50);
@@ -287,7 +271,7 @@
     // 選中的頭像：橘框外的白光暈
     --shadow-avatar-active: 0 0 20px 0 rgb(255 255 255 / 50%);
 
-    // 確認按鈕・還不能按的時候（字色 Figma btn=05 Dis：Neutral/50，深淺色同值；她 2026-09-16 說照 Figma）
+    // 確認按鈕還不能按的時候：深淺色同值
     --color-button-disabled-text: var(--color-neutral-50);
     --bg-button-disabled: linear-gradient(
         180deg,
@@ -302,7 +286,7 @@
         -1px -1px 1px 0 var(--color-shadow-light-50) inset;
 
     // 次要按鈕「上一頁」：白 50% → 白 100%
-    // 陰影跟主要按鈕同一組（--shadow-btn），Figma 兩者的四層完全一樣
+    // 陰影跟主要按鈕同一組（--shadow-btn）
     --bg-button-secondary: linear-gradient(
         180deg,
         rgb(var(--color-primary-10-rgb) / 50%) 0%,
@@ -331,10 +315,10 @@
     // 客服紀錄卡片：Primary/70 半透明底 + 一道往下 4px 的同色淡影
     --bg-support-card: var(--color-primary-opacity-70-50);
 
-    // hover 深一階（她 2026-09-15 定；深淺色各吃自己的 Primary/70）
+    // hover 深一階（深淺色各吃自己的 Primary/70）
     --bg-support-card-hover: var(--color-primary-opacity-70-70);
 
-    // 按下去（Figma PC/form、MB/form act）：60%
+    // 按下去（Figma PC/form、MB/form act）
     --bg-support-card-active: var(--color-primary-opacity-70-60);
 
     // 陰影：手機 MB/form 是 50%，電腦 PC/form 是 20%（電腦值在最下面 600 以上那段）
@@ -344,7 +328,7 @@
     --bg-support-status-closed: var(--color-white-50);
     --bg-support-reply: var(--color-primary-50);
     --color-support-reply-title: var(--color-neutral-10);
-    --color-support-reply-text: var(--color-primary-20); // Figma 4-5 MB、4-3 PC：Primary/20
+    --color-support-reply-text: var(--color-primary-20);
 
     // Logo：用 CSS 換圖而不是 JS。server 不知道使用者選哪個主題，
     // 用 JS 判斷會讓 server 與瀏覽器渲染出不同的圖（hydration mismatch）。
@@ -352,19 +336,19 @@
     --logo-h5: url('@/assets/images/logo/h5-dark.png');
     --logo-pc: url('@/assets/images/logo/pc-dark.png');
 
-    // 捲軸（她 2026-09-11 要求換掉瀏覽器預設的灰色）
+    // 捲軸：換掉瀏覽器預設的灰色
     --color-scrollbar-track: rgb(var(--color-primary-90-rgb) / 60%);
     --color-scrollbar-thumb: rgb(var(--color-primary-60-rgb) / 40%);
     --color-scrollbar-thumb-hover: rgb(var(--color-primary-60-rgb) / 80%);
 
     // 背景
-    --bg-page: #0b1421; // Figma Color/Surface（首頁 md 與 home-raw.json 兩種方法確認，她 2026-09-17 說改；原本 #0f1723）
-    --bg-page-glow: #0e3378; // Figma bg dark 的光暈色（不在色票裡）
+    --bg-page: #0b1421;
+    --bg-page-glow: #0e3378; // Figma bg dark（不在色票裡）
     --bg-page-rgb: 11 20 33; // ＝ --bg-page 拆成數字，給黏頂分類列加透明度用
-    // 往下滑、分類列黏在頂部時的底色：跟頁面同色 90%＋模糊（Figma 沒畫滑動狀態，她 2026-09-17 定）
+    // 往下滑、分類列黏在頂部時的底色：跟頁面同色 90%＋模糊（Figma 沒畫滑動狀態）
     --bg-page-sticky: rgb(var(--bg-page-rgb) / 90%);
 
-    // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（她 2026-09-14 給 rgb(61 119 209 / 20%)；不在色票裡）
+    // 下拉選單滑鼠移到選項上的底色：問題類型、語系兩個下拉共用，深淺色一樣（不在色票裡）
     --color-list-hover-rgb: 61 119 209; // #3d77d1
     --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
     --bg-game: linear-gradient(
@@ -377,60 +361,57 @@
         -1px -2px 2px 0 var(--color-shadow-dark-20) inset, 1px 1px 2px 0 var(--color-shadow-light-50) inset,
         -1px -1px 2px 0 var(--color-shadow-light-80) inset;
 
-    // 滑入版（Figma 效果樣式 game/bg_act）：同樣三層，位移從 1/2 變成 2/5
+    // 滑入版
     --shadow-game-bg-act:
         -2px -5px 2px 0 var(--color-shadow-dark-20) inset, 2px 2px 2px 0 var(--color-shadow-light-50) inset,
         -2px -2px 2px 0 var(--color-shadow-light-80) inset;
 
     // 遊戲卡滑入時「長出來」的那兩層（Card.vue 疊在 --shadow-game-bg-act 前面）
-    // ①1px 白框：Figma item=hover 的 stroke ＝ Neutral/10、OUTSIDE。用 neutral 不用 primary，
-    //   淺色主題不覆寫 neutral，兩個主題都是白（她 2026-09-11 同標籤的做法）
-    // ②外陰影 0 0 10：Figma item=hover 的 DROP_SHADOW，綁 Shadow/Dark/50（淺色 #8A95A7 50%）
+    // ①1px 白框：用 neutral 不用 primary，
+    //   淺色主題不覆寫 neutral，兩個主題都是白
+    // ②外陰影
     --shadow-game-hover: 0 0 0 1px var(--color-neutral-10), 0 0 10px 0 var(--color-shadow-dark-50);
 }
 
-// 淺色主題（Figma Modes → Light，她 2026-09-10 提供 18 張 Inspect）
+// 淺色主題
 // 只覆寫「真的不一樣」的；其餘（白、黑、陰影、圓角、語意色）兩個主題共用。
-// ✅ 標籤色（NEW/HOT/HIGH）與 RTP 漲跌紅綠：她 2026-09-11 定案「兩個主題一樣」，
+// ✅ 標籤色（NEW/HOT/HIGH）與 RTP 漲跌紅綠：兩個主題一樣，
 //    所以刻意不覆寫。標籤的字與框用 --color-neutral-10（淺色不覆寫），不要用 primary-10。
-// ⚠️ 還沒拿到的：Primary/30・50・80、Neutral/20・30・40・50・60・80、分隔線、
-//    彈窗、確認按鈕。先沿用深色的值，畫到那裡再跟她要。
 [data-theme='light'] {
-    // 色階（她 2026-09-10 分三批提供，每個值都有兩處以上的截圖佐證）
+    // 色階
     --color-primary-10: #303852; // 主要文字、鉛筆、列箭頭（深色是 #fff）
     --color-primary-10-rgb: 48 56 82;
-    --color-primary-30: #535961; // 她 2026-09-14 給的色票（目前只有放大鏡用，淺色放大鏡另外用 40）
+    --color-primary-30: #535961; // 目前只有放大鏡用，淺色放大鏡另外用 40
     --color-primary-50: #82aced; // 色票；客服紀錄日期、「客服已回覆」膠囊、客服回覆氣泡、打勾漸層起點
     --color-primary-20-rgb: 78 95 152; // #4e5f98（重整 icon、箭頭、分類選中的底線）
     --color-primary-40: #7b9bea; // 未選中的分類、搜尋 placeholder、放大鏡
     --color-primary-60-rgb: 53 111 220; // #356fdc
-    --color-primary-70-rgb: 42 74 255; // #2a4aff（她 2026-09-14 給的色票；客服紀錄卡片底 Primary/opacity/70/50% 就是它）
+    --color-primary-70-rgb: 42 74 255; // #2a4aff；客服紀錄卡片底 Primary/opacity/70/50% 就是它
     --color-primary-80: #20399d; // 色票；變更頭像選中的打勾漸層終點
     --color-primary-90-rgb: 209 228 255; // #d1e4ff（輸入框、切換膠囊的底）
 
-    // 暗陰影：深色是純黑，淺色改成帶藍的灰（Figma Light 的 Dark/20・40・50 都是 #8a95a7）
-    // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換（她 2026-09-14 提供 Dark/40・50）
+    // 暗陰影：深色是純黑，淺色改成帶藍的灰
+    // RTP 膠囊外陰影（Dark/20）、按鈕陰影（Dark/40・50）都跟著換
     --color-shadow-dark-rgb: 138 149 167; // #8a95a7
 
-    // 亮陰影：淺色色票 Shadow/Light 是淡藍（她 2026-09-15 選照色票改）；按鈕與遊戲卡的細反光跟著換
+    // 亮陰影：淺色色票 Shadow/Light 是淡藍；按鈕與遊戲卡的細反光跟著換
     --color-shadow-light-rgb: 203 223 255; // #cbdfff
 
-    // 藍色主要按鈕（她 2026-09-14 提供淺色 Figma）：沒有外框、文字描邊變淺
-    // 底色不再寫死，跟著 Primary/60 走（2026-09-16 查證 Figma 淺色是 #356fdc）
+    // 藍色主要按鈕：沒有外框、文字描邊變淺
     --border-button-primary: none;
 
-    // 彈窗藍色按鈕、次要按鈕的底色：照 Figma 吃 :root 的 Primary/60、Primary/10 漸層（她 2026-09-17 說照 Figma，取代 09-14 自訂色）
+    // 彈窗藍色按鈕、次要按鈕的底色：淺色沿用 :root，不覆寫
     // ⚠️ Figma UI Kit 只畫了深色的 hv／act，淺色的底色變化等設計師給值 → 先維持不變
     --bg-button-modal-hv: var(--bg-button-modal);
     --bg-button-modal-act: var(--bg-button-modal);
     --bg-button-secondary-hv: var(--bg-button-secondary);
     --bg-button-secondary-act: var(--bg-button-secondary);
 
-    // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40（她 2026-09-17 改回照 Figma，原本 09-14 指定 #a5bff4）
+    // 下拉選單、語系清單每列之間的分隔線：實線 Primary/40
     --line-select-option: none;
     --color-textarea-count-filled: var(--color-primary-10); // 有字時字數變深
 
-    // 客服紀錄（她 2026-09-14 提供淺色色值）
+    // 客服紀錄
     // 列表卡片與內容頁的卡片底：不另外覆寫，吃 :root 的 Primary/opacity/70/50%（淺色 Primary/70 已補在上面）
 
     // 客服回覆氣泡：底吃 :root 的 Primary/50（淺色 #82aced 已補在色階）；標題 #303852（＝淺色 Primary/10）、內容 #4e5f98（＝淺色 Primary/20）
@@ -438,11 +419,9 @@
     --color-support-reply-text: var(--color-primary-20);
 
     // 遊戲卡滑入：淺色不另外覆寫。白框綁 Neutral/10（兩個主題都是白）、外陰影綁 Shadow/Dark/50
-    // （淺色自動變 #8A95A7 50%），全部跟著 Figma 的變數走。
-    // ⚠️ 2026-09-16 刪掉舊的自創光暈 --color-game-glow-rgb：當初會用它，是因為原本綁 Primary/10
-    //    在淺色變深藍框；換成 Figma 真正用的 Neutral/10 之後就沒這個問題了
+    // （淺色自動變 #8A95A7 50%）。
     --bg-page: #e9f2ff; // Figma Color/Surface
-    --bg-page-glow: #0073ff; // Figma bg light 的光暈色（不在色票裡，設計稿直接寫色碼）
+    --bg-page-glow: #0073ff; // Figma bg light（不在色票裡）
     --bg-page-rgb: 233 242 255; // ＝ --bg-page
     --logo-h5: url('@/assets/images/logo/h5-light.png');
     --logo-pc: url('@/assets/images/logo/pc-light.png');
@@ -507,7 +486,7 @@ body {
     background: var(--bg-page);
 }
 
-// 頁面背景的兩顆光暈：::before 左上、::after 右下（Figma PC/Home、MB/Home 的 bg dark／bg light）
+// 頁面背景的兩顆光暈：::before 左上、::after 右下（Figma bg dark／bg light）
 // 位置用「超出畫面多少」貼在角落，視窗變寬變窄都黏著角落
 // ⚠️ 模糊值是 Figma 的一半：Figma 的 blur 數字約是 CSS blur() 的 2 倍（玻璃塊 50 → 25 同理）
 body::before,
@@ -523,7 +502,7 @@ body::after {
     background: var(--bg-page-glow);
 }
 
-// 手機：左上 279×279、超出 -129／-88、透明度 30%、Figma 模糊 150
+// 手機左上：Figma 模糊 150
 body::before {
     top: -88px;
     left: -129px;
@@ -535,7 +514,7 @@ body::before {
     filter: blur(75px);
 }
 
-// 手機：右下 357×357、超出 -182／-159、透明度 20%、Figma 模糊 100
+// 手機右下：Figma 模糊 100
 body::after {
     right: -182px;
     bottom: -159px;
@@ -548,7 +527,7 @@ body::after {
 }
 
 @media (width >= 960px) {
-    // 電腦：左上 488×638、超出 -244／-186、Figma 模糊 300
+    // 電腦左上：Figma 模糊 300
     body::before {
         top: -186px;
         left: -244px;
@@ -559,7 +538,7 @@ body::after {
         filter: blur(150px);
     }
 
-    // 電腦：右下 536×618、超出 -227／-166、Figma 模糊 200
+    // 電腦右下：Figma 模糊 200
     body::after {
         right: -227px;
         bottom: -166px;
@@ -573,7 +552,7 @@ body::after {
 
 // 捲軸：預設的灰色滾輪跟這個站格格不入，換成細長的藍色藥丸
 // 顏色走 primary-60，換淺色主題時會自動跟著變（那階有覆寫）
-// ⚠️ 兩套寫法不能同時下（2026-09-11 實測）：
+// ⚠️ 兩套寫法不能同時下：
 //    Chrome 只要看到標準的 scrollbar-width / scrollbar-color，
 //    就會整組忽略 ::-webkit-scrollbar，圓角與寬度全都調不動（量到 10px 而不是 6px）。
 //    所以用 @supports 把兩套分開：認得 ::-webkit-scrollbar 的（Chrome / Safari / Edge）
@@ -602,7 +581,6 @@ body::after {
     transition: background-color 0.2s;
 }
 
-// 只有真的有滑鼠的裝置才做 hover
 @media (hover: hover) {
     ::-webkit-scrollbar-thumb:hover {
         background: var(--color-scrollbar-thumb-hover);
@@ -622,7 +600,7 @@ body::after {
     }
 }
 
-// 🚨 全站行高＝Figma Auto 1.21（她 2026-09-17 定，取代 09-14「reset 的 1.5＋元件自己寫 1.4」）
+// 🚨 全站行高＝Figma Auto 1.21
 //   為什麼寫 :root 不寫 html／body：CSS reset 在 html 寫了 line-height: 1.5 而且比這支晚載入；
 //   :root 的優先級比 html 高，不管誰先載入都會贏。所有元素都繼承這裡，元件裡不要再各自寫行高。
 //   不怕被切的前提：「…」截斷一律用 overflow: clip visible（只裁左右），不要用 overflow: hidden 裁到上下。

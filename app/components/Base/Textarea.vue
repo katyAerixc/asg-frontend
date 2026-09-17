@@ -62,13 +62,13 @@ function clear() {
 .base-textarea {
     display: flex;
     flex-direction: column;
-    gap: var(--corner-2); // Figma PC/input：文字區 → 字數 10
+    gap: var(--corner-2);
 
     padding: var(--input-padding-y) var(--input-padding-x);
     border-radius: var(--corner-input);
 
     background: var(--bg-input);
-    backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+    backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
     box-shadow: var(--shadow-input);
 
     transition: box-shadow 0.25s ease;
@@ -107,15 +107,12 @@ function clear() {
         background: transparent;
         outline: none;
 
-        // Figma 4-1：描述框的提示文字是 Primary/30 #8F9BAD（比下拉的 Primary/40 淡一階）。
-        // 她 2026-09-16 指示「要依照 Figma」，所以兩個欄位刻意不同色
         &::placeholder {
             color: var(--color-primary-30);
         }
     }
 
-    // ⚠️ 尺寸暫定 12（跟暱稱輸入框的 ✕ 同大小），Figma 未量
-    // 字級跟輸入文字一樣，margin-top 用 em 算：✕ 永遠跟第一行文字置中，H5 / PC 都對得上
+    // margin-top：讓 ✕ 跟第一行文字置中（字級跟輸入文字一樣，才能用 em 算）
     &__clear {
         cursor: pointer;
 
@@ -154,12 +151,11 @@ function clear() {
         }
     }
 
-    // Figma：0/500 在右下角、灰字
     &__count {
         align-self: flex-end;
         font-size: var(--input-font-size);
         font-weight: var(--font-weight-regular);
-        color: var(--color-primary-30); // Figma 0/500：Primary/30
+        color: var(--color-primary-30);
 
         // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
         &--filled {

@@ -60,7 +60,7 @@ const props = withDefaults(
     defineProps<{
         id?: string;
         options: SelectOption[];
-        placeholder?: string; // 不給就沒有提示字，要顯示什麼由用的人決定（走 i18n）
+        placeholder?: string;
     }>(),
     {
         id: undefined,
@@ -116,7 +116,6 @@ onUnmounted(() => {
     position: relative;
     z-index: 2; // 展開的清單要蓋過下面的描述框
 
-    // Figma MB/inpt 高 39、PC/input 高 44；內距上下 Corner-2 左右 Corner-3、圓角 Corner-input、底色 Primary/90
     &__trigger {
         cursor: pointer;
 
@@ -128,7 +127,7 @@ onUnmounted(() => {
         height: 39px; // 電腦版在最下面改回 --select-height（44）
         padding: var(--input-padding-y) var(--input-padding-x);
 
-        // 平常框線透明、展開時轉成 Primary/60（Figma MB/inpt Active 的 1px 內框）。
+        // 平常框線透明、展開時轉成 Primary/60。
         // 一開始就佔著 1px，展開時盒子才不會突然變大
         border: 1px solid transparent;
         border-radius: var(--corner-input);
@@ -137,12 +136,12 @@ onUnmounted(() => {
         text-align: left;
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
 
         transition: box-shadow 0.25s ease;
 
-        // 展開時整個框亮起來（Figma input_act + 1px Primary/60 框線）
+        // 展開時整個框亮起來
         &:focus-visible,
         &--open {
             border-color: var(--color-primary-60);
@@ -151,7 +150,7 @@ onUnmounted(() => {
         }
     }
 
-    // 展開時字與箭頭都轉 Primary/10（Figma MB/inpt、PC/input 的 Active），連提示字也是
+    // 展開時字與箭頭都轉 Primary/10，連提示字也是
     &__trigger--open &__value,
     &__trigger--open &__caret {
         color: var(--color-primary-10);
@@ -163,7 +162,7 @@ onUnmounted(() => {
         overflow: clip visible;
         flex: 1;
 
-        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來
         min-width: 0;
 
         font-size: var(--input-font-size);
@@ -171,14 +170,12 @@ onUnmounted(() => {
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        // 還沒選：灰字提示（同輸入框 placeholder）
         &--placeholder {
             color: var(--color-primary-40);
         }
     }
 
     // 用跟選單列同一支箭頭（arrow-right），靠旋轉決定方向：收起朝下、展開朝上
-    // Figma icon/arrow：手機 19、電腦 24，顏色 Primary/40（深淺色都是）
     &__caret {
         transform: rotate(90deg);
 
@@ -207,14 +204,14 @@ onUnmounted(() => {
 
         margin: 0;
 
-        // Figma Frame 10680：上下 0、左右 10，圓角 8（沒綁變數）
+        // 圓角 8 寫死：Figma 沒綁變數
         padding: 0 var(--corner-2);
         border-radius: 8px;
 
         list-style: none;
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input-act);
     }
 
@@ -225,13 +222,10 @@ onUnmounted(() => {
         border-image: var(--line-select-option);
     }
 
-    // Figma：清單文字 20 / 300 / Primary/20（H5 縮成 16）
     &__option {
         cursor: pointer;
 
         width: 100%;
-
-        // Figma MB/list、PC/list：四邊 Corner-2（她 2026-09-15 定照 Figma，取代 09-11 的上下 8）
         padding: var(--corner-2);
         border: 0;
 
@@ -250,7 +244,6 @@ onUnmounted(() => {
 
         @media (hover: hover) {
             &:hover {
-                // Figma MB/list、PC/list hover：Primary/opacity/60/20%（她 2026-09-15 定照 Figma）
                 // 只改這個下拉；頭像選單的語系清單還吃 --bg-list-hover（Header 不在這次範圍）
                 background-color: rgb(var(--color-primary-60-rgb) / 20%);
             }

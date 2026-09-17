@@ -64,7 +64,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
 </script>
 
 <style scoped lang="scss">
-// 高度（Figma Frame 1558 客服 H5 650／Frame 1557 客服 PC 800）走 BaseModal 的 prop，
+// 高度走 BaseModal 的 prop，
 // 不能寫在這裡：BaseModal 的根節點是 Teleport，scoped CSS 傳不進去
 .support {
     // 撐滿彈窗剩下的高度，裡面的列表才有地方捲動
@@ -72,7 +72,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         display: flex;
         flex: 1;
         flex-direction: column;
-        gap: var(--corner-5); // Figma Frame 11363：頁籤 → 表單 30
+        gap: var(--corner-5);
 
         min-height: 0;
     }
@@ -82,8 +82,6 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         flex-shrink: 0;
     }
 
-    // Figma：Inter 20 / 300
-    // 未選中 Neutral/30、選中 Neutral/10（她 2026-09-11 給值）
     &__tab {
         cursor: pointer;
 
@@ -96,13 +94,12 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
         align-items: center;
         justify-content: center;
 
-        height: 44px; // Figma MB 頁籤 44、PC 47
+        height: 44px;
 
-        // Figma：上下各留 10（文字區 = 手機 24、電腦 27），底線貼在最底部
+        // 底線貼在最底部
         padding: var(--corner-2) 0;
         border: 0;
 
-        // Figma UI kit 的 Large 字級（手機 20／電腦 22）；頁籤文字樣式是 22/22p
         font-size: var(--size-large-font-size);
         font-weight: var(--font-weight-regular);
         color: var(--color-neutral-30);
@@ -123,9 +120,9 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
             color: var(--color-neutral-10);
         }
 
-        // Figma Rectangle 611：底線固定 50 寬、置中、貼齊頁籤底部（手機 1px、電腦 2px）
+        // 底線固定寬、置中、貼齊頁籤底部
         // 固定寬度的好處：切成越南文「Gửi câu hỏi」底線不會跟著變長
-        // 顏色照 Figma 的顏色樣式 Neutral/10 寫死，不用 currentcolor——未選中的字是 Neutral/30，
+        // 顏色寫死 Neutral/10，不用 currentcolor——未選中的字是 Neutral/30，
         // 用 currentcolor 以後若加上 hover 變色，底線會跟著變，跟設計稿不合
         &--active::after {
             content: '';
@@ -137,24 +134,23 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
 
             width: 50px;
             height: 1px;
-            border-radius: var(--corner-full); // Figma Rectangle 611：radius 100
+            border-radius: var(--corner-full);
 
             background: var(--color-neutral-10);
         }
     }
 
-    // 只為了給紅點當定位基準（底線 2026-09-16 改成固定 50 寬，掛在 &__tab 上）
+    // 只為了給紅點當定位基準（底線固定 50 寬，掛在 &__tab 上）
     &__tab-label {
         position: relative;
     }
 
-    // Figma Ellipse 3：10 x 10。
     // 🚨 用絕對定位掛在文字右邊，不佔版面空間——
-    //    如果讓它排在文字旁邊，紅點消失時整個 tab 的字會往回跳一下（她 2026-09-11 抓到）
+    //    如果讓它排在文字旁邊，紅點消失時整個 tab 的字會往回跳一下
     &__dot {
         position: absolute;
         top: 50%;
-        left: calc(100% + var(--corner-2)); // Figma Frame 3 的 gap 10
+        left: calc(100% + var(--corner-2));
         transform: translateY(-50%);
 
         width: 10px;
@@ -165,17 +161,15 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
     }
 
     @media (width >= 600px) {
-        // Figma PC/Tab：左右內距 Corner-3（手機 MB 頁籤是 0）
         &__tab {
             height: 47px;
             padding-inline: var(--corner-3);
         }
 
         &__tab--active::after {
-            height: 2px; // Figma PC 底線 2px（手機 1px）
+            height: 2px;
         }
 
-        // Figma PC Ellipse 3：12 x 12
         &__dot {
             width: 12px;
             height: 12px;

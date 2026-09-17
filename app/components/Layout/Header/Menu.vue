@@ -155,7 +155,7 @@ const THEMES: { labelKey: string; value: Theme }[] = [
     },
 ];
 
-// 國旗小圖 22 x 22。語言的代碼與名稱來自 nuxt.config 的 LOCALES（單一真相），
+// 語言的代碼與名稱來自 nuxt.config 的 LOCALES（單一真相），
 // 這裡只補「哪個代碼配哪面旗」，加語言時不用兩邊都改
 const FLAGS: Record<string, string> = {
     'en': flagEn,
@@ -281,7 +281,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-// 全部數值來自 Figma 屬性面板（她 2026-09-10 提供 19 張截圖）
 .header-menu {
     display: flex;
     flex-direction: column;
@@ -309,7 +308,7 @@ onUnmounted(() => {
         gap: var(--corner-2);
         align-items: center;
 
-        // Figma 是 col + gap 10：分隔線上下各留 10（上面靠 padding-bottom，下面靠這條 margin）
+        // 分隔線上下各留 10：線用 border 畫，自己佔 1px（畫在內距裡會讓上面只剩 9）
         margin-bottom: var(--corner-2);
 
         // 左右內距跟下面的連結列一致，鉛筆才會跟那些箭頭對在同一條直線上
@@ -318,7 +317,6 @@ onUnmounted(() => {
         border-image: var(--line-2) 1;
     }
 
-    // Figma：66 × 66、1px 邊框 Primary/20
     &__avatar {
         cursor: pointer;
 
@@ -342,7 +340,6 @@ onUnmounted(() => {
         object-fit: cover;
     }
 
-    // Figma：黑 80% 的橫帶壓在頭像下緣，「更換」14px / 300 / 白
     &__avatar-label {
         position: absolute;
         right: 0;
@@ -377,7 +374,6 @@ onUnmounted(() => {
         align-items: center;
     }
 
-    // Figma：18px / 300 / Primary/20
     &__profile-label {
         flex-shrink: 0;
         font-size: var(--font-size-18);
@@ -385,12 +381,11 @@ onUnmounted(() => {
         color: var(--color-primary-20);
     }
 
-    // Figma：18px / 500 / Primary/10
     &__profile-value {
         // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
 
-        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來
         min-width: 0;
 
         font-size: var(--font-size-18);
@@ -400,13 +395,12 @@ onUnmounted(() => {
         white-space: nowrap;
     }
 
-    // Figma：22 × 22
     &__edit {
         cursor: pointer;
 
         flex-shrink: 0;
 
-        // Figma：鉛筆對齊「暱稱」那一行，不是整塊置中
+        // 鉛筆對齊「暱稱」那一行，不是整塊置中
         align-self: flex-end;
 
         width: 22px;
@@ -423,7 +417,6 @@ onUnmounted(() => {
 
         transition: opacity 0.2s;
 
-        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
                 opacity: 0.7;
@@ -431,7 +424,6 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：高固定 64、左右內距 Corner-2、下框線 1px 白 30%
     &__row {
         cursor: pointer;
 
@@ -451,7 +443,6 @@ onUnmounted(() => {
 
         transition: background-color 0.2s;
 
-        // 最後一列（語系）不畫線
         &:last-child {
             border-bottom: 0;
         }
@@ -461,27 +452,23 @@ onUnmounted(() => {
             position: relative;
         }
 
-        // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
                 background-color: var(--color-primary-opacity-60-20);
             }
 
-            // 語系那列不是連結，滑過不變色；寫在後面才壓得過上面那條
             &--lang:hover {
                 background: none;
             }
         }
     }
 
-    // Figma：18px / 500 / Primary/10
     &__row-label {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
         color: var(--color-primary-10);
     }
 
-    // Figma：22 × 22
     &__row-arrow {
         flex-shrink: 0;
         width: 22px;
@@ -489,7 +476,6 @@ onUnmounted(() => {
         color: var(--color-primary-10);
     }
 
-    // Figma：104 × 38 Hug、圓角 full、內距 Corner-1、底色 Primary/90、input 陰影
     &__theme {
         display: flex;
         gap: 0;
@@ -499,11 +485,10 @@ onUnmounted(() => {
         border-radius: var(--corner-full);
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
     }
 
-    // Figma：未選 18px / 300 / Primary/40；選中 18px / 700 / Primary/10 + 藍底 30% + 內光
     &__theme-btn {
         cursor: pointer;
 
@@ -539,14 +524,13 @@ onUnmounted(() => {
         position: relative;
     }
 
-    // Figma：180 × 44 固定、圓角 Corner-input、1px 邊框 Primary/60、底色 Primary/90、input_act 陰影
-    // PC 寬 192（她 2026-09-15 指定：越南文「Tiếng Việt」180 放不下）；H5 維持 180，見下方
+    // 電腦寬 192，比 Figma 的 180 寬：越南文「Tiếng Việt」要 94px，180 只給 92 會被切
     &__lang-current {
         cursor: pointer;
 
         display: flex;
 
-        // Figma：旗子與文字只隔 4（箭頭靠文字的 flex: 1 推到最右）
+        // 箭頭靠文字的 flex: 1 推到最右
         gap: var(--corner-1);
         align-items: center;
 
@@ -554,15 +538,15 @@ onUnmounted(() => {
         height: var(--select-height);
         padding: var(--input-padding-y) var(--input-padding-x);
 
-        // 平常框線透明、展開才轉成 Primary/60（她 2026-09-11 指定）。
+        // 平常框線透明、展開才轉成 Primary/60。
         // 一開始就佔著 1px，展開時盒子才不會突然變大
         border: 1px solid transparent;
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
 
-        // 收合是 Figma 的 input（3-1 會員選單）、展開才是 input_act（3-2 語系下拉）
+        // 收合是 input 陰影、展開才是 input_act
         // 平常補一圈全透明的外圈，湊成跟 input_act 一樣的 4 層，漸變才補得出來
         box-shadow:
             0 0 0 0 var(--color-white-0),
@@ -578,7 +562,6 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：按鈕上的旗子 24，清單裡的小一號 22（H5 分別是 19 與 17）
     &__lang-flag {
         flex-shrink: 0;
         width: 24px;
@@ -586,13 +569,12 @@ onUnmounted(() => {
         border-radius: var(--corner-full);
     }
 
-    // Figma：20px / 300 / Primary/10
     &__lang-name {
         // 「…」要裁左右；上下不裁，聲調、泰文上下標才不會被切
         overflow: clip visible;
         flex: 1;
 
-        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來（2026-09-17 她抓到）
+        // clip 不像 hidden 會讓它自動縮得比字窄，要自己寫 0，「…」才出得來
         min-width: 0;
 
         font-size: var(--font-size-20);
@@ -612,7 +594,7 @@ onUnmounted(() => {
         width: 24px;
         height: 24px;
 
-        // Figma icon/arrow：Primary/20（比按鈕上的字淡一階）
+        // 比按鈕上的字淡一階
         color: var(--color-primary-20);
 
         transition: transform 0.25s;
@@ -623,7 +605,7 @@ onUnmounted(() => {
         }
     }
 
-    // Figma：寬 180、圓角 8、左右內距 Corner-2、底色 Primary/90、input_act 陰影（PC 跟按鈕一起改 192）
+    // 寬度跟按鈕一起：H5 180、PC 192
     &__lang-list {
         position: absolute;
         z-index: 1;
@@ -639,7 +621,7 @@ onUnmounted(() => {
         border-radius: 8px;
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input-act);
     }
 
@@ -647,8 +629,6 @@ onUnmounted(() => {
         cursor: pointer;
 
         display: flex;
-
-        // Figma：旗子與文字只隔 4
         gap: var(--corner-1);
         align-items: center;
 
@@ -657,7 +637,7 @@ onUnmounted(() => {
         padding: 0 var(--corner-2); // 左右留白：國旗與文字不貼著邊
         border: 0;
 
-        // Figma PC/list 的分隔線是 Primary/40 實色，不是半透明白；跟 Base/Select 的選項用同一支變數
+        // 跟 Base/Select 的選項用同一支變數
         border-bottom: 1px solid var(--color-select-option-line);
 
         background: none;
@@ -676,7 +656,7 @@ onUnmounted(() => {
         height: 22px;
     }
 
-    // Figma：清單文字 20px / 300 / Primary/20（比按鈕上的淡一階）
+    // 清單文字比按鈕上的淡一階
     &__lang-item &__lang-name {
         color: var(--color-primary-20);
     }
@@ -694,7 +674,6 @@ onUnmounted(() => {
         border-bottom: 0;
     }
 
-    // H5（她 2026-09-10 提供 14 張 Figma 截圖）：整體縮一號，背景/圓角/內距與 PC 相同
     @media (width < 960px) {
         width: 300px;
 
@@ -703,7 +682,6 @@ onUnmounted(() => {
             height: 56px;
         }
 
-        // Figma H5：黑帶 20（PC 25）
         &__avatar-label {
             height: 20px;
             font-size: var(--font-size-12);
@@ -723,12 +701,10 @@ onUnmounted(() => {
             height: 19px;
         }
 
-        // Figma H5：選單列 59（PC 64）
         &__row {
             height: 59px;
         }
 
-        // Figma H5：鉛筆 19（PC 22）
         &__edit {
             width: 19px;
             height: 19px;
@@ -744,14 +720,11 @@ onUnmounted(() => {
             font-size: var(--font-size-16);
         }
 
-        // Figma H5：160。她 2026-09-15 曾為越南文「Tiếng Việt」放寬到 180（PC 192），
-        // 2026-09-16 決定先照設計稿試 160，爆版再找設計師確認
         &__lang-current,
         &__lang-list {
             width: 160px;
         }
 
-        // Figma MB/inpt：160 × 39 固定（PC 44）；清單跟著往上貼，仍離按鈕 5
         &__lang-current {
             height: 39px;
         }
@@ -762,7 +735,6 @@ onUnmounted(() => {
             height: 19px;
         }
 
-        // Figma H5：清單列 40（PC 45）、清單旗子 17（PC 22）
         &__lang-item {
             height: 40px;
         }

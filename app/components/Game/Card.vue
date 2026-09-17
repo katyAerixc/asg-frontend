@@ -129,7 +129,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     &__img {
         display: block;
 
-        aspect-ratio: 156 / 200; // 手機 Figma Image 156 × 200；電腦版在最下面換成 360 / 380
+        aspect-ratio: 156 / 200; // 電腦版在最下面換成 360 / 380
         width: 100%;
         border-radius: var(--corner-3);
 
@@ -148,7 +148,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         opacity: 0;
     }
 
-    // 標籤：距大圖左上角留一點白；左上/右下圓角 15px、白邊、漸層、陰影（照 Figma）
+    // 標籤：距大圖左上角留一點白
     &__tags {
         position: absolute;
         top: var(--corner-1);
@@ -156,11 +156,10 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         left: var(--corner-1);
 
         display: flex;
-        flex-wrap: wrap; // Figma Frame 11386：塞不下就換行
+        flex-wrap: wrap;
         gap: 4px;
     }
 
-    // 玻璃塊：貼齊卡片底部，高度佔卡片固定比例（Figma 154/451 ≈ 34%）
     // 玻璃塊：正常排版 + 負的上邊距往上蓋。蓋住的量固定，所以圖片永遠露出 74%；
     // 高度不設限，文字變多時往「下」長，不會多吃圖片
     &__info {
@@ -170,12 +169,12 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         display: flex;
         flex-direction: column;
 
-        // 手機 Figma MB/Game/block：間距 10、內距 15（卡片 172 寬時剛好；更窄的手機等比縮，最小 4／12）
+        // 卡片 172 寬時剛好 10／15；更窄的手機等比縮，最小 4／12
         gap: clamp(4px, calc(10 / 172 * 100cqw), 10px);
 
         // 往上蓋圖片固定量（% 的 margin 以容器寬度換算，會等比縮放）：手機蓋 60，電腦版在最下面換成 100
         margin-top: calc(-60 / 172 * 100%);
-        padding: clamp(12px, calc(15 / 172 * 100cqw), var(--corner-3)); // 最大值＝Figma Corner/Corner-3
+        padding: clamp(12px, calc(15 / 172 * 100cqw), var(--corner-3));
         border-radius: var(--corner-3);
 
         // 前兩段是「還沒 hover 的白框與外陰影」：全透明，這樣 hover 時才能平滑長出來
@@ -188,7 +187,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         transition: box-shadow var(--motion-hover-game);
 
         // 底色與霧化獨立成一層,不跟文字擠在同一層
-        // 2026-09-09 她回報:偶爾整塊只剩模糊、文字沒出現。原因是霧化與文字同層時
+        // 偶爾整塊只剩模糊、文字沒出現：霧化與文字同層時
         // 瀏覽器可能只畫完霧化就沒接著畫文字。分層之後兩邊各自繪製,不會互相影響
         &::before {
             content: '';
@@ -210,7 +209,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         align-items: center;
     }
 
-    // 縮圖：60×60、白邊 1px、圓角 10px（照 Figma）
     &__thumb {
         display: none; // 手機版沒有縮圖
         flex-shrink: 0;
@@ -218,14 +216,13 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         width: 60px;
         height: 60px;
 
-        // 用 neutral-10 不用 primary-10：淺色主題不覆寫 neutral，框線兩個主題都是白（她 2026-09-14 指定，同標籤的做法）
+        // 用 neutral-10 不用 primary-10：淺色主題不覆寫 neutral，框線兩個主題都是白（同標籤的做法）
         border: 1px solid var(--color-neutral-10);
         border-radius: var(--corner-2);
 
         object-fit: cover;
     }
 
-    // Figma Frame 12：名稱列與描述之間手機 4、電腦 5
     &__text {
         display: flex;
         flex: 1;
@@ -235,7 +232,6 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         min-width: 0;
     }
 
-    // Figma Frame 10704：名稱與 ⓘ 之間 5
     &__name-row {
         display: flex;
         gap: 5px;
@@ -243,8 +239,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         justify-content: space-between;
     }
 
-    // 名稱與描述：各斷點固定一個字級，不跟著卡片寬度縮（她 2026-09-09 定）
-    // 字級照 Figma：名稱手機 18／電腦 20，描述手機 14／電腦 16
+    // 名稱與描述：各斷點固定一個字級，不跟著卡片寬度縮
     &__name {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-bold);
@@ -262,7 +257,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         white-space: nowrap;
     }
 
-    // 整張卡片都能點（她 2026-09-11 指定），這顆 ⓘ 是給鍵盤與讀螢幕用的真按鈕，
+    // 整張卡片都能點，這顆 ⓘ 是給鍵盤與讀螢幕用的真按鈕，
     // 所以要先把瀏覽器預設外觀洗掉，看起來還是跟原本的小圖示一樣
     &__i {
         cursor: pointer;
@@ -282,15 +277,15 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         }
     }
 
-    // Figma icon/01：手機 22 × 22、電腦 24 × 24（圖案在正中間，SVG 本身就含留白）
+    // SVG 本身就含留白，圖案在正中間
     &__i-icon {
         width: 22px;
         height: 22px;
         color: var(--color-neutral-80);
     }
 
-    // 上下不另外留白：Figma 手機／電腦都只靠玻璃塊自己的間距（10 / 15）
-    // Figma 分隔線高 0、不佔排版高度 → 用 -1px 下距抵掉；手機 Figma 寬 140（左右各內縮 1），電腦填滿
+    // 上下不另外留白：只靠玻璃塊自己的 gap
+    // Figma 分隔線高 0、不佔排版高度 → 用 -1px 下距抵掉；手機左右各內縮 1，電腦填滿
     &__divider {
         height: 1px;
         margin: 0 0 -1px;
@@ -308,21 +303,19 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: 10px;
     }
 
-    // 只有真的有滑鼠的裝置才做 hover；手機沒有滑鼠，點完 :hover 會黏著不放
     @media (hover: hover) {
         // 滑入整張卡：放大版淡入蓋住原圖（Figma DISSOLVE）。
-        // 🚨 原圖不要同時淡出：兩張一起變透明時，一半的瞬間深色底會透出來、畫面暗一下（她 2026-09-17 抓到）
+        // 🚨 原圖不要同時淡出：兩張一起變透明時，一半的瞬間深色底會透出來、畫面暗一下
         // 放大版被 __media 的 overflow 裁住，所以外框尺寸不變，不會把旁邊卡片推開
         &:hover &__img--hover {
             opacity: 1;
         }
 
-        // Figma item=hover：大圖那層多一道外陰影 0 0 10 黑 50%
         &:hover &__media {
             box-shadow: 0 0 10px 0 var(--color-shadow-dark-50);
         }
 
-        // 滑入整張卡（Figma item=default → item=hover）：
+        // 滑入整張卡：
         // ①往外長 1px 白框 ②多一道 0 0 10 外陰影 ③三層內陰影換成位移較大的 game/bg_act
         // 用 box-shadow 不占空間，所以不會把旁邊的卡片推開
         &:hover &__info {
@@ -330,7 +323,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         }
     }
 
-    // 手機沒有 hover：按下去時換成 Figma MB/Game/block item=active（0.1 秒）
+    // 手機沒有 hover：改成按下去時變化（Figma item=active）
     // 圖框 156 → 164 時比例一起換成 164 / 200，高度不變，下面的玻璃塊不會跳
     @media (hover: none) and (width < 960px) {
         &__media {
@@ -379,13 +372,12 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
             width: $img-ratio;
         }
 
-        // Figma Image 360 × 380（她 2026-09-15 定照 Figma，原本 1:1.12）
         &__img {
             aspect-ratio: 360 / 380;
         }
 
         // Figma 圖高 380、玻璃塊 Top 280，蓋住 100
-        // Figma Frame 10684：玻璃塊裡「頭像列／分隔線／三格數據」的間距是 15（不是玻璃塊自己的 10）
+        // 電腦版玻璃塊裡的間距是 15（手機是 10）
         &__info {
             gap: var(--corner-3);
             margin-top: calc(-100 / 390 * 100%);

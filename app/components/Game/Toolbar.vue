@@ -98,13 +98,13 @@ const filterOptions: GameSort[] = [
 const filtersRef = ref<HTMLElement | null>(null);
 
 // 浮動搜尋鈕（手機）：排序那排捲出畫面才出現
-// 🚨 keepalive 會把舊語系的首頁暫存起來；暫存中的工具列不能再畫浮動鈕，不然切語系後會有兩顆（她 2026-09-15）
+// 🚨 keepalive 會把舊語系的首頁暫存起來；暫存中的工具列不能再畫浮動鈕，不然切語系後會有兩顆
 const isPageActive = ref(true);
 const isFiltersOut = ref(false);
 const isFloatOpen = ref(false);
 const floatRef = ref<HTMLElement | null>(null);
 const floatInputRef = ref<HTMLInputElement | null>(null);
-// 手機跳出鍵盤、打字篩掉遊戲時頁面會跟著動，瀏覽器會當成捲動 → 這段時間內的捲動不算（她選 A：打字時不收）
+// 手機跳出鍵盤、打字篩掉遊戲時頁面會跟著動，瀏覽器會當成捲動 → 這段時間內的捲動不算（打字時不收）
 let ignoreScrollUntil = 0;
 let filtersObserver: IntersectionObserver | null = null;
 
@@ -186,9 +186,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-// ⚠️ 篩選列的顏色尺寸多為暫定（來自設計規格 md），等 Figma 規格再對
 // 工具列外層：滿版（左右不留缺口）+ 黏在畫面最上面
-// 沒黏住時透明（Figma 沒填色）；往下滑黏住才長出跟頁面同色的底，字才不會疊在卡片上（她 2026-09-17 定）
+// 沒黏住時透明（Figma 沒填色）；往下滑黏住才長出跟頁面同色的底，字才不會疊在卡片上
 .game-toolbar {
     position: sticky;
     z-index: 40;
@@ -206,31 +205,31 @@ onUnmounted(() => {
     }
 
     // 工具列內層：限制最大寬度、手機上下兩行、電腦左右一行
-    // 手機版兩行之間留 24px（她 2026-09-09 說 16px 太擠）
+    // 手機版兩行之間留 24px（16px 太擠）
     &__inner {
         display: flex;
         flex-direction: column;
         gap: 24px;
 
-        max-width: 1320px; // 跟下面卡片區同寬（Figma PC/Home 外框 1320）
+        max-width: 1320px; // 跟下面卡片區同寬
         margin: 0 auto;
-        padding: var(--corner-3); // Figma PC 1-1／1-2：Header（或畫面頂）到分類列 15
+        padding: var(--corner-3);
     }
 
     &__filters {
         display: flex;
-        gap: var(--corner-3); // Figma PC Frame 10709 間距 15（切換膠囊 ↔ 搜尋框）
+        gap: var(--corner-3);
         align-items: center;
     }
 
-    // NEW / HOT：一顆膠囊、左右切換（Figma input 風格：內嵌陰影 + 模糊）
+    // NEW / HOT：一顆膠囊、左右切換
     &__toggle {
         display: flex;
-        gap: 0; // Figma PC/switch、MB/switch 按鈕之間沒有間距（md 與 raw JSON 確認，2026-09-16）
+        gap: 0;
         align-items: center;
         justify-content: center;
 
-        // Figma PC/switch 149×38、MB/switch 140×35（2026-09-16 對帳；跟搜尋框不同高，設計稿本來就這樣）
+        // 切換鈕跟搜尋框不同高，設計稿本來就這樣
         height: 38px;
         padding: var(--corner-1);
         border-radius: var(--corner-full);
@@ -268,7 +267,7 @@ onUnmounted(() => {
             box-shadow 0.2s ease;
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
-        // 🚨 不能加 overflow: hidden（她 2026-09-15 抓到「點標籤時右邊搜尋框會晃」）：
+        // 🚨 不能加 overflow: hidden（點標籤時右邊搜尋框會晃）：
         //    加了之後它的「最小寬度」會被算成 0，按鈕的最小寬度改由真的文字決定，
         //    文字變粗就變寬 → 整排的最小寬度跟著變 → 搜尋框被擠來擠去。高度 0＋看不見已經夠了
         &::before {
@@ -290,7 +289,6 @@ onUnmounted(() => {
             box-shadow: -1px 0 1px 0 var(--color-white-70) inset;
         }
 
-        // 只有真的有滑鼠的裝置才做 hover；手機點完 :hover 會黏著不放
         @media (hover: hover) {
             &:hover {
                 color: var(--color-primary-10);
@@ -329,7 +327,6 @@ onUnmounted(() => {
         }
     }
 
-    // Figma PC/input 字 20、MB/inpt 字 16（2026-09-16 對帳確認）
     &__search-input {
         flex: 1;
 
@@ -354,7 +351,7 @@ onUnmounted(() => {
         flex-shrink: 0;
         width: 19px;
         height: 19px;
-        color: var(--color-primary-40); // Figma PC/input 放大鏡 Primary/40（手機另外蓋）
+        color: var(--color-primary-40); // 手機版另外覆寫
     }
 
     // 真的文字跟上面的幽靈文字疊在同一格
@@ -363,11 +360,10 @@ onUnmounted(() => {
     }
 
     @media (width < 960px) {
-        // 手機（她 2026-09-15 定，#63）：只有「全部／老虎機…」分類列黏頂，ALL 那排跟著頁面捲走、改由右下角浮動鈕搜尋
+        // 手機：只有「全部／老虎機…」分類列黏頂，排序那排跟著頁面捲走、改由右下角浮動鈕搜尋
         // sticky 只能在爸爸範圍內黏，所以外層兩層改 display: contents（盒子消失），分類列直接變成整頁的子元素才黏得住
         display: contents;
 
-        // Figma MB/switch 140×35、按鈕字 16、MB/inpt 字 16（電腦是 38／18／20，見基準）
         &__toggle {
             height: 35px;
         }
@@ -385,8 +381,8 @@ onUnmounted(() => {
             z-index: 40;
             top: 0;
 
-            // 原本整條工具列的上左右內距 16；下面留 8，跟 ALL 那排的 10 加起來還是原本的間距 18
-            padding: 16px var(--corner-2) 8px; // 左右 10：Figma MB/Tag 寬 370、離畫面左右各 10
+            // 原本整條工具列的上左右內距 16；下面留 8，跟排序那排的 10 加起來還是原本的間距 18
+            padding: 16px var(--corner-2) 8px;
 
             background-color: transparent;
 
@@ -400,12 +396,12 @@ onUnmounted(() => {
             }
         }
 
-        // 手機：下方不留內距（她 2026-09-11 指定）；內距改由分類列與 ALL 那排各自負責
+        // 手機：下方不留內距；內距改由分類列與排序那排各自負責
         &__inner {
             display: contents;
         }
 
-        // 排序膠囊 ↔ 搜尋框 15，搜尋框吃掉剩下的寬度（Figma MB 1-1 主頁）
+        // 搜尋框吃掉剩下的寬度
         &__filters {
             gap: var(--corner-3);
             margin-top: 10px;
@@ -432,7 +428,6 @@ onUnmounted(() => {
             flex: 0 1 auto;
         }
 
-        // Figma 搜尋框固定寬 280（她 2026-09-15 定）；畫面太窄時可以縮
         // 用 width 不用 flex-basis：外層寬度是「跟著內容」算的，瀏覽器算內容寬時看 width、不看 flex-basis，只寫 flex-basis 會被縮成 265
         &__search {
             flex: 0 1 auto;
@@ -452,10 +447,10 @@ onUnmounted(() => {
 .game-toolbar-float {
     position: fixed;
     z-index: 45; // 蓋過遊戲卡與工具列(40)，但在頭像選單(60)與彈窗(100)底下
-    right: var(--corner-2); // Figma 1-3／1-4 MB/btn/search 離畫面右、下各 10
+    right: var(--corner-2);
     bottom: calc(var(--corner-2) + env(safe-area-inset-bottom));
 
-    // Figma MB/btn/search：收起 50 圓形藍漸層；展開膠囊、底 Primary/90（漸層在 ::before，展開時淡出）
+    // Figma MB/btn/search（漸層在 ::before，展開時淡出）
     &__box {
         cursor: pointer;
 
@@ -532,7 +527,7 @@ onUnmounted(() => {
         color: var(--color-neutral-10);
     }
 
-    // 展開：寬度＝螢幕寬扣掉左右各 10（Figma 1-4：390 寬時 370）
+    // 展開：寬度＝螢幕寬扣掉左右各 10
     // 陰影是效果樣式 282:2752 ＝ --shadow-bg（內陰影模糊 2、外陰影排最後）
     &--open &__box {
         gap: 10px;
@@ -549,7 +544,6 @@ onUnmounted(() => {
         }
     }
 
-    // Figma MB/btn/search 展開的放大鏡：深淺色都是 Primary/30
     &--open &__icon {
         color: var(--color-primary-30);
     }

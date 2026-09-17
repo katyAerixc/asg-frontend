@@ -140,34 +140,32 @@ async function submit() {
         gap: var(--corner-3);
 
         min-height: 0;
-        padding: 0 var(--corner-2); // Figma：表單三塊比彈窗內容左右各縮 10（手機 310、電腦 550）
+        padding: 0 var(--corner-2);
     }
 
     &__field {
         display: flex;
         flex-direction: column;
-        gap: var(--corner-2); // Figma：標籤 → 欄位 10
+        gap: var(--corner-2);
 
-        // 描述框固定高（Figma：H5 130、PC 200），不跟著彈窗長高
+        // 描述框固定高，不跟著彈窗長高
         &--grow {
             flex: none;
         }
     }
 
-    // Figma：手機 18 / PC 20，500
-    // 標題字：兩個主題都是白（Neutral/10 淺色不覆寫）。原本用 Primary/10，淺色會變深藍（她 2026-09-14 提供 Figma 淺色）
+    // 標題字：兩個主題都是白，用 Neutral/10 不用 Primary/10（淺色會變深藍）
     &__label {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10);
     }
 
-    // 星號跟標題同色（她 2026-09-11 指定，不要紅色）
+    // 星號跟標題同色，不要紅色
     &__required {
         color: inherit;
     }
 
-    // Figma MB/inpt：描述框 150 高（內容 130 ＋ 上下內距 10）
     &__textarea {
         flex: none;
         height: 150px;
@@ -184,7 +182,6 @@ async function submit() {
             font-size: var(--font-size-20);
         }
 
-        // Figma PC/input：描述框 200 高
         &__textarea {
             height: 200px;
         }

@@ -14,19 +14,17 @@ defineProps<{ type: string }>();
 </script>
 
 <style scoped lang="scss">
-// Figma：內距 Corner-1／Corner-2、1px 白框、左上與右下 Corner-3（另外兩角是直角）
-// 遊戲卡與遊戲介紹彈窗共用同一顆（2026-09-11 確認兩邊規格完全一樣）
+// 遊戲卡與遊戲介紹彈窗共用同一顆（兩邊規格完全一樣）
 .game-tag {
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: center;
 
-    // 高度 min-height 手機 27、電腦 29；內距照 Figma pad 4/10（她 2026-09-17 說照 Figma，取代 09-14 上下 0）
     min-height: 27px;
     padding: var(--corner-1) var(--corner-2);
 
-    // 用 neutral-10 不是 primary-10：淺色主題不覆寫 neutral，標籤兩個主題長得一樣（她 2026-09-11 指定）
+    // 用 neutral-10 不是 primary-10：淺色主題不覆寫 neutral，標籤兩個主題長得一樣
     border: 1px solid var(--color-neutral-10);
     border-radius: var(--corner-3) 0;
 
@@ -52,7 +50,7 @@ defineProps<{ type: string }>();
     }
 
     @media (width >= 960px) {
-        min-height: 29px; // Figma PC/Game/Tag 高 29（手機 27）
+        min-height: 29px;
         font-size: var(--font-size-16);
     }
 }

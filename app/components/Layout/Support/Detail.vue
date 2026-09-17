@@ -4,7 +4,6 @@
             <p class="support-detail__date">
                 {{ record.createdAt }}
             </p>
-            <!-- Figma Frame 1568：類型與描述自成一組，組內間距 10 -->
             <div class="support-detail__question">
                 <h3 class="support-detail__type">
                     {{ $t(toShortIssueKey(record.issueTypeKey)) }}
@@ -77,12 +76,11 @@ const {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 40px; // Figma 彈窗 gap 40：內容 → 按鈕區（按鈕區還是 margin-top: auto 推到最底）
+    gap: 40px; // 按鈕區還是靠 margin-top: auto 推到最底
 
     min-height: 0;
 
-    // Figma Frame 11：圓角 Corner-2、內距 上下 Corner-2／左右 Corner-3、間距 手機 10／電腦 15
-    // 高度依內容，不要撐滿——撐滿的話回覆下面會留一大塊空的深藍底（她 2026-09-11 指出）
+    // 高度依內容，不要撐滿——撐滿的話回覆下面會留一大塊空的深藍底
     &__card {
         overflow-y: auto;
         display: flex;
@@ -97,7 +95,6 @@ const {
         background: var(--bg-support-card);
     }
 
-    // Figma：14 / 300 / Primary/40（她 2026-09-17 說照 Figma，取代 09-14 的 Primary/50）
     &__date {
         margin: 0;
         font-size: var(--font-size-14);
@@ -118,7 +115,6 @@ const {
         color: var(--color-neutral-10);
     }
 
-    // Figma Color/Neutral/20；H5 18 / PC 20
     &__text {
         margin: 0;
 
@@ -128,7 +124,6 @@ const {
         text-align: justify;
     }
 
-    // Figma Frame 1570：圓角 Corner-2、內距 Corner-2、間距 10
     &__reply {
         display: flex;
         flex-direction: column;
@@ -154,7 +149,6 @@ const {
         color: var(--color-support-reply-title);
     }
 
-    // Figma：H5 16 / PC 18
     &__reply-time {
         font-size: var(--font-size-16);
         font-weight: var(--font-weight-regular);
@@ -172,7 +166,7 @@ const {
         white-space: pre-line;
     }
 
-    // 按鈕與說明推到彈窗最底（她 2026-09-11 指定），中間的空白留白就好
+    // 按鈕與說明推到彈窗最底，中間的空白留白就好
     &__foot {
         display: flex;
         flex-direction: column;
@@ -183,7 +177,6 @@ const {
         margin-top: auto;
     }
 
-    // Figma Frame 11205：兩顆按鈕間距 手機 20／電腦 30
     &__actions {
         display: flex;
         gap: var(--corner-4);
@@ -191,8 +184,8 @@ const {
         width: 100%;
     }
 
-    // 手機：兩顆並排、字不換行、寬度跟著字走、間距固定 20（她 2026-09-17 給範例圖，取代原本「窄時上下疊」）
-    // 先各佔 Figma 的 150，放不下就一起縮，但最窄只縮到「字＋左右內距」（max-content），不會斷行
+    // 手機：兩顆並排、字不換行、寬度跟著字走、間距固定 20
+    // 先各佔 150，放不下就一起縮，但最窄只縮到「字＋左右內距」（max-content），不會斷行
     &__action {
         @media (width < 600px) {
             flex: 0 1 var(--button-medium-width);
@@ -201,7 +194,6 @@ const {
         }
     }
 
-    // Figma：H5 14 / PC 16（PC 她 2026-09-11 給值）、Primary/40
     &__note {
         margin: 0;
 
@@ -211,7 +203,7 @@ const {
         text-align: center;
     }
 
-    // 電腦版字級（她 2026-09-11 逐項指定）
+    // 電腦版字級
     @media (width >= 600px) {
         &__card {
             gap: var(--corner-3);

@@ -91,21 +91,18 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-// 全部數值來自 Figma 屬性面板（她 2026-09-10 提供 12 張截圖）
 .nickname-editor {
     display: flex;
     flex: 1;
     flex-direction: column;
     gap: var(--corner-2);
 
-    // Figma：H5 18 / 500 / 白（PC 20）
     &__label {
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-medium);
         color: var(--color-neutral-10);
     }
 
-    // Figma：H5 高 39、內距上下 Corner-2 左右 Corner-3、圓角 Corner-input、底色 Primary/90
     &__field {
         display: flex;
         gap: var(--corner-2);
@@ -117,7 +114,7 @@ onMounted(() => {
         border-radius: var(--corner-input);
 
         background: var(--bg-input);
-        backdrop-filter: blur(25px); // Figma input：bg-blur 50 ÷ 2
+        backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
         box-shadow: var(--shadow-input);
 
         transition: box-shadow 0.25s ease;
@@ -128,7 +125,6 @@ onMounted(() => {
         }
     }
 
-    // Figma：輸入文字 16 / 300 / 白；placeholder 同大小但 Primary/40
     &__input {
         flex: 1;
 
@@ -147,7 +143,7 @@ onMounted(() => {
         }
     }
 
-    // Figma：19 x 19 的點擊區，裡面的叉 11.4（框比圖大，用 mask-size 縮圖、置中）
+    // 框比圖大，用 mask-size 縮圖、置中
     &__clear {
         cursor: pointer;
 
@@ -174,7 +170,6 @@ onMounted(() => {
         }
     }
 
-    // 電腦版：Figma 輸入框 510 x 44（彈窗可用 570，左右各留 30），標籤與輸入文字都 20
     @media (width >= 600px) {
         align-self: center;
         width: 100%;
@@ -188,7 +183,6 @@ onMounted(() => {
             height: 44px;
         }
 
-        // Figma PC：24 x 24 的點擊區，裡面的叉 14.4
         &__clear {
             width: 24px;
             height: 24px;
