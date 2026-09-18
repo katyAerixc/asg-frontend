@@ -1,8 +1,14 @@
 import { fileURLToPath } from 'node:url';
 
+import { checkAndGetEnvValue } from '@kikiutils/shared/env';
+
+// Constants/Variables
+const envValidationSkipped = process.env.SKIP_ENV_VALIDATION === 'true';
+const seoIndexingEnabled = process.env.SEO_INDEXING_ENABLED?.trim() !== 'false';
+
 // i18n：語言檔按功能拆成 6 個，7 種語言各一份（i18n/locales/<語言>/<功能>.json）
 // 加字串 → 改對應的功能檔；加語言 → 在 LOCALES 加一行、複製 zh-TW 資料夾。詳見 i18n/README.md
-const I18N_NAMESPACES = [
+const i18nNamespaces = [
     'common',
     'header',
     'lobby',
@@ -11,7 +17,7 @@ const I18N_NAMESPACES = [
     'support',
 ];
 
-const LOCALES = [
+const i18nLocales = [
     {
         code: 'zh-TW',
         name: '繁體中文',
@@ -42,9 +48,16 @@ const LOCALES = [
     },
 ].map((locale) => ({
     ...locale,
-    files: I18N_NAMESPACES.map((namespace) => `${locale.code}/${namespace}.json`),
+    files: i18nNamespaces.map((namespace) => `${locale.code}/${namespace}.json`),
     language: locale.code,
 }));
+
+const siteDescription = 'ASG';
+const siteName = 'ASG';
+const siteTitle = 'ASG';
+const siteUrl = (envValidationSkipped ? process.env.NUXT_SITE_URL : checkAndGetEnvValue('NUXT_SITE_URL'))
+    ?.trim()
+    .replace(/\/+$/, '');
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -56,16 +69,18 @@ export default defineNuxtConfig({
                     href: '/favicon.ico',
                     rel: 'icon',
                 },
+                // 這裡貌似與下面PWA會衝突或重複，最後上線或要啟用PWA(也可能最終不啟用)時再處理
                 {
                     href: '/favicon.png',
                     rel: 'apple-touch-icon',
                 },
             ],
             // 頁面沒設標題時的備用名；各頁的標題（seo.title）本身就含品牌名，所以不用 titleTemplate 再補一次
-            title: 'ASG',
+            title: siteTitle,
         },
         keepalive: true,
     },
+    build: { transpile: [] },
     colorMode: {
         classSuffix: '',
         dataValue: 'theme',
@@ -103,17 +118,29 @@ export default defineNuxtConfig({
             useCookie: true,
         },
         langDir: 'locales',
-        locales: LOCALES,
+        locales: i18nLocales,
         strategy: 'prefix_except_default',
     },
-    kikiutilsNuxt: { enabledModules: { security: true } },
+    kikiutilsNuxt: {
+        autoImportUtils: { '@kikiutils/shared': {} },
+        enabledModules: {
+            // 交給@nuxtjs/seo處理
+            robots: false,
+            security: true,
+        },
+    },
+    linkChecker: { enabled: false },
     modules: [
         '@kikiutils/nuxt',
         '@nuxtjs/color-mode',
+        // 暫時關閉，最後再決定要開還關
+        // '@vite-pwa/nuxt',
         '@nuxtjs/i18n',
+        '@nuxtjs/seo',
         '@pinia/nuxt',
     ],
     nitro: {
+        // apiBaseURL: '/_api',
         preset: process.env.NITRO_PRESET || 'node-cluster',
 
         // favicon 放在 app/assets/images/favicon，但要能用 /favicon.ico 這種固定網址抓到
@@ -121,33 +148,168 @@ export default defineNuxtConfig({
         // ⚠️ dir 必須是絕對路徑，寫相對路徑不會生效
         publicAssets: [{ dir: fileURLToPath(new URL('app/assets/images/favicon', import.meta.url)) }],
     },
+    ogImage: { enabled: false },
+    plugins: [],
+    // 暫時關閉，最後再決定要開還關
+    // pwa: {
+    //     client: { periodicSyncForUpdates: 60 * 60 },
+    //     devOptions: { enabled: false },
+    //     filename: 'sw.ts',
+    //     injectManifest: { globPatterns: [] },
+    //     manifest: {
+    //         background_color: 'to be fill',
+    //         description: siteDescription,
+    //         display: 'standalone',
+    //         icons: [
+    //             {
+    //                 sizes: '192x192',
+    //                 src: '/icon-192x192.png',
+    //                 type: 'image/png',
+    //             },
+    //             {
+    //                 purpose: 'any',
+    //                 sizes: '512x512',
+    //                 src: '/icon-512x512.png',
+    //                 type: 'image/png',
+    //             },
+    //             {
+    //                 purpose: 'maskable',
+    //                 sizes: '512x512',
+    //                 src: '/icon-maskable-512x512.png',
+    //                 type: 'image/png',
+    //             },
+    //         ],
+    //         id: '/',
+    //         lang: 'zh-TW',
+    //         name: siteName,
+    //         scope: '/',
+    //         short_name: siteName,
+    //         start_url: '/',
+    //         theme_color: 'to be fill',
+    //     },
+    //     registerType: 'prompt',
+    //     srcDir: 'service-worker',
+    //     strategies: 'injectManifest',
+    // },
+    robots: { disallow: seoIndexingEnabled ? undefined : '/' },
+    routeRules: {},
     // 值由 .env 的 NUXT_PUBLIC_* 覆蓋（NUXT_PUBLIC_API_BASE、NUXT_PUBLIC_USE_MOCK）
     runtimeConfig: {
         public: {
             apiBase: '',
+            siteUrl,
             // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
             useMock: true,
+        },
+    },
+    schemaOrg: {
+        enabled: seoIndexingEnabled,
+        identity: {
+            '@type': [],
+            // TODO: 正確設定
+            'logo': `${siteUrl}/favicon.ico`,
+            'name': siteName,
+            'url': siteUrl,
         },
     },
     security: {
         headers: {
             contentSecurityPolicy: {
-                // 上傳附件的縮圖用 URL.createObjectURL 產生 blob: 網址，
-                // 預設的 img-src 只有 'self' data:，會把縮圖擋成破圖。blob: 只能是同源的，加了安全
-                'img-src': [
+                'base-uri': [`'self'`],
+                'connect-src': [
+                    `'self'`,
+                    'https://*.analytics.google.com',
+                    'https://*.google-analytics.com',
+                    'https://*.googletagmanager.com',
+                    'https://fonts.googleapis.com',
+                    'https://fonts.gstatic.com',
+                    'https://stats.g.doubleclick.net',
+                    'https://i.ytimg.com',
+                    'https://s.ytimg.com',
+                    'https://www.youtube.com',
+                    'https://www.youtube-nocookie.com',
+                ],
+                'default-src': [`'none'`],
+                'font-src': [
                     `'self'`,
                     'data:',
+                    'https://fonts.gstatic.com',
+                ],
+                'frame-src': [
+                    `'self'`,
+                    'https://www.youtube.com',
+                    'https://www.youtube-nocookie.com',
+                ],
+                'img-src': [
+                    `'self'`,
                     'blob:',
+                    'data:',
+                    'https://*.google-analytics.com',
+                    'https://*.googletagmanager.com',
+                    'https://i.ytimg.com',
+                ],
+                'manifest-src': [`'self'`],
+                'media-src': [`'self'`],
+                'script-src': [
+                    `'self'`,
+                    'https:',
+                    `'unsafe-inline'`,
+                    `'strict-dynamic'`,
+                    `'nonce-{{nonce}}'`,
                 ],
                 'script-src-attr': [
                     `'unsafe-hashes'`,
+                    // @nuxt/image image error marker onerror handler: this.setAttribute('data-error', 1)
+                    `'sha256-bwK6T5wZVTANitXbrTsel7kl/PyCjCd/Dq5Qoz3imjM='`,
+                    // unplugin-fonts Google Fonts preload 的 onload handler: this.rel='stylesheet'
                     `'sha256-F1noxsLOnJhyRSgc0zu5JgzoLjG2BBMaXaSG24k2mRM='`,
                 ],
-
+                'script-src-elem': [
+                    `'self'`,
+                    `'nonce-{{nonce}}'`,
+                    'https://static.cloudflareinsights.com',
+                ],
+                'style-src': [
+                    `'self'`,
+                    `'unsafe-inline'`,
+                    'https://fonts.googleapis.com',
+                ],
                 // 🚨 開發時要關：dev server 只有 http，用區網 IP 開會變純文字（localhost 看不出來）
                 'upgrade-insecure-requests': process.env.NODE_ENV === 'production',
+                'worker-src': [`'self'`],
             },
+            crossOriginEmbedderPolicy: false,
+            permissionsPolicy: {
+                'encrypted-media': [
+                    'self',
+                    '"https://www.youtube.com"',
+                    '"https://www.youtube-nocookie.com"',
+                ],
+                'fullscreen': [
+                    'self',
+                    '"https://www.youtube.com"',
+                    '"https://www.youtube-nocookie.com"',
+                ],
+            },
+            referrerPolicy: 'strict-origin-when-cross-origin',
         },
+    },
+    seo: {},
+    site: {
+        defaultLocale: 'zh-TW',
+        description: siteDescription,
+        indexable: seoIndexingEnabled,
+        name: siteName,
+        url: siteUrl,
+    },
+    sitemap: {
+        autoI18n: false,
+        cacheMaxAgeSeconds: 900,
+        defaultSitemapsChunkSize: false,
+        enabled: seoIndexingEnabled,
+        minify: process.env.NODE_ENV === 'production',
+        // sitemaps: {},
+        sortEntries: true,
     },
     ssr: true,
     unfonts: {
