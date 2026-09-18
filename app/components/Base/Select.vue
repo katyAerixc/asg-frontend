@@ -6,11 +6,11 @@
     >
         <button
             :id="id"
-            :aria-expanded="isOpen"
-            aria-haspopup="listbox"
             class="base-select__trigger"
             :class="{ 'base-select__trigger--open': isOpen }"
+            aria-haspopup="listbox"
             type="button"
+            :aria-expanded="isOpen"
             @click="isOpen = !isOpen"
         >
             <span
@@ -33,8 +33,8 @@
             <li
                 v-for="option in options"
                 :key="option.value"
-                :aria-selected="option.value === modelValue"
                 role="option"
+                :aria-selected="option.value === modelValue"
             >
                 <button
                     class="base-select__option"

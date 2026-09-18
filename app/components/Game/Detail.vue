@@ -4,15 +4,15 @@
         gap-pc="60px"
         height="650px"
         height-pc="auto"
-        :title="$t('lobby.detail.title')"
         width-pc="765px"
+        :title="$t('lobby.detail.title')"
         @close="closeGameDetail"
     >
         <div class="game-detail">
             <div class="game-detail__media">
                 <img
-                    :alt="game.name"
                     class="game-detail__img"
+                    :alt="game.name"
                     :src="game.image"
                 >
 
@@ -42,21 +42,21 @@
 
                 <div class="game-detail__stats">
                     <GameStat
+                        variant="detail"
                         :label="$t('lobby.card.volatilityLabel')"
                         :value="$t(`lobby.volatility.${game.volatility}`)"
-                        variant="detail"
                     />
                     <GameStat
-                        highlight
                         label="RTP"
+                        variant="detail"
                         :trend="game.rtpTrend"
                         :value="game.rtp"
-                        variant="detail"
+                        highlight
                     />
                     <GameStat
+                        variant="detail"
                         :label="$t('lobby.card.maxMultiplier')"
                         :value="game.maxMultiplier"
-                        variant="detail"
                     />
                 </div>
             </div>

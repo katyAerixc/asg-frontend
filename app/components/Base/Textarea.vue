@@ -12,17 +12,17 @@
 
             <button
                 v-if="modelValue"
-                :aria-label="$t('common.clear')"
                 class="base-textarea__clear i-sp-close"
                 type="button"
+                :aria-label="$t('common.clear')"
                 @click="clear"
             />
         </div>
 
         <span
-            aria-live="polite"
             class="base-textarea__count"
             :class="{ 'base-textarea__count--filled': modelValue.length > 0 }"
+            aria-live="polite"
         >
             {{ modelValue.length }}/{{ maxlength }}
         </span>

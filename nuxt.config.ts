@@ -4,7 +4,8 @@ import { checkAndGetEnvValue } from '@kikiutils/shared/env';
 
 // Constants/Variables
 const envValidationSkipped = process.env.SKIP_ENV_VALIDATION === 'true';
-const seoIndexingEnabled = process.env.SEO_INDEXING_ENABLED?.trim() !== 'false';
+// 明確寫 true 才讓搜尋引擎收錄：dev／build 只讀 .local 檔，漏設時要是預設收錄，開發站會被 Google 收進去
+const seoIndexingEnabled = process.env.SEO_INDEXING_ENABLED?.trim() === 'true';
 
 // i18n：語言檔按功能拆成 6 個，7 種語言各一份（i18n/locales/<語言>/<功能>.json）
 // 加字串 → 改對應的功能檔；加語言 → 在 LOCALES 加一行、複製 zh-TW 資料夾。詳見 i18n/README.md
@@ -77,6 +78,8 @@ export default defineNuxtConfig({
             ],
             // 頁面沒設標題時的備用名；各頁的標題（seo.title）本身就含品牌名，所以不用 titleTemplate 再補一次
             title: siteTitle,
+            // @nuxtjs/seo 預設會在標題後面自動加「| 站名」，關掉，不然會重複
+            titleTemplate: '%s',
         },
         keepalive: true,
     },

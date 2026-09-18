@@ -6,8 +6,8 @@
                 :key="category"
                 class="category-filter__tab"
                 :class="{ 'category-filter__tab--active': activeCategory === category }"
-                :data-text="$t(`lobby.category.${category}`)"
                 type="button"
+                :data-text="$t(`lobby.category.${category}`)"
                 @click="emit('update:activeCategory', category)"
             >
                 <span class="category-filter__label">{{ $t(`lobby.category.${category}`) }}</span>

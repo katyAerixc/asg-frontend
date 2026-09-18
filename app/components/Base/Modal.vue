@@ -7,10 +7,11 @@
         >
             <div
                 ref="panel"
-                :aria-labelledby="titleId"
-                aria-modal="true"
                 class="base-modal__panel"
+                aria-modal="true"
                 role="dialog"
+                tabindex="-1"
+                :aria-labelledby="titleId"
                 :style="{
                     '--modal-gap': gap,
                     '--modal-gap-pc': gapPc,
@@ -18,7 +19,6 @@
                     '--modal-h-pc': heightPc,
                     '--modal-w-pc': widthPc,
                 }"
-                tabindex="-1"
             >
                 <header class="base-modal__head">
                     <h2
@@ -29,9 +29,9 @@
                     </h2>
 
                     <button
-                        :aria-label="$t('common.close')"
                         class="base-modal__close i-sp-close"
                         type="button"
+                        :aria-label="$t('common.close')"
                         @click="$emit('close')"
                     />
                 </header>

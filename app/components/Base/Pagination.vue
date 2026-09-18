@@ -1,14 +1,14 @@
 <template>
     <nav
         ref="nav"
-        :aria-label="$t('common.pagination')"
         class="base-pagination"
+        :aria-label="$t('common.pagination')"
     >
         <button
-            :aria-label="$t('common.prevPage')"
             class="base-pagination__arrow"
-            :disabled="modelValue <= 1"
             type="button"
+            :aria-label="$t('common.prevPage')"
+            :disabled="modelValue <= 1"
             @click="go(modelValue - 1)"
         >
             <span class="base-pagination__arrow-icon base-pagination__arrow-icon--prev i-sp-arrow-right" />
@@ -29,10 +29,10 @@
 
                 <button
                     v-else
-                    :aria-current="item === modelValue ? 'page' : undefined"
                     class="base-pagination__page"
                     :class="{ 'base-pagination__page--active': item === modelValue }"
                     type="button"
+                    :aria-current="item === modelValue ? 'page' : undefined"
                     @click="go(item)"
                 >
                     {{ item }}
@@ -41,10 +41,10 @@
         </ul>
 
         <button
-            :aria-label="$t('common.nextPage')"
             class="base-pagination__arrow"
-            :disabled="modelValue >= total"
             type="button"
+            :aria-label="$t('common.nextPage')"
+            :disabled="modelValue >= total"
             @click="go(modelValue + 1)"
         >
             <span class="base-pagination__arrow-icon i-sp-arrow-right" />

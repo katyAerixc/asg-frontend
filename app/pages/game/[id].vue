@@ -9,16 +9,16 @@
                 :srcset="playPc"
             >
             <img
-                :alt="game?.name ?? ''"
                 class="game-play__img"
+                :alt="game?.name ?? ''"
                 :src="playH5"
             >
         </picture>
 
         <button
-            :aria-label="$t('common.close')"
             class="game-play__close"
             type="button"
+            :aria-label="$t('common.close')"
             @click="close"
         >
             <span class="game-play__close-icon i-sp-close" />

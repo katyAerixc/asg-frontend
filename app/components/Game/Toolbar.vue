@@ -6,9 +6,9 @@
     >
         <div class="game-toolbar__inner">
             <GameCategoryFilter
-                :active-category="category"
                 class="game-toolbar__category"
                 :class="{ 'game-toolbar__category--stuck': stuck }"
+                :active-category="category"
                 @update:active-category="category = $event"
             />
 
@@ -20,11 +20,11 @@
                     <button
                         v-for="option in filterOptions"
                         :key="option"
-                        :aria-pressed="sort === option"
                         class="game-toolbar__toggle-btn"
                         :class="{ 'game-toolbar__toggle-btn--active': sort === option }"
-                        :data-text="option"
                         type="button"
+                        :aria-pressed="sort === option"
+                        :data-text="option"
                         @click="sort = option"
                     >
                         <span class="game-toolbar__toggle-label">{{ option }}</span>
@@ -35,8 +35,8 @@
                     <input
                         v-model="keyword"
                         class="game-toolbar__search-input"
-                        :placeholder="$t('lobby.searchPlaceholder')"
                         type="search"
+                        :placeholder="$t('lobby.searchPlaceholder')"
                     >
                     <span class="game-toolbar__search-icon i-sp-search" />
                 </label>
@@ -59,8 +59,8 @@
                             ref="floatInputRef"
                             v-model="keyword"
                             class="game-toolbar-float__input"
-                            :placeholder="$t('lobby.searchPlaceholder')"
                             type="search"
+                            :placeholder="$t('lobby.searchPlaceholder')"
                             @blur="closeFloat"
                             @input="ignoreScrollForAWhile"
                             @keydown.enter="closeFloat"

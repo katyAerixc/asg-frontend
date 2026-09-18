@@ -50,8 +50,8 @@
 
         <BaseButton
             class="support-form__submit"
-            :disabled="!canSubmit"
             type="submit"
+            :disabled="!canSubmit"
         >
             {{ $t('support.submit') }}
         </BaseButton>

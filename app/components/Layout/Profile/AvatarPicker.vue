@@ -9,16 +9,16 @@
                 :key="item.id"
             >
                 <button
-                    :aria-label="$t('profile.avatarAlt', { n: item.id })"
-                    :aria-pressed="item.id === pickedId"
                     class="avatar-picker__item"
                     :class="{ 'avatar-picker__item--picked': item.id === pickedId }"
                     type="button"
+                    :aria-label="$t('profile.avatarAlt', { n: item.id })"
+                    :aria-pressed="item.id === pickedId"
                     @click="pickedId = item.id"
                 >
                     <img
-                        alt=""
                         class="avatar-picker__img"
+                        alt=""
                         :src="item.image"
                     >
 

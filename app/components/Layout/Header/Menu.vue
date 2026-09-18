@@ -8,14 +8,14 @@
     >
         <div class="header-menu__account">
             <button
-                :aria-label="$t('header.menu.changeAvatar')"
                 class="header-menu__avatar"
                 type="button"
+                :aria-label="$t('header.menu.changeAvatar')"
                 @click="openAvatarPicker"
             >
                 <img
-                    alt=""
                     class="header-menu__avatar-img"
+                    alt=""
                     :src="currentAvatar.image"
                 >
                 <span class="header-menu__avatar-label">{{ $t('header.menu.change') }}</span>
@@ -41,9 +41,9 @@
             </dl>
 
             <button
-                :aria-label="$t('header.menu.editNickname')"
                 class="header-menu__edit i-sp-edit"
                 type="button"
+                :aria-label="$t('header.menu.editNickname')"
                 @click="openNicknameEditor"
             />
         </div>
@@ -65,10 +65,10 @@
                 <button
                     v-for="item in THEMES"
                     :key="item.value"
-                    :aria-pressed="theme === item.value"
                     class="header-menu__theme-btn"
                     :class="{ 'header-menu__theme-btn--active': theme === item.value }"
                     type="button"
+                    :aria-pressed="theme === item.value"
                     @click="applyTheme(item.value)"
                 >
                     {{ $t(`header.menu.${item.labelKey}`) }}
@@ -81,15 +81,15 @@
 
             <div class="header-menu__lang">
                 <button
-                    :aria-expanded="isLangOpen"
                     class="header-menu__lang-current"
                     :class="{ 'header-menu__lang-current--open': isLangOpen }"
                     type="button"
+                    :aria-expanded="isLangOpen"
                     @click="isLangOpen = !isLangOpen"
                 >
                     <img
-                        alt=""
                         class="header-menu__lang-flag"
+                        alt=""
                         :src="flagOf(locale)"
                     >
                     <span class="header-menu__lang-name">{{ labelOf(locale) }}</span>
@@ -115,8 +115,8 @@
                             @click="selectLang(lang.code)"
                         >
                             <img
-                                alt=""
                                 class="header-menu__lang-flag"
+                                alt=""
                                 :src="lang.flag"
                             >
                             <span class="header-menu__lang-name">{{ lang.label }}</span>

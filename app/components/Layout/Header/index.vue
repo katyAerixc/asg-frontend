@@ -2,23 +2,23 @@
     <header class="layout-header">
         <div class="layout-header__inner">
             <NuxtLink
-                :aria-label="$t('header.home')"
                 class="layout-header__logo"
+                :aria-label="$t('header.home')"
                 :to="localePath('/')"
             />
 
             <div class="layout-header__user">
                 <div class="layout-header__coins">
                     <img
-                        alt=""
                         class="layout-header__coin-icon"
+                        alt=""
                         src="~/assets/images/ui/money.png"
                     >
                     <span class="layout-header__coin-value">{{ formattedCoins }}</span>
                     <button
-                        :aria-label="$t('header.refreshBalance')"
                         class="layout-header__refresh"
                         type="button"
+                        :aria-label="$t('header.refreshBalance')"
                     >
                         <span class="layout-header__refresh-icon i-sp-refresh" />
                     </button>
@@ -29,15 +29,15 @@
                     class="layout-header__menu-wrap"
                 >
                     <button
-                        :aria-expanded="isMenuOpen"
-                        :aria-label="$t('header.memberMenu')"
                         class="layout-header__avatar"
                         type="button"
+                        :aria-expanded="isMenuOpen"
+                        :aria-label="$t('header.memberMenu')"
                         @click="isMenuOpen = !isMenuOpen"
                     >
                         <img
-                            alt=""
                             class="layout-header__avatar-img"
+                            alt=""
                             :src="currentAvatar.image"
                         >
                         <span

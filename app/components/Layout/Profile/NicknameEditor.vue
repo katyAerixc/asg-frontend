@@ -20,16 +20,16 @@
                     v-model="draft"
                     class="nickname-editor__input"
                     maxlength="20"
-                    :placeholder="$t('profile.nicknamePlaceholder')"
                     type="text"
+                    :placeholder="$t('profile.nicknamePlaceholder')"
                     @keyup.enter="confirm"
                 >
 
                 <button
                     v-if="draft"
-                    :aria-label="$t('common.clear')"
                     class="nickname-editor__clear i-sp-close"
                     type="button"
+                    :aria-label="$t('common.clear')"
                     @click="clear"
                 />
             </div>

@@ -3,20 +3,20 @@
     <!-- ⚠️ 下半部不要加 role="button"：讀螢幕軟體會把裡面的內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕 -->
     <article class="game-card">
         <NuxtLink
-            :aria-label="$t('lobby.card.play', { name: game.name })"
             class="game-card__media"
+            :aria-label="$t('lobby.card.play', { name: game.name })"
             :to="localePath(`/game/${game.id}`)"
         >
             <img
-                :alt="game.name"
                 class="game-card__img"
+                :alt="game.name"
                 :src="game.image"
             >
             <!-- 滑入時兩張圖互換透明度，不是把圖放大；同一個 src 不會多下載 -->
             <img
+                class="game-card__img game-card__img--hover"
                 alt=""
                 aria-hidden="true"
-                class="game-card__img game-card__img--hover"
                 :src="game.image"
             >
 
@@ -38,8 +38,8 @@
         >
             <div class="game-card__head">
                 <img
-                    :alt="$t('lobby.card.thumb', { name: game.name })"
                     class="game-card__thumb"
+                    :alt="$t('lobby.card.thumb', { name: game.name })"
                     :src="game.image"
                 >
                 <div class="game-card__text">
@@ -48,9 +48,9 @@
                             {{ game.name }}
                         </h3>
                         <button
-                            :aria-label="$t('lobby.detail.open', { name: game.name })"
                             class="game-card__i"
                             type="button"
+                            :aria-label="$t('lobby.detail.open', { name: game.name })"
                             @click.stop="openGameDetail(game)"
                         >
                             <span class="game-card__i-icon i-sp-info" />
@@ -66,21 +66,21 @@
 
             <div class="game-card__stats">
                 <GameStat
+                    variant="card"
                     :label="$t('lobby.card.volatilityLabel')"
                     :value="$t(`lobby.volatility.${game.volatility}`)"
-                    variant="card"
                 />
                 <GameStat
-                    highlight
                     label="RTP"
+                    variant="card"
                     :trend="game.rtpTrend"
                     :value="game.rtp"
-                    variant="card"
+                    highlight
                 />
                 <GameStat
+                    variant="card"
                     :label="$t('lobby.card.maxMultiplier')"
                     :value="game.maxMultiplier"
-                    variant="card"
                 />
             </div>
         </div>

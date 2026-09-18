@@ -2,9 +2,9 @@
     <div class="base-upload">
         <button
             v-if="!previewUrl"
-            :aria-label="$t('support.attachmentLabel')"
             class="base-upload__box"
             type="button"
+            :aria-label="$t('support.attachmentLabel')"
             @click="openPicker"
         >
             <span class="base-upload__icon i-sp-upload" />
@@ -15,8 +15,8 @@
             class="base-upload__box base-upload__box--filled"
         >
             <img
-                alt=""
                 class="base-upload__thumb"
+                alt=""
                 :src="previewUrl"
             >
 
@@ -38,9 +38,9 @@
 
         <input
             ref="inputRef"
-            :accept="accept"
             class="base-upload__input"
             type="file"
+            :accept="accept"
             @change="onChange"
         >
     </div>

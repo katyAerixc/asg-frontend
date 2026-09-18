@@ -13,11 +13,11 @@
                 <button
                     v-for="tab in TABS"
                     :key="tab"
-                    :aria-selected="activeTab === tab"
                     class="support__tab"
                     :class="{ 'support__tab--active': activeTab === tab }"
                     role="tab"
                     type="button"
+                    :aria-selected="activeTab === tab"
                     @click="switchTab(tab)"
                 >
                     <!-- 文字獨立包一層：給紅點當定位基準 -->
