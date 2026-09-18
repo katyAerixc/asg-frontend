@@ -114,6 +114,17 @@ function closeOnScroll() {
     isMenuOpen.value = false;
 }
 
+// Watchers
+// 從選單打開彈窗時，選單要跟著收起來：「客服中心」這些列本身就在選單裡，
+// 點它不算「點到外面」，不收的話選單會一直開著、躲在彈窗後面（連語系清單一起）
+watch([
+    isAvatarPickerOpen,
+    isNicknameEditorOpen,
+    isSupportOpen,
+], (opened) => {
+    if (opened.some(Boolean)) isMenuOpen.value = false;
+});
+
 // Hooks
 onMounted(() => {
     document.addEventListener('click', closeOnOutsideClick);
