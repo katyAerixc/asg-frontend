@@ -6,6 +6,7 @@
             @click.self="$emit('close')"
         >
             <div
+                ref="panel"
                 :aria-labelledby="titleId"
                 aria-modal="true"
                 class="base-modal__panel"
@@ -17,6 +18,7 @@
                     '--modal-h-pc': heightPc,
                     '--modal-w-pc': widthPc,
                 }"
+                tabindex="-1"
             >
                 <header class="base-modal__head">
                     <h2
@@ -80,19 +82,65 @@ const titleId = `base-modal-title-${useId()}`;
 // 彈窗開著時背景頁面不能捲，關掉後停在原位
 useBodyScrollLock();
 
+const panelRef = useTemplateRef<HTMLElement>('panel');
+// 記住是誰打開這個彈窗，關掉時把焦點還給它
+let opener: HTMLElement | null = null;
+const FOCUSABLE = [
+    'a[href]',
+    'button:not(:disabled)',
+    'input:not(:disabled)',
+    'textarea:not(:disabled)',
+    'select:not(:disabled)',
+    '[tabindex]:not([tabindex="-1"])',
+].join(', ');
+
 // Functions
 // 按 Esc 也關得掉，跟會員選單同一套操作習慣
 function closeOnEscape(event: KeyboardEvent) {
     if (event.key === 'Escape') emit('close');
 }
 
+// Tab 只在彈窗裡繞：不擋的話焦點會跑到背後的頁面，鍵盤使用者按到看不見的東西
+function trapTab(event: KeyboardEvent) {
+    if (event.key !== 'Tab' || !panelRef.value) return;
+    const focusable = [...panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE)]
+        .filter((element) => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0]!;
+    const last = focusable.at(-1)!;
+    const active = document.activeElement;
+    const outside = !panelRef.value.contains(active);
+    if (event.shiftKey && (active === first || outside)) {
+        event.preventDefault();
+        last.focus();
+    } else if (!event.shiftKey && (active === last || outside)) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
 // Hooks
-onMounted(() => {
+onMounted(async () => {
+    opener = document.activeElement as HTMLElement | null;
     window.addEventListener('keydown', closeOnEscape);
+    window.addEventListener('keydown', trapTab);
+    // 焦點先落在面板上，讀螢幕軟體才會念出彈窗標題；面板本身 tabindex="-1"，不會變成 Tab 的一站
+    // 🚨 用的人自己聚焦了就不要搶（變更暱稱會把游標放進輸入框）：我們比它晚一個 tick，硬搶會把它蓋掉
+    await nextTick();
+    if (!panelRef.value?.contains(document.activeElement)) panelRef.value?.focus();
 });
 
 onUnmounted(() => {
     window.removeEventListener('keydown', closeOnEscape);
+    window.removeEventListener('keydown', trapTab);
+    // 那顆按鈕可能已經跟著別的東西被拿掉，還在畫面上才還回去
+    // 🚨 要等畫面真的重畫完再還：彈窗的 DOM 比這裡晚被移除，太早還會被瀏覽器重設成 body
+    const back = opener;
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            if (back && document.contains(back)) back.focus();
+        });
+    });
 });
 </script>
 
