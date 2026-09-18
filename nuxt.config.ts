@@ -61,8 +61,8 @@ export default defineNuxtConfig({
                     rel: 'apple-touch-icon',
                 },
             ],
-            title: 'Nuxt Template',
-            titleTemplate: '%s｜Nuxt Template',
+            // 頁面沒設標題時的備用名；各頁的標題（seo.title）本身就含品牌名，所以不用 titleTemplate 再補一次
+            title: 'ASG',
         },
         keepalive: true,
     },
