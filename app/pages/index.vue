@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+// 分享預覽圖暫用電腦版 Logo；設計師出 1200×630 的專用圖後換掉
+import ogImage from '@/assets/images/logo/pc-dark.png';
 import type {
     Game,
     GameCategoryFilter,
@@ -42,7 +44,7 @@ import type {
 
 // Composables
 // 這裡要在 script 裡拿翻譯（模板用 $t 就好，不必宣告）
-const { t } = useI18n();
+const { baseUrl, t } = useI18n();
 // Variables
 // 一次顯示幾張；點「加載更多」就把剩下的全放出來（之後接 API 改成每次要一頁）
 const PAGE_SIZE = 6;
@@ -138,18 +140,16 @@ watch(isSearching, (searching) => {
 
 // SEO 設定
 // 值寫成函式（不是字串）：切語言時 <head> 才會跟著更新
-useHead({
-    meta: [
-        {
-            content: () => t('seo.description'),
-            name: 'description',
-        },
-        {
-            content: () => t('seo.keywords'),
-            name: 'keywords',
-        },
-    ],
+// og:* 是貼到 LINE／FB 時的預覽卡片；og:image 一定要完整網址，相對路徑社群平台抓不到
+useSeoMeta({
+    description: () => t('seo.description'),
+    keywords: () => t('seo.keywords'),
+    ogDescription: () => t('seo.description'),
+    ogImage: () => `${baseUrl.value}${ogImage}`,
+    ogTitle: () => t('seo.title'),
+    ogType: 'website',
     title: () => t('seo.title'),
+    twitterCard: 'summary_large_image',
 });
 </script>
 

@@ -20,6 +20,14 @@ const CJK_FONTS: Partial<Record<LocaleCode, string>> = {
 // Composables
 const { locale } = useLocale();
 
+// 每頁自動產生 hreflang（告訴 Google 這頁有哪 7 種語言版本）、canonical（正本網址）、og:locale
+// lang 交給下面的 useHead 自己設，dir 全站都是左到右不用
+const localeHead = useLocaleHead({
+    dir: false,
+    lang: false,
+    seo: true,
+});
+
 // Computed properties
 // Google Fonts 對這些字型會自動切成很多小片（unicode-range），
 // 瀏覽器只下載頁面真的用到的那幾片，不會整包吃下來
@@ -41,6 +49,10 @@ const fontLinks = computed(() => {
 // 讀螢幕軟體靠它選發音、Google 靠它判斷語言、CSS 的 :lang() 也靠它
 useHead({
     htmlAttrs: { lang: locale },
-    link: fontLinks,
+    link: () => [
+        ...fontLinks.value,
+        ...localeHead.value.link ?? [],
+    ],
+    meta: () => localeHead.value.meta ?? [],
 });
 </script>

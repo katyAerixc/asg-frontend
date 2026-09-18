@@ -91,6 +91,9 @@ export default defineNuxtConfig({
         },
     },
     i18n: {
+        // 正式網址，hreflang 與 canonical 要用它組完整網址；空的不會產生這些標籤
+        // 值由 .env 的 NUXT_PUBLIC_I18N_BASE_URL 覆蓋（開發 .env.development.local、上線 .env.production）
+        baseUrl: '',
         defaultLocale: 'zh-TW',
         // 依瀏覽器的語系自動選；認不出來（不是我們支援的 7 種）就退回英文
         detectBrowserLanguage: {
