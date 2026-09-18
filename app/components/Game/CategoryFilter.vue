@@ -76,7 +76,7 @@ const CATEGORIES: GameCategoryFilter[] = [
 
         background: none;
 
-        transition: color 0.2s;
+        transition: color var(--motion-hover);
 
         // 幽靈文字：永遠是粗體、看不見，把分類撐到選中時的寬度，點選時旁邊的分類才不會被推動
         // 🚨 不能加 overflow: hidden（會讓最小寬度變 0，照樣會晃）

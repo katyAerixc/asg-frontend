@@ -78,8 +78,8 @@ const emit = defineEmits<{ loadMore: [] }>();
         box-shadow: var(--shadow-btn);
 
         transition:
-            background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background var(--motion-hover),
+            box-shadow var(--motion-hover);
 
         -webkit-text-stroke: var(--text-stroke-button-primary);
 

@@ -69,13 +69,17 @@ function clear() {
 
     background: var(--bg-input);
     backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
-    box-shadow: var(--shadow-input);
 
-    transition: box-shadow 0.25s ease;
+    // 平常補兩層全透明的（框、外圈），湊成跟 input-act-stroke 一樣的 5 層——層數不同 box-shadow 會直接跳、補不出漸變
+    box-shadow:
+        0 0 0 0 var(--color-white-0) inset,
+        0 0 0 0 var(--color-white-0),
+        var(--shadow-input);
 
-    // 游標在裡面時多一圈內光
+    transition: box-shadow var(--motion-hover);
+
     &:focus-within {
-        box-shadow: var(--shadow-input-act);
+        box-shadow: var(--shadow-input-act-stroke);
     }
 
     // 輸入區與 ✕ 左右排：✕ 固定寬，輸入區吃剩下的
@@ -159,6 +163,12 @@ function clear() {
         // 打了字：字數變深（淺色 Primary/10），提醒已經有內容
         &--filled {
             color: var(--color-textarea-count-filled);
+        }
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            box-shadow: var(--shadow-input-act-stroke);
         }
     }
 }

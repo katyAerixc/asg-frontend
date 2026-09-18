@@ -53,8 +53,8 @@ withDefaults(
     box-shadow: var(--shadow-btn);
 
     transition:
-        background 0.25s ease,
-        box-shadow 0.25s ease;
+        background var(--motion-hover),
+        box-shadow var(--motion-hover);
 
     // 預設藍、次要白、強調橘
     // 文字描邊三種都一樣（跟首頁「加載更多」同一組）

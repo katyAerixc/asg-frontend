@@ -441,7 +441,10 @@ onUnmounted(() => {
 
         background: none;
 
-        transition: background-color 0.2s;
+        // 底線也要列進來，不然滑入時底色慢慢淡入、藍色底線卻瞬間出現
+        transition:
+            border-bottom-color var(--motion-hover),
+            background-color var(--motion-hover);
 
         &:last-child {
             border-bottom: 0;
@@ -452,12 +455,21 @@ onUnmounted(() => {
             position: relative;
         }
 
+        // 滑入、按下多一條 Primary/60 20% 的底線
         @media (hover: hover) {
             &:hover {
-                background-color: var(--color-primary-opacity-60-20);
+                border-bottom-color: var(--color-primary-opacity-60-20);
+                background-color: var(--color-primary-opacity-20-20);
             }
 
-            &--lang:hover {
+            &:active {
+                border-bottom-color: var(--color-primary-opacity-60-20);
+                background-color: var(--color-primary-opacity-20-30);
+            }
+
+            &--lang:hover,
+            &--lang:active {
+                border-bottom-color: var(--color-white-30);
                 background: none;
             }
         }
@@ -553,8 +565,8 @@ onUnmounted(() => {
             var(--shadow-input);
 
         transition:
-            border-color 0.25s ease,
-            box-shadow 0.25s ease;
+            border-color var(--motion-hover),
+            box-shadow var(--motion-hover);
 
         &--open {
             border-color: var(--color-primary-60);
@@ -642,11 +654,11 @@ onUnmounted(() => {
 
         background: none;
 
-        transition: background-color 0.2s;
+        transition: background-color var(--motion-hover);
 
         @media (hover: hover) {
             &:hover {
-                background-color: var(--bg-list-hover);
+                background-color: var(--color-primary-opacity-60-20);
             }
         }
     }

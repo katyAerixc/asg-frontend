@@ -137,9 +137,15 @@ onUnmounted(() => {
 
         background: var(--bg-input);
         backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
-        box-shadow: var(--shadow-input);
 
-        transition: box-shadow 0.25s ease;
+        // 平常補一圈全透明的外圈，湊成跟 input_act 一樣的 4 層——層數不同 box-shadow 會直接跳、補不出漸變
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-input);
+
+        transition:
+            border-color var(--motion-hover),
+            box-shadow var(--motion-hover);
 
         // 展開時整個框亮起來
         &:focus-visible,
@@ -147,6 +153,13 @@ onUnmounted(() => {
             border-color: var(--color-primary-60);
             outline: none;
             box-shadow: var(--shadow-input-act);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                border-color: var(--color-primary-60);
+                box-shadow: var(--shadow-input-act);
+            }
         }
     }
 
@@ -243,7 +256,6 @@ onUnmounted(() => {
 
         @media (hover: hover) {
             &:hover {
-                // ⚠️ 語系清單用的是 --bg-list-hover，不是這支
                 background-color: rgb(var(--color-primary-60-rgb) / 20%);
             }
         }

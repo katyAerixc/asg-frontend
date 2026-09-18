@@ -186,6 +186,9 @@
         0 0 10px 0 var(--color-shadow-light-20), -0.5px -1px 4px 0 var(--color-shadow-dark-40) inset,
         1px 1px 1px 0 var(--color-shadow-light-50) inset, -1px -1px 1px 0 var(--color-shadow-light-20) inset;
 
+    // 輸入框滑入、打字中：再加 1px Primary/60 框。用內陰影畫，不佔寬度，文字不會被擠動
+    --shadow-input-act-stroke: 0 0 0 1px var(--color-primary-60) inset, var(--shadow-input-act);
+
     // 按鈕
     --bg-normal: linear-gradient(
         180deg,
@@ -344,10 +347,6 @@
 
     // 往下滑、分類列黏在頂部時的底色：跟頁面同色 90%＋模糊（Figma 沒畫滑動狀態）
     --bg-page-sticky: rgb(var(--bg-page-rgb) / 90%);
-
-    // 下拉選單滑鼠移到選項上的底色：深淺色一樣（不在色票裡）
-    --color-list-hover-rgb: 61 119 209; // #3d77d1
-    --bg-list-hover: rgb(var(--color-list-hover-rgb) / 20%);
     --bg-game: linear-gradient(
         180deg,
         var(--color-white-70) 0%,
@@ -516,13 +515,14 @@ body::after {
 }
 
 @media (width >= 960px) {
-    // 電腦左上：Figma 模糊 300
+    // 電腦左上：Figma 模糊 300。Figma 是 392×700 的橢圓轉 30°（488×638 是轉完的外框），中心對齊外框中心
     body::before {
-        top: -186px;
-        left: -244px;
+        top: -217px;
+        left: -196px;
+        transform: rotate(30deg);
 
-        width: 488px;
-        height: 638px;
+        width: 392px;
+        height: 700px;
 
         filter: blur(150px);
     }
@@ -547,33 +547,34 @@ body::after {
     }
 }
 
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
+// 只給有滑鼠的電腦：觸控裝置套了自訂捲軸會變成佔寬度的捲軸，320 寬整頁會被撐寬 7px
+@media (hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
 
-::-webkit-scrollbar-track {
-    border-radius: var(--corner-full);
-    background: var(--color-scrollbar-track);
-}
+    ::-webkit-scrollbar-track {
+        border-radius: var(--corner-full);
+        background: var(--color-scrollbar-track);
+    }
 
-::-webkit-scrollbar-thumb {
-    border-radius: var(--corner-full);
-    background: var(--color-scrollbar-thumb);
-    transition: background-color 0.2s;
-}
+    ::-webkit-scrollbar-thumb {
+        border-radius: var(--corner-full);
+        background: var(--color-scrollbar-thumb);
+        transition: background-color 0.2s;
+    }
 
-@media (hover: hover) {
     ::-webkit-scrollbar-thumb:hover {
         background: var(--color-scrollbar-thumb-hover);
     }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
 }
 
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
-@media (width >= 960px) {
+@media (hover: hover) and (pointer: fine) and (width >= 960px) {
     ::-webkit-scrollbar {
         width: 8px;
         height: 8px;

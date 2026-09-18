@@ -261,9 +261,9 @@ onUnmounted(() => {
         box-shadow: -1px 0 1px 0 var(--color-white-0) inset;
 
         transition:
-            color 0.2s ease,
-            background-color 0.2s ease,
-            box-shadow 0.2s ease;
+            color var(--motion-hover),
+            background-color var(--motion-hover),
+            box-shadow var(--motion-hover);
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
         // 🚨 不能加 overflow: hidden：最小寬度會變 0，點標籤時文字變粗，右邊搜尋框會被擠得晃
@@ -306,20 +306,21 @@ onUnmounted(() => {
         background: var(--bg-input);
         backdrop-filter: blur(25px);
         box-shadow:
+            0 0 0 0 var(--color-white-0) inset,
             0 0 0 0 var(--color-white-0),
             var(--shadow-input);
 
-        // 平常補一圈全透明的外圈，湊成跟 input_act 一樣的 4 層——層數不同 box-shadow 會直接跳、補不出漸變
-        transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        // 平常補兩層全透明的（框、外圈），湊成跟 input-act-stroke 一樣的 5 層——層數不同 box-shadow 會直接跳、補不出漸變
+        transition: box-shadow var(--motion-hover);
 
         // focus-within 留著：那是真的「游標在裡面」，手機也該亮
         &:focus-within {
-            box-shadow: var(--shadow-input-act);
+            box-shadow: var(--shadow-input-act-stroke);
         }
 
         @media (hover: hover) {
             &:hover {
-                box-shadow: var(--shadow-input-act);
+                box-shadow: var(--shadow-input-act-stroke);
             }
         }
     }
@@ -371,6 +372,10 @@ onUnmounted(() => {
 
         &__search-input {
             font-size: var(--font-size-16);
+        }
+
+        &__search-icon {
+            color: var(--color-primary-30);
         }
 
         &__category {

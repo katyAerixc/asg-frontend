@@ -115,13 +115,23 @@ onMounted(() => {
 
         background: var(--bg-input);
         backdrop-filter: blur(25px); // Figma bg-blur 50 ÷ 2
-        box-shadow: var(--shadow-input);
 
-        transition: box-shadow 0.25s ease;
+        // 平常補兩層全透明的（框、外圈），湊成跟 input-act-stroke 一樣的 5 層——層數不同 box-shadow 會直接跳、補不出漸變
+        box-shadow:
+            0 0 0 0 var(--color-white-0) inset,
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-input);
 
-        // 游標在裡面時多一圈內光
+        transition: box-shadow var(--motion-hover);
+
         &:focus-within {
-            box-shadow: var(--shadow-input-act);
+            box-shadow: var(--shadow-input-act-stroke);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                box-shadow: var(--shadow-input-act-stroke);
+            }
         }
     }
 
