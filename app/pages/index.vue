@@ -177,15 +177,35 @@ useSeoMeta({
         margin-bottom: var(--corner-3);
     }
 
-    // 手機版：沒搜尋時不顯示標題，只留「共 N 款遊戲」；字跟數量一樣是小灰字
+    // 手機版：沒搜尋時標題不顯示，只留「共 N 款遊戲」；字跟數量一樣是小灰字
+    // 藏法不能用 display: none：Google 用手機版收錄，主標題藏掉會被打折，
+    // 改成「畫面看不到、爬蟲與讀螢幕讀得到」
     &__title {
-        display: none;
+        position: absolute;
+
+        overflow: hidden;
+
+        width: 1px;
+        height: 1px;
+
         font-size: var(--font-size-14);
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
+        white-space: nowrap;
+
+        clip-path: inset(50%);
 
         &--searching {
-            display: block;
+            position: static;
+
+            overflow: visible;
+
+            width: auto;
+            height: auto;
+
+            white-space: normal;
+
+            clip-path: none;
         }
     }
 
@@ -208,10 +228,19 @@ useSeoMeta({
         }
 
         &__title {
-            display: block;
+            position: static;
+
+            overflow: visible;
+
+            width: auto;
+            height: auto;
+
             font-size: var(--font-size-26);
             font-weight: var(--font-weight-bold);
             color: var(--color-primary-10);
+            white-space: normal;
+
+            clip-path: none;
         }
 
         &__count {
