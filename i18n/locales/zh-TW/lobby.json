@@ -2,6 +2,7 @@
   "lobby": {
     "card": {
       "maxMultiplier": "最高賠率",
+      "play": "遊玩 {name}",
       "thumb": "{name} 縮圖",
       "volatilityLabel": "波動度"
     },

@@ -78,15 +78,16 @@
 import type { Game } from '@/types/game';
 
 // Define props, models and emits
-defineProps<{ game: Game }>();
+const props = defineProps<{ game: Game }>();
 
 // Variables
+const localePath = useLocalePath();
 const { close: closeGameDetail } = useGameDetailStore();
 
 // Functions
-// ⚠️ 遊戲畫面那一頁還沒做，先只把彈窗關掉（之後點了要跳到遊戲畫面）
 function play() {
     closeGameDetail();
+    navigateTo(localePath(`/game/${props.game.id}`));
 }
 </script>
 

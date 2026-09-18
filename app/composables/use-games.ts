@@ -8,11 +8,12 @@
 import { fetchGames } from '@/libs/api/game';
 
 export function useGames() {
+    const request = useAsyncData('games', () => fetchGames(), { default: () => [] });
     const {
         data: games,
         error,
         status,
-    } = useAsyncData('games', () => fetchGames(), { default: () => [] });
+    } = request;
 
     // 畫面用它顯示載入中
     const pending = computed(() => status.value === 'pending');
@@ -21,5 +22,7 @@ export function useGames() {
         error,
         games,
         pending,
+        // 要「確定有沒有這款遊戲」的頁面先 await 它（遊戲畫面找不到要回 404）
+        ready: request.then(() => undefined),
     };
 }

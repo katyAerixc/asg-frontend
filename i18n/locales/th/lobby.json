@@ -2,6 +2,7 @@
   "lobby": {
     "card": {
       "maxMultiplier": "ตัวคูณสูงสุด",
+      "play": "เล่น {name}",
       "thumb": "ภาพย่อ {name}",
       "volatilityLabel": "ความผันผวน"
     },

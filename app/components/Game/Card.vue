@@ -1,10 +1,12 @@
 <template>
-    <!-- ⚠️ 整張卡不要加 role="button"：讀螢幕軟體會把卡片內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕 -->
-    <article
-        class="game-card"
-        @click="openGameDetail(game)"
-    >
-        <div class="game-card__media">
+    <!-- 上半部大圖直接進遊戲、下半部開遊戲介紹 -->
+    <!-- ⚠️ 下半部不要加 role="button"：讀螢幕軟體會把裡面的內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕 -->
+    <article class="game-card">
+        <NuxtLink
+            :aria-label="$t('lobby.card.play', { name: game.name })"
+            class="game-card__media"
+            :to="localePath(`/game/${game.id}`)"
+        >
             <img
                 :alt="game.name"
                 class="game-card__img"
@@ -28,9 +30,12 @@
                     :type="tag"
                 />
             </div>
-        </div>
+        </NuxtLink>
 
-        <div class="game-card__info">
+        <div
+            class="game-card__info"
+            @click="openGameDetail(game)"
+        >
             <div class="game-card__head">
                 <img
                     :alt="$t('lobby.card.thumb', { name: game.name })"
@@ -89,6 +94,7 @@ import type { Game } from '@/types/game';
 defineProps<{ game: Game }>();
 
 // Variables
+const localePath = useLocalePath();
 const { open: openGameDetail } = useGameDetailStore();
 </script>
 
@@ -104,26 +110,28 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
     position: relative;
     container-type: inline-size; // 讓內部能用 cqw（卡片寬度的百分比）當單位
 
-    // 整張卡片可點（開遊戲介紹）。鍵盤操作時的焦點框換成設計裡的藍
-    &:focus-visible {
-        outline: 2px solid var(--color-primary-60);
-        outline-offset: 4px;
-    }
-
     // 高度不鎖死，由內容撐開（玻璃塊文字變多時往下長，不會蓋住圖片）
 
     // 大圖區：置中、比玻璃塊窄
     // overflow: hidden 讓圖片放大時被裁在外框內，外框尺寸不變
+    // 是進遊戲的連結（<a>），要自己設成 block 才吃得到寬度
     &__media {
         position: relative;
 
         overflow: hidden;
+        display: block;
 
         width: calc(156 / 172 * 100%); // 手機；電腦版在最下面換成 $img-ratio
         margin: 0 auto;
         border-radius: var(--corner-3);
 
         transition: box-shadow var(--motion-hover-game);
+
+        // 鍵盤操作時的焦點框換成設計裡的藍
+        &:focus-visible {
+            outline: 2px solid var(--color-primary-60);
+            outline-offset: 4px;
+        }
     }
 
     &__img {

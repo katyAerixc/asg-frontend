@@ -2,6 +2,7 @@
   "lobby": {
     "card": {
       "maxMultiplier": "최대 배당률",
+      "play": "{name} 플레이",
       "thumb": "{name} 썸네일",
       "volatilityLabel": "변동성"
     },

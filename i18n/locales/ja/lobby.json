@@ -2,6 +2,7 @@
   "lobby": {
     "card": {
       "maxMultiplier": "最高倍率",
+      "play": "{name} をプレイ",
       "thumb": "{name} サムネイル",
       "volatilityLabel": "変動"
     },
