@@ -19,6 +19,7 @@ const CJK_FONTS: Partial<Record<LocaleCode, string>> = {
 
 // Composables
 const { locale } = useLocale();
+const { t } = useI18n();
 
 // 每頁自動產生 hreflang（告訴 Google 這頁有哪 7 種語言版本）、canonical（正本網址）、og:locale
 // lang 交給下面的 useHead 自己設，dir 全站都是左到右不用
@@ -55,4 +56,7 @@ useHead({
     ],
     meta: () => localeHead.value.meta ?? [],
 });
+
+// 分享卡片上跟頁標題分開顯示的網站名；全站同一個，所以放這裡不放各頁
+useSeoMeta({ ogSiteName: () => t('seo.siteName') });
 </script>
