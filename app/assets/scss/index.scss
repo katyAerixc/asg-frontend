@@ -367,6 +367,12 @@
     //   淺色主題不覆寫 neutral，兩個主題都是白
     // ②外陰影
     --shadow-game-hover: 0 0 0 1px var(--color-neutral-10), 0 0 10px 0 var(--color-shadow-dark-50);
+
+    // 告訴瀏覽器這頁現在是深色還是淺色。
+    // 🚨 iPhone 一定要有：沒有的話，切換主題時「視窗底色」那一層不會重畫，
+    //    要等點開彈窗逼它重排才會補上（只有真機看得到，無頭瀏覽器抓不到）。
+    // 順帶讓輸入游標、系統下拉、原生捲軸也跟著主題走。
+    color-scheme: dark;
 }
 
 // 淺色主題
@@ -413,6 +419,8 @@
     --bg-page-rgb: 233 242 255; // ＝ --bg-page
     --logo-h5: url('@/assets/images/logo/h5-light.png');
     --logo-pc: url('@/assets/images/logo/pc-light.png');
+
+    color-scheme: light;
 }
 
 // 電腦版的元件尺寸
