@@ -143,7 +143,6 @@ watch(isSearching, (searching) => {
 // og:* 是貼到 LINE／FB 時的預覽卡片；og:image 一定要完整網址，相對路徑社群平台抓不到
 useSeoMeta({
     description: () => t('seo.description'),
-    keywords: () => t('seo.keywords'),
     ogDescription: () => t('seo.description'),
     ogImage: () => `${baseUrl.value}${ogImage}`,
     ogTitle: () => t('seo.title'),

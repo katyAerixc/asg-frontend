@@ -40,7 +40,7 @@ const fontLinks = computed(() => {
         {
             crossorigin: 'anonymous' as const,
             href: `https://fonts.googleapis.com/css2?family=${family}:wght@300;500;700&display=swap`,
-            rel: 'stylesheet',
+            rel: 'stylesheet' as const,
         },
     ];
 });
