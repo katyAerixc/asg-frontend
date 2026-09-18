@@ -29,7 +29,12 @@ const userCoins = ref(100000000);
 .layout {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100svh; // iPhone 的 vh 是網址列收起來的高度，比實際看得到的高
+
+    // 頭像選單在極窄螢幕要用 cqw 量整排寬度（100vw 會把電腦的捲軸也算進去）
+    &__header {
+        container-type: inline-size;
+    }
 
     &__page {
         flex: 1;

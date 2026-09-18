@@ -446,14 +446,23 @@ onUnmounted(() => {
 
 // 右下角浮動搜尋鈕（只有手機會出現）
 // 收起是圓形鈕；展開往左長成整條搜尋框
+// 外框左右貼齊，展開時框用 100% 就是「螢幕寬扣左右各 10」（100vw 會把電腦的捲軸也算進去）
+// 外框本身不能擋到後面的遊戲卡，只有按鈕接收點擊
 .game-toolbar-float {
+    pointer-events: none;
+
     position: fixed;
     z-index: 45; // 蓋過遊戲卡與工具列(40)，但在頭像選單(60)與彈窗(100)底下
     right: var(--corner-2);
     bottom: calc(var(--corner-2) + env(safe-area-inset-bottom));
+    left: var(--corner-2);
+
+    display: flex;
+    justify-content: flex-end;
 
     // Figma MB/btn/search（漸層在 ::before，展開時淡出）
     &__box {
+        pointer-events: auto;
         cursor: pointer;
 
         position: relative;
@@ -534,7 +543,7 @@ onUnmounted(() => {
     &--open &__box {
         gap: 10px;
 
-        width: calc(100vw - 20px);
+        width: 100%;
         padding: var(--input-padding-y) var(--input-padding-x);
 
         background-color: var(--bg-input);

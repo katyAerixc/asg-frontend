@@ -759,7 +759,7 @@ onUnmounted(() => {
 
     // 300 在極窄螢幕還是會頂到邊，改成貼齊畫面左右各留 16
     @media (width < 332px) {
-        width: calc(100vw - 32px);
+        width: calc(100cqw - 32px); // cqw 以 layouts/default.vue 的 Header 外框為準，不含捲軸
     }
 }
 </style>
