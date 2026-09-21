@@ -38,7 +38,19 @@
                         type="search"
                         :placeholder="$t('lobby.searchPlaceholder')"
                     >
-                    <span class="game-toolbar__search-icon i-sp-search" />
+                    <!-- mousedown 擋掉：游標才會留在輸入框裡 -->
+                    <button
+                        v-if="keyword"
+                        class="game-toolbar__search-clear i-sp-close"
+                        type="button"
+                        :aria-label="$t('common.clear')"
+                        @click="keyword = ''"
+                        @mousedown.prevent
+                    />
+                    <span
+                        v-else
+                        class="game-toolbar__search-icon i-sp-search"
+                    />
                 </label>
             </div>
         </div>
@@ -65,7 +77,19 @@
                             @input="ignoreScrollForAWhile"
                             @keydown.enter="closeFloat"
                         >
-                        <span class="game-toolbar-float__icon i-sp-search" />
+                        <!-- mousedown 擋掉：不然輸入框先失焦、浮動框收起來，這顆就點不到了 -->
+                        <button
+                            v-if="keyword && isFloatOpen"
+                            class="game-toolbar-float__clear i-sp-close"
+                            type="button"
+                            :aria-label="$t('common.clear')"
+                            @click.stop="keyword = ''"
+                            @mousedown.prevent
+                        />
+                        <span
+                            v-else
+                            class="game-toolbar-float__icon i-sp-search"
+                        />
                     </label>
                 </div>
             </Transition>
@@ -341,6 +365,38 @@ onUnmounted(() => {
         &::placeholder {
             color: var(--color-primary-40);
         }
+
+        // 瀏覽器自帶的清除 ✕ 藏起來，改用下面自己的清除鈕
+        &::-webkit-search-cancel-button {
+            display: none;
+        }
+    }
+
+    // 圖比框小：框是點擊範圍
+    &__search-clear {
+        cursor: pointer;
+
+        flex-shrink: 0;
+
+        width: 19px;
+        height: 19px;
+        padding: 0;
+        border: 0;
+
+        color: var(--color-primary-10);
+
+        background-color: currentcolor;
+
+        mask-position: center;
+        mask-size: 11.4px 11.4px;
+
+        transition: opacity var(--motion-hover);
+
+        @media (hover: hover) {
+            &:hover {
+                opacity: 0.7;
+            }
+        }
     }
 
     // 🚨 search.svg 沒有留白（viewBox 12、圖 11.4），Figma 的 icon 框有留白：要比「圖」的大小，不是比框
@@ -440,6 +496,12 @@ onUnmounted(() => {
         &__search-icon {
             width: 15.2px;
             height: 15.2px;
+        }
+
+        &__search-clear {
+            width: 24px;
+            height: 24px;
+            mask-size: 14.4px 14.4px;
         }
     }
 }
@@ -557,6 +619,24 @@ onUnmounted(() => {
 
     &--open &__icon {
         color: var(--color-primary-30);
+    }
+
+    &__clear {
+        cursor: pointer;
+
+        flex-shrink: 0;
+
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+
+        color: var(--color-primary-10);
+
+        background-color: currentcolor;
+
+        mask-position: center;
+        mask-size: 18px 18px;
     }
 
     &--open &__input {
