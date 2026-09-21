@@ -1,10 +1,8 @@
 <template>
     <!-- 送到 #teleports：祖先有 transform / backdrop-filter 時，fixed 會貼著祖先而不是螢幕 -->
     <Teleport to="#teleports">
-        <div
-            class="base-modal"
-            @click.self="$emit('close')"
-        >
+        <!-- 🧪 暫定（未定案）：點外面不關，只能按 ✕ 或 Esc；定案前別刪這行提醒 -->
+        <div class="base-modal">
             <div
                 ref="panel"
                 class="base-modal__panel"
