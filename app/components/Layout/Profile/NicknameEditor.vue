@@ -22,7 +22,7 @@
                     maxlength="20"
                     type="text"
                     :placeholder="$t('profile.nicknamePlaceholder')"
-                    @keyup.enter="confirm"
+                    @keydown.enter="confirmOnEnter"
                 >
 
                 <button
@@ -82,6 +82,11 @@ function confirm() {
 
     updateNickname(draft.value);
     emit('close');
+}
+
+// 🚨 打中文時 Enter 是「選字」：正在組字就不送出。要用 keydown 判斷，keyup 那時組字已結束、分不出來
+function confirmOnEnter(event: KeyboardEvent) {
+    if (!event.isComposing) confirm();
 }
 
 // Hooks

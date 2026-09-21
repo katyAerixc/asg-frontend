@@ -1,6 +1,9 @@
 <template>
+    <!-- Ctrl／⌘＋Enter 送出：描述框的 Enter 要留給換行 -->
     <form
         class="support-form"
+        @keydown.ctrl.enter.exact="submitOnShortcut"
+        @keydown.meta.enter.exact="submitOnShortcut"
         @submit.prevent="submit"
     >
         <div class="support-form__fields">
@@ -101,7 +104,6 @@ const canSubmit = computed(() => {
 // 送出後重抓紀錄，新提問才會出現在「提問紀錄」
 const { refresh: refreshRecords } = useSupportRecords();
 
-// Functions
 // 成功才清表單；失敗保留內容讓使用者重送（錯誤提示等後端規格確定再做）
 async function submit() {
     if (!canSubmit.value || !issueType.value) return;
@@ -120,6 +122,12 @@ async function submit() {
     } finally {
         isSubmitting.value = false;
     }
+}
+
+// Functions
+// 正在組中文字時不送出（Enter 是選字）
+function submitOnShortcut(event: KeyboardEvent) {
+    if (!event.isComposing) submit();
 }
 </script>
 
