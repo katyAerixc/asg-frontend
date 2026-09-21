@@ -1,8 +1,16 @@
 <template>
-    <div class="base-upload">
+    <!-- 電腦可以直接把圖拖進來（有縮圖時拖進來＝換一張） -->
+    <div
+        ref="rootRef"
+        class="base-upload"
+        @dragleave="onDragLeave"
+        @dragover.prevent="isDragging = true"
+        @drop.prevent="onDrop"
+    >
         <button
             v-if="!previewUrl"
             class="base-upload__box"
+            :class="{ 'base-upload__box--dragging': isDragging }"
             type="button"
             :aria-label="$t('support.attachmentLabel')"
             @click="openPicker"
@@ -63,8 +71,10 @@ const props = withDefaults(
 const modelValue = defineModel<File | null>({ default: null });
 
 // State
+const rootRef = ref<HTMLElement | null>(null);
 const inputRef = ref<HTMLInputElement | null>(null);
 const previewUrl = ref('');
+const isDragging = ref(false);
 
 // 沒問題是 null；被擋下來時放翻譯 key，說明那行就換成紅字警告
 const errorKey = ref<null | string>(null);
@@ -90,8 +100,28 @@ function isAccepted(type: string) {
 function onChange(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
 
-    if (!file) return;
+    if (file) pick(file);
+}
 
+// 滑過裡面的子元素也會觸發 dragleave，要真的離開整塊才算
+function onDragLeave(event: DragEvent) {
+    if (!rootRef.value?.contains(event.relatedTarget as Node | null)) isDragging.value = false;
+}
+
+function onDrop(event: DragEvent) {
+    isDragging.value = false;
+
+    const file = event.dataTransfer?.files[0];
+
+    if (file) pick(file);
+}
+
+function openPicker() {
+    inputRef.value?.click();
+}
+
+// 點選和拖進來都走這裡，格式、大小檢查才不會只擋一邊
+function pick(file: File) {
     // 兩道關卡：格式與大小。任一不過就不收，說明那行變紅字告訴使用者原因。
     // accept 只是讓檔案總管預設篩選，使用者切成「所有檔案」還是選得到，所以這裡要自己再擋一次
     // ⚠️ 擋下來時只還原輸入框，不要呼叫 clear()——那會把先前選好的合法檔案一起丟掉
@@ -113,10 +143,6 @@ function onChange(event: Event) {
     errorKey.value = null;
     modelValue.value = file;
     previewUrl.value = URL.createObjectURL(file);
-}
-
-function openPicker() {
-    inputRef.value?.click();
 }
 
 // 同一個檔案再選一次也要能觸發 change，所以把輸入框的值清掉
@@ -204,6 +230,11 @@ onUnmounted(revokePreview);
             &::before {
                 content: none;
             }
+        }
+
+        // 拖著檔案經過時跟滑入一樣亮起來，告訴使用者「可以放這裡」
+        &--dragging::before {
+            background-color: var(--color-primary-20);
         }
 
         @media (hover: hover) {
