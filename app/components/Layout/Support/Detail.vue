@@ -89,6 +89,7 @@ const {
         gap: var(--corner-2);
 
         min-height: 0;
+        margin: 0 var(--corner-2);
         padding: var(--corner-2) var(--corner-3);
         border-radius: var(--corner-2);
 

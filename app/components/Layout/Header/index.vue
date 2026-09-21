@@ -310,7 +310,9 @@ onUnmounted(() => {
 
         background: var(--bg-normal);
         backdrop-filter: blur(50px);
-        box-shadow: var(--shadow-btn);
+        box-shadow:
+            0 0 0 0 var(--color-white-0),
+            var(--shadow-btn);
 
         transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -321,7 +323,7 @@ onUnmounted(() => {
 
         @media (hover: hover) {
             &:hover {
-                box-shadow: var(--shadow-btn-hover);
+                box-shadow: var(--shadow-pc-hover), var(--shadow-btn);
             }
         }
     }

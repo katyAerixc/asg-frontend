@@ -111,7 +111,7 @@ function clear() {
         outline: none;
 
         &::placeholder {
-            color: var(--color-primary-30);
+            color: var(--color-primary-40);
         }
     }
 

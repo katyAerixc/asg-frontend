@@ -102,7 +102,7 @@
     // ⚠️ 名字是我們自己取的：Figma 沒有動畫變數（動畫寫在 prototype 的 interaction 上）
     // 全站 680 條互動統計下來只有這 4 種組合：
     --motion-hover: 300ms linear; // 一般元件滑入（DISSOLVE／LINEAR／300ms，108 處）
-    --motion-hover-game: 300ms ease-out; // 遊戲卡滑入（DISSOLVE／EASE_OUT／300ms，92 處）
+    --motion-hover-game: 500ms ease-out; // 遊戲卡滑入（Figma 300ms，設計師說再慢一點）
     --motion-press: 100ms linear; // 按下（SMART_ANIMATE／LINEAR／100ms，130 處）
     --motion-breathe: 1.6s linear; // RTP 呼吸一趟（停 200ms ＋ 動 600ms，來回；SMART_ANIMATE／LINEAR）
 

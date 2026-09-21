@@ -185,11 +185,11 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         padding: clamp(12px, calc(15 / 172 * 100cqw), var(--corner-3));
         border-radius: var(--corner-3);
 
-        // 前兩段是「還沒 hover 的白框與外陰影」：全透明，這樣 hover 時才能平滑長出來
-        // 模糊值先寫成跟 hover 一樣（10px），過渡時只有顏色在變，比較滑順
+        // 第一段是「還沒 hover 的白框」：全透明，hover 時才能平滑長出來
+        // 第二段外陰影平常就有（Figma 平常狀態沒畫，設計師後來要求跟圖交界處要有陰影），跟 hover 同一組數值
         box-shadow:
             0 0 0 0 var(--color-white-0),
-            0 0 10px 0 var(--color-white-0),
+            0 0 10px 0 var(--color-shadow-dark-50),
             var(--shadow-game-bg-default);
 
         transition: box-shadow var(--motion-hover-game);

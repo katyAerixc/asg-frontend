@@ -30,6 +30,11 @@
                 @load-more="loadMore"
             />
         </main>
+
+        <div
+            class="lobby__fade"
+            aria-hidden="true"
+        />
     </div>
 </template>
 
@@ -155,6 +160,24 @@ useSeoMeta({
 <style scoped lang="scss">
 // 工具列的樣式在 Game/Toolbar.vue、卡片網格與加載更多在 Game/List.vue
 .lobby {
+    // Figma 用的是「以畫面為準」的遮罩，讓卡片在畫面最底下淡到剩 10%；
+    // CSS 的 mask 只能跟著元素一起捲，做不到，改成疊一條頁面底色 90% 的漸層，看起來一樣
+    &__fade {
+        pointer-events: none;
+
+        position: fixed;
+        z-index: 30; // 蓋過遊戲卡，但在浮動搜尋鈕(45)、選單、彈窗底下
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        max-width: 1320px; // 跟卡片區同寬，兩側的背景光暈不要被蓋到
+        height: 41px;
+        margin: 0 auto;
+
+        background: linear-gradient(transparent, var(--bg-page-sticky));
+    }
+
     &__main {
         max-width: 1320px;
         margin: 0 auto;
@@ -216,6 +239,10 @@ useSeoMeta({
     }
 
     @media (width >= 960px) {
+        &__fade {
+            height: 53px;
+        }
+
         &__main {
             padding: 5px var(--corner-5) 40px; // 上 5 ＋ 工具列下內距 15 ＝ Figma 分類列到標題 20
         }

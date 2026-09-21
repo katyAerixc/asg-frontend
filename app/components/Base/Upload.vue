@@ -270,6 +270,11 @@ onUnmounted(revokePreview);
             }
         }
 
+        &__remove {
+            height: 25px;
+            font-size: var(--font-size-14);
+        }
+
         &__icon {
             width: 40px;
             height: 38px;
