@@ -185,7 +185,9 @@ useSeoMeta({
     }
 
     // 哨兵：1px 高的透明元素，只負責讓 JS 知道工具列黏住了沒
+    // 往上挪一個 Header 的高度：Header 現在會黏在最上面，工具列是黏在它「下面」，一開始捲就算黏住了
     &__sentinel {
+        transform: translateY(calc(var(--header-h) * -1));
         height: 1px;
     }
 

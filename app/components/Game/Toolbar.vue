@@ -2,12 +2,25 @@
     <!-- ⚠️ 根節點本身就是 sticky 的那層，外面不要再包 div——sticky 只在父層範圍內有效 -->
     <div
         class="game-toolbar"
-        :class="{ 'game-toolbar--stuck': stuck }"
+        :class="{
+            'game-toolbar--stuck': stuck,
+            'game-toolbar--compact': isCompact,
+        }"
     >
         <div class="game-toolbar__inner">
+            <!-- 一直都在、平常寬 0：用 v-if 的話一出現分類就被硬推過去，沒辦法做動畫 -->
+            <NuxtLink
+                class="game-toolbar__logo"
+                :aria-label="$t('header.home')"
+                :to="localePath('/')"
+            />
+
             <GameCategoryFilter
                 class="game-toolbar__category"
-                :class="{ 'game-toolbar__category--stuck': stuck }"
+                :class="{
+                    'game-toolbar__category--stuck': stuck,
+                    'game-toolbar__category--compact': isCompact,
+                }"
                 :active-category="category"
                 @update:active-category="category = $event"
             />
@@ -52,8 +65,35 @@
                         class="game-toolbar__search-icon i-sp-search"
                     />
                 </label>
+
+                <!-- 一直都在、平常寬 0：用 v-if 的話消失那一刻會整塊被拿掉，NEW/HOT 與搜尋框會突然跳 -->
+                <div
+                    class="game-toolbar__compact"
+                    :class="{ 'game-toolbar__compact--show': isCompact }"
+                >
+                    <LayoutHeaderCompact class="game-toolbar__compact-inner" />
+                </div>
             </div>
         </div>
+
+        <!-- 🧪 手機：黏頂的只有分類列，logo 與縮小版金幣頭像另外疊在分類列左右兩邊 -->
+        <Teleport to="#teleports">
+            <Transition name="game-toolbar-compact">
+                <NuxtLink
+                    v-if="isCompact && isPageActive"
+                    class="game-toolbar-logo-h5"
+                    :aria-label="$t('header.home')"
+                    :to="localePath('/')"
+                />
+            </Transition>
+
+            <Transition name="game-toolbar-compact">
+                <LayoutHeaderCompact
+                    v-if="isCompact && isPageActive"
+                    class="game-toolbar-compact-h5"
+                />
+            </Transition>
+        </Teleport>
 
         <Teleport to="#teleports">
             <Transition name="game-toolbar-float">
@@ -131,6 +171,9 @@ const floatInputRef = ref<HTMLInputElement | null>(null);
 // 手機跳出鍵盤、打字篩掉遊戲時頁面會跟著動，瀏覽器會當成捲動 → 這段時間內的捲動不算（打字時不收）
 let ignoreScrollUntil = 0;
 let filtersObserver: IntersectionObserver | null = null;
+
+const { isCompact } = storeToRefs(useLayoutHeaderStore());
+const localePath = useLocalePath();
 
 // Computed properties
 // 展開中就算排序那排回到畫面也先留著，收起來才消失（不然打字篩選時頁面變短，按鈕會突然不見）
@@ -215,11 +258,13 @@ onUnmounted(() => {
 .game-toolbar {
     position: sticky;
     z-index: 40;
-    top: 0;
+    top: var(--header-h, 0); // 讓位給 Header；Header 收起來時跟著一起往上推（變數在 layouts/default.vue）
+    transform: translateY(var(--header-shift, 0));
 
     background-color: transparent;
 
     transition:
+        transform 0.3s ease,
         background-color 0.25s ease,
         backdrop-filter 0.25s ease;
 
@@ -238,6 +283,91 @@ onUnmounted(() => {
         max-width: 1320px; // 跟下面卡片區同寬
         margin: 0 auto;
         padding: var(--corner-3);
+    }
+
+    // 🧪 ?header=ours 版本：左邊只有圖示的 logo（跟手機 Header 同一張）＋整排字縮小一級
+    // 平常寬 0、負的右邊距抵掉外層 gap 24，看起來就像不存在；visibility 讓它平常點不到、讀螢幕也略過
+    &__logo {
+        display: block;
+        flex-shrink: 0;
+
+        width: 0;
+        height: 30px;
+        margin-right: -24px;
+
+        visibility: hidden;
+        opacity: 0;
+        background-image: var(--logo-h5);
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: contain;
+
+        transition:
+            width 0.3s ease,
+            margin-right 0.3s ease,
+            opacity 0.3s ease,
+            visibility 0.3s;
+
+        @media (width < 960px) {
+            display: none;
+        }
+    }
+
+    &--compact {
+        --category-tab-font-size: var(--font-size-18); // 分類字級（變數在 CategoryFilter.vue）
+    }
+
+    &--compact &__logo {
+        width: 32px;
+        margin-right: 0;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    // 分類一直靠左、篩選靠右：外層是 space-between，隱藏的 logo 也算一格，不加這行分類會被推到中間
+    &__category {
+        @media (width >= 960px) {
+            margin-right: auto;
+        }
+    }
+
+    // 🧪 ?header=ours 版本：電腦的縮小版金幣頭像，放在搜尋框右邊
+    // 寬度用 grid 0fr → 1fr 慢慢長出來（寬度不用寫死）；負的左邊距抵掉外層 gap 15
+    &__compact {
+        display: grid;
+        grid-template-columns: 0fr;
+
+        margin-left: calc(var(--corner-3) * -1);
+
+        visibility: hidden;
+        opacity: 0;
+
+        transition:
+            grid-template-columns 0.3s ease,
+            margin-left 0.3s ease,
+            opacity 0.3s ease,
+            visibility 0.3s;
+
+        &--show {
+            grid-template-columns: 1fr;
+            margin-left: 0;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (width < 960px) {
+            display: none;
+        }
+    }
+
+    // 🚨 要 overflow: hidden 才縮得到 0；顯示後改回 visible，不然金幣膠囊的外陰影會被切掉
+    &__compact-inner {
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    &__compact--show &__compact-inner {
+        overflow: visible;
     }
 
     &__filters {
@@ -260,6 +390,8 @@ onUnmounted(() => {
         background: var(--bg-input);
         backdrop-filter: blur(25px);
         box-shadow: var(--shadow-input);
+
+        transition: height 0.3s ease;
     }
 
     // 多語系：不寫死寬度，靠 padding 撐開
@@ -287,7 +419,9 @@ onUnmounted(() => {
         transition:
             color var(--motion-hover),
             background-color var(--motion-hover),
-            box-shadow var(--motion-hover);
+            box-shadow var(--motion-hover),
+            padding 0.3s ease,
+            font-size 0.3s ease;
 
         // 幽靈文字：永遠是粗體、看不見，只負責把按鈕撐到最寬
         // 🚨 不能加 overflow: hidden：最小寬度會變 0，點標籤時文字變粗，右邊搜尋框會被擠得晃
@@ -335,7 +469,12 @@ onUnmounted(() => {
             var(--shadow-input);
 
         // 平常補兩層全透明的（框、外圈），湊成跟 input-act-stroke 一樣的 5 層——層數不同 box-shadow 會直接跳、補不出漸變
-        transition: box-shadow var(--motion-hover);
+        // 寬高內距：?header=ours 縮小版切換時平順變化
+        transition:
+            box-shadow var(--motion-hover),
+            width 0.3s ease,
+            height 0.3s ease,
+            padding 0.3s ease;
 
         // focus-within 留著：那是真的「游標在裡面」，手機也該亮
         &:focus-within {
@@ -361,6 +500,8 @@ onUnmounted(() => {
 
         background: transparent;
         outline: none;
+
+        transition: font-size 0.3s ease;
 
         &::placeholder {
             color: var(--color-primary-40);
@@ -413,6 +554,28 @@ onUnmounted(() => {
         grid-area: 1 / 1;
     }
 
+    // NEW/HOT、搜尋框整顆縮小（只有電腦：手機這排不黏頂，縮了頁面會跳）；那排高度由分類決定，縮了也不會變矮
+    @media (width >= 960px) {
+        &--compact &__toggle {
+            height: 32px;
+        }
+
+        &--compact &__toggle-btn {
+            padding: 2px var(--corner-2);
+            font-size: var(--font-size-16);
+        }
+
+        &--compact &__search {
+            width: 240px;
+            height: 32px; // 跟 NEW/HOT 同高
+            padding: 0 var(--corner-2);
+        }
+
+        &--compact &__search-input {
+            font-size: var(--font-size-16);
+        }
+    }
+
     @media (width < 960px) {
         // 手機：只有「全部／老虎機…」分類列黏頂，排序那排跟著頁面捲走、改由右下角浮動鈕搜尋
         // sticky 只能在爸爸範圍內黏，所以外層兩層改 display: contents（盒子消失），分類列直接變成整頁的子元素才黏得住
@@ -437,7 +600,8 @@ onUnmounted(() => {
         &__category {
             position: sticky;
             z-index: 40;
-            top: 0;
+            top: var(--header-h, 0);
+            transform: translateY(var(--header-shift, 0));
 
             // 下面留 8，跟排序那排的 10 加起來間距 18
             padding: 16px var(--corner-2) 8px;
@@ -445,12 +609,26 @@ onUnmounted(() => {
             background-color: transparent;
 
             transition:
+                transform 0.3s ease,
+                padding 0.3s ease,
                 background-color 0.25s ease,
                 backdrop-filter 0.25s ease;
 
             &--stuck {
                 background-color: var(--bg-page-sticky);
                 backdrop-filter: blur(12px);
+            }
+
+            // 左邊讓出位置給 logo；上面讓出一條給金幣頭像
+            // 上 16→28、下 8→0：選取底線下方不會空太多，總高度一樣是 76（高度變了頁面會跳）
+            &--compact {
+                --category-tab-font-size: var(--font-size-16);
+                --category-tab-padding-x: 8px; // 五個分類才塞得下
+                --category-tab-min-height: 40px;
+                --category-tab-padding-bottom: 6px; // 下面少 4 挪到上面，總高度不變
+                --category-tab-underline-bottom: 2px; // 底線貼近字
+
+                padding: 28px var(--corner-2) 0 62px; // 左：logo 44 ＋ 左邊距 10 ＋ 間距 8
             }
         }
 
@@ -490,6 +668,7 @@ onUnmounted(() => {
         &__search {
             flex: 0 1 auto;
             width: 280px;
+            height: 44px; // 寫死高度（跟內距撐出來的一樣），縮小版變 32 時才有辦法做動畫
         }
 
         // Figma PC/input：icon 框 24、圖 14.4 → 元素 14.4 ÷ (11.4 / 12) ≈ 15.2
@@ -656,6 +835,53 @@ onUnmounted(() => {
             transition: none;
         }
     }
+}
+
+// 🧪 ?header=ours 版本：手機的 logo 與縮小版金幣頭像疊在分類列左右（電腦版在 .game-toolbar__logo、__compact）
+.game-toolbar-logo-h5 {
+    position: fixed;
+    z-index: 41;
+    top: 18px; // 放在頭像頂（12）到分類字底（66）的正中間
+    left: var(--corner-2);
+
+    display: block;
+
+    width: 44px; // 圖是 80 × 76，高 42 等比算出來
+    height: 42px;
+
+    background-image: var(--logo-h5);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+
+    @media (width >= 960px) {
+        display: none;
+    }
+}
+
+.game-toolbar-compact-h5 {
+    position: fixed;
+    z-index: 41; // 疊在黏頂分類列(40)上面
+    top: 12px; // 放在分類列上面那條空白（分類字從 42 開始，中間留 8）
+    right: var(--corner-2);
+
+    @media (width >= 960px) {
+        display: none;
+    }
+}
+
+.game-toolbar-compact-enter-active,
+.game-toolbar-compact-leave-active {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+// 從上面輕輕滑下來（跟 Header 收起、滑出的方向一致）
+.game-toolbar-compact-enter-from,
+.game-toolbar-compact-leave-to {
+    transform: translateY(-6px);
+    opacity: 0;
 }
 
 // 出現／消失：淡入淡出＋往上浮一點

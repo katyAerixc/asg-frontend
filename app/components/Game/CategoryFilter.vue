@@ -66,17 +66,25 @@ const CATEGORIES: GameCategoryFilter[] = [
         flex-shrink: 0; // 不准被壓扁：空間不夠時改成整列可左右滑，不是把字擠爛
         justify-items: center;
 
-        padding: var(--corner-2) var(--corner-3);
+        // 高度、左右內距、下內距外層都可改（工具列縮小版用）；min-height 讓字級被改小時高度不變，不然整排變矮、頁面會跳
+        min-height: var(--category-tab-min-height, 44px);
+        padding: var(--corner-2) var(--category-tab-padding-x, var(--corner-3))
+            var(--category-tab-padding-bottom, var(--corner-2));
         border: 0;
 
-        font-size: var(--font-size-20);
+        font-size: var(--category-tab-font-size, var(--font-size-20)); // 外層可改（工具列縮小版用）
         font-weight: var(--font-weight-regular);
         color: var(--color-primary-40);
         white-space: nowrap; // 多語系：分類名不換行，整列可橫向捲動
 
         background: none;
 
-        transition: color var(--motion-hover);
+        // 字級、內距、高度：工具列縮小版切換時平順變化
+        transition:
+            color var(--motion-hover),
+            font-size 0.3s ease,
+            padding 0.3s ease,
+            min-height 0.3s ease;
 
         // 幽靈文字：永遠是粗體、看不見，把分類撐到選中時的寬度，點選時旁邊的分類才不會被推動
         // 🚨 不能加 overflow: hidden（會讓最小寬度變 0，照樣會晃）
@@ -96,7 +104,7 @@ const CATEGORIES: GameCategoryFilter[] = [
             content: '';
 
             position: absolute;
-            bottom: 0;
+            bottom: var(--category-tab-underline-bottom, 0); // 外層可改（工具列縮小版讓底線貼近字）
             left: 50%;
             transform: translateX(-50%);
 
@@ -107,7 +115,9 @@ const CATEGORIES: GameCategoryFilter[] = [
             opacity: 0;
             background: var(--color-primary-20);
 
-            transition: opacity 0.2s;
+            transition:
+                opacity 0.2s,
+                bottom 0.3s ease;
         }
 
         &--active {
