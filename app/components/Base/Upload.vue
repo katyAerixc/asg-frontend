@@ -135,12 +135,15 @@ function revokePreview() {
 // Hooks
 // 父層送出表單後會把 v-model 設回 null。這支自己留著 previewUrl，
 // 不看著它就會「描述清空了、縮圖還在」，而且那個 blob 網址也沒被收回
+// immediate：重新打開時外面已經有檔案（填到一半的草稿），要把縮圖補回來
 watch(modelValue, (value) => {
     if (!value) {
         revokePreview();
         resetInput();
+    } else if (!previewUrl.value) {
+        previewUrl.value = URL.createObjectURL(value);
     }
-});
+}, { immediate: true });
 
 onUnmounted(revokePreview);
 </script>

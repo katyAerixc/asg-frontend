@@ -67,13 +67,14 @@ import {
     ISSUE_TYPES,
 } from '@/libs/support';
 
-const supportStore = useSupportStore();
-
 // State
-// 從「再次提問」過來會先選好類型；一般打開是 null
-const issueType = ref<null | string>(supportStore.takePresetIssueType());
-const description = ref('');
-const attachment = ref<File | null>(null);
+// 填到一半的內容放在 store，切頁籤、關視窗再打開都還在（「再次提問」也是改這裡的類型）
+const supportStore = useSupportStore();
+const {
+    draftAttachment: attachment,
+    draftDescription: description,
+    draftIssueType: issueType,
+} = storeToRefs(supportStore);
 
 // 送出中：擋連點，按鈕也跟著變灰
 const isSubmitting = ref(false);
@@ -114,9 +115,7 @@ async function submit() {
             issueType: issueType.value,
         });
 
-        issueType.value = null;
-        description.value = '';
-        attachment.value = null;
+        supportStore.clearDraft();
         await refreshRecords();
     } finally {
         isSubmitting.value = false;
