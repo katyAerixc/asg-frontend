@@ -67,11 +67,12 @@ useHead({
 
 // 全站共用的標籤，放這裡不放各頁；site_name 是分享卡片上跟頁標題分開顯示的網站名
 // 空字串改成 undefined 才不會輸出一個空標籤
+// ⚠️ twitterSite 沒值時連欄位都不能傳：unhead 看到這個欄位名稱就會在主控台報「deprecated」，值是 undefined 也一樣
 useSeoMeta({
     author: seo.author || undefined,
     fbAppId: seo.fbAppId || undefined,
     ogSiteName: () => t('seo.siteName'),
     publisher: seo.publisher || undefined,
-    twitterSite: seo.twitterSite || undefined,
+    ...seo.twitterSite ? { twitterSite: seo.twitterSite } : {},
 });
 </script>
