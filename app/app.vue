@@ -20,6 +20,7 @@ const CJK_FONTS: Partial<Record<LocaleCode, string>> = {
 // Composables
 const { locale } = useLocale();
 const { t } = useI18n();
+const { seo } = useRuntimeConfig().public;
 
 // 每頁自動產生 hreflang（告訴 Google 這頁有哪 7 種語言版本）、canonical（正本網址）、og:locale
 // lang 交給下面的 useHead 自己設，dir 全站都是左到右不用
@@ -54,9 +55,23 @@ useHead({
         ...fontLinks.value,
         ...localeHead.value.link ?? [],
     ],
-    meta: () => localeHead.value.meta ?? [],
+    meta: () => [
+        ...localeHead.value.meta ?? [],
+        // Google 不看 keywords（官方文件明寫），放著給其他搜尋引擎與檢查工具；useSeoMeta 沒有這個欄位
+        {
+            content: t('seo.keywords'),
+            name: 'keywords',
+        },
+    ],
 });
 
-// 分享卡片上跟頁標題分開顯示的網站名；全站同一個，所以放這裡不放各頁
-useSeoMeta({ ogSiteName: () => t('seo.siteName') });
+// 全站共用的標籤，放這裡不放各頁；site_name 是分享卡片上跟頁標題分開顯示的網站名
+// 空字串改成 undefined 才不會輸出一個空標籤
+useSeoMeta({
+    author: seo.author || undefined,
+    fbAppId: seo.fbAppId || undefined,
+    ogSiteName: () => t('seo.siteName'),
+    publisher: seo.publisher || undefined,
+    twitterSite: seo.twitterSite || undefined,
+});
 </script>

@@ -200,6 +200,15 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiBase: '',
+            // 網頁原始碼裡的作者、發行者、FB 應用程式編號、X 帳號；空的就不輸出
+            // 值由 .env 覆蓋：NUXT_PUBLIC_SEO_AUTHOR、NUXT_PUBLIC_SEO_PUBLISHER、
+            // NUXT_PUBLIC_SEO_FB_APP_ID、NUXT_PUBLIC_SEO_TWITTER_SITE
+            seo: {
+                author: 'ASG',
+                fbAppId: '',
+                publisher: 'ASG',
+                twitterSite: '',
+            },
             siteUrl,
             // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
             useMock: true,

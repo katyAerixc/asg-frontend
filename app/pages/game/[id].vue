@@ -34,6 +34,10 @@ import playPc from '@/assets/images/game/play-pc.jpg';
 definePageMeta({ layout: false });
 
 // Variables
+const {
+    baseUrl,
+    t,
+} = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
 const router = useRouter();
@@ -48,6 +52,24 @@ const game = computed(() => games.value.find((item) => item.id === Number(route.
 useHead({
     htmlAttrs: { 'data-fullscreen': '' },
     title: () => game.value ? `${game.value.name} | ASG` : 'ASG',
+});
+
+// 分享這款遊戲時，卡片顯示遊戲名與遊戲圖；描述暫用「遊玩 ○○」，等每款遊戲有介紹文再換
+// og:image 一定要完整網址：假資料是站內路徑要補網域，後端給的若已是完整網址就直接用
+useSeoMeta({
+    description: () => game.value ? t('lobby.card.play', { name: game.value.name }) : undefined,
+    ogDescription: () => game.value ? t('lobby.card.play', { name: game.value.name }) : undefined,
+    ogImage: () => {
+        const image = game.value?.image;
+
+        if (!image) return undefined;
+
+        return image.startsWith('http') ? image : `${baseUrl.value}${image}`;
+    },
+    ogImageAlt: () => game.value?.name,
+    ogTitle: () => game.value?.name,
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
 });
 
 // 網址的 id 找不到遊戲 → 404。要先等資料回來再判斷，伺服器才會回 404 狀態碼（不然 Google 會當成正常頁收錄）
