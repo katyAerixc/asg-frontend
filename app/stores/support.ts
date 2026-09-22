@@ -47,9 +47,11 @@ export const useSupportStore = defineStore('support', () => {
         isOpen.value = true;
     }
 
-    // 再次提問：回到「提交問題」，並先選好這筆的問題類型；已經打好的描述、附件保留
+    // 再次提問：回到「提交問題」，並先選好這筆的問題類型；描述、附件是新的一題，清掉之前填的
     function askAgain(issueType: null | string) {
         draftIssueType.value = issueType;
+        draftDescription.value = '';
+        draftAttachment.value = null;
         switchTab('form');
     }
 
