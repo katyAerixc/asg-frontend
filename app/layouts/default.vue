@@ -3,8 +3,6 @@
         class="layout"
         :class="{ 'layout--header-hidden': isHidden }"
     >
-        <!-- ⚠️ 黏頂的 sticky 要寫在這層外框：寫在組件身上，父層只跟它一樣高，黏不住 -->
-        <!-- 往下捲收起來、往上捲一點就滑出來；鍵盤 Tab 進來時也要出現，不然會按到看不見的東西 -->
         <div
             ref="header"
             class="layout__header"
@@ -151,6 +149,7 @@ onUnmounted(() => {
         --header-shift: calc(var(--header-h) * -1);
     }
 
+    // ⚠️ 黏頂的 sticky 要寫在這層外框：寫在組件身上，父層只跟它一樣高，黏不住
     // 頭像選單在極窄螢幕要用 cqw 量整排寬度（100vw 會把電腦的捲軸也算進去）
     &__header {
         position: sticky;

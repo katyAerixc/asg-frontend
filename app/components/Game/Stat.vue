@@ -12,7 +12,6 @@
         <span class="game-stat__label">{{ label }}</span>
         <span class="game-stat__value">
             {{ value }}
-            <!-- 🚨 圖示 class 要寫完整的字，不能用 `i-sp-trend-${trend}` 組：UnoCSS 掃不到，箭頭會消失 -->
             <span
                 v-if="trend"
                 class="game-stat__arrow"
@@ -147,6 +146,7 @@ withDefaults(
     }
 
     // 箭頭圖示左右本身有透明空白（SVG 路徑只畫在 5.5～15.5／22：左 25%、右 29.5%）
+    // 🚨 箭頭 class 在 template 要寫完整的字（i-sp-trend-up），不能用 `i-sp-trend-${trend}` 組：UnoCSS 掃不到，箭頭會消失
     // 左邊拉回再留 4px，數字和箭頭才會靠在一起；右邊也拉回，整組置中才不會偏左
     // 尺寸統一寫在 --stat-arrow-size
     &__arrow {

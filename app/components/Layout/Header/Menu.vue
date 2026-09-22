@@ -1,5 +1,4 @@
 <template>
-    <!-- 捲的是選單不是頁面：捲頁面會觸發「捲動就關閉選單」 -->
     <div
         ref="rootRef"
         class="header-menu"

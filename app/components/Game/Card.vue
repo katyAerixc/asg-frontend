@@ -1,6 +1,4 @@
 <template>
-    <!-- 上半部大圖直接進遊戲、下半部開遊戲介紹 -->
-    <!-- ⚠️ 下半部不要加 role="button"：讀螢幕軟體會把裡面的內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕 -->
     <article class="game-card">
         <NuxtLink
             class="game-card__media"
@@ -12,7 +10,6 @@
                 :alt="game.name"
                 :src="game.image"
             >
-            <!-- 滑入時兩張圖互換透明度，不是把圖放大；同一個 src 不會多下載 -->
             <img
                 class="game-card__img game-card__img--hover"
                 alt=""
@@ -168,6 +165,7 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
         gap: 4px;
     }
 
+    // ⚠️ 玻璃塊不要加 role="button"：讀螢幕軟體會把裡面的內容全當裝飾略過；鍵盤操作走 ⓘ 那顆按鈕
     // 玻璃塊：正常排版 + 負的上邊距往上蓋。蓋住的量固定，所以圖片永遠露出 74%；
     // 高度不設限，文字變多時往「下」長，不會多吃圖片
     &__info {

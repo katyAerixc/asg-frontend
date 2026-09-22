@@ -19,7 +19,6 @@
                         >
                             {{ $t(`support.status.${record.status}`) }}
 
-                            <!-- 用 visibility 藏而不是移除：位子留著，已讀後標籤才不會縮一下 -->
                             <span
                                 v-if="record.status === 'replied'"
                                 class="support-history__dot"

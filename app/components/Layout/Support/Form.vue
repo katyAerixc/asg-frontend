@@ -1,5 +1,4 @@
 <template>
-    <!-- Ctrl／⌘＋Enter 送出：描述框的 Enter 要留給換行 -->
     <form
         class="support-form"
         @keydown.ctrl.enter.exact="submitOnShortcut"

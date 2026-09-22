@@ -1,5 +1,4 @@
 <template>
-    <!-- 電腦可以直接把圖拖進來（有縮圖時拖進來＝換一張） -->
     <div
         ref="rootRef"
         class="base-upload"

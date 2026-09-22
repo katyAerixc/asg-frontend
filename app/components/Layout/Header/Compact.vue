@@ -1,5 +1,4 @@
 <template>
-    <!-- 🧪 只在 ?header=ours 版本出現：Header 收起來後往上滑，金幣、頭像縮小放進分類列；點一下叫出完整 Header -->
     <button
         class="header-compact"
         type="button"

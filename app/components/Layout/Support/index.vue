@@ -20,14 +20,12 @@
                     :aria-selected="activeTab === tab"
                     @click="switchTab(tab)"
                 >
-                    <!-- 文字獨立包一層：給紅點當定位基準 -->
                     <span
                         class="support__tab-label"
                         :class="{ 'support__tab-label--active': activeTab === tab }"
                     >
                         {{ $t(`support.tab.${tab}`) }}
 
-                        <!-- 紅點用絕對定位，不佔版面，出現或消失時頁籤不會跳 -->
                         <span
                             v-if="tab === 'history' && hasUnreadReply"
                             class="support__dot"

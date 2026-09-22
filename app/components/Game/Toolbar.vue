@@ -1,5 +1,4 @@
 <template>
-    <!-- ⚠️ 根節點本身就是 sticky 的那層，外面不要再包 div——sticky 只在父層範圍內有效 -->
     <div
         class="game-toolbar"
         :class="{
@@ -8,7 +7,6 @@
         }"
     >
         <div class="game-toolbar__inner">
-            <!-- 一直都在、平常寬 0：用 v-if 的話一出現分類就被硬推過去，沒辦法做動畫 -->
             <NuxtLink
                 class="game-toolbar__logo"
                 :aria-label="$t('header.home')"
@@ -51,7 +49,6 @@
                         type="search"
                         :placeholder="$t('lobby.searchPlaceholder')"
                     >
-                    <!-- mousedown 擋掉：游標才會留在輸入框裡 -->
                     <button
                         v-if="keyword"
                         class="game-toolbar__search-clear i-sp-close"
@@ -66,7 +63,6 @@
                     />
                 </label>
 
-                <!-- 一直都在、平常寬 0：用 v-if 的話消失那一刻會整塊被拿掉，NEW/HOT 與搜尋框會突然跳 -->
                 <div
                     class="game-toolbar__compact"
                     :class="{ 'game-toolbar__compact--show': isCompact }"
@@ -76,7 +72,6 @@
             </div>
         </div>
 
-        <!-- 🧪 手機：黏頂的只有分類列，logo 與縮小版金幣頭像另外疊在分類列左右兩邊 -->
         <Teleport to="#teleports">
             <Transition name="game-toolbar-compact">
                 <NuxtLink
@@ -117,7 +112,6 @@
                             @input="ignoreScrollForAWhile"
                             @keydown.enter="closeFloat"
                         >
-                        <!-- mousedown 擋掉：不然輸入框先失焦、浮動框收起來，這顆就點不到了 -->
                         <button
                             v-if="keyword && isFloatOpen"
                             class="game-toolbar-float__clear i-sp-close"
@@ -255,6 +249,7 @@ onUnmounted(() => {
 <style scoped lang="scss">
 // 工具列外層：滿版（左右不留缺口）+ 黏在畫面最上面
 // 沒黏住時透明（Figma 沒填色）；往下滑黏住才長出跟頁面同色的底，字才不會疊在卡片上
+// ⚠️ 根節點本身就是 sticky 的那層，template 外面不要再包 div——sticky 只在父層範圍內有效
 .game-toolbar {
     position: sticky;
     z-index: 40;
@@ -286,6 +281,7 @@ onUnmounted(() => {
     }
 
     // 🧪 ?header=ours 版本：左邊只有圖示的 logo（跟手機 Header 同一張）＋整排字縮小一級
+    // ⚠️ 一直都在、不要改成 v-if：一出現分類就被硬推過去，沒辦法做動畫
     // 平常寬 0、負的右邊距抵掉外層 gap 24，看起來就像不存在；visibility 讓它平常點不到、讀螢幕也略過
     &__logo {
         display: block;
@@ -332,6 +328,7 @@ onUnmounted(() => {
     }
 
     // 🧪 ?header=ours 版本：電腦的縮小版金幣頭像，放在搜尋框右邊
+    // ⚠️ 一直都在、不要改成 v-if：消失那一刻整塊被拿掉，NEW/HOT 與搜尋框會突然跳
     // 寬度用 grid 0fr → 1fr 慢慢長出來（寬度不用寫死）；負的左邊距抵掉外層 gap 15
     &__compact {
         display: grid;
@@ -513,6 +510,7 @@ onUnmounted(() => {
         }
     }
 
+    // ⚠️ template 的 @mousedown.prevent 不要拿掉：游標才會留在輸入框裡
     // 圖比框小：框是點擊範圍
     &__search-clear {
         cursor: pointer;
@@ -800,6 +798,7 @@ onUnmounted(() => {
         color: var(--color-primary-30);
     }
 
+    // ⚠️ template 的 @mousedown.prevent 不要拿掉：不然輸入框先失焦、浮動框收起來，這顆就點不到了
     &__clear {
         cursor: pointer;
 

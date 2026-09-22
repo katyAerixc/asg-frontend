@@ -1,6 +1,5 @@
 <template>
     <div class="game-play">
-        <!-- ⚠️ 還沒接上遊戲，先用截圖頂著；後端給網址後，__screen 換成 <iframe :src="遊戲網址"> -->
         <div class="game-play__bg" />
 
         <picture class="game-play__screen">
@@ -91,6 +90,7 @@ function close() {
         filter: blur(20px);
     }
 
+    // ⚠️ 還沒接上遊戲，先用截圖頂著；後端給網址後，__screen 換成 <iframe :src="遊戲網址">
     // 外框不佔位：圖片直接當頁面的子元素，寬度 100% 才是整頁寬
     &__screen {
         display: contents;

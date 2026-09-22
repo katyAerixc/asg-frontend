@@ -1,5 +1,4 @@
 <template>
-    <!-- 送到 #teleports：祖先有 transform / backdrop-filter 時，fixed 會貼著祖先而不是螢幕 -->
     <Teleport to="#teleports">
         <div
             class="base-modal"
@@ -151,6 +150,7 @@ onUnmounted(() => {
     }
 }
 
+// ⚠️ template 用 Teleport 送到 #teleports：祖先有 transform / backdrop-filter 時，fixed 會貼著祖先而不是螢幕
 .base-modal {
     position: fixed;
     z-index: 100;

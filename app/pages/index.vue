@@ -1,6 +1,5 @@
 <template>
     <div class="lobby">
-        <!-- 哨兵：它捲出畫面 = 工具列黏住了，用來切換底色 -->
         <div
             ref="sentinelRef"
             class="lobby__sentinel"
