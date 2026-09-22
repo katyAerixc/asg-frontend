@@ -6,6 +6,8 @@ import { checkAndGetEnvValue } from '@kikiutils/shared/env';
 const envValidationSkipped = process.env.SKIP_ENV_VALIDATION === 'true';
 // 明確寫 true 才讓搜尋引擎收錄：dev／build 只讀 .local 檔，漏設時要是預設收錄，開發站會被 Google 收進去
 const seoIndexingEnabled = process.env.SEO_INDEXING_ENABLED?.trim() === 'true';
+// 網站住在子路徑時（例 GitHub Pages 的 /倉庫名/）要在 build 時就設，只靠 runtime 的 NUXT_APP_BASE_URL 烤靜態頁會全部轉址
+const appBaseURL = process.env.NUXT_APP_BASE_URL?.trim() || '/';
 
 // i18n：語言檔按功能拆成 6 個，7 種語言各一份（i18n/locales/<語言>/<功能>.json）
 // 加字串 → 改對應的功能檔；加語言 → 在 LOCALES 加一行、複製 zh-TW 資料夾。詳見 i18n/README.md
@@ -63,16 +65,17 @@ const siteUrl = (envValidationSkipped ? process.env.NUXT_SITE_URL : checkAndGetE
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     app: {
+        baseURL: appBaseURL,
         head: {
             // favicon：.ico 給瀏覽器分頁，.png 給手機加到主畫面
             link: [
                 {
-                    href: '/favicon.ico',
+                    href: `${appBaseURL}favicon.ico`,
                     rel: 'icon',
                 },
                 // 這裡貌似與下面PWA會衝突或重複，最後上線或要啟用PWA(也可能最終不啟用)時再處理
                 {
-                    href: '/favicon.png',
+                    href: `${appBaseURL}favicon.png`,
                     rel: 'apple-touch-icon',
                 },
             ],
@@ -194,7 +197,11 @@ export default defineNuxtConfig({
     //     srcDir: 'service-worker',
     //     strategies: 'injectManifest',
     // },
-    robots: { disallow: seoIndexingEnabled ? undefined : '/' },
+    // 住在子路徑時 @nuxt/robots 不允許產 robots.txt（根路徑不歸我們管），HTML 的 meta noindex 仍會寫
+    robots: {
+        disallow: seoIndexingEnabled ? undefined : '/',
+        robotsTxt: appBaseURL === '/',
+    },
     routeRules: {},
     // 值由 .env 的 NUXT_PUBLIC_* 覆蓋（NUXT_PUBLIC_API_BASE、NUXT_PUBLIC_USE_MOCK）
     runtimeConfig: {
