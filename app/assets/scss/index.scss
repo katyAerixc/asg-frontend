@@ -487,6 +487,13 @@ body {
     background: var(--bg-page);
 }
 
+// 圖片的 title 是給 SEO 用的，不想讓滑鼠停上去跳出瀏覽器的提示框（CSS 關不掉提示框本身）
+// → 讓滑鼠穿過圖片，點擊與 hover 會落在後面的連結、按鈕、卡片上；title 仍在原始碼裡
+// ⚠️ 副作用：圖片本身的 :hover 不會觸發（要寫在外層），右鍵存圖會點到後面的東西
+img[title] {
+    pointer-events: none;
+}
+
 // 頁面背景的兩顆光暈：::before 左上、::after 右下（Figma bg dark／bg light）
 // 位置用「超出畫面多少」貼在角落，視窗變寬變窄都黏著角落
 // ⚠️ 模糊值是 Figma 的一半：Figma 的 blur 數字約是 CSS blur() 的 2 倍（玻璃塊 50 → 25 同理）
