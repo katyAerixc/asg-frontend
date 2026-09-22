@@ -11,6 +11,7 @@
                 class="game-play__img"
                 :alt="game?.name ?? ''"
                 :src="playH5"
+                :title="game?.name ?? ''"
             >
         </picture>
 

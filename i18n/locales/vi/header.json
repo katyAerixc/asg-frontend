@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "Xu",
     "home": "Trang chủ",
     "memberMenu": "Menu thành viên",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "Tối",
       "themeLight": "Sáng"
     },
+    "myAvatar": "Ảnh đại diện của tôi",
     "refreshBalance": "Làm mới số dư"
   }
 }

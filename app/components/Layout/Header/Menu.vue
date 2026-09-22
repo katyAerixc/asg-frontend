@@ -14,8 +14,10 @@
             >
                 <img
                     class="header-menu__avatar-img"
-                    alt=""
+                    aria-hidden="true"
+                    :alt="$t('header.myAvatar')"
                     :src="currentAvatar.image"
+                    :title="$t('header.myAvatar')"
                 >
                 <span class="header-menu__avatar-label">{{ $t('header.menu.change') }}</span>
             </button>
@@ -88,8 +90,10 @@
                 >
                     <img
                         class="header-menu__lang-flag"
-                        alt=""
+                        aria-hidden="true"
+                        :alt="labelOf(locale)"
                         :src="flagOf(locale)"
+                        :title="labelOf(locale)"
                     >
                     <span class="header-menu__lang-name">{{ labelOf(locale) }}</span>
                     <span
@@ -115,8 +119,10 @@
                         >
                             <img
                                 class="header-menu__lang-flag"
-                                alt=""
+                                aria-hidden="true"
+                                :alt="lang.label"
                                 :src="lang.flag"
+                                :title="lang.label"
                             >
                             <span class="header-menu__lang-name">{{ lang.label }}</span>
                         </button>

@@ -4,6 +4,7 @@
             <NuxtLink
                 class="layout-header__logo"
                 :aria-label="$t('header.home')"
+                :title="$t('header.home')"
                 :to="localePath('/')"
             />
 
@@ -11,8 +12,10 @@
                 <div class="layout-header__coins">
                     <img
                         class="layout-header__coin-icon"
-                        alt=""
+                        aria-hidden="true"
                         src="~/assets/images/ui/money.png"
+                        :alt="$t('header.coin')"
+                        :title="$t('header.coin')"
                     >
                     <span class="layout-header__coin-value">{{ formattedCoins }}</span>
                     <button
@@ -37,8 +40,10 @@
                     >
                         <img
                             class="layout-header__avatar-img"
-                            alt=""
+                            aria-hidden="true"
+                            :alt="$t('header.myAvatar')"
                             :src="currentAvatar.image"
+                            :title="$t('header.myAvatar')"
                         >
                         <span
                             class="layout-header__avatar-arrow i-sp-arrow-down"

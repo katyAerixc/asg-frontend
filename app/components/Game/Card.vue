@@ -3,18 +3,21 @@
         <NuxtLink
             class="game-card__media"
             :aria-label="$t('lobby.card.play', { name: game.name })"
+            :title="$t('lobby.card.play', { name: game.name })"
             :to="localePath(`/game/${game.id}`)"
         >
             <img
                 class="game-card__img"
                 :alt="game.name"
                 :src="game.image"
+                :title="game.name"
             >
             <img
                 class="game-card__img game-card__img--hover"
-                alt=""
                 aria-hidden="true"
+                :alt="game.name"
                 :src="game.image"
+                :title="game.name"
             >
 
             <div
@@ -38,6 +41,7 @@
                     class="game-card__thumb"
                     :alt="$t('lobby.card.thumb', { name: game.name })"
                     :src="game.image"
+                    :title="$t('lobby.card.thumb', { name: game.name })"
                 >
                 <div class="game-card__text">
                     <div class="game-card__name-row">

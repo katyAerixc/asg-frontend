@@ -14,6 +14,7 @@
                     class="game-detail__img"
                     :alt="game.name"
                     :src="game.image"
+                    :title="game.name"
                 >
 
                 <div

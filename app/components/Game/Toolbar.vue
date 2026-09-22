@@ -10,6 +10,7 @@
             <NuxtLink
                 class="game-toolbar__logo"
                 :aria-label="$t('header.home')"
+                :title="$t('header.home')"
                 :to="localePath('/')"
             />
 
@@ -78,6 +79,7 @@
                     v-if="isCompact && isPageActive"
                     class="game-toolbar-logo-h5"
                     :aria-label="$t('header.home')"
+                    :title="$t('header.home')"
                     :to="localePath('/')"
                 />
             </Transition>

@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "เหรียญ",
     "home": "หน้าแรก",
     "memberMenu": "เมนูสมาชิก",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "มืด",
       "themeLight": "สว่าง"
     },
+    "myAvatar": "รูปโปรไฟล์ของฉัน",
     "refreshBalance": "รีเฟรชยอดเงิน"
   }
 }

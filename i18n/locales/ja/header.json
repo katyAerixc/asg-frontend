@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "コイン",
     "home": "ホーム",
     "memberMenu": "会員メニュー",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "ダーク",
       "themeLight": "ライト"
     },
+    "myAvatar": "マイアイコン",
     "refreshBalance": "残高を更新"
   }
 }

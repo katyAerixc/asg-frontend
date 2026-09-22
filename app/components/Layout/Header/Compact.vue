@@ -7,15 +7,19 @@
     >
         <img
             class="header-compact__avatar"
-            alt=""
+            aria-hidden="true"
+            :alt="$t('header.myAvatar')"
             :src="currentAvatar.image"
+            :title="$t('header.myAvatar')"
         >
 
         <span class="header-compact__coins">
             <img
                 class="header-compact__coin-icon"
-                alt=""
+                aria-hidden="true"
                 src="~/assets/images/ui/money.png"
+                :alt="$t('header.coin')"
+                :title="$t('header.coin')"
             >
             <span class="header-compact__coin-value">{{ formattedCoins }}</span>
         </span>
