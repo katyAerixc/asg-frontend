@@ -213,6 +213,12 @@ export default defineNuxtConfig({
             // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
             useMock: true,
         },
+        // 網站地圖要不要列遊戲頁（server/api/__sitemap__/games.ts）；.env 加 NUXT_SITEMAP_GAMES_ENABLED=true 打開
+        sitemapGames: {
+            defaultLocale: 'zh-TW',
+            enabled: false,
+            locales: i18nLocales.map((locale) => locale.code),
+        },
     },
     schemaOrg: {
         enabled: seoIndexingEnabled,
@@ -322,6 +328,8 @@ export default defineNuxtConfig({
         minify: process.env.NODE_ENV === 'production',
         // sitemaps: {},
         sortEntries: true,
+        // /game/:id 這種依資料產生的網址套件自己找不到，由這支 API 列出來
+        sources: ['/api/__sitemap__/games'],
     },
     ssr: true,
     unfonts: {
