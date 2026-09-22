@@ -51,13 +51,18 @@ const emit = defineEmits<{ close: [] }>();
 
 // Store
 const userStore = useUserStore();
-const { currentAvatarId: currentId } = storeToRefs(userStore);
+const { currentAvatarId: currentId, draftAvatarId } = storeToRefs(userStore);
 const { selectAvatar } = userStore;
 const avatars = AVATARS;
 
 // State
-// 點選只先記在這裡，按了「確認」才真的換掉——中途關掉彈窗等於放棄
-const pickedId = ref(currentId.value);
+// 點選只先記在草稿，按了「確認」才真的換掉；關掉再打開，選到一半的還在
+const pickedId = computed({
+    get: () => draftAvatarId.value ?? currentId.value,
+    set: (value: number) => {
+        draftAvatarId.value = value;
+    },
+});
 
 // Computed properties
 // 沒改就不能按確認

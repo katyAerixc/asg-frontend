@@ -52,12 +52,17 @@ const emit = defineEmits<{ close: [] }>();
 
 // Store
 const userStore = useUserStore();
-const { nickname } = storeToRefs(userStore);
+const { draftNickname, nickname } = storeToRefs(userStore);
 const { updateNickname } = userStore;
 
 // State
-// 先改在草稿上，按了「確認」才真的存——中途關掉等於放棄
-const draft = ref(nickname.value);
+// 先改在草稿上，按了「確認」才真的存；關掉再打開，打到一半的字還在
+const draft = computed({
+    get: () => draftNickname.value ?? nickname.value,
+    set: (value: string) => {
+        draftNickname.value = value;
+    },
+});
 const inputRef = ref<HTMLInputElement | null>(null);
 
 // 同頁若開兩個彈窗，label 的 for 才不會指到同一個輸入框

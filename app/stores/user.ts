@@ -25,6 +25,10 @@ export const useUserStore = defineStore('user', () => {
     const nickname = ref('Rin Chen');
     const currentAvatarId = ref(1);
 
+    // 彈窗裡改到一半的內容：放 store 才不會跟著彈窗一起不見；null＝沒改過，顯示目前的值
+    const draftNickname = ref<null | string>(null);
+    const draftAvatarId = ref<null | number>(null);
+
     // 彈窗開關：開關鈕在選單裡，彈窗本體掛在 Header 上，兩邊要看同一份
     const isAvatarPickerOpen = ref(false);
     const isNicknameEditorOpen = ref(false);
@@ -59,10 +63,12 @@ export const useUserStore = defineStore('user', () => {
 
     function selectAvatar(id: number) {
         currentAvatarId.value = id;
+        draftAvatarId.value = null;
     }
 
     function updateNickname(next: string) {
         nickname.value = next.trim();
+        draftNickname.value = null;
     }
 
     return {
@@ -71,6 +77,8 @@ export const useUserStore = defineStore('user', () => {
         closeNicknameEditor,
         currentAvatar,
         currentAvatarId,
+        draftAvatarId,
+        draftNickname,
         isAvatarPickerOpen,
         isNicknameEditorOpen,
         nickname,
