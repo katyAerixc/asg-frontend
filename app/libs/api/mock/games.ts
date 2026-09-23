@@ -1,7 +1,7 @@
 // 遊戲假資料（從 composables/use-games.ts 搬來，內容未改）
 // ⚠️ 接 API 後整個 mock/ 資料夾刪掉
 
-import IMG from '@/assets/images/game/products.png';
+import IMG from '@/assets/images/game/products.webp';
 import type { Game } from '@/types/game';
 
 // 12 筆文案；圖片仍共用同一張，等正式素材

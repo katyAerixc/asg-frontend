@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import playH5 from '@/assets/images/game/play-h5.jpg';
-import playPc from '@/assets/images/game/play-pc.jpg';
+import playH5 from '@/assets/images/game/play-h5.webp';
+import playPc from '@/assets/images/game/play-pc.webp';
 
 // 遊戲畫面整頁都是遊戲，不要 Header
 definePageMeta({ layout: false });
@@ -109,7 +109,7 @@ function close() {
         inset: 0;
         transform: scale(1.1); // 放大一點，模糊後邊緣才不會透出底色
 
-        background: url('@/assets/images/game/play-h5.jpg') center / cover no-repeat;
+        background: url('@/assets/images/game/play-h5.webp') center / cover no-repeat;
         filter: blur(20px);
     }
 
