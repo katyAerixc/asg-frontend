@@ -18,7 +18,9 @@ export const useLayoutHeaderStore = defineStore('layout-header', () => {
         isCompact.value = false;
     }
 
+    // Header 正開著時往上滑也走這裡：要一起收起來，不然完整 Header 與縮小版會同時在畫面上
     function showCompact() {
+        isHidden.value = true;
         isCompact.value = true;
     }
 
