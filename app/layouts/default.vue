@@ -8,7 +8,6 @@
             class="layout__header"
             :class="{ 'layout__header--solid': isScrolled }"
             @focusin="revealForKeyboard"
-            @mouseleave="hideAfterMouse"
         >
             <LayoutHeader :coins="userCoins" />
         </div>
@@ -34,7 +33,6 @@ const {
     reveal,
     showCompact,
 } = headerStore;
-const route = useRoute();
 
 // Variables
 // ⚠️ 之後接 API 時改從 composable 拿
@@ -45,7 +43,7 @@ const HIDE_AFTER = 200;
 // 往上／往下捲累積這麼多才算數：手指放開時的回彈、滑鼠滾輪的抖動不算
 // ⚠️ 往下也要累積：縮小版出現／消失時那排高度差 1px，瀏覽器會自動把頁面挪 1px，不擋的話會被當成往下捲又收起來
 const SCROLL_THRESHOLD = 8;
-// 設計師版：滑鼠移到畫面最上面這幾 px 內，Header 才出現
+// 電腦：滑鼠移到畫面最上面這幾 px 內，縮小版就出現（手機沒有滑鼠，靠往上滑）
 const MOUSE_ZONE = 20;
 
 const headerRef = useTemplateRef<HTMLElement>('header');
@@ -55,27 +53,11 @@ let upDistance = 0;
 let downDistance = 0;
 // 能用滑鼠的裝置才走「滑鼠移到上方」；手機沒有滑鼠，照舊往上滑就出現
 let canHover = false;
-let revealedByMouse = false;
-
-// Computed properties
-// 🧪 兩個版本給設計師選：預設＝設計師版，?header=ours＝我們的版本。選定後刪掉沒選的那個
-const isOursMode = computed(() => route.query.header === 'ours');
-const isMouseMode = () => !isOursMode.value && canHover;
-
-// 滑鼠叫出來的 Header，滑鼠離開就收回去；選單開著時不收，不然選單會跟著消失
-function hideAfterMouse() {
-    if (!revealedByMouse || lastY <= HIDE_AFTER) return;
-    if (headerRef.value?.querySelector('[aria-expanded="true"]')) return;
-
-    revealedByMouse = false;
-    hide();
-}
 
 function onMouseMove(event: MouseEvent) {
-    if (!isMouseMode() || !isHidden.value || event.clientY > MOUSE_ZONE) return;
+    if (!canHover || !isHidden.value || event.clientY > MOUSE_ZONE) return;
 
-    revealedByMouse = true;
-    reveal();
+    showCompact();
 }
 
 // Functions
@@ -103,10 +85,9 @@ function onScroll() {
 
     downDistance = 0;
     upDistance -= delta;
-    if (upDistance < SCROLL_THRESHOLD || isMouseMode()) return;
+    if (upDistance < SCROLL_THRESHOLD) return;
 
-    if (isOursMode.value) showCompact();
-    else reveal();
+    showCompact();
 }
 
 // 鍵盤焦點進到收起來的 Header：瀏覽器會自己捲動去找它、而且捲過頭，所以出現之後把頁面放回原位

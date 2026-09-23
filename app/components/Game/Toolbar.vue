@@ -282,7 +282,7 @@ onUnmounted(() => {
         padding: var(--corner-3);
     }
 
-    // 🧪 ?header=ours 版本：左邊只有圖示的 logo（跟手機 Header 同一張）＋整排字縮小一級
+    // 左邊只有圖示的 logo（跟手機 Header 同一張）＋整排字縮小一級
     // ⚠️ 一直都在、不要改成 v-if：一出現分類就被硬推過去，沒辦法做動畫
     // 平常寬 0、負的右邊距抵掉外層 gap 24，看起來就像不存在；visibility 讓它平常點不到、讀螢幕也略過
     &__logo {
@@ -329,7 +329,7 @@ onUnmounted(() => {
         }
     }
 
-    // 🧪 ?header=ours 版本：電腦的縮小版金幣頭像，放在搜尋框右邊
+    // 電腦的縮小版金幣頭像，放在搜尋框右邊
     // ⚠️ 一直都在、不要改成 v-if：消失那一刻整塊被拿掉，NEW/HOT 與搜尋框會突然跳
     // 寬度用 grid 0fr → 1fr 慢慢長出來（寬度不用寫死）；負的左邊距抵掉外層 gap 15
     &__compact {
@@ -468,7 +468,7 @@ onUnmounted(() => {
             var(--shadow-input);
 
         // 平常補兩層全透明的（框、外圈），湊成跟 input-act-stroke 一樣的 5 層——層數不同 box-shadow 會直接跳、補不出漸變
-        // 寬高內距：?header=ours 縮小版切換時平順變化
+        // 寬高內距：縮小版切換時平順變化
         transition:
             box-shadow var(--motion-hover),
             width 0.3s ease,
@@ -838,7 +838,7 @@ onUnmounted(() => {
     }
 }
 
-// 🧪 ?header=ours 版本：手機的 logo 與縮小版金幣頭像疊在分類列左右（電腦版在 .game-toolbar__logo、__compact）
+// 手機的 logo 與縮小版金幣頭像疊在分類列左右（電腦版在 .game-toolbar__logo、__compact）
 .game-toolbar-logo-h5 {
     position: fixed;
     z-index: 41;
