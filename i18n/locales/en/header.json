@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "Coins",
     "home": "Home",
     "memberMenu": "Menu",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "Dark",
       "themeLight": "Light"
     },
+    "myAvatar": "My avatar",
     "refreshBalance": "Refresh Balance"
   }
 }

@@ -38,6 +38,7 @@
       "form": "提交问题",
       "history": "提问记录"
     },
-    "title": "客服"
+    "title": "客服",
+    "uploadedImage": "已上传的图片"
   }
 }

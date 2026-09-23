@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "코인",
     "home": "홈으로",
     "memberMenu": "회원 메뉴",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "다크",
       "themeLight": "라이트"
     },
+    "myAvatar": "내 프로필",
     "refreshBalance": "잔액 새로고침"
   }
 }

@@ -23,8 +23,10 @@
         >
             <img
                 class="base-upload__thumb"
-                alt=""
+                aria-hidden="true"
+                :alt="$t('support.uploadedImage')"
                 :src="previewUrl"
+                :title="$t('support.uploadedImage')"
             >
 
             <button

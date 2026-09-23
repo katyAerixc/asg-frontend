@@ -1,5 +1,6 @@
 {
   "header": {
+    "coin": "金幣",
     "home": "回首頁",
     "memberMenu": "會員選單",
     "menu": {
@@ -15,6 +16,7 @@
       "themeDark": "深",
       "themeLight": "淺"
     },
+    "myAvatar": "我的頭像",
     "refreshBalance": "重新整理餘額"
   }
 }

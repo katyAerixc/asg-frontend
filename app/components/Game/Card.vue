@@ -3,18 +3,24 @@
         <NuxtLink
             class="game-card__media"
             :aria-label="$t('lobby.card.play', { name: game.name })"
+            :title="$t('lobby.card.play', { name: game.name })"
             :to="localePath(`/game/${game.id}`)"
         >
             <img
                 class="game-card__img"
                 :alt="game.name"
+                :fetchpriority="eager ? 'high' : 'auto'"
+                :loading="eager ? 'eager' : 'lazy'"
                 :src="game.image"
+                :title="game.name"
             >
             <img
                 class="game-card__img game-card__img--hover"
-                alt=""
                 aria-hidden="true"
+                loading="lazy"
+                :alt="game.name"
                 :src="game.image"
+                :title="game.name"
             >
 
             <div
@@ -37,13 +43,15 @@
                 <img
                     class="game-card__thumb"
                     :alt="$t('lobby.card.thumb', { name: game.name })"
+                    :loading="eager ? 'eager' : 'lazy'"
                     :src="game.image"
+                    :title="$t('lobby.card.thumb', { name: game.name })"
                 >
                 <div class="game-card__text">
                     <div class="game-card__name-row">
-                        <h3 class="game-card__name">
+                        <h2 class="game-card__name">
                             {{ game.name }}
-                        </h3>
+                        </h2>
                         <button
                             class="game-card__i"
                             type="button"
@@ -88,10 +96,12 @@
 import type { Game } from '@/types/game';
 
 // Define props, models and emits
-defineProps<{ game: Game }>();
+const props = defineProps<{ game: Game; index?: number }>();
 
 // Variables
 const localePath = useLocalePath();
+// 前 4 張照常載，其餘捲到才載：第一屏的圖改懶加載反而會變慢
+const eager = computed(() => (props.index ?? 0) < 4);
 const { open: openGameDetail } = useGameDetailStore();
 </script>
 

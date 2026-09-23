@@ -149,6 +149,11 @@ useSeoMeta({
     description: () => t('seo.description'),
     ogDescription: () => t('seo.description'),
     ogImage: () => `${baseUrl.value}${ogImage}`,
+    // 寬高讓 FB 第一次分享就排得出卡片，不用等它下載圖；換 1200×630 分享圖時這三行要一起改
+    ogImageAlt: () => t('seo.ogImageAlt'),
+    ogImageHeight: 124,
+    ogImageType: 'image/png',
+    ogImageWidth: 452,
     ogTitle: () => t('seo.title'),
     ogType: 'website',
     title: () => t('seo.title'),

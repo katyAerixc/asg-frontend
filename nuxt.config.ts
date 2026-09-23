@@ -207,9 +207,24 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiBase: '',
+            // 網頁原始碼裡的作者、發行者、FB 應用程式編號、X 帳號；空的就不輸出
+            // 值由 .env 覆蓋：NUXT_PUBLIC_SEO_AUTHOR、NUXT_PUBLIC_SEO_PUBLISHER、
+            // NUXT_PUBLIC_SEO_FB_APP_ID、NUXT_PUBLIC_SEO_TWITTER_SITE
+            seo: {
+                author: 'ASG',
+                fbAppId: '',
+                publisher: 'ASG',
+                twitterSite: '',
+            },
             siteUrl,
             // 後端還沒接上，預設回假資料；接上後在 .env.production 加 NUXT_PUBLIC_USE_MOCK=false
             useMock: true,
+        },
+        // 網站地圖要不要列遊戲頁（server/api/__sitemap__/games.ts）；.env 加 NUXT_SITEMAP_GAMES_ENABLED=true 打開
+        sitemapGames: {
+            defaultLocale: 'zh-TW',
+            enabled: false,
+            locales: i18nLocales.map((locale) => locale.code),
         },
     },
     schemaOrg: {
@@ -320,6 +335,8 @@ export default defineNuxtConfig({
         minify: process.env.NODE_ENV === 'production',
         // sitemaps: {},
         sortEntries: true,
+        // /game/:id 這種依資料產生的網址套件自己找不到，由這支 API 列出來
+        sources: ['/api/__sitemap__/games'],
     },
     ssr: true,
     unfonts: {

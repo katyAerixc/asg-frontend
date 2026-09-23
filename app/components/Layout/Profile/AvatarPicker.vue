@@ -18,8 +18,10 @@
                 >
                     <img
                         class="avatar-picker__img"
-                        alt=""
+                        aria-hidden="true"
+                        :alt="$t('profile.avatarAlt', { n: item.id })"
                         :src="item.image"
+                        :title="$t('profile.avatarAlt', { n: item.id })"
                     >
 
                     <span
