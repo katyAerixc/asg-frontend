@@ -120,8 +120,7 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
 
         // 底線固定寬、置中、貼齊頁籤底部
         // 固定寬度的好處：切成越南文「Gửi câu hỏi」底線不會跟著變長
-        // 顏色寫死 Neutral/10，不用 currentcolor——未選中的字是 Neutral/30，
-        // 用 currentcolor 以後若加上 hover 變色，底線會跟著變
+        // 底線顏色寫死，不用 currentcolor：滑入時字會變色，底線不該跟著變
         &--active::after {
             content: '';
 
@@ -135,6 +134,12 @@ const { hasUnreadReply, openedRecord } = useSupportRecords();
             border-radius: var(--corner-full);
 
             background: var(--color-neutral-10);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                color: var(--color-neutral-10);
+            }
         }
     }
 

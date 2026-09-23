@@ -4,7 +4,7 @@
 export const useLayoutHeaderStore = defineStore('layout-header', () => {
     // State
     const isHidden = ref(false);
-    // 🧪 給設計師比較的版本（網址 ?header=ours）：往上滑時不整條出現，改把金幣、頭像縮小放進分類列
+    // 往上滑、或電腦把滑鼠移到最上面：Header 不整條出現，改把 logo 與縮小的金幣、頭像放進分類列
     const isCompact = ref(false);
 
     // Actions

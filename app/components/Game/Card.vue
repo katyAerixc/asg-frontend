@@ -257,9 +257,17 @@ $below-img: calc(91 / 390 * 100%); // % 的 padding 是以寬度換算，所以�
 
     // 名稱與描述：各斷點固定一個字級，不跟著卡片寬度縮
     &__name {
+        // 名字太長只留一行，超出用「…」；裁左右不裁上下，越南文聲調、泰文上下標才不會被切
+        overflow: clip visible;
+
+        // flex 子元素預設最小寬＝內容寬，不補這行「…」不會出現
+        min-width: 0;
+
         font-size: var(--font-size-18);
         font-weight: var(--font-weight-bold);
         color: var(--color-neutral-80);
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &__desc {

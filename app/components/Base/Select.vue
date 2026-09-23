@@ -252,6 +252,7 @@ onUnmounted(() => {
 
         &--active {
             color: var(--color-primary-10);
+            background-color: rgb(var(--color-primary-60-rgb) / 20%);
         }
 
         @media (hover: hover) {
