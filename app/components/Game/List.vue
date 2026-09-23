@@ -2,9 +2,10 @@
     <div class="game-list">
         <section class="game-list__grid">
             <GameCard
-                v-for="game in games"
+                v-for="(game, i) in games"
                 :key="game.id"
                 :game="game"
+                :index="i"
             />
         </section>
 
